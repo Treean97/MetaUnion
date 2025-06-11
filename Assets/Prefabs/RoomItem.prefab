@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 3581913109667458179}
   - component: {fileID: 7684054157936124841}
   - component: {fileID: 7717689758079183653}
-  - component: {fileID: 1684001388901390142}
   - component: {fileID: 8426409372021743829}
+  - component: {fileID: 4084256001201389187}
   m_Layer: 5
   m_Name: RoomItemPanel(+Btn)
   m_TagString: Untagged
@@ -79,21 +79,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &1684001388901390142
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 952005914692401836}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd86352c8eacc54418b1f7f64f5f1acd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _RoomTitleText: {fileID: 1215508386298484880}
-  _PlayerCountText: {fileID: 7140334166798361165}
-  _RoomItemListener: {fileID: 4151517269078323498}
 --- !u!114 &8426409372021743829
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -138,6 +123,20 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &4084256001201389187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 952005914692401836}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdfec0b361c791b4291d32df7b27394f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _RoomNameText: {fileID: 1215508386298484880}
+  _PlayerCountText: {fileID: 7140334166798361165}
 --- !u!1 &2805155500423859028
 GameObject:
   m_ObjectHideFlags: 0
@@ -283,7 +282,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3163810218006225621}
-  - component: {fileID: 4151517269078323498}
   m_Layer: 5
   m_Name: RoomItem
   m_TagString: Untagged
@@ -306,24 +304,11 @@ RectTransform:
   - {fileID: 3581913109667458179}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 500, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &4151517269078323498
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7535816131395805822}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e50b8dc5c41747844a8823a3da4c4bd3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _SelectButton: {fileID: 8426409372021743829}
+  m_SizeDelta: {x: 0, y: 100}
+  m_Pivot: {x: 0.5, y: 1}
 --- !u!1 &9185285155672390934
 GameObject:
   m_ObjectHideFlags: 0
