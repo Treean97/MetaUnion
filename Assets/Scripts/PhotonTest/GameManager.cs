@@ -14,7 +14,26 @@ namespace Com.MyCompany.MyGame
 {
     public class GameManager : MonoBehaviourPunCallbacks
     {
+        public static GameManager _Inst { get; private set; }
 
+        private void Awake()
+        {
+            // 이미 인스턴스가 존재하고, 이 인스턴스가 아니라면 자기 자신을 파괴
+            if (_Inst != null && _Inst != this)
+            {
+                Destroy(gameObject);
+                return;
+            }
+
+            // 최초 인스턴스로 등록
+            _Inst = this;
+            DontDestroyOnLoad(gameObject);
+
+            Debug.Log("✅ GameManager 초기화 완료");
+        }
+    
+
+    
 
         #region Photon Callbacks
 
@@ -24,7 +43,7 @@ namespace Com.MyCompany.MyGame
         /// </summary>
         public override void OnLeftRoom()
         {
-            SceneManager.LoadScene(0); //빌드 세팅 0번 씬으로 이동
+            SceneManager.LoadScene("MainScene"); // 메인화면으로 이동
         }
 
 

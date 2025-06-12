@@ -172,6 +172,19 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     private Dictionary<string, RoomInfo> _CachedRoomList = new Dictionary<string, RoomInfo>();
 
+    RoomInfo _RoomInfo;
+
+    void Awake()
+    {
+        UIEvents.OnJoinRoom += JoinRoom;
+    }
+
+    void OnDestroy()
+    {
+        UIEvents.OnJoinRoom -= JoinRoom;
+    }
+
+
     #region 연결 흐름
 
     public void Connect()
@@ -241,9 +254,9 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     #region 방 생성 및 입장
 
-    public void JoinRoom(string roomName)
+    public void JoinRoom(RoomInfo info)
     {
-        PhotonNetwork.JoinRoom(roomName);
+        PhotonNetwork.JoinRoom(info.Name);
     }
 
     public override void OnJoinedRoom()

@@ -10,10 +10,13 @@ public class LobbyUIManager : MonoBehaviour
     [SerializeField] private Button _JoinRoomButton;       // 입장 버튼
     [SerializeField] private Button _CreateRoomButton;
 
-    private string _SelectedRoomName;
+    private RoomInfo _SelectedRoomInfo;
 
     private void OnEnable()
     {
+        // 이벤트 구독
+        UIEvents.OnSelectRoom += SelectRoom;
+
         // 현재 캐시된 방 목록으로 갱신
         List<RoomInfo> currentRoomList = CachedRoomList.GetRoomList();
 
@@ -21,12 +24,18 @@ public class LobbyUIManager : MonoBehaviour
 
         // 입장 버튼 초기화
         _JoinRoomButton.interactable = false;
-        _SelectedRoomName = null;
+        _SelectedRoomInfo = null;
 
         // 입장 버튼 클릭 이벤트 연결
         _JoinRoomButton.onClick.RemoveAllListeners();
         _JoinRoomButton.onClick.AddListener(OnJoinRoomButtonClicked);
         _CreateRoomButton.onClick.AddListener(OnCreateRoomButtonClicked);
+    }
+
+    private void SelectRoom(RoomInfo info)
+    {
+        _SelectedRoomInfo = info;
+        _JoinRoomButton.interactable = true;
     }
 
     private void UpdateRoomList(List<RoomInfo> roomList)
@@ -38,19 +47,9 @@ public class LobbyUIManager : MonoBehaviour
 
             var item = Instantiate(_RoomItemPrefab, _Content);
 
-            var manager = item.GetComponent<RoomItemManager>();
-            manager.Init(info);
-
-            // "RoomItem 클릭 시 선택" 이벤트 연결
-            var listener = item.GetComponent<RoomItemListener>();
-            listener.OnSelected = OnRoomItemSelected;
+            var manager = item.GetComponent<RoomItemUI>();
+            manager.SetInfo(info);
         }
-    }
-
-    private void OnRoomItemSelected(string roomName)
-    {
-        _SelectedRoomName = roomName;
-        _JoinRoomButton.interactable = true;
     }
 
     private void OnCreateRoomButtonClicked()
@@ -60,9 +59,9 @@ public class LobbyUIManager : MonoBehaviour
 
     private void OnJoinRoomButtonClicked()
     {
-        if (!string.IsNullOrEmpty(_SelectedRoomName))
+        if (!string.IsNullOrEmpty(_SelectedRoomInfo.Name))
         {
-            UIEvents.RaiseJoinRoom(_SelectedRoomName);
+            UIEvents.RaiseJoinRoom(_SelectedRoomInfo);
         }
     }
 }
