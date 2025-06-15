@@ -4,7 +4,7 @@ using TMPro; // TMP용 네임스페이스
 using Photon.Pun;
 using Photon.Realtime;
 
-public class CreateRoomUIManagerTest : MonoBehaviour
+public class CreateRoomUIManager : MonoBehaviour
 {
     [SerializeField] private TMP_InputField _RoomNameInput;
     [SerializeField] private TMP_Dropdown _MaxPlayerDropdown;
@@ -17,11 +17,12 @@ public class CreateRoomUIManagerTest : MonoBehaviour
     {
         _ConfirmButton.onClick.AddListener(OnConfirmClicked);
         _CancelButton.onClick.AddListener(OnCancelClicked);
+
+        _RoomNameInput.onValueChanged.AddListener(CheckRoomNameInput);
     }
 
     private void OnEnable()
     {
-        // 드롭다운 초기화 (1~4명 선택 가능하게)
         if (_MaxPlayerDropdown.options.Count == 0)
         {
             _MaxPlayerDropdown.ClearOptions();
@@ -33,6 +34,7 @@ public class CreateRoomUIManagerTest : MonoBehaviour
         }
 
         _RoomNameInput.text = "";
+        CheckRoomNameInput(""); // 버튼 비활성화 초기화
     }
 
     private void OnConfirmClicked()
@@ -60,5 +62,10 @@ public class CreateRoomUIManagerTest : MonoBehaviour
     private void OnCancelClicked()
     {
         _RootPanel.SetActive(false);
+    }
+
+    private void CheckRoomNameInput(string input)
+    {
+        _ConfirmButton.interactable = !string.IsNullOrWhiteSpace(input);
     }
 }

@@ -159,10 +159,6 @@ using Photon.Realtime;
 
 public class Launcher : MonoBehaviourPunCallbacks
 {
-    [Header("Room List UI")]
-    [SerializeField] private Transform _RoomListContent;
-    [SerializeField] private GameObject _RoomItemPrefab;
-
     [Header("설정")]
     [SerializeField] private string _GameVersion = "1";
 
@@ -173,11 +169,13 @@ public class Launcher : MonoBehaviourPunCallbacks
     void Awake()
     {
         UIEvents.OnJoinRoom += JoinRoom;
+        UIEvents.OnConnect += Connect;
     }
 
     void OnDestroy()
     {
         UIEvents.OnJoinRoom -= JoinRoom;
+        UIEvents.OnConnect -= Connect;
     }
 
 
@@ -205,8 +203,6 @@ public class Launcher : MonoBehaviourPunCallbacks
     public override void OnJoinedLobby()
     {
         Debug.Log("✔️ Joined Lobby");
-
-        ClearRoomList();
     }
 
     public override void OnDisconnected(DisconnectCause cause)
@@ -221,25 +217,9 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
-        ClearRoomList();
-
-        foreach (RoomInfo room in roomList)
-        {
-            if (room.RemovedFromList || !room.IsVisible || room.PlayerCount == 0)
-                continue;
-
-            GameObject roomItem = Instantiate(_RoomItemPrefab, _RoomListContent);
-            roomItem.GetComponentInChildren<RoomItemUI>().SetInfo(room);
-        }
+        UIEvents.RaiseRoomListUpdate(roomList);
     }
 
-    private void ClearRoomList()
-    {
-        foreach (Transform child in _RoomListContent)
-        {
-            Destroy(child.gameObject);
-        }
-    }
 
     #endregion
 
@@ -253,7 +233,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         Debug.Log("✅ 방 입장 완료");
-        SceneManager.LoadScene($"Room for 1"); // ← 게임 씬 이름으로 변경 필요
+        PhotonNetwork.LoadLevel("Room for 1");
     }
 
     public override void OnJoinRoomFailed(short returnCode, string message)
@@ -269,6 +249,15 @@ public class Launcher : MonoBehaviourPunCallbacks
     public override void OnCreateRoomFailed(short returnCode, string message)
     {
         Debug.LogError($"❌ 방 생성 실패: {message}");
+
+        if (returnCode == ErrorCode.GameIdAlreadyExists) // 32766
+        {
+            UIEvents.RaiseShowWarning("This room name already exists.", 2f);
+        }
+        else
+        {
+            UIEvents.RaiseShowWarning($"Failed to create room : {message}", 2f);
+        }
     }
 
     #endregion

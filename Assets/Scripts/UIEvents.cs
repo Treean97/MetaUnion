@@ -4,8 +4,24 @@ using Photon.Realtime;
 
 public static class UIEvents
 {
-    // Start 버튼 클릭 → Lobby UI 활성화 요청
+    #region 전역 이벤트
+
+    public static event Action<string, float> OnShowWarning;
+
+    public static void RaiseShowWarning(string message, float duration = 2f)
+    => OnShowWarning?.Invoke(message, duration);
+
+    #endregion
+
+    #region 메인 메뉴 이벤트
+    // 시작 버튼 활성
+    public static event Action OnStartBtnActive;
+    // 시작 버튼 비활성
+    public static event Action OnStartBtnInactive;
+    // Lobby UI 활성화 요청
     public static event Action OnOpenLobbyUI;
+    // 서버 연결
+    public static event Action OnConnect;
     // 방 생성 팝업 열기 요청
     public static event Action OnOpenCreateRoomUI;
     // 방 생성 요청 (이름, 최대 인원)
@@ -20,8 +36,7 @@ public static class UIEvents
     public static event Action<RoomInfo> OnSelectRoom;
     // 방 나가기
     public static event Action OnLeaveRoom;
-    public static event Action OnStartBtnActive;
-    public static event Action OnStartBtnInactive;
+    
 
 
     // === 이벤트 발생용 ===
@@ -29,8 +44,12 @@ public static class UIEvents
     public static void RaiseStartBtnActive() => OnStartBtnActive?.Invoke();
     // 시작 버튼 비활성
     public static void RaiseStartBtnInactive() => OnStartBtnInactive?.Invoke();
+    // 서버 연결
+    public static void RaiseConnect() => OnConnect?.Invoke();
     // 로비 UI 오픈
     public static void RaiseOpenLobbyUI() => OnOpenLobbyUI?.Invoke();
+    // 방 목록 갱신
+    public static void RaiseRoomListUpdate(List<RoomInfo> roomList) => OnRoomListUpdated?.Invoke(roomList);
     // 방생성 UI 오픈
     public static void RaiseOpenCreateRoomUI() => OnOpenCreateRoomUI?.Invoke();
     // 방 생성
@@ -41,5 +60,6 @@ public static class UIEvents
     public static void RaiseRoomSelect(RoomInfo info) => OnSelectRoom?.Invoke(info);
     // 방 나가기
     public static void RaiseLeaveRoom() => OnLeaveRoom?.Invoke();
-
+    
+    #endregion
 }

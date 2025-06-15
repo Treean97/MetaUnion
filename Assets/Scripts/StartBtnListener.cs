@@ -8,7 +8,7 @@ public class StartBtnListener : MonoBehaviour
     private void Awake()
     {
         _StartButton.onClick.AddListener(() => UIEvents.RaiseOpenLobbyUI());
-        //_StartButton.onClick.AddListener(() => UIEvents.Connect());
+        _StartButton.onClick.AddListener(() => UIEvents.RaiseConnect());
     }
 
     void OnEnable()

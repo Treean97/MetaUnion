@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class LobbyUIManager : MonoBehaviour
 {
-    [SerializeField] private Transform _Content;           // ScrollView Content
+    [SerializeField] private Transform _RoomListContent;           // ScrollView Content
     [SerializeField] private GameObject _RoomItemPrefab;
     [SerializeField] private Button _JoinRoomButton;       // 입장 버튼
     [SerializeField] private Button _CreateRoomButton;
@@ -14,23 +14,33 @@ public class LobbyUIManager : MonoBehaviour
 
     private void OnEnable()
     {
-        // 이벤트 구독
+        // 기존 코드 유지
         UIEvents.OnSelectRoom += SelectRoom;
 
-        // 현재 캐시된 방 목록으로 갱신
-        List<RoomInfo> currentRoomList = CachedRoomList.GetRoomList();
+        // ✅ 방 목록 수신 이벤트 구독
+        UIEvents.OnRoomListUpdated += UpdateRoomList;
 
-        UpdateRoomList(currentRoomList);
+        // 최신 방 목록 수동 초기화 (캐시 사용)
+        var currentRoomList = CachedRoomList.GetRoomList();
+        if (currentRoomList != null)
+        {
+            UpdateRoomList(currentRoomList);
+        }       
 
-        // 입장 버튼 초기화
         _JoinRoomButton.interactable = false;
         _SelectedRoomInfo = null;
 
-        // 입장 버튼 클릭 이벤트 연결
         _JoinRoomButton.onClick.RemoveAllListeners();
         _JoinRoomButton.onClick.AddListener(OnJoinRoomButtonClicked);
         _CreateRoomButton.onClick.AddListener(OnCreateRoomButtonClicked);
     }
+
+    private void OnDisable()
+    {
+        UIEvents.OnSelectRoom -= SelectRoom;
+        UIEvents.OnRoomListUpdated -= UpdateRoomList;
+    }
+
 
     private void SelectRoom(RoomInfo info)
     {
@@ -40,15 +50,24 @@ public class LobbyUIManager : MonoBehaviour
 
     private void UpdateRoomList(List<RoomInfo> roomList)
     {
-        foreach (Transform t in _Content) Destroy(t.gameObject);
+        ClearRoomList();
+
         foreach (var info in roomList)
         {
             if (info.RemovedFromList) continue;
 
-            var item = Instantiate(_RoomItemPrefab, _Content);
+            var item = Instantiate(_RoomItemPrefab, _RoomListContent);
 
             var manager = item.GetComponent<RoomItemUI>();
             manager.SetInfo(info);
+        }
+    }
+
+    private void ClearRoomList()
+    {
+        foreach (Transform child in _RoomListContent)
+        {
+            Destroy(child.gameObject);
         }
     }
 
