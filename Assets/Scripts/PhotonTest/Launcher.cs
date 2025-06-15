@@ -159,10 +159,6 @@ using Photon.Realtime;
 
 public class Launcher : MonoBehaviourPunCallbacks
 {
-    [Header("UI")]
-    [SerializeField] private GameObject _ControlPanel;
-    [SerializeField] private GameObject _ProgressLabel;
-
     [Header("Room List UI")]
     [SerializeField] private Transform _RoomListContent;
     [SerializeField] private GameObject _RoomItemPrefab;
@@ -189,9 +185,6 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     public void Connect()
     {
-        _ControlPanel.SetActive(false);
-        _ProgressLabel.SetActive(true);
-
         if (PhotonNetwork.IsConnected)
         {
             PhotonNetwork.JoinLobby();
@@ -212,16 +205,14 @@ public class Launcher : MonoBehaviourPunCallbacks
     public override void OnJoinedLobby()
     {
         Debug.Log("✔️ Joined Lobby");
-        _ProgressLabel.SetActive(false);
-        _ControlPanel.SetActive(false);
+
         ClearRoomList();
     }
 
     public override void OnDisconnected(DisconnectCause cause)
     {
         Debug.LogWarning($"❌ Disconnected: {cause}");
-        _ProgressLabel.SetActive(false);
-        _ControlPanel.SetActive(true);
+
     }
 
     #endregion

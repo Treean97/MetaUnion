@@ -54,7 +54,7 @@ public class LobbyUIManager : MonoBehaviour
 
     private void OnCreateRoomButtonClicked()
     {
-        UIEvents.RaiseOpenCreateRoomPopup();
+        UIEvents.RaiseOpenCreateRoomUI();
     }
 
     private void OnJoinRoomButtonClicked()

@@ -562,7 +562,7 @@ RectTransform:
   - {fileID: 1100954702}
   - {fileID: 1731741178}
   - {fileID: 1094661090}
-  - {fileID: 1158568900}
+  - {fileID: 1323992491}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1686,7 +1686,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2051437788}
-        m_TargetAssemblyTypeName: Com.MyCompany.MyGame.Launcher, Assembly-CSharp
+        m_TargetAssemblyTypeName: Launcher, Assembly-CSharp
         m_MethodName: Connect
         m_Mode: 1
         m_Arguments:
@@ -2451,19 +2451,19 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1158568899}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1246343952}
   - {fileID: 1911985431}
-  m_Father: {fileID: 214995990}
+  m_Father: {fileID: 1323992491}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -106}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -0}
+  m_SizeDelta: {x: 1920, y: 1080.32}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1177486061
 GameObject:
@@ -2976,6 +2976,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e64eda6d34f422d48bc0572147831cee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _InputField: {fileID: 1246343954}
 --- !u!114 &1246343954
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3055,19 +3056,7 @@ MonoBehaviour:
       m_Calls: []
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1246343953}
-        m_TargetAssemblyTypeName: Com.MyCompany.MyGame.PlayerNameInputField, Assembly-CSharp
-        m_MethodName: SetPlayerName
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_OnTouchScreenKeyboardStatusChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -3127,6 +3116,56 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1246343951}
   m_CullTransparentMesh: 1
+--- !u!1 &1323992490
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1323992491}
+  - component: {fileID: 1323992492}
+  m_Layer: 5
+  m_Name: ControlPanelUI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1323992491
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1323992490}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1158568900}
+  m_Father: {fileID: 214995990}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -106}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1323992492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1323992490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d05a8570620944943a57b25e1fc345bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ControlPanelUI: {fileID: 1158568899}
 --- !u!1 &1344304250
 GameObject:
   m_ObjectHideFlags: 0
@@ -4121,7 +4160,7 @@ GameObject:
   - component: {fileID: 1911985433}
   - component: {fileID: 1911985432}
   m_Layer: 5
-  m_Name: Progress Label
+  m_Name: PlayerNameUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4143,7 +4182,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -351}
+  m_AnchoredPosition: {x: 0, y: -200}
   m_SizeDelta: {x: 300, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1911985432
@@ -4166,7 +4205,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Connecting...
+  m_text: PlayerID
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -4730,8 +4769,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f1e33941e22a14418095938d11bdecc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ControlPanel: {fileID: 1158568899}
-  _ProgressLabel: {fileID: 1911985430}
   _RoomListContent: {fileID: 1751237088}
   _RoomItemPrefab: {fileID: 7535816131395805822, guid: 34bb9be67ee592f43b1971a7e36768db, type: 3}
   _GameVersion: 1

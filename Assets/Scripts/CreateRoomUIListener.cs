@@ -1,17 +1,18 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CreateRoomUIListener : MonoBehaviour
 {
     [SerializeField] private GameObject _CreateRoomPanel;
 
-    private void Awake()
+    private void OnEnable()
     {
-        UIEvents.OnOpenCreateRoomPopup += HandleOpenCreateRoomPopup;
+        UIEvents.OnOpenCreateRoomUI += HandleOpenCreateRoomPopup;
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
-        UIEvents.OnOpenCreateRoomPopup -= HandleOpenCreateRoomPopup;
+        UIEvents.OnOpenCreateRoomUI -= HandleOpenCreateRoomPopup;
     }
 
     private void HandleOpenCreateRoomPopup()
