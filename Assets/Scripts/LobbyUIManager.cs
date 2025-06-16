@@ -15,10 +15,10 @@ public class LobbyUIManager : MonoBehaviour
     private void OnEnable()
     {
         // 기존 코드 유지
-        UIEvents.OnSelectRoom += SelectRoom;
+        GameEvents.OnSelectRoom += SelectRoom;
 
         // ✅ 방 목록 수신 이벤트 구독
-        UIEvents.OnRoomListUpdated += UpdateRoomList;
+        GameEvents.OnRoomListUpdated += UpdateRoomList;
 
         // 최신 방 목록 수동 초기화 (캐시 사용)
         var currentRoomList = CachedRoomList.GetRoomList();
@@ -37,8 +37,8 @@ public class LobbyUIManager : MonoBehaviour
 
     private void OnDisable()
     {
-        UIEvents.OnSelectRoom -= SelectRoom;
-        UIEvents.OnRoomListUpdated -= UpdateRoomList;
+        GameEvents.OnSelectRoom -= SelectRoom;
+        GameEvents.OnRoomListUpdated -= UpdateRoomList;
     }
 
 
@@ -73,14 +73,14 @@ public class LobbyUIManager : MonoBehaviour
 
     private void OnCreateRoomButtonClicked()
     {
-        UIEvents.RaiseOpenCreateRoomUI();
+        GameEvents.RaiseOpenCreateRoomUI();
     }
 
     private void OnJoinRoomButtonClicked()
     {
         if (!string.IsNullOrEmpty(_SelectedRoomInfo.Name))
         {
-            UIEvents.RaiseJoinRoom(_SelectedRoomInfo);
+            GameEvents.RaiseRequestJoinRoom(_SelectedRoomInfo);
         }
     }
 }

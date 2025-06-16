@@ -7,12 +7,12 @@ public class CreateRoomUIListener : MonoBehaviour
 
     private void OnEnable()
     {
-        UIEvents.OnOpenCreateRoomUI += HandleOpenCreateRoomPopup;
+        GameEvents.OnOpenCreateRoomUI += HandleOpenCreateRoomPopup;
     }
 
     private void OnDisable()
     {
-        UIEvents.OnOpenCreateRoomUI -= HandleOpenCreateRoomPopup;
+        GameEvents.OnOpenCreateRoomUI -= HandleOpenCreateRoomPopup;
     }
 
     private void HandleOpenCreateRoomPopup()

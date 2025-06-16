@@ -12,6 +12,11 @@ namespace Controller
         private Vector3 m_LookPoint;
         private Vector3 m_TargetPos;
 
+        public void SetTarget(Transform player)
+        {
+            m_Player = player;
+        }
+
         private void LateUpdate()
         {
             Move(Time.deltaTime);

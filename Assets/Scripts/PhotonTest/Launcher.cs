@@ -159,23 +159,34 @@ using Photon.Realtime;
 
 public class Launcher : MonoBehaviourPunCallbacks
 {
+    public static Launcher _Inst { get; private set; }    
+
     [Header("설정")]
     [SerializeField] private string _GameVersion = "1";
 
-    private Dictionary<string, RoomInfo> _CachedRoomList = new Dictionary<string, RoomInfo>();
+    [Header("게임 맵 데이터")]
+    [SerializeField] private SceneListSO _GameSceneListSO;
+    public SceneListSO GetGameSceneListSO => _GameSceneListSO;
+    public object GameSceneListSO { get; internal set; }
 
-    RoomInfo _RoomInfo;
+    // private Dictionary<string, RoomInfo> _CachedRoomList = new Dictionary<string, RoomInfo>();
+
+    // RoomInfo _RoomInfo;
 
     void Awake()
     {
-        UIEvents.OnJoinRoom += JoinRoom;
-        UIEvents.OnConnect += Connect;
+        if (_Inst != null) { Destroy(gameObject); return; }
+        _Inst = this;
+        DontDestroyOnLoad(gameObject);
+
+        GameEvents.OnRequestJoinRoom += RequestJoinRoom;
+        GameEvents.OnConnect += Connect;
     }
 
     void OnDestroy()
     {
-        UIEvents.OnJoinRoom -= JoinRoom;
-        UIEvents.OnConnect -= Connect;
+        GameEvents.OnRequestJoinRoom -= RequestJoinRoom;
+        GameEvents.OnConnect -= Connect;
     }
 
 
@@ -217,7 +228,7 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
-        UIEvents.RaiseRoomListUpdate(roomList);
+        GameEvents.RaiseRoomListUpdate(roomList);
     }
 
 
@@ -225,17 +236,37 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     #region 방 생성 및 입장
 
-    public void JoinRoom(RoomInfo info)
+    // 방 입장 시도
+    public void RequestJoinRoom(RoomInfo info)
     {
         PhotonNetwork.JoinRoom(info.Name);
     }
 
+    // 입장 성공 호출
     public override void OnJoinedRoom()
     {
+        // SceneListSO에 맵이 하나도 없으면 에러
+        if (_GameSceneListSO == null || _GameSceneListSO._SceneList.Count == 0)
+        {
+            Debug.LogError("씬 리스트가 비어 있습니다! SceneListSO를 확인하세요.");
+            return;
+        }
+
+        // 랜덤으로 맵 하나 선택
+        int idx = Random.Range(0, _GameSceneListSO._SceneList.Count);
+        string sceneToLoad = _GameSceneListSO._SceneList[idx].SceneName;
+        Debug.Log($"랜덤 맵 로드: {sceneToLoad}");
+
+        // 선택된 씬 로드
+        PhotonNetwork.LoadLevel(sceneToLoad);
+
+        // 방 입장 이벤트
+        GameEvents.RaiseJoinRoomSuccess();
+        
         Debug.Log("✅ 방 입장 완료");
-        PhotonNetwork.LoadLevel("Room for 1");
     }
 
+    // 입장 실패 호출
     public override void OnJoinRoomFailed(short returnCode, string message)
     {
         Debug.LogError($"❌ 방 입장 실패: {message}");
@@ -252,11 +283,11 @@ public class Launcher : MonoBehaviourPunCallbacks
 
         if (returnCode == ErrorCode.GameIdAlreadyExists) // 32766
         {
-            UIEvents.RaiseShowWarning("This room name already exists.", 2f);
+            GameEvents.RaiseShowWarning("This room name already exists.", 2f);
         }
         else
         {
-            UIEvents.RaiseShowWarning($"Failed to create room : {message}", 2f);
+            GameEvents.RaiseShowWarning($"Failed to create room : {message}", 2f);
         }
     }
 

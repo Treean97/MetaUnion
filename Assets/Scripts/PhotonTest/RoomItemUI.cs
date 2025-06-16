@@ -27,6 +27,6 @@ public class RoomItemUI : MonoBehaviour
 
     public void OnSelectRoom()
     {
-        UIEvents.RaiseRoomSelect(_RoomInfo);
+        GameEvents.RaiseRoomSelect(_RoomInfo);
     }
 }

@@ -7,20 +7,20 @@ public class StartBtnListener : MonoBehaviour
 
     private void Awake()
     {
-        _StartButton.onClick.AddListener(() => UIEvents.RaiseOpenLobbyUI());
-        _StartButton.onClick.AddListener(() => UIEvents.RaiseConnect());
+        _StartButton.onClick.AddListener(() => GameEvents.RaiseOpenLobbyUI());
+        _StartButton.onClick.AddListener(() => GameEvents.RaiseConnect());
     }
 
     void OnEnable()
     {
-        UIEvents.OnStartBtnActive += ActivateButton;
-        UIEvents.OnStartBtnInactive += DeactivateButton;
+        GameEvents.OnStartBtnActive += ActivateButton;
+        GameEvents.OnStartBtnInactive += DeactivateButton;
     }
 
     void OnDisable()
     {
-        UIEvents.OnStartBtnActive -= ActivateButton;
-        UIEvents.OnStartBtnInactive -= DeactivateButton;
+        GameEvents.OnStartBtnActive -= ActivateButton;
+        GameEvents.OnStartBtnInactive -= DeactivateButton;
     }
     
         private void ActivateButton() => _StartButton.interactable = true;

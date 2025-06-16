@@ -6,12 +6,12 @@ public class WarningUIListener : MonoBehaviour
 
     private void OnEnable()
     {
-        UIEvents.OnShowWarning += ShowWarning;
+        GameEvents.OnShowWarning += ShowWarning;
     }
 
     private void OnDisable()
     {
-        UIEvents.OnShowWarning -= ShowWarning;
+        GameEvents.OnShowWarning -= ShowWarning;
     }
 
     private void ShowWarning(string message, float duration)

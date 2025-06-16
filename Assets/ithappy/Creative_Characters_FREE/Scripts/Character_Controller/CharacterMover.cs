@@ -367,6 +367,7 @@
 
 
 using System;
+using Photon.Pun;
 using UnityEngine;
 
 namespace Controller
@@ -407,16 +408,25 @@ namespace Controller
         private bool m_IsMoving;
         private bool m_IsGrounded;
 
+        private PhotonView _PhotonView;
         private void Awake()
         {
             m_Controller = GetComponent<CharacterController>();
             m_Animator = GetComponent<Animator>();
             m_Movement = new MovementHandler(m_Controller, m_JumpHeight, m_WalkSpeed, m_RunSpeed, m_RotateSpeed, m_Space);
             m_Animation = new AnimationHandler(m_Animator, m_HorizontalID, m_VerticalID, m_StateID, m_JumpID);
+
+            _PhotonView = GetComponent<PhotonView>();
         }
 
         private void Update()
         {
+            if (!_PhotonView.IsMine)
+            {
+                return;
+            }
+        
+
             // Ground check
             m_IsGrounded = Physics.CheckSphere(m_GroundCheckPoint.position, m_GroundCheckRadius, m_GroundLayers);
 

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Photon.Realtime;
 
-public static class UIEvents
+public static class GameEvents
 {
     #region 전역 이벤트
 
@@ -27,11 +27,11 @@ public static class UIEvents
     // 방 생성 요청 (이름, 최대 인원)
     public static event Action<string, byte> OnCreateRoom;
     // 방 입장 요청
-    public static event Action<RoomInfo> OnJoinRoom;
+    public static event Action<RoomInfo> OnRequestJoinRoom;
+    // 방 입장 성공
+    public static event Action OnJoinRoomSuccess;
     // 업데이트된 방 목록 전달
     public static event Action<List<RoomInfo>> OnRoomListUpdated;
-    // 방 생성 또는 입장 성공
-    public static event Action OnRoomCreated;
     // 방 선택
     public static event Action<RoomInfo> OnSelectRoom;
     // 방 나가기
@@ -52,10 +52,10 @@ public static class UIEvents
     public static void RaiseRoomListUpdate(List<RoomInfo> roomList) => OnRoomListUpdated?.Invoke(roomList);
     // 방생성 UI 오픈
     public static void RaiseOpenCreateRoomUI() => OnOpenCreateRoomUI?.Invoke();
-    // 방 생성
-    public static void RaiseCreateRoom(string name, byte m) => OnCreateRoom?.Invoke(name, m);
-    // 방 입장
-    public static void RaiseJoinRoom(RoomInfo info) => OnJoinRoom?.Invoke(info);
+    // 방 입장 요청
+    public static void RaiseRequestJoinRoom(RoomInfo info) => OnRequestJoinRoom?.Invoke(info);
+    // 방 입장 성공
+    public static void RaiseJoinRoomSuccess() => OnJoinRoomSuccess?.Invoke();
     // 방 선택
     public static void RaiseRoomSelect(RoomInfo info) => OnSelectRoom?.Invoke(info);
     // 방 나가기

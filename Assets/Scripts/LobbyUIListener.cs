@@ -6,12 +6,12 @@ public class LobbyUIListener : MonoBehaviour
 
     private void Awake()
     {
-        UIEvents.OnOpenLobbyUI += HandleOpenLobbyUI;
+        GameEvents.OnOpenLobbyUI += HandleOpenLobbyUI;
     }
 
     private void OnDestroy()
     {
-        UIEvents.OnOpenLobbyUI -= HandleOpenLobbyUI;
+        GameEvents.OnOpenLobbyUI -= HandleOpenLobbyUI;
     }
 
     private void HandleOpenLobbyUI()

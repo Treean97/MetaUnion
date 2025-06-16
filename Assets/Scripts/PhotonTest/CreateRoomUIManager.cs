@@ -50,6 +50,7 @@ public class CreateRoomUIManager : MonoBehaviour
 
         RoomOptions options = new RoomOptions
         {
+            // CustomRoomProperties를 이용해서 입장할 씬의 이름을 담을 수 있음 추후 Dropdown UI와 연동하면 좋을 듯
             MaxPlayers = maxPlayers,
             IsVisible = true,
             IsOpen = true

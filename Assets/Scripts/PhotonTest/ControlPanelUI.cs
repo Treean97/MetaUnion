@@ -7,14 +7,14 @@ public class ControlPanelUI : MonoBehaviour
 
     void OnEnable()
     {
-        UIEvents.OnOpenLobbyUI += ControlPanelUIInactive;
-        UIEvents.OnLeaveRoom += ControlPanelUIActive;
+        GameEvents.OnOpenLobbyUI += ControlPanelUIInactive;
+        GameEvents.OnLeaveRoom += ControlPanelUIActive;
     }
 
     void OnDisable()
     {
-        UIEvents.OnOpenLobbyUI -= ControlPanelUIInactive;
-        UIEvents.OnLeaveRoom -= ControlPanelUIActive;
+        GameEvents.OnOpenLobbyUI -= ControlPanelUIInactive;
+        GameEvents.OnLeaveRoom -= ControlPanelUIActive;
     }
 
 
