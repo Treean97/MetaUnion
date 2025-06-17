@@ -1,6 +1,10 @@
 using System;
 using System.Collections.Generic;
 using Photon.Realtime;
+using UnityEngine.UI;
+
+
+public enum UIButtonID {Start, CreateRoom, JoinRoom, Confirm, Cancel};
 
 public static class GameEvents
 {
@@ -14,10 +18,11 @@ public static class GameEvents
     #endregion
 
     #region 메인 메뉴 이벤트
-    // 시작 버튼 활성
-    public static event Action OnStartBtnActive;
-    // 시작 버튼 비활성
-    public static event Action OnStartBtnInactive;
+    // 버튼 활성 / 비활성
+    public static event Action<UIButtonID, bool> OnBtnActive;
+    // 버튼 상호작용 유무
+    public static event Action<UIButtonID, bool> OnBtnInteractable;
+
     // Lobby UI 활성화 요청
     public static event Action OnOpenLobbyUI;
     // 서버 연결
@@ -36,14 +41,14 @@ public static class GameEvents
     public static event Action<RoomInfo> OnSelectRoom;
     // 방 나가기
     public static event Action OnLeaveRoom;
-    
+
 
 
     // === 이벤트 발생용 ===
-    // 시작 버튼 활성
-    public static void RaiseStartBtnActive() => OnStartBtnActive?.Invoke();
-    // 시작 버튼 비활성
-    public static void RaiseStartBtnInactive() => OnStartBtnInactive?.Invoke();
+    // 버튼 활성 / 비활성
+    public static void RaiseBtnActive(UIButtonID btnID, bool enable) => OnBtnActive?.Invoke(btnID, enable);
+    // 버튼 상호작용 유무
+    public static void RaiseBtnInteractable(UIButtonID btnID, bool enable) => OnBtnInteractable?.Invoke(btnID, enable);
     // 서버 연결
     public static void RaiseConnect() => OnConnect?.Invoke();
     // 로비 UI 오픈
@@ -60,6 +65,6 @@ public static class GameEvents
     public static void RaiseRoomSelect(RoomInfo info) => OnSelectRoom?.Invoke(info);
     // 방 나가기
     public static void RaiseLeaveRoom() => OnLeaveRoom?.Invoke();
-    
+
     #endregion
 }

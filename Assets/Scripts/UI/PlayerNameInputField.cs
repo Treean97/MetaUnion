@@ -43,6 +43,7 @@
 
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class PlayerNameInputField : MonoBehaviour
 {
@@ -63,9 +64,9 @@ public class PlayerNameInputField : MonoBehaviour
     {
         string trimmed = tValue.Trim();
         if (string.IsNullOrWhiteSpace(trimmed))
-            GameEvents.RaiseStartBtnInactive();
+            GameEvents.RaiseBtnInteractable(UIButtonID.Start, false);
         else
-            GameEvents.RaiseStartBtnActive();
+            GameEvents.RaiseBtnInteractable(UIButtonID.Start, true);
     }
 
     public void SetPlayerName(string tValue)

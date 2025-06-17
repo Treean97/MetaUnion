@@ -50,7 +50,9 @@ public class LobbyUIManager : MonoBehaviour
 
     private void UpdateRoomList(List<RoomInfo> roomList)
     {
-        ClearRoomList();
+        CachedRoomList.SetRoomList(roomList);
+
+        ClearRoomListUI();
 
         foreach (var info in roomList)
         {
@@ -63,7 +65,7 @@ public class LobbyUIManager : MonoBehaviour
         }
     }
 
-    private void ClearRoomList()
+    private void ClearRoomListUI()
     {
         foreach (Transform child in _RoomListContent)
         {

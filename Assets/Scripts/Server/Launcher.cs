@@ -270,6 +270,8 @@ public class Launcher : MonoBehaviourPunCallbacks
     public override void OnJoinRoomFailed(short returnCode, string message)
     {
         Debug.LogError($"❌ 방 입장 실패: {message}");
+
+        GameEvents.RaiseShowWarning("Fail to Join Room", 2f);
     }
 
     public override void OnCreatedRoom()
@@ -287,7 +289,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         }
         else
         {
-            GameEvents.RaiseShowWarning($"Failed to create room : {message}", 2f);
+            GameEvents.RaiseShowWarning($"Failed to create room", 2f);
         }
     }
 
