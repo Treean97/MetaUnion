@@ -39,13 +39,19 @@ namespace Controller
         {
             m_Mover = GetComponent<CharacterMover>();
 
-            if(m_Camera == null ) 
-            {
-                m_Camera = Camera.main == null ? null : Camera.main.GetComponent<PlayerCamera>();
-            }
-            if(m_Camera != null) {
-                m_Camera.SetPlayer(transform);
-            }
+            // if(m_Camera == null ) 
+            // {
+            //     m_Camera = Camera.main == null ? null : Camera.main.GetComponent<PlayerCamera>();
+            // }
+            // if(m_Camera != null) {
+            //     m_Camera.SetPlayer(transform);
+            // }
+        }
+
+        public void BindCamera(PlayerCamera cam)
+        {
+            m_Camera = cam;
+            m_Camera.SetPlayer(transform);
         }
 
         private void Update()

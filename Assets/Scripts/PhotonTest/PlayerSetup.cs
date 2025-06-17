@@ -16,8 +16,16 @@ public class PlayerSetup : MonoBehaviourPun
         GameObject camObj = Instantiate(_PlayerCameraPrefab);
         ThirdPersonCamera thirdPersonCamera = camObj.GetComponent<ThirdPersonCamera>();
 
-        // ③ 내 Transform을 카메라에 연결
+        // 내 Transform을 카메라에 연결
         thirdPersonCamera.SetTarget(transform);
+
+        // 플레이어 스크립트 → 카메라 바인딩
+        var input = GetComponent<MovePlayerInput>();
+        if (input != null)
+        {
+            input.BindCamera(thirdPersonCamera);
+        }
+            
 
         Debug.Log("PlayerCamera가 내 플레이어에 연결되었습니다.");
     }

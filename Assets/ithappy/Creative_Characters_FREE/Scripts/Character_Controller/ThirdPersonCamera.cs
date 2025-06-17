@@ -12,6 +12,14 @@ namespace Controller
         private Vector3 m_LookPoint;
         private Vector3 m_TargetPos;
 
+        protected override void Awake()
+        {
+            base.Awake();
+
+            // 카메라 생성 후 카메라 타겟 오브젝트 플레이어 자식으로 묶기
+            m_Target.SetParent(m_Transform, worldPositionStays: true);
+        }
+
         public void SetTarget(Transform player)
         {
             m_Player = player;

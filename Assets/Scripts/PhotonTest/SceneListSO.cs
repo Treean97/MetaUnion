@@ -10,7 +10,11 @@ public class SceneListSO : ScriptableObject
     [System.Serializable]
     public class SceneEntry
     {
+        
+#if UNITY_EDITOR
         public SceneAsset SceneAsset;
+#endif
+        
         public string SceneName;
     }
 
