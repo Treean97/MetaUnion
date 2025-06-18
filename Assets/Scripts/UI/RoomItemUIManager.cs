@@ -3,7 +3,7 @@ using TMPro;
 using Photon.Realtime;
 using UnityEngine.UI;
 
-public class RoomItemUI : MonoBehaviour
+public class RoomItemUIManager : MonoBehaviour
 {
     [SerializeField] private Button _RommItemBtn;
     [SerializeField] private TMP_Text _RoomNameText;

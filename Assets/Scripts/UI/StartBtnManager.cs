@@ -8,19 +8,19 @@ public class StartBtnManager : MonoBehaviour
 
     void Awake()
     {
-        GameEvents.OnBtnActive += HandleBtnActive;
-        GameEvents.OnBtnInteractable += HandleBtnInteractable;
+        GameEvents.OnSetActive += HandleBtnActive;
+        GameEvents.OnBtnSetInteractable += HandleBtnInteractable;
     }
 
     void OnDestroy()
     {
-        GameEvents.OnBtnActive -= HandleBtnActive;
-        GameEvents.OnBtnInteractable -= HandleBtnInteractable;
+        GameEvents.OnSetActive -= HandleBtnActive;
+        GameEvents.OnBtnSetInteractable -= HandleBtnInteractable;
     }
 
-    private void HandleBtnInteractable(UIButtonID btnID, bool enable)
+    private void HandleBtnInteractable(UIID btnID, bool enable)
     {
-        if (btnID != UIButtonID.Start)
+        if (btnID != UIID.Start)
         {
             return;
         }
@@ -29,9 +29,9 @@ public class StartBtnManager : MonoBehaviour
     }
     
 
-    private void HandleBtnActive(UIButtonID btnID, bool enable)
+    private void HandleBtnActive(UIID btnID, bool enable)
     {
-        if (btnID != UIButtonID.Start)
+        if (btnID != UIID.Start)
         {
             return;
         }

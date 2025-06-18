@@ -45,7 +45,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
-public class PlayerNameInputField : MonoBehaviour
+public class PlayerNameInputManager : MonoBehaviour
 {
     [SerializeField] private TMP_InputField _InputField;
     private const string _PlayerNamePrefKey = "PlayerName";
@@ -64,9 +64,9 @@ public class PlayerNameInputField : MonoBehaviour
     {
         string trimmed = tValue.Trim();
         if (string.IsNullOrWhiteSpace(trimmed))
-            GameEvents.RaiseBtnInteractable(UIButtonID.Start, false);
+            GameEvents.RaiseBtnSetInteractable(UIID.Start, false);
         else
-            GameEvents.RaiseBtnInteractable(UIButtonID.Start, true);
+            GameEvents.RaiseBtnSetInteractable(UIID.Start, true);
     }
 
     public void SetPlayerName(string tValue)

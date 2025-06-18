@@ -6,16 +6,21 @@ public class LobbyUIListener : MonoBehaviour
 
     private void Awake()
     {
-        GameEvents.OnOpenLobbyUI += HandleOpenLobbyUI;
+        GameEvents.OnSetActive += HandleLobbyUI;
     }
 
     private void OnDestroy()
     {
-        GameEvents.OnOpenLobbyUI -= HandleOpenLobbyUI;
+        GameEvents.OnSetActive -= HandleLobbyUI;
     }
 
-    private void HandleOpenLobbyUI()
+    private void HandleLobbyUI(UIID uiId, bool enable)
     {
-        _LobbyUIPanel.SetActive(true);
+        if (uiId != UIID.Lobby)
+        {
+            return;
+        }
+        
+        _LobbyUIPanel.SetActive(enable);
     }
 }

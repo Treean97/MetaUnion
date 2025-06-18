@@ -8,7 +8,7 @@ public class StartBtnListener : MonoBehaviour
 
     private void Awake()
     {
-        _StartButton.onClick.AddListener(() => GameEvents.RaiseOpenLobbyUI());
+        _StartButton.onClick.AddListener(() => GameEvents.RaiseSetActive(UIID.Lobby, true));
         _StartButton.onClick.AddListener(() => GameEvents.RaiseConnect());
     }
 

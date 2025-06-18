@@ -15,16 +15,18 @@ public class LobbyUIManager : MonoBehaviour
     private void OnEnable()
     {
         // 기존 코드 유지
-        GameEvents.OnSelectRoom += SelectRoom;
+        GameEvents.OnSelectRoom += HandleSelectRoom;
 
         // ✅ 방 목록 수신 이벤트 구독
-        GameEvents.OnRoomListUpdated += UpdateRoomList;
+        GameEvents.OnRoomListUpdated += HandleUpdateRoomList;
+
+        GameEvents.OnOpenLobbyUI += HandleOpenLobbyUI;
 
         // 최신 방 목록 수동 초기화 (캐시 사용)
         var currentRoomList = CachedRoomList.GetRoomList();
         if (currentRoomList != null)
         {
-            UpdateRoomList(currentRoomList);
+            HandleUpdateRoomList(currentRoomList);
         }       
 
         _JoinRoomButton.interactable = false;
@@ -37,18 +39,18 @@ public class LobbyUIManager : MonoBehaviour
 
     private void OnDisable()
     {
-        GameEvents.OnSelectRoom -= SelectRoom;
-        GameEvents.OnRoomListUpdated -= UpdateRoomList;
+        GameEvents.OnSelectRoom -= HandleSelectRoom;
+        GameEvents.OnRoomListUpdated -= HandleUpdateRoomList;
+        GameEvents.OnOpenLobbyUI -= HandleOpenLobbyUI;
     }
 
-
-    private void SelectRoom(RoomInfo info)
+    private void HandleSelectRoom(RoomInfo info)
     {
         _SelectedRoomInfo = info;
         _JoinRoomButton.interactable = true;
     }
 
-    private void UpdateRoomList(List<RoomInfo> roomList)
+    private void HandleUpdateRoomList(List<RoomInfo> roomList)
     {
         CachedRoomList.SetRoomList(roomList);
 
@@ -60,7 +62,7 @@ public class LobbyUIManager : MonoBehaviour
 
             var item = Instantiate(_RoomItemPrefab, _RoomListContent);
 
-            var manager = item.GetComponent<RoomItemUI>();
+            var manager = item.GetComponent<RoomItemUIManager>();
             manager.SetInfo(info);
         }
     }
@@ -73,9 +75,18 @@ public class LobbyUIManager : MonoBehaviour
         }
     }
 
+    private void HandleOpenLobbyUI()
+    {
+        // 게임 시작 버튼 끄기
+        GameEvents.RaiseSetActive(UIID.Start, false);
+        // 컨트롤 UI 끄기
+        GameEvents.RaiseSetActive(UIID.Control, false);
+    }
+
     private void OnCreateRoomButtonClicked()
     {
-        GameEvents.RaiseOpenCreateRoomUI();
+        //GameEvents.RaiseOpenCreateRoomUI();
+        GameEvents.RaiseSetActive(UIID.CreateRoom, true);
     }
 
     private void OnJoinRoomButtonClicked()
