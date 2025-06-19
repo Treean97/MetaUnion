@@ -7,23 +7,18 @@ public class ControlPanelUI : MonoBehaviour
 
     void OnEnable()
     {
-        GameEvents.OnSetActive += HandleControlUI;
+        GameEvents.OnOpenLobbyUI += HandleControlUIInactive;
     }
 
     void OnDisable()
     {
-        GameEvents.OnSetActive -= HandleControlUI;
+        GameEvents.OnOpenLobbyUI -= HandleControlUIInactive;
     }
 
 
-    void HandleControlUI(UIID uiID, bool enable)
+    void HandleControlUIInactive()
     {
-        if (uiID != UIID.Control)
-        {
-            return;
-        }
-
-        _ControlPanelUI.SetActive(enable);
+        _ControlPanelUI.SetActive(false);
     }
 
 }

@@ -14,13 +14,14 @@ public class LobbyUIManager : MonoBehaviour
 
     private void OnEnable()
     {
+        // 로비 열림 이벤트 호출
+        GameEvents.RaiseOpenLobbyUI();
+
         // 기존 코드 유지
         GameEvents.OnSelectRoom += HandleSelectRoom;
 
         // ✅ 방 목록 수신 이벤트 구독
         GameEvents.OnRoomListUpdated += HandleUpdateRoomList;
-
-        GameEvents.OnOpenLobbyUI += HandleOpenLobbyUI;
 
         // 최신 방 목록 수동 초기화 (캐시 사용)
         var currentRoomList = CachedRoomList.GetRoomList();
@@ -41,7 +42,6 @@ public class LobbyUIManager : MonoBehaviour
     {
         GameEvents.OnSelectRoom -= HandleSelectRoom;
         GameEvents.OnRoomListUpdated -= HandleUpdateRoomList;
-        GameEvents.OnOpenLobbyUI -= HandleOpenLobbyUI;
     }
 
     private void HandleSelectRoom(RoomInfo info)
@@ -75,18 +75,9 @@ public class LobbyUIManager : MonoBehaviour
         }
     }
 
-    private void HandleOpenLobbyUI()
-    {
-        // 게임 시작 버튼 끄기
-        GameEvents.RaiseSetActive(UIID.Start, false);
-        // 컨트롤 UI 끄기
-        GameEvents.RaiseSetActive(UIID.Control, false);
-    }
-
     private void OnCreateRoomButtonClicked()
     {
-        //GameEvents.RaiseOpenCreateRoomUI();
-        GameEvents.RaiseSetActive(UIID.CreateRoom, true);
+        GameEvents.RaiseRequestOpenCreateRoomUI();
     }
 
     private void OnJoinRoomButtonClicked()

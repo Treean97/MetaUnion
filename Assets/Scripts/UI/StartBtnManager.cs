@@ -8,34 +8,38 @@ public class StartBtnManager : MonoBehaviour
 
     void Awake()
     {
-        GameEvents.OnSetActive += HandleBtnActive;
-        GameEvents.OnBtnSetInteractable += HandleBtnInteractable;
+        // 플레이어 아이디 인풋 null 이면 비활성
+        GameEvents.OnPlayerIDFieldIsNull += HandleBtnSetInteractable;
+        // 로비 열리면 inactive        
+        GameEvents.OnOpenLobbyUI += HandleBtnInactive;
+    }
+
+    void Start()
+    {
+        // 씬 실행 시 active
+        gameObject.SetActive(true);        
     }
 
     void OnDestroy()
     {
-        GameEvents.OnSetActive -= HandleBtnActive;
-        GameEvents.OnBtnSetInteractable -= HandleBtnInteractable;
+        GameEvents.OnPlayerIDFieldIsNull -= HandleBtnSetInteractable;
+        GameEvents.OnOpenLobbyUI -= HandleBtnInactive;
     }
 
-    private void HandleBtnInteractable(UIID btnID, bool enable)
+    // isNull이 true면 interatable는 false
+    private void HandleBtnSetInteractable(bool isNull)
     {
-        if (btnID != UIID.Start)
-        {
-            return;
-        }
-
-        _StartButton.interactable = enable;
+        _StartButton.interactable = !isNull;
     }
+
     
-
-    private void HandleBtnActive(UIID btnID, bool enable)
+    private void HandleBtnActive()
     {
-        if (btnID != UIID.Start)
-        {
-            return;
-        }
+        _StartButton.gameObject.SetActive(true);
+    } 
 
-        _StartButton.gameObject.SetActive(enable);
+    private void HandleBtnInactive()
+    {
+        _StartButton.gameObject.SetActive(false);
     } 
 }

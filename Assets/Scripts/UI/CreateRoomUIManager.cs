@@ -64,13 +64,12 @@ public class CreateRoomUIManager : MonoBehaviour
 
         PhotonNetwork.CreateRoom(roomName, options);
 
-        // UI 닫기 요청
-        GameEvents.RaiseSetActive(UIID.CreateRoom, false);
+        gameObject.SetActive(false);        
     }
 
     private void OnCancelClicked()
     {
-        GameEvents.RaiseSetActive(UIID.CreateRoom, false);
+        gameObject.SetActive(false);
     }
 
     private void CheckRoomNameInput(string input)

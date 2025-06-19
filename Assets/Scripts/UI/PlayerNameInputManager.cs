@@ -64,9 +64,9 @@ public class PlayerNameInputManager : MonoBehaviour
     {
         string trimmed = tValue.Trim();
         if (string.IsNullOrWhiteSpace(trimmed))
-            GameEvents.RaiseBtnSetInteractable(UIID.Start, false);
+            GameEvents.RaisePlayerFieldIsNull(true);
         else
-            GameEvents.RaiseBtnSetInteractable(UIID.Start, true);
+            GameEvents.RaisePlayerFieldIsNull(false);
     }
 
     public void SetPlayerName(string tValue)

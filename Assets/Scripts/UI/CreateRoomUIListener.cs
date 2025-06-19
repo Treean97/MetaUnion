@@ -1,23 +1,20 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CreateRoomUIListener : MonoBehaviour
 {
-    [SerializeField] private GameObject _CreateRoomPanel;
-    [SerializeField] private UIID _MyID = UIID.CreateRoom;
-
-    private void OnEnable()
+    private void Awake()
     {
-        GameEvents.OnSetActive += HandleSetActiveCreateRoom;
+        GameEvents.OnRequestOpenCreateRoomUI += HandleCreateRoomActive;
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
-        GameEvents.OnSetActive -= HandleSetActiveCreateRoom;
+        GameEvents.OnRequestOpenCreateRoomUI += HandleCreateRoomActive;
     }
 
-    private void HandleSetActiveCreateRoom(UIID tUIID, bool tEnable)
+    private void HandleCreateRoomActive()
     {
-        if (tUIID != _MyID) return;
-        _CreateRoomPanel.SetActive(tEnable);
+        gameObject.SetActive(true);
     }
 }
