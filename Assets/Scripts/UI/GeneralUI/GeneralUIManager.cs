@@ -15,7 +15,10 @@ public class GeneralUIManager : MonoBehaviour
 
     [Header("Warning UI")]
     [SerializeField] private WarningUIManager _WarningUIPrefab;
-    
+
+    [Header("Focus UI")]
+    [SerializeField] private FocusUIManager _FocusUIPrefab;
+
 
     private void Awake()
     {
@@ -33,13 +36,20 @@ public class GeneralUIManager : MonoBehaviour
 
     private void OnEnable()
     {
-        // 이벤트 구독: 경고 메시지 요청 시 동적 생성
+        // Warning UI
         GameEvents.OnShowWarning += HandleShowWarning;
+        // Focus UI
+        GameEvents.OnFocus += HandleFocus;
+        GameEvents.OnDefocus += HandleDefocus;
     }
 
     private void OnDisable()
     {
+        // Warning UI
         GameEvents.OnShowWarning -= HandleShowWarning;
+        // Focus UI
+        GameEvents.OnFocus -= HandleFocus;
+        GameEvents.OnDefocus -= HandleDefocus;
     }
 
 
@@ -64,7 +74,6 @@ public class GeneralUIManager : MonoBehaviour
         StartCoroutine(DestroyAfter(warningInstance.gameObject, duration + 0.2f));
     }
 
-
     private IEnumerator DestroyAfter(GameObject obj, float delay)
     {
         yield return new WaitForSeconds(delay);
@@ -72,4 +81,21 @@ public class GeneralUIManager : MonoBehaviour
             Destroy(obj);
     }
 
+    private void HandleFocus(ObjectInfo objInfo)
+    {
+        if (_FocusUIPrefab == null || _GeneralUICanvas == null)
+        {
+            Debug.LogWarning("Focus UI Prefab 또는 GeneralUICanvas가 할당되지 않았습니다.");
+            return;
+        }
+
+        // 정보 전달
+        _FocusUIPrefab.Show(objInfo);
+        _FocusUIPrefab.gameObject.SetActive(true);
+    }
+
+    private void HandleDefocus()
+    {
+        _FocusUIPrefab.gameObject.SetActive(false);
+    }
 }

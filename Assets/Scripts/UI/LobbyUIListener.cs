@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class LobbyUIListener : MonoBehaviour
 {
-    [SerializeField] private GameObject _LobbyUIPanel;
+    [SerializeField] private GameObject _LobbyUI;
 
     private void Awake()
     {
@@ -16,6 +16,6 @@ public class LobbyUIListener : MonoBehaviour
 
     private void HandleLobbyUIActive()
     {
-        _LobbyUIPanel.SetActive(true);
+        _LobbyUI.SetActive(true);
     }
 }

@@ -26,9 +26,9 @@ public static class GameEvents
     //public static event Action<UIID, bool> OnBtnSetInteractable;    
     //public static void RaiseBtnSetInteractable(UIID uiID, bool enable) => OnBtnSetInteractable?.Invoke(uiID, enable);
 
-    // 플레이어 아이디 공백
+    // 플레이어 아이디 입력란 공백
     public static event Action<bool> OnPlayerIDFieldIsNull;
-    public static void RaisePlayerFieldIsNull(bool IsNull) => OnPlayerIDFieldIsNull?.Invoke(IsNull);
+    public static void RaisePlayerFieldIsNull(bool isNull) => OnPlayerIDFieldIsNull?.Invoke(isNull);
 
     // 서버 연결
     public static event Action OnConnect;
@@ -59,7 +59,7 @@ public static class GameEvents
 
     // 방 입장 성공
     public static event Action OnJoinRoomSuccess;
-     // 방 입장 성공
+    // 방 입장 성공
     public static void RaiseJoinRoomSuccess() => OnJoinRoomSuccess?.Invoke();
 
     // 업데이트된 방 목록 전달
@@ -76,6 +76,18 @@ public static class GameEvents
     public static event Action OnLeaveRoom;
     // 방 나가기
     public static void RaiseLeaveRoom() => OnLeaveRoom?.Invoke();
+
+    #endregion
+
+    #region 게임 화면 이벤트
+
+    // Focus UI 호출
+    public static event Action<ObjectInfo> OnFocus;
+    public static void RaiseFocus(ObjectInfo objInfo) => OnFocus?.Invoke(objInfo);
+
+    // Focus UI 해제
+    public static event Action OnDefocus;
+    public static void RaiseDefocus() => OnDefocus?.Invoke();
 
     #endregion
 }

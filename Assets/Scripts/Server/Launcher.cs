@@ -165,8 +165,8 @@ public class Launcher : MonoBehaviourPunCallbacks
     [SerializeField] private string _GameVersion = "1";
 
     [Header("게임 맵 데이터")]
-    [SerializeField] private SceneListSO _GameSceneListSO;
-    public SceneListSO GetGameSceneListSO => _GameSceneListSO;
+    [SerializeField] private SceneList _GameSceneListSO;
+    public SceneList GetGameSceneListSO => _GameSceneListSO;
     public object GameSceneListSO { get; internal set; }
 
     // private Dictionary<string, RoomInfo> _CachedRoomList = new Dictionary<string, RoomInfo>();

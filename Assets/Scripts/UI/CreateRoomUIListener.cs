@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class CreateRoomUIListener : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject _CreateRoomUI;
+
     private void Awake()
     {
         GameEvents.OnRequestOpenCreateRoomUI += HandleCreateRoomActive;
@@ -15,6 +18,6 @@ public class CreateRoomUIListener : MonoBehaviour
 
     private void HandleCreateRoomActive()
     {
-        gameObject.SetActive(true);
+        _CreateRoomUI.SetActive(true);
     }
 }
