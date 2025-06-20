@@ -1651,11 +1651,8 @@ MonoBehaviour:
     body: 0.3
     head: 0.7
     eyes: 1
-  m_GroundCheckPoint: {fileID: 1908113399781177474}
-  m_GroundCheckRadius: 0.2
-  m_GroundLayers:
-    serializedVersion: 2
-    m_Bits: 8
+  m_GroundCheck: {fileID: 1908113399781177474}
+  m_CheckRadius: 0.2
 --- !u!114 &1976293348270434516
 MonoBehaviour:
   m_ObjectHideFlags: 0
