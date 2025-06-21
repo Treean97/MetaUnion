@@ -138,6 +138,191 @@ namespace Controller
         }
 
         #region Handlers
+        // private class MovementHandler
+        // {
+        //     private readonly CharacterController m_Controller;
+        //     private readonly Transform m_Transform;
+
+        //     private float m_WalkSpeed;
+        //     private float m_RunSpeed;
+        //     private float m_RotateSpeed;
+        //     private float m_JumpHeight;
+
+        //     private Space m_Space;
+
+        //     private readonly float m_Luft = 75f;
+        //     private readonly float m_JumpReload = 1f;
+
+        //     private float m_TargetAngle;
+        //     private bool m_IsRotating = false;
+
+        //     private Vector3 m_Normal;
+        //     private Vector3 m_GravityAcelleration = Physics.gravity;
+
+        //     private float m_jumpTimer;
+        //     private readonly Transform m_GroundCheck;
+        //     private readonly float m_CheckRadius;
+
+        //     public MovementHandler(CharacterController controller, Transform transform, float walkSpeed, float runSpeed, float rotateSpeed, float jumpHeight, Space space, Transform groundCheck, float checkRadius)
+        //     {
+        //         m_Controller = controller;
+        //         m_Transform = transform;
+
+        //         m_WalkSpeed = walkSpeed;
+        //         m_RunSpeed = runSpeed;
+        //         m_RotateSpeed = rotateSpeed;
+        //         m_JumpHeight = jumpHeight;
+
+        //         m_Space = space;
+
+        //         m_GroundCheck = groundCheck;
+        //         m_CheckRadius = checkRadius;
+        //     }
+
+        //     public void SetStats(float walkSpeed, float runSpeed, float rotateSpeed, float jumpHeight, Space space)
+        //     {
+        //         m_WalkSpeed = walkSpeed;
+        //         m_RunSpeed = runSpeed;
+        //         m_RotateSpeed = rotateSpeed;
+        //         m_JumpHeight = jumpHeight;
+
+        //         m_Space = space;
+        //     }
+
+        //     public void SetSurface(in Vector3 normal)
+        //     {
+        //         m_Normal = normal;
+        //     }
+
+        //     public void Move(float deltaTime, in Vector2 axis, in Vector3 target, bool isRun, bool isJump, bool isMoving, out Vector2 animAxis, out bool isAir)
+        //     {
+        //         var targetForward = Vector3.Normalize(target - m_Transform.position);
+
+        //         ConvertMovement(in axis, in targetForward, out var movement);
+        //         CaculateGravity(isJump, deltaTime, out isAir);
+        //         Displace(deltaTime, in movement, isRun);
+        //         Turn(in targetForward, isMoving);
+        //         UpdateRotation(deltaTime);
+
+        //         GenAnimationAxis(in movement, out animAxis);
+        //     }
+
+        //     private void ConvertMovement(in Vector2 axis, in Vector3 targetForward, out Vector3 movement)
+        //     {
+        //         Vector3 forward;
+        //         Vector3 right;
+
+        //         if (m_Space == Space.Self)
+        //         {
+        //             forward = new Vector3(targetForward.x, 0f, targetForward.z).normalized;
+        //             right = Vector3.Cross(Vector3.up, forward).normalized;
+        //         }
+        //         else
+        //         {
+        //             forward = Vector3.forward;
+        //             right = Vector3.right;
+        //         }
+
+        //         movement = axis.x * right + axis.y * forward;
+        //         movement = Vector3.ProjectOnPlane(movement, m_Normal);
+        //     }
+
+        //     private void Displace(float deltaTime, in Vector3 movement, bool isRun)
+        //     {
+        //         Vector3 displacement = (isRun ? m_RunSpeed : m_WalkSpeed) * movement;
+        //         displacement += m_GravityAcelleration;
+        //         displacement *= deltaTime;
+
+        //         m_Controller.Move(displacement);
+        //     }
+
+        //     private void CaculateGravity(bool isJump, float deltaTime, out bool isAir)
+        //     {
+        //         m_jumpTimer = Mathf.Max(m_jumpTimer - deltaTime, 0f);
+
+        //         if (IsGrounded())
+        //         {
+        //             if (isJump && m_jumpTimer <= 0)
+        //             {
+        //                 var gravity = Physics.gravity;
+        //                 var length = gravity.magnitude;
+
+        //                 m_GravityAcelleration += -(gravity / length) * Mathf.Sqrt(m_JumpHeight * 6f * length);
+        //                 m_jumpTimer = m_JumpReload;
+        //                 isAir = true;
+
+        //                 return;
+        //             }
+
+        //             m_GravityAcelleration = Physics.gravity;
+        //             isAir = false;
+
+        //             return;
+        //         }
+
+        //         isAir = true;
+
+        //         m_GravityAcelleration += Physics.gravity * deltaTime;
+        //         return;
+        //     }
+
+        //     private bool IsGrounded()
+        //     {
+        //         return Physics.CheckSphere(m_GroundCheck.position, m_CheckRadius, LayerMask.GetMask("Ground"));
+        //     }
+
+        //     private void GenAnimationAxis(in Vector3 movement, out Vector2 animAxis)
+        //     {
+        //         if (m_Space == Space.Self)
+        //         {
+        //             animAxis = new Vector2(Vector3.Dot(movement, m_Transform.right), Vector3.Dot(movement, m_Transform.forward));
+        //         }
+        //         else
+        //         {
+        //             animAxis = new Vector2(Vector3.Dot(movement, Vector3.right), Vector3.Dot(movement, Vector3.forward));
+        //         }
+        //     }
+
+        //     private void Turn(in Vector3 targetForward, bool isMoving)
+        //     {
+        //         var angle = Vector3.SignedAngle(m_Transform.forward, Vector3.ProjectOnPlane(targetForward, Vector3.up), Vector3.up);
+
+        //         if (!m_IsRotating)
+        //         {
+        //             if (!isMoving && Mathf.Abs(angle) < m_Luft)
+        //             {
+        //                 m_IsRotating = false;
+        //                 return;
+        //             }
+
+        //             m_IsRotating = true;
+        //         }
+
+        //         m_TargetAngle = angle;
+        //     }
+
+        //     private void UpdateRotation(float deltaTime)
+        //     {
+        //         if(!m_IsRotating)
+        //         {
+        //             return;
+        //         }
+
+        //         var rotDelta = m_RotateSpeed * deltaTime;
+        //         if (rotDelta + Mathf.PI * 2f + Mathf.Epsilon >= Mathf.Abs(m_TargetAngle))
+        //         {
+        //             rotDelta = m_TargetAngle;
+        //             m_IsRotating = false;
+        //         }
+        //         else
+        //         {
+        //             rotDelta *= Mathf.Sign(m_TargetAngle);
+        //         }
+
+        //         m_Transform.Rotate(Vector3.up, rotDelta);
+        //     }
+        // }
+
         private class MovementHandler
         {
             private readonly CharacterController m_Controller;
@@ -162,6 +347,10 @@ namespace Controller
             private float m_jumpTimer;
             private readonly Transform m_GroundCheck;
             private readonly float m_CheckRadius;
+
+            // ✅ 추가: 점프 직후 Ground 체크 무시 시간
+            private float m_IgnoreGroundTime = 0.1f;
+            private float m_IgnoreTimer = 0f;
 
             public MovementHandler(CharacterController controller, Transform transform, float walkSpeed, float runSpeed, float rotateSpeed, float jumpHeight, Space space, Transform groundCheck, float checkRadius)
             {
@@ -240,6 +429,12 @@ namespace Controller
             {
                 m_jumpTimer = Mathf.Max(m_jumpTimer - deltaTime, 0f);
 
+                // ✅ 추가: 점프 후 일정 시간 동안 Ground 체크 무시
+                if (m_IgnoreTimer > 0f)
+                {
+                    m_IgnoreTimer -= deltaTime;
+                }
+
                 if (IsGrounded())
                 {
                     if (isJump && m_jumpTimer <= 0)
@@ -249,25 +444,31 @@ namespace Controller
 
                         m_GravityAcelleration += -(gravity / length) * Mathf.Sqrt(m_JumpHeight * 6f * length);
                         m_jumpTimer = m_JumpReload;
+                        m_IgnoreTimer = m_IgnoreGroundTime; // ✅ 점프 시 Ground 무시 타이머 발동
                         isAir = true;
+                        return;
+                    }
 
+                    if (m_IgnoreTimer > 0f)
+                    {
+                        isAir = true;
                         return;
                     }
 
                     m_GravityAcelleration = Physics.gravity;
                     isAir = false;
-
                     return;
                 }
 
                 isAir = true;
-
                 m_GravityAcelleration += Physics.gravity * deltaTime;
-                return;
             }
-            
+
             private bool IsGrounded()
             {
+                // ✅ 변경: 점프 후 타이머 남아있으면 땅 판정 false
+                if (m_IgnoreTimer > 0f) return false;
+
                 return Physics.CheckSphere(m_GroundCheck.position, m_CheckRadius, LayerMask.GetMask("Ground"));
             }
 
@@ -303,7 +504,7 @@ namespace Controller
 
             private void UpdateRotation(float deltaTime)
             {
-                if(!m_IsRotating)
+                if (!m_IsRotating)
                 {
                     return;
                 }

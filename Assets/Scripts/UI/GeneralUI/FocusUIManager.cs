@@ -1,7 +1,8 @@
+using Photon.Pun;
 using TMPro;
 using UnityEngine;
 
-public class FocusUIManager : MonoBehaviour
+public class FocusUIManager : MonoBehaviourPun
 {
     [SerializeField]
     private TMP_Text _Name;
@@ -10,11 +11,17 @@ public class FocusUIManager : MonoBehaviour
 
     void Awake()
     {
-        gameObject.SetActive(false);
+        if (photonView.IsMine)
+        {
+            gameObject.SetActive(false);    
+        }
+        
     }
 
     public void Show(ObjectInfo objInfo)
     {
+        if (!photonView.IsMine) return;
+        
         _Name.text = objInfo.DisplayName;
         _Description.text = objInfo.Description;
     }
