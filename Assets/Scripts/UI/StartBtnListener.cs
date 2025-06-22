@@ -8,8 +8,27 @@ public class StartBtnListener : MonoBehaviour
 
     private void Awake()
     {
-        _StartButton.onClick.AddListener(() => GameEvents.RaiseRequestOpenLobbyUI());
-        _StartButton.onClick.AddListener(() => GameEvents.RaiseConnect());
+        // 플레이어 아이디 인풋 null 이면 비활성
+        GameEvents.OnPlayerIDFieldIsNull += HandleBtnSetInteractable;
+        // 로비 열리면 inactive        
+        GameEvents.OnOpenLobbyUI += HandleBtnInactive;
     }
+    
+    void OnDestroy()
+    {
+        GameEvents.OnPlayerIDFieldIsNull -= HandleBtnSetInteractable;
+        GameEvents.OnOpenLobbyUI -= HandleBtnInactive;
+    }
+
+    // isNull이 true면 interatable는 false
+    private void HandleBtnSetInteractable(bool isNull)
+    {
+        _StartButton.interactable = !isNull;
+    }
+
+    private void HandleBtnInactive()
+    {
+        _StartButton.gameObject.SetActive(false);
+    } 
 
 }
