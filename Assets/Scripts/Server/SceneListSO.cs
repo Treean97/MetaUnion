@@ -5,7 +5,7 @@ using UnityEditor;
 #endif
 
 [CreateAssetMenu(menuName = "ScriptableObject/Scene List")]
-public class SceneList : ScriptableObject
+public class SceneListSO : ScriptableObject
 {
     [System.Serializable]
     public class SceneEntry

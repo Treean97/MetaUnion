@@ -13,13 +13,15 @@ public class CreateRoomUIManager : MonoBehaviour
 
     private void Awake()
     {
-        _ConfirmButton.onClick.AddListener(OnConfirmClicked);
-        _CancelButton.onClick.AddListener(OnCancelClicked);
-        _RoomNameInput.onValueChanged.AddListener(CheckRoomNameInput);
+
     }
 
     private void OnEnable()
     {
+        _ConfirmButton.onClick.AddListener(OnConfirmClicked);
+        _CancelButton.onClick.AddListener(OnCancelClicked);
+        _RoomNameInput.onValueChanged.AddListener(CheckRoomNameInput);
+
         InitDropdown();
         ResetInput();
     }

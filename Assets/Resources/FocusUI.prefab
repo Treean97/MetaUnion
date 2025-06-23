@@ -9,6 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8165560156714282898}
+  - component: {fileID: 1909952997662563473}
+  - component: {fileID: 3143526148511657137}
   m_Layer: 5
   m_Name: FocusUI
   m_TagString: Untagged
@@ -36,6 +38,41 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1909952997662563473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 830310887245477291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48f7efdf41a45e44081530b0de05d51f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _FocusUIPanel: {fileID: 1119109614502262935}
+--- !u!114 &3143526148511657137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 830310887245477291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &3357538223420453101
 GameObject:
   m_ObjectHideFlags: 0
@@ -186,7 +223,6 @@ GameObject:
   - component: {fileID: 7978372108937523075}
   - component: {fileID: 8458754293282007744}
   - component: {fileID: 1119109614502262935}
-  - component: {fileID: 7129663233296432751}
   m_Layer: 5
   m_Name: FocusUIPanel
   m_TagString: Untagged
@@ -307,28 +343,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _Name: {fileID: 5163526536064185087}
   _Description: {fileID: 4603258338166724603}
---- !u!114 &7129663233296432751
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4524870493285047497}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents: []
-  sceneViewId: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
 --- !u!1 &7788230966630091236
 GameObject:
   m_ObjectHideFlags: 0

@@ -104,7 +104,7 @@ namespace Com.MyCompany.MyGame
                 Debug.Log("게임 방입니다. 플레이어를 생성합니다.");
                 PhotonNetwork.Instantiate(_PlayerPrefab.name, Vector3.zero, Quaternion.identity);
             }
-            
+
         }
 
 

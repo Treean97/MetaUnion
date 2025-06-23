@@ -6,7 +6,7 @@ public class StartBtnListener : MonoBehaviour
 {
     [SerializeField] private Button _StartButton;
 
-    private void Awake()
+    void OnEnable()
     {
         // 플레이어 아이디 인풋 null 이면 비활성
         GameEvents.OnPlayerIDFieldIsNull += HandleBtnSetInteractable;
@@ -14,7 +14,7 @@ public class StartBtnListener : MonoBehaviour
         GameEvents.OnOpenLobbyUI += HandleBtnInactive;
     }
     
-    void OnDestroy()
+    void OnDisable()
     {
         GameEvents.OnPlayerIDFieldIsNull -= HandleBtnSetInteractable;
         GameEvents.OnOpenLobbyUI -= HandleBtnInactive;

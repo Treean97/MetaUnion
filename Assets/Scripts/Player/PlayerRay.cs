@@ -1,6 +1,7 @@
+using Photon.Pun;
 using UnityEngine;
 
-public class PlayerRay : MonoBehaviour
+public class PlayerRay : MonoBehaviourPun
 {
     [SerializeField] private float _Distance = 2f;
     [SerializeField] private float _YOffset = 1f;
@@ -11,6 +12,8 @@ public class PlayerRay : MonoBehaviour
 
     void Update()
     {
+        if (!photonView.IsMine) return;
+
         Vector3 boxCenter = transform.position + transform.forward * _Distance * 0.5f + transform.up * _YOffset;
         Quaternion orientation = transform.rotation;
 

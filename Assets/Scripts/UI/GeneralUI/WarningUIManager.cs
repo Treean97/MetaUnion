@@ -1,4 +1,5 @@
 using System.Collections;
+using Photon.Pun;
 using TMPro;
 using UnityEngine;
 
@@ -9,7 +10,7 @@ public class WarningUIManager : MonoBehaviour
     private Coroutine _HideCoroutine;
 
     public void Show(string message, float duration)
-    {
+    {      
         _WarningText.text = message;
         gameObject.SetActive(true);
 

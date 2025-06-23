@@ -12,7 +12,7 @@ public class RoomItemUIManager : MonoBehaviour
     private RoomInfo _RoomInfo;
 
 
-    void Awake()
+    void OnEnable()
     {
         _RommItemBtn.onClick.AddListener(() => OnSelectRoom());
     }

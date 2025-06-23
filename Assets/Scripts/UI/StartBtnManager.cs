@@ -3,13 +3,12 @@ using UnityEngine.UI;
 
 public class StartBtnManager : MonoBehaviour
 {
+    [SerializeField] private Button _StartBtn;
 
-    [SerializeField] private Button _StartButton;
-
-    void Awake()
+    void OnEnable()
     {
-        _StartButton.onClick.AddListener(() => GameEvents.RaiseRequestOpenLobbyUI());
-        _StartButton.onClick.AddListener(() => GameEvents.RaiseConnect());
+        _StartBtn.onClick.AddListener(() => GameEvents.RaiseRequestOpenLobbyUI());
+        _StartBtn.onClick.AddListener(() => GameEvents.RaiseConnect());
     }
 
     void Start()

@@ -3,7 +3,7 @@ using UnityEngine;
 public class InteractableObjectTest : MonoBehaviour, IInteractable
 {
     [SerializeField]
-    ObjectInfo _ObjInfo;
+    ObjectInfoSO _ObjInfo;
 
     public void OnFocus()
     {
@@ -20,7 +20,7 @@ public class InteractableObjectTest : MonoBehaviour, IInteractable
         Debug.Log("Interact");
     }
 
-    public ObjectInfo GetObjectInfo()
+    public ObjectInfoSO GetObjectInfo()
     {
         return _ObjInfo;
     }

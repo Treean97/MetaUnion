@@ -6,14 +6,14 @@ public class CreateRoomUIListener : MonoBehaviour
     [SerializeField]
     private GameObject _CreateRoomUI;
 
-    private void Awake()
+    private void OnEnable()
     {
         GameEvents.OnRequestOpenCreateRoomUI += HandleCreateRoomActive;
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
-        GameEvents.OnRequestOpenCreateRoomUI += HandleCreateRoomActive;
+        GameEvents.OnRequestOpenCreateRoomUI -= HandleCreateRoomActive;
     }
 
     private void HandleCreateRoomActive()

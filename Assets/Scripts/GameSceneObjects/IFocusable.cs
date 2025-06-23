@@ -6,5 +6,5 @@ public interface IFocusable
     // 포커스 해제 시 호출
     void OnDefocus();
 
-    ObjectInfo GetObjectInfo();
+    ObjectInfoSO GetObjectInfo();
 }

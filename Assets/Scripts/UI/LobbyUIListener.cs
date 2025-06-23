@@ -4,12 +4,12 @@ public class LobbyUIListener : MonoBehaviour
 {
     [SerializeField] private GameObject _LobbyUI;
 
-    private void Awake()
+    private void OnEnable()
     {
         GameEvents.OnRequestOpenLobbyUI += HandleLobbyUIActive;
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         GameEvents.OnRequestOpenLobbyUI -= HandleLobbyUIActive;
     }

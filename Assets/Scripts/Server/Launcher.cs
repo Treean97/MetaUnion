@@ -165,8 +165,8 @@ public class Launcher : MonoBehaviourPunCallbacks
     [SerializeField] private string _GameVersion = "1";
 
     [Header("게임 맵 데이터")]
-    [SerializeField] private SceneList _GameSceneListSO;
-    public SceneList GetGameSceneListSO => _GameSceneListSO;
+    [SerializeField] private SceneListSO _GameSceneListSO;
+    public SceneListSO GetGameSceneListSO => _GameSceneListSO;
     public object GameSceneListSO { get; internal set; }
 
     // private Dictionary<string, RoomInfo> _CachedRoomList = new Dictionary<string, RoomInfo>();
@@ -178,15 +178,24 @@ public class Launcher : MonoBehaviourPunCallbacks
         if (_Inst != null) { Destroy(gameObject); return; }
         _Inst = this;
         DontDestroyOnLoad(gameObject);
+    }
 
+    public override void OnEnable()
+    {
+        base.OnEnable();
         GameEvents.OnRequestJoinRoom += RequestJoinRoom;
         GameEvents.OnConnect += Connect;
     }
 
-    void OnDestroy()
+    public override void OnDisable()
     {
         GameEvents.OnRequestJoinRoom -= RequestJoinRoom;
         GameEvents.OnConnect -= Connect;
+    }
+
+    void OnDestroy()
+    {
+
     }
 
 

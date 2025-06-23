@@ -81,13 +81,21 @@ public static class GameEvents
 
     #region 게임 화면 이벤트
 
+    // UI 팝업
+    public static event Action<bool> OnUIIsRunning;
+    public static void RaiseUIIsRunning(bool isRun) => OnUIIsRunning?.Invoke(isRun);
+
     // Focus UI 호출
-    public static event Action<ObjectInfo> OnFocus;
-    public static void RaiseFocus(ObjectInfo objInfo) => OnFocus?.Invoke(objInfo);
+    public static event Action<ObjectInfoSO> OnFocus;
+    public static void RaiseFocus(ObjectInfoSO objInfo) => OnFocus?.Invoke(objInfo);
 
     // Focus UI 해제
     public static event Action OnDefocus;
     public static void RaiseDefocus() => OnDefocus?.Invoke();
+
+    // Customize UI
+    public static event Action OnRequestOpenCustomizeUI;
+    public static void RaiseRequestOpenCustomizeUI() => OnRequestOpenCustomizeUI?.Invoke();
 
     #endregion
 }
