@@ -1,7 +1,6 @@
-using Photon.Pun;
 using UnityEngine;
 
-public class CustomizeUIListener : MonoBehaviourPun
+public class CustomizeUIListener : MonoBehaviour
 {
     [SerializeField] CustomizeUIManager _CustomizeUI;
 
@@ -17,7 +16,6 @@ public class CustomizeUIListener : MonoBehaviourPun
 
     void HandleRequestOpenCustomUI()
     {
-        if (!photonView.IsMine) return;
 
         _CustomizeUI.gameObject.SetActive(true);
     } 

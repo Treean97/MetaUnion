@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Hat_2
   m_EditorClassIdentifier: 
   _Type: 1
-  _ID: Hair_2
+  _ID: Hat_2
   _ItemPrefab: {fileID: 3605869103271255009, guid: 24876fae2b076984dafefcb2ec5b67ad, type: 3}

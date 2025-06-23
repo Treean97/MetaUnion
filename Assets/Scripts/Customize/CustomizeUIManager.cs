@@ -1,11 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CustomizeUIManager : MonoBehaviour
 {
     [SerializeField] CustomizeItemPoolSO _CustomizeItemPool;
     [SerializeField] Transform _Contents;
     [SerializeField] GameObject _CustomizeItemSlotPrefab;
+    [SerializeField] List<Button> _CategoryBtns;
 
     private ItemType _CurType;
 
@@ -13,8 +15,18 @@ public class CustomizeUIManager : MonoBehaviour
     // 아니면 현재 카테고리 변수를 하나 저장해놓던가
     void Start()
     {
+        for (int i = 0; i < _CategoryBtns.Count; i++)
+        {
+            int idx = i;
+            _CategoryBtns[i].onClick.AddListener(() => ChangeCategory((ItemType)idx));
+
+        }
+
         _CurType = _CustomizeItemPool.GetFirstType();
         UpdateItemList(_CurType);
+
+        // 꺼두기
+        gameObject.SetActive(false);
     }
 
     public void ChangeCategory(ItemType newType)
