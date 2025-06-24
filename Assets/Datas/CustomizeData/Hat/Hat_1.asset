@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _Type: 1
   _ID: Hat_1
-  _ItemPrefab: {fileID: 2977515194574276571, guid: 04ba1823c0442e04397b17ece6ad2966, type: 3}
+  _ItemMesh: {fileID: 4300000, guid: 8f611463ad6905c40b9ccf4af9b41d88, type: 2}

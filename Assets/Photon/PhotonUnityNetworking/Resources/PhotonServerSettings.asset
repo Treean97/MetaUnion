@@ -40,6 +40,8 @@ MonoBehaviour:
   - Fire
   - RespawnSpaceship
   - ReceiveChatMessage
+  - RPC_EquipItem
+  - RPC_EquipMesh
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

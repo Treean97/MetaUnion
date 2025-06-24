@@ -9,5 +9,6 @@ public class CustomizeItemSO : ScriptableObject
     public ItemType Type => _Type;
     [SerializeField] string _ID;
     public string ID => _ID;
-    [SerializeField] GameObject _ItemPrefab;
+    [SerializeField] Mesh _ItemMesh;
+    public Mesh ItemMesh => _ItemMesh;
 }

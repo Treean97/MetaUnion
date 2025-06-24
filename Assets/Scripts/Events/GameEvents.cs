@@ -97,5 +97,9 @@ public static class GameEvents
     public static event Action OnRequestOpenCustomizeUI;
     public static void RaiseRequestOpenCustomizeUI() => OnRequestOpenCustomizeUI?.Invoke();
 
+    // Customize Request
+    public static event Action<CustomizeItemSO> OnRequestEquipItem;
+    public static void RaiseRequestEquipItem(CustomizeItemSO item)
+    => OnRequestEquipItem?.Invoke(item);
     #endregion
 }

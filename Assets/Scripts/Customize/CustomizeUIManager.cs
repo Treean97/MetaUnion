@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,8 +9,16 @@ public class CustomizeUIManager : MonoBehaviour
     [SerializeField] Transform _Contents;
     [SerializeField] GameObject _CustomizeItemSlotPrefab;
     [SerializeField] List<Button> _CategoryBtns;
+    [SerializeField] Button _UICloseBtn;
 
     private ItemType _CurType;
+
+    void Awake()
+    {
+        CustomizeItemPoolLocator.Register(_CustomizeItemPool);
+
+        _UICloseBtn.onClick.AddListener(OnClickUICloseBtn);
+    }
 
     // 처음에 최상단 카테고리(Hair)로 초기화 해놓고 그 뒤로는 켤 때 기존 상태대로 보여주면 될 듯
     // 아니면 현재 카테고리 변수를 하나 저장해놓던가
@@ -38,7 +47,18 @@ public class CustomizeUIManager : MonoBehaviour
 
     void OnEnable()
     {
+        GameEvents.OnRequestEquipItem += HandleEquipItem;
+    }
 
+    void OnDisable()
+    {
+        GameEvents.OnRequestEquipItem -= HandleEquipItem;
+    }
+
+    private void HandleEquipItem(CustomizeItemSO item)
+    {
+        var player = PlayerSetup._LocalPlayer.GetComponent<PlayerCustomization>();
+        player?.EquipItem(item);
     }
 
     void UpdateItemList(ItemType type)
@@ -58,5 +78,8 @@ public class CustomizeUIManager : MonoBehaviour
         }
     }
 
-
+    void OnClickUICloseBtn()
+    {
+        gameObject.SetActive(false);
+    }
 }

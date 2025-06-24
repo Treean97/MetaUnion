@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _Type: 0
   _ID: Hair_1
-  _ItemPrefab: {fileID: 936523516433880279, guid: cfee9492edf33f54bb86e5592b8b9879, type: 3}
+  _ItemMesh: {fileID: 4300000, guid: dd5d893ba6bffb24788ff27e89b58bcc, type: 2}

@@ -6,12 +6,16 @@ using Unity.Cinemachine;
 
 public class PlayerSetup : MonoBehaviourPun
 {
+    public static GameObject _LocalPlayer;
+
     [SerializeField] private GameObject _PlayerCameraPrefab;
 
     private void Start()
     {
-        if (!photonView.IsMine)
-            return;
+        if (!photonView.IsMine) return;
+
+
+        _LocalPlayer = gameObject;
 
         GameObject camObj = Instantiate(_PlayerCameraPrefab);
         ThirdPersonCamera thirdPersonCamera = camObj.GetComponent<ThirdPersonCamera>();
