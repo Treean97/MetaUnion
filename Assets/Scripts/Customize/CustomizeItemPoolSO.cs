@@ -10,19 +10,19 @@ public class CustomizeItemPoolSO : ScriptableObject
     [SerializeField] private List<CustomizeItemGroup> _ItemGroups;
 
     // 런타임에 빠르게 조회하기 위한 딕셔너리
-    private Dictionary<ItemType, List<CustomizeItemSO>> _groups;
+    private Dictionary<ItemType, List<CustomizeItemSO>> _Groups;
 
     private void OnEnable()
     {
-        _groups = _ItemGroups
+        _Groups = _ItemGroups
             .ToDictionary(g => g.Type, g => g.Items);
     }
 
     // UI 쪽에서 호출할 메서드
     public IReadOnlyList<CustomizeItemSO> GetItems(ItemType type)
     {
-        if (_groups == null) OnEnable();
-        return _groups.TryGetValue(type, out var list)
+        if (_Groups == null) OnEnable();
+        return _Groups.TryGetValue(type, out var list)
             ? list
             : new List<CustomizeItemSO>();
     }
