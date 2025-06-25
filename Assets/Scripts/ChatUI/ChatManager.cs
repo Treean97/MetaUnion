@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Photon.Pun;
+using System.Collections;
 
 public class ChatManager : MonoBehaviourPun
 {
@@ -13,18 +14,29 @@ public class ChatManager : MonoBehaviourPun
 
     private void Start()
     {
-        _ChatInputField.onSubmit.AddListener(SendChatMessage);
+        // 인풋 필드 포커스/디포커스 이벤트
+        _ChatInputField.onSelect.AddListener((_) => GameEvents.RaiseUIIsRunning(true));
+        _ChatInputField.onDeselect.AddListener((_) => GameEvents.RaiseUIIsRunning(false));
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Return))
+        if ((Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) && !_ChatInputField.isFocused)
         {
             if (!string.IsNullOrWhiteSpace(_ChatInputField.text))
             {
                 SendChatMessage(_ChatInputField.text);
             }
+
+            StartCoroutine(ActivateInputNextFrame());
         }
+    }
+
+    IEnumerator ActivateInputNextFrame()
+    {
+        yield return null;
+        _ChatInputField.ActivateInputField();
+        _ChatInputField.MoveTextEnd(false);
     }
 
     public void SendChatMessage(string message)
@@ -36,7 +48,6 @@ public class ChatManager : MonoBehaviourPun
         photonView.RPC(nameof(ReceiveChatMessage), RpcTarget.All, PhotonNetwork.NickName, message);
 
         _ChatInputField.text = string.Empty;
-        _ChatInputField.ActivateInputField(); // 다시 입력 대기
     }
 
     [PunRPC]
@@ -46,7 +57,13 @@ public class ChatManager : MonoBehaviourPun
         TMP_Text text = chatItem.GetComponentInChildren<TMP_Text>();
         text.text = $"<b>{sender}</b> : {message}";
 
-        Canvas.ForceUpdateCanvases(); // UI 강제 갱신
-        _ScrollRect.verticalNormalizedPosition = 0f; // 스크롤 맨 아래로
+        Canvas.ForceUpdateCanvases();
+        StartCoroutine(ScrollUpdate());
+    }
+
+    IEnumerator ScrollUpdate()
+    {
+        yield return null;
+        _ScrollRect.verticalNormalizedPosition = 0f;
     }
 }

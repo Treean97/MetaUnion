@@ -81,9 +81,9 @@ public static class GameEvents
 
     #region 게임 화면 이벤트
 
-    // UI 팝업
-    public static event Action<bool> OnUIIsRunning;
-    public static void RaiseUIIsRunning(bool isRun) => OnUIIsRunning?.Invoke(isRun);
+    // 채팅UI 포커스
+    public static event Action<bool> OnChatIsRunning;
+    public static void RaiseUIIsRunning(bool isRun) => OnChatIsRunning?.Invoke(isRun);
 
     // Focus UI 호출
     public static event Action<ObjectInfoSO> OnFocus;
