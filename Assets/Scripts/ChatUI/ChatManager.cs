@@ -23,12 +23,9 @@ public class ChatManager : MonoBehaviourPun
     {
         if ((Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) && !_ChatInputField.isFocused)
         {
-            if (!string.IsNullOrWhiteSpace(_ChatInputField.text))
-            {
-                SendChatMessage(_ChatInputField.text);
-            }
+            SendChatMessage(_ChatInputField.text);
 
-            StartCoroutine(ActivateInputNextFrame());
+            //StartCoroutine(ActivateInputNextFrame());
         }
     }
 
@@ -47,6 +44,7 @@ public class ChatManager : MonoBehaviourPun
 
         photonView.RPC(nameof(ReceiveChatMessage), RpcTarget.All, PhotonNetwork.NickName, message);
 
+        _ChatInputField.ActivateInputField();
         _ChatInputField.text = string.Empty;
     }
 
@@ -54,10 +52,9 @@ public class ChatManager : MonoBehaviourPun
     private void ReceiveChatMessage(string sender, string message)
     {
         GameObject chatItem = Instantiate(_ChatMessagePrefab, _ChatContent);
-        TMP_Text text = chatItem.GetComponentInChildren<TMP_Text>();
+        TMP_Text text = chatItem.GetComponent<TMP_Text>();
         text.text = $"<b>{sender}</b> : {message}";
-
-        Canvas.ForceUpdateCanvases();
+        
         StartCoroutine(ScrollUpdate());
     }
 

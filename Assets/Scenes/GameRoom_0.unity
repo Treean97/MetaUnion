@@ -348,7 +348,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ChatInputField: {fileID: 245529981}
   _ChatContent: {fileID: 562533338}
-  _ChatMessagePrefab: {fileID: 9069331419344192196, guid: ffb5c8e328222d2469fde921c923414a, type: 3}
+  _ChatMessagePrefab: {fileID: 6455460768308443430, guid: 7b13fd5834ef127418d146b72cf6f7ec, type: 3}
   _ScrollRect: {fileID: 1037860274}
 --- !u!114 &25628033
 MonoBehaviour:
