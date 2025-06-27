@@ -34,4 +34,9 @@ public class CustomizeItemPoolSO : ScriptableObject
         throw new InvalidOperationException("그룹이 하나도 없습니다!");
     }
 
+    public IEnumerable<CustomizeItemSO> GetAllItems()
+    {
+        // 모든 그룹의 Items 리스트를 하나의 시퀀스로 합쳐서 반환
+        return _ItemGroups.SelectMany(group => group.Items);
+    }
 }

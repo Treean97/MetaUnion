@@ -6,7 +6,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
 
-public class PlayerCustomization : MonoBehaviourPunCallbacks
+public class PlayerCustomization : MonoBehaviourPunCallbacks, IPunInstantiateMagicCallback
 {
     [Serializable]
     public class SlotBinding
@@ -15,14 +15,18 @@ public class PlayerCustomization : MonoBehaviourPunCallbacks
         public SkinnedMeshRenderer Renderer;
     }
 
-    [SerializeField] private List<SlotBinding> _SlotBindings;
+    [SerializeField] 
+    private List<SlotBinding> _SlotBindings;
+
+    // 타입별 렌더러를 빠르게 찾기 위한 딕셔너리
     private Dictionary<ItemType, SkinnedMeshRenderer> _RendererSlots;
 
+    // 프로퍼티 키 접두사
     private const string PropKeyPrefix = "Customize_";
 
     void Awake()
     {
-        // 슬롯 바인딩을 빠르게 조회할 딕셔너리 생성
+        // Awake 시점에 슬롯 바인딩을 딕셔너리로 빌드
         _RendererSlots = new Dictionary<ItemType, SkinnedMeshRenderer>();
         foreach (var binding in _SlotBindings)
         {
@@ -31,8 +35,23 @@ public class PlayerCustomization : MonoBehaviourPunCallbacks
         }
     }
 
+    void Start()
+    {
+        // 이 오브젝트가 활성화된 직후, 이미 세팅된 CustomProperties가 있으면 바로 적용
+        if (photonView.Owner != null)
+            ApplyAllProperties(photonView.Owner.CustomProperties);
+    }
+
+    // Photon이 이 프리팹을 인스턴스화할 때 호출 (Instantiate 시점)
+    public void OnPhotonInstantiate(PhotonMessageInfo info)
+    {
+        if (photonView.Owner != null)
+            ApplyAllProperties(photonView.Owner.CustomProperties);
+    }
+
     /// <summary>
-    /// 아이템 장착 시 호출: Custom Properties에 업데이트
+    /// 로컬 플레이어가 아이템을 장착할 때 호출
+    /// → 커스텀 프로퍼티를 갱신하고, 로컬에도 즉시 적용
     /// </summary>
     public void EquipItem(CustomizeItemSO itemSO)
     {
@@ -41,42 +60,44 @@ public class PlayerCustomization : MonoBehaviourPunCallbacks
         var type   = itemSO.Type;
         var itemId = itemSO.ID;
 
-        // Custom Player Properties 갱신 → 방내 모든 클라이언트에 푸시
+        // 1) 방 전체에 변경된 프로퍼티 전파
         var props = new Hashtable { { PropKeyPrefix + (int)type, itemId } };
         PhotonNetwork.LocalPlayer.SetCustomProperties(props);
 
-        // 내 화면에도 즉시 적용
+        // 2) 로컬 화면에 즉시 반영
         ApplyMesh(type, itemId);
     }
 
     /// <summary>
-    /// 방 입장 시: 해당 뷰의 소유자 프로퍼티만 적용
+    /// 로컬 클라이언트가 룸에 입장했을 때 호출
+    /// → 기존에 세팅된 프로퍼티를 한 번 더 적용
     /// </summary>
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
-        // 모든 플레이어의 프로퍼티를 가져오지 않고, 이 PhotonView의 소유자만 처리
+
         var owner = photonView.Owner;
         if (owner != null)
-        {
             ApplyAllProperties(owner.CustomProperties);
-        }
     }
 
     /// <summary>
-    /// 다른 플레이어의 Custom Properties 변경 시
+    /// 다른 플레이어(A)의 CustomProperties가 갱신되었을 때 호출
+    /// → 자신이 소유하지 않은 뷰에서만 반응
     /// </summary>
     public override void OnPlayerPropertiesUpdate(Player target, Hashtable changedProps)
     {
         base.OnPlayerPropertiesUpdate(target, changedProps);
-        // 이 PhotonView의 소유자가 아니라면 무시
+
+        // 이 뷰의 소유자가 아닌 경우 무시
         if (target != photonView.Owner) return;
 
         ApplyAllProperties(changedProps);
     }
 
     /// <summary>
-    /// Hashtable에 들어 있는 커스터마이징 키만 찾아 적용
+    /// 전달된 Hashtable에서 "Customize_" 키를 찾아 
+    /// 각 슬롯에 해당하는 메시 호출
     /// </summary>
     private void ApplyAllProperties(Hashtable props)
     {
@@ -96,31 +117,27 @@ public class PlayerCustomization : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    /// 실제로 Mesh를 교체하는 공통 로직
+    /// 실제로 SkinnedMeshRenderer.sharedMesh를 변경해주는 공통 로직
     /// </summary>
     private void ApplyMesh(ItemType type, string itemId)
     {
+        // 1) 렌더러 조회
         if (!_RendererSlots.TryGetValue(type, out var renderer))
         {
             Debug.LogError($"Renderer가 없습니다: {type}");
             return;
         }
 
-        var itemPool = CustomizeItemPoolLocator._Inst;
-        if (itemPool == null)
-        {
-            Debug.LogError("CustomizeItemPoolSO가 등록되지 않았습니다.");
-            return;
-        }
-
-        var item = itemPool.GetItems(type)
-                           .FirstOrDefault(i => i.ID == itemId);
-        if (item == null)
+        // 2) ItemManager에서 아이템 정보 조회
+        var itemSO = ItemManager._Inst.GetItem(type, itemId);
+        if (itemSO == null)
         {
             Debug.LogWarning($"ID '{itemId}' 아이템을 찾을 수 없습니다.");
             return;
         }
 
-        renderer.sharedMesh = item.ItemMesh;
+        // 3) Mesh 교체
+        renderer.sharedMesh = itemSO.ItemMesh;
     }
+
 }

@@ -15,7 +15,7 @@ public class CustomizeUIManager : MonoBehaviour
 
     void Awake()
     {
-        CustomizeItemPoolLocator.Register(_CustomizeItemPool);
+        //CustomizeItemPoolLocator.Register(_CustomizeItemPool);
 
         _UICloseBtn.onClick.AddListener(OnClickUICloseBtn);
     }
