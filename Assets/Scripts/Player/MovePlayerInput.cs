@@ -76,7 +76,7 @@ namespace Controller
         {
             if (m_Mover != null)
             {
-                m_Mover.SetInput(in m_Axis, in m_Target, in m_IsRun, m_IsJump);
+                m_Mover.SetInput(in m_Axis, in m_Target, m_IsRun, m_IsJump);
             }
 
             if (m_Camera != null)

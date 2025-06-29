@@ -123,6 +123,9 @@ PrefabInstance:
       addedObject: {fileID: -6299137852040920774}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 23fd9c9d3c817704a986c6fb8a5cc120, type: 3}
       insertIndex: -1
+      addedObject: {fileID: -1231243602770292737}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 23fd9c9d3c817704a986c6fb8a5cc120, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 4875008410708058846}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 23fd9c9d3c817704a986c6fb8a5cc120, type: 3}
       insertIndex: -1
@@ -283,6 +286,19 @@ MonoBehaviour:
   m_MouseX: Mouse X
   m_MouseY: Mouse Y
   m_MouseScroll: Mouse ScrollWheel
+--- !u!114 &-1231243602770292737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4878215749453295151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9a74f38aacbc854da46fe0f755e7f5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _statsSO: {fileID: 11400000, guid: 57e915e6a049d3144bcc19300facea47, type: 2}
 --- !u!114 &4875008410708058846
 MonoBehaviour:
   m_ObjectHideFlags: 0
