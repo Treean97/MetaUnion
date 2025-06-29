@@ -1,7 +1,7 @@
 using Photon.Pun;
 using UnityEngine;
 
-public class PlayerRay : MonoBehaviourPun
+public class FocusHandler : MonoBehaviourPun
 {
     [SerializeField] private float _Distance = 2f;
     [SerializeField] private float _YOffset = 1f;
@@ -41,11 +41,6 @@ public class PlayerRay : MonoBehaviourPun
             _CurrentFocus?.OnDefocus();
             _CurrentFocus = closestFocusable;
             _CurrentFocus?.OnFocus();
-        }
-
-        if (_CurrentFocus is IInteractable interactable && Input.GetKeyDown(KeyCode.E))
-        {
-            interactable.OnInteract();
         }
 
         if (hits.Length == 0 && _CurrentFocus != null)

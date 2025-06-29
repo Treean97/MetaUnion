@@ -130,7 +130,7 @@ namespace CharacterCustomizationTool.Editor
         {
             AddCharacterController(character);
             character.AddComponent<CharacterMover>();
-            character.AddComponent<MovePlayerInput>();
+            character.AddComponent<PlayerInput>();
         }
 
         private static void AddCharacterController(GameObject character)

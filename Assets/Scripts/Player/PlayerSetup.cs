@@ -24,7 +24,7 @@ public class PlayerSetup : MonoBehaviourPun
         thirdPersonCamera.SetTarget(transform);
 
         // 플레이어 스크립트 → 카메라 바인딩
-        var input = GetComponent<MovePlayerInput>();
+        var input = GetComponent<PlayerInput>();
         if (input != null)
         {
             input.BindCamera(thirdPersonCamera);

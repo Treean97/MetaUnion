@@ -42,6 +42,7 @@ MonoBehaviour:
   - ReceiveChatMessage
   - RPC_EquipItem
   - RPC_EquipMesh
+  - RPC_DealDamage
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

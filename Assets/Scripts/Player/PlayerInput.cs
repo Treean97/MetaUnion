@@ -1,9 +1,10 @@
+using System;
 using UnityEngine;
 
 namespace Controller
 {
     [RequireComponent(typeof(CharacterMover))]
-    public class MovePlayerInput : MonoBehaviour
+    public class PlayerInput : MonoBehaviour
     {
         [Header("Character")]
         [SerializeField] private string m_HorizontalAxis = "Horizontal";
@@ -17,6 +18,10 @@ namespace Controller
         [SerializeField] private string m_MouseY = "Mouse Y";
         [SerializeField] private string m_MouseScroll = "Mouse ScrollWheel";
 
+        [Header("Input")]
+        [SerializeField] private KeyCode m_InteractKey = KeyCode.E;
+        [SerializeField] private KeyCode m_AttackKey = KeyCode.Mouse0;
+
         private CharacterMover m_Mover;
 
         private Vector2 m_Axis;
@@ -28,6 +33,10 @@ namespace Controller
         private float m_Scroll;
 
         private bool _IsMovementBlocked; // 추가: 움직임 차단 플래그
+
+        // 상호작용(Interact) 이벤트
+        public event Action OnInteract;
+        public event Action OnAttack;
 
         private void Awake()
         {
@@ -52,6 +61,16 @@ namespace Controller
 
             GatherInput();
             SetInput();
+
+            if (Input.GetKeyDown(m_InteractKey))
+            {
+                OnInteract?.Invoke();
+            }
+
+            if (Input.GetKeyDown(m_AttackKey))
+            {
+                OnAttack?.Invoke();
+            }
         }
         
         public void BindCamera(PlayerCamera cam)
