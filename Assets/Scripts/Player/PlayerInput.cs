@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Controller
 {
-    [RequireComponent(typeof(CharacterMover))]
+    [RequireComponent(typeof(MoveHandler))]
     public class PlayerInput : MonoBehaviour
     {
         [Header("Character")]
@@ -22,7 +22,7 @@ namespace Controller
         [SerializeField] private KeyCode m_InteractKey = KeyCode.E;
         [SerializeField] private KeyCode m_AttackKey = KeyCode.Mouse0;
 
-        private CharacterMover m_Mover;
+        private MoveHandler m_Mover;
 
         private Vector2 m_Axis;
         private bool m_IsRun;
@@ -40,7 +40,7 @@ namespace Controller
 
         private void Awake()
         {
-            m_Mover = GetComponent<CharacterMover>();
+            m_Mover = GetComponent<MoveHandler>();
 
             GameEvents.OnChatIsRunning += HandleUIRunningStateChanged; // 추가: 구독
         }
