@@ -2,21 +2,31 @@
 using UnityEngine;
 using Photon.Pun;
 using Controller;
+using System.Collections;
 
 [RequireComponent(typeof(PlayerStat), typeof(PhotonView))]
+[RequireComponent(typeof(Animator))]
 public class AttackHandler : MonoBehaviourPun
 {
+    [Header("Attack Point")]
     [SerializeField] private Transform _AttackPoint;
-    [SerializeField] private float     _AttackRadius = 1f;
+    [SerializeField] private float _AttackRadius = 1f;
 
+    [Header("Animation")]
+    [SerializeField] AnimationClip _AttackClip;
 
+    
     private PlayerInput _Input;
     private PlayerStat  _Stat;
+    private Animator _Animator;
+    private int _AttackLayerIndex;
 
     void Awake()
     {
         _Input = GetComponent<PlayerInput>();
-        _Stat  = GetComponent<PlayerStat>();
+        _Stat = GetComponent<PlayerStat>();
+        _Animator = GetComponent<Animator>();
+        _AttackLayerIndex = _Animator.GetLayerIndex("Attack");
     }
 
     void OnEnable()
@@ -31,6 +41,16 @@ public class AttackHandler : MonoBehaviourPun
 
     private void ExecuteAttack()
     {
+        var stateInfo = _Animator.GetCurrentAnimatorStateInfo(_AttackLayerIndex);
+        var clips = _Animator.GetCurrentAnimatorClipInfo(_AttackLayerIndex);
+        if (clips.Length > 0 && clips[0].clip == _AttackClip && stateInfo.normalizedTime < 1f)
+        {
+            return;
+        }
+
+        // 애니메이션 발동
+        _Animator.SetBool("IsAttack", true);
+
         // OverlapSphere로 전방 원형 범위 내 적 탐지
         Collider[] hits = Physics.OverlapSphere(
             _AttackPoint.position,
@@ -49,6 +69,14 @@ public class AttackHandler : MonoBehaviourPun
                 break;  // 한 명만 공격
             }
         }
+
+        StartCoroutine(ResetAttackFlag(_AttackClip.length));
+    }
+
+    IEnumerator ResetAttackFlag(float animationClipLength)
+    {
+        yield return new WaitForSeconds(animationClipLength);
+        _Animator.SetBool("IsAttack", false);
     }
 
     [PunRPC]
