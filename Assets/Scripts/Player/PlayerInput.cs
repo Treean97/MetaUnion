@@ -1,11 +1,10 @@
 using System;
-using Photon.Pun;
 using UnityEngine;
 
 namespace Controller
 {
     [RequireComponent(typeof(MoveHandler))]
-    public class PlayerInput : MonoBehaviourPun
+    public class PlayerInput : MonoBehaviour
     {
         [Header("Character")]
         [SerializeField] private string m_HorizontalAxis = "Horizontal";
@@ -58,13 +57,20 @@ namespace Controller
 
         private void Update()
         {
-            if (!photonView.IsMine) return;
             if (_IsMovementBlocked) return; // 추가: 차단 상태 시 입력 방지
 
             GatherInput();
             SetInput();
 
+            if (Input.GetKeyDown(m_InteractKey))
+            {
+                OnInteract?.Invoke();
+            }
 
+            if (Input.GetKeyDown(m_AttackKey))
+            {
+                OnAttack?.Invoke();
+            }
         }
         
         public void BindCamera(PlayerCamera cam)
@@ -95,16 +101,6 @@ namespace Controller
             if (m_Camera != null)
             {
                 m_Camera.SetInput(in m_MouseDelta, m_Scroll);
-            }
-
-            if (Input.GetKeyDown(m_InteractKey))
-            {
-                OnInteract?.Invoke();
-            }
-
-            if (Input.GetKeyDown(m_AttackKey))
-            {
-                OnAttack?.Invoke();
             }
         }
     }
