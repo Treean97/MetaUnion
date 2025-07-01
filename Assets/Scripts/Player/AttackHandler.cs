@@ -12,6 +12,9 @@ public class AttackHandler : MonoBehaviourPun
     [SerializeField] private Transform _AttackPoint;
     [SerializeField] private float _AttackRadius = 1f;
 
+    [Header("Stun")]
+    [SerializeField] private float _AttackStunDuration = 1f;
+
     [Header("Animation")]
     [SerializeField] AnimationClip _AttackClip;
 
@@ -51,21 +54,31 @@ public class AttackHandler : MonoBehaviourPun
         // 애니메이션 발동
         _Animator.SetBool("IsAttack", true);
 
-        // OverlapSphere로 전방 원형 범위 내 적 탐지
-        Collider[] hits = Physics.OverlapSphere(
-            _AttackPoint.position,
-            _AttackRadius
-        );
+        Collider[] hits = Physics.OverlapSphere(_AttackPoint.position, _AttackRadius);
         foreach (var col in hits)
         {
-            if (col.TryGetComponent<IDamageable>(out var atk))
+            if (col.TryGetComponent<IDamageable>(out var dmgable))
             {
-                float dmg = _Stat.GetBaseStat(StatType.AttackPower);
+                int viewID = col.GetComponent<PhotonView>().ViewID;
+                float dmg  = _Stat.GetBaseStat(StatType.AttackPower);
 
-                photonView.RPC(nameof(RPC_DealDamage),
-                               RpcTarget.All,
-                               col.GetComponent<PhotonView>().ViewID,
-                               dmg);
+                // 데미지 RPC
+                photonView.RPC(
+                    nameof(RPC_DealDamage),
+                    RpcTarget.All,
+                    viewID,
+                    dmg
+                );
+
+                // **기절 RPC** (StatusType.Stun, 지속시간 전달)
+                photonView.RPC(
+                    nameof(RPC_ApplyStatus),
+                    RpcTarget.All,
+                    viewID,
+                    (int)StatusType.Stun,
+                    _AttackStunDuration
+                );
+
                 break;  // 한 명만 공격
             }
         }
@@ -84,6 +97,17 @@ public class AttackHandler : MonoBehaviourPun
     {
         var pv = PhotonView.Find(viewID);
         pv?.GetComponent<IDamageable>()?.Damaged(dmg);
+    }
+    
+    [PunRPC]
+    void RPC_ApplyStatus(int viewID, int statusType, float duration)
+    {
+        var pv = PhotonView.Find(viewID);
+        if (pv != null && pv.TryGetComponent<StatusEffectManager>(out var mgr))
+        {
+            // StunEffect 생성 후 적용
+            mgr.AddEffect((StatusType)statusType, duration);
+        }
     }
 
     void OnDrawGizmosSelected()

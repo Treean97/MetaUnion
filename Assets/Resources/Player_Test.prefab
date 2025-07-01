@@ -1670,6 +1670,7 @@ GameObject:
   - component: {fileID: 3751051721379943407}
   - component: {fileID: 4928708100084350539}
   - component: {fileID: 1448556797334339772}
+  - component: {fileID: 16416478344735379}
   - component: {fileID: 632782033558867164}
   - component: {fileID: 7795573317481127736}
   - component: {fileID: 6937507811026299424}
@@ -1849,6 +1850,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _AttackPoint: {fileID: 7074244965923215746}
   _AttackRadius: 0.5
+  _AttackStunDuration: 1
   _AttackClip: {fileID: -7394484345467444417, guid: 5dbb2366974668d48a42568690792034, type: 3}
 --- !u!114 &4928708100084350539
 MonoBehaviour:
@@ -1881,6 +1883,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _HitClip: {fileID: 4298968129520807213, guid: 5dbb2366974668d48a42568690792034, type: 3}
+--- !u!114 &16416478344735379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5832607453936394915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05794cc61bdd1514aa63e2a9b7928c97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _AllEffects: []
 --- !u!114 &632782033558867164
 MonoBehaviour:
   m_ObjectHideFlags: 0

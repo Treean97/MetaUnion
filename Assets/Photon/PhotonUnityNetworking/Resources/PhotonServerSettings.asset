@@ -43,6 +43,7 @@ MonoBehaviour:
   - RPC_EquipItem
   - RPC_EquipMesh
   - RPC_DealDamage
+  - RPC_ApplyStatus
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

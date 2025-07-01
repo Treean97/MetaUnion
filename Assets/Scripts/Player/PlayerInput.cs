@@ -4,6 +4,8 @@ using UnityEngine;
 namespace Controller
 {
     [RequireComponent(typeof(MoveHandler))]
+    [RequireComponent(typeof(AttackHandler))]
+    [RequireComponent(typeof(FocusHandler))]
     public class PlayerInput : MonoBehaviour
     {
         [Header("Character")]
@@ -33,21 +35,37 @@ namespace Controller
         private float m_Scroll;
 
         private bool _IsMovementBlocked; // 추가: 움직임 차단 플래그
+        private bool _IsStunnedBlocked;
+        private StatusEffectManager _StatusEffectManager;
 
         // 상호작용(Interact) 이벤트
         public event Action OnInteract;
         public event Action OnAttack;
+
 
         private void Awake()
         {
             m_Mover = GetComponent<MoveHandler>();
 
             GameEvents.OnChatIsRunning += HandleUIRunningStateChanged; // 추가: 구독
+
+            _StatusEffectManager = GetComponent<StatusEffectManager>();
+            if (_StatusEffectManager != null)
+            {
+                _StatusEffectManager.OnEffectApplied += HandleEffectApplied;
+                _StatusEffectManager.OnEffectRemoved += HandleEffectRemoved;
+            }
+        
         }
 
         private void OnDestroy()
         {
             GameEvents.OnChatIsRunning -= HandleUIRunningStateChanged; // 추가: 구독 해제
+            if (_StatusEffectManager != null)
+            {
+                _StatusEffectManager.OnEffectApplied -= HandleEffectApplied;
+                _StatusEffectManager.OnEffectRemoved -= HandleEffectRemoved;
+            }        
         }
 
         private void HandleUIRunningStateChanged(bool isRunning)
@@ -55,9 +73,25 @@ namespace Controller
             _IsMovementBlocked = isRunning; // 추가: UI가 활성화되면 움직임 차단
         }
 
+        // 기절이 걸렸을 때
+        private void HandleEffectApplied(StatusType type)
+        {
+            if (type == StatusType.Stun)
+                _IsStunnedBlocked = true;
+        }   
+    
+
+        // 기절 해제될 때
+        private void HandleEffectRemoved(StatusType type)
+        {
+            if (type == StatusType.Stun)
+                _IsStunnedBlocked = false;
+        }
+
+
         private void Update()
         {
-            if (_IsMovementBlocked) return; // 추가: 차단 상태 시 입력 방지
+            if (_IsMovementBlocked || _IsStunnedBlocked) return; // 추가: 차단 상태 시 입력 방지
 
             GatherInput();
             SetInput();
@@ -72,7 +106,7 @@ namespace Controller
                 OnAttack?.Invoke();
             }
         }
-        
+
         public void BindCamera(PlayerCamera cam)
         {
             m_Camera = cam;
