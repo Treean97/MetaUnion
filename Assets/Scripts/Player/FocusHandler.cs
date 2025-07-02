@@ -1,3 +1,4 @@
+using Controller;
 using Photon.Pun;
 using UnityEngine;
 
@@ -8,7 +9,19 @@ public class FocusHandler : MonoBehaviourPun
     [SerializeField] private Vector3 _BoxHalfExtents = new Vector3(0.5f, 0.5f, 0.5f);
     [SerializeField] private LayerMask _LayerMask;
 
+    private PlayerInput _PlayerInput;
     private IFocusable _CurrentFocus;
+
+    void Awake()
+    {
+        _PlayerInput = GetComponent<PlayerInput>();
+        _PlayerInput.OnInteract += HandleInteract;
+    }
+
+    void OnDestroy()
+    {
+        _PlayerInput.OnInteract -= HandleInteract;
+    }
 
     void Update()
     {
@@ -47,6 +60,14 @@ public class FocusHandler : MonoBehaviourPun
         {
             _CurrentFocus.OnDefocus();
             _CurrentFocus = null;
+        }
+    }
+
+    private void HandleInteract()
+    {
+        if (_CurrentFocus is IInteractable interactable)
+        {
+            interactable.OnInteract();
         }
     }
 

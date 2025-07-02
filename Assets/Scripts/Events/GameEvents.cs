@@ -101,5 +101,16 @@ public static class GameEvents
     public static event Action<CustomizeItemSO> OnRequestEquipItem;
     public static void RaiseRequestEquipItem(CustomizeItemSO item)
     => OnRequestEquipItem?.Invoke(item);
+
+    // 재화 관리
+    public static event Action<int> OnRequestAddCurrency;
+    public static void RaiseRequestAddCurrency(int amount) => OnRequestAddCurrency?.Invoke(amount);
+
+    public static event Func<int, bool> OnRequestSpendCurrency;
+    public static bool RaiseRequestSpendCurrency(int amount) => OnRequestSpendCurrency?.Invoke(amount) ?? false;
+
+    public static event Action<int> OnChangeCurrency;
+    public static void RaiseChangeCurrency(int amount) => OnChangeCurrency?.Invoke(amount);
+
     #endregion
 }
