@@ -11,4 +11,9 @@ public class CustomizeItemSO : ScriptableObject
     public string ID => _ID;
     [SerializeField] Mesh _ItemMesh;
     public Mesh ItemMesh => _ItemMesh;
+    [SerializeField] int _Price;
+    public int Price => _Price;
+
+    [SerializeField] private bool _IsDefaultUnlocked;
+    public bool IsDefaultUnlocked => _IsDefaultUnlocked;
 }

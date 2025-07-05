@@ -39,4 +39,9 @@ public class CustomizeItemPoolSO : ScriptableObject
         // 모든 그룹의 Items 리스트를 하나의 시퀀스로 합쳐서 반환
         return _ItemGroups.SelectMany(group => group.Items);
     }
+
+    public IEnumerable<CustomizeItemSO> GetDefaultUnlockedItems()
+    => _ItemGroups.SelectMany(g => g.Items)
+                  .Where(i => i.IsDefaultUnlocked);
+
 }

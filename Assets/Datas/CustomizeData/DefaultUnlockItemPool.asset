@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57e88642f2e3d0b488d60219bec2923b, type: 3}
+  m_Name: DefaultUnlockItemPool
+  m_EditorClassIdentifier: 
+  _ItemGroups:
+  - Type: 0
+    Items:
+    - {fileID: 11400000, guid: f483c1d10aecfcd4290a42bb172618da, type: 2}
+  - Type: 1
+    Items:
+    - {fileID: 11400000, guid: b09a7138d929b5b479d91dd6441ea301, type: 2}
+  - Type: 2
+    Items:
+    - {fileID: 11400000, guid: ea68735fccef8f640ad55236a1df0e7c, type: 2}
+  - Type: 3
+    Items:
+    - {fileID: 11400000, guid: 01b839948ea03414fa02b9aaa349bafa, type: 2}
+  - Type: 4
+    Items:
+    - {fileID: 11400000, guid: 96b33a2cf5915174dbe9773fcacf0021, type: 2}
+  - Type: 5
+    Items:
+    - {fileID: 11400000, guid: 2b1dd2d138f130f438cedeb69ef2bb19, type: 2}
+  - Type: 6
+    Items:
+    - {fileID: 11400000, guid: 2feaebeaf8c73a84485f079dc3b50f64, type: 2}
+  - Type: 7
+    Items:
+    - {fileID: 11400000, guid: 2b663b5128a87e849a5f5ce47369c659, type: 2}
+  - Type: 8
+    Items:
+    - {fileID: 11400000, guid: fbd1841dc7dd9ea489dd48d1998d4a5e, type: 2}
+  - Type: 9
+    Items:
+    - {fileID: 11400000, guid: 04ac1707e7d9c5e49a481f9a837452c6, type: 2}

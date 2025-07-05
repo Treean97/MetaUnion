@@ -5,7 +5,7 @@ public class CustomizeUIBtn : MonoBehaviour
 {
     [SerializeField] Button _CustomizeUIBtn;
 
-    void OnEnable()
+    void Awake()
     {
         _CustomizeUIBtn.onClick.AddListener(() => GameEvents.RaiseRequestOpenCustomizeUI());
     }

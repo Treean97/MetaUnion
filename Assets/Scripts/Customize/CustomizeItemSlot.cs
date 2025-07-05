@@ -11,6 +11,8 @@ public class CustomizeItemSlot : MonoBehaviour
 
     void Awake()
     {
+        // 버튼 리스너 초기화 (중복 등록 방지)
+        _Btn.onClick.RemoveAllListeners();
         _Btn.onClick.AddListener(OnClick);
     }
 

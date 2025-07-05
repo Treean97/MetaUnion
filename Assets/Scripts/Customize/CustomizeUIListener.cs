@@ -4,19 +4,18 @@ public class CustomizeUIListener : MonoBehaviour
 {
     [SerializeField] CustomizeUIManager _CustomizeUI;
 
-    void OnEnable()
+    void Awake()
     {
         GameEvents.OnRequestOpenCustomizeUI += HandleRequestOpenCustomUI;
     }
 
-    void OnDisable()
+    void OnDestroy()
     {
         GameEvents.OnRequestOpenCustomizeUI -= HandleRequestOpenCustomUI;
     }
 
     void HandleRequestOpenCustomUI()
     {
-
         _CustomizeUI.gameObject.SetActive(true);
     } 
 

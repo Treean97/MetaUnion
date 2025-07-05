@@ -93,24 +93,50 @@ public static class GameEvents
     public static event Action OnDefocus;
     public static void RaiseDefocus() => OnDefocus?.Invoke();
 
-    // Customize UI
+    // Customize UI 열기 요청
     public static event Action OnRequestOpenCustomizeUI;
     public static void RaiseRequestOpenCustomizeUI() => OnRequestOpenCustomizeUI?.Invoke();
 
-    // Customize Request
-    public static event Action<CustomizeItemSO> OnRequestEquipItem;
-    public static void RaiseRequestEquipItem(CustomizeItemSO item)
-    => OnRequestEquipItem?.Invoke(item);
+    // Shop UI 열기 요청
+    public static event Action OnRequestOpenShopUI;
+    public static void RaiseRequestOpenShopUI() => OnRequestOpenShopUI?.Invoke();
 
+    // 잠긴(locked) 아이템 리스트 요청 (상점용)
+    public static event Action<ItemType> OnRequestLockedItems;
+    public static void RaiseRequestLockedItems(ItemType type) => OnRequestLockedItems?.Invoke(type);
+
+    // 잠긴(locked) 아이템 리스트 제공 (상점용)
+    public static event Action<List<CustomizeItemSO>> OnProvideLockedItems;
+    public static void RaiseProvideLockedItems(List<CustomizeItemSO> items) => OnProvideLockedItems?.Invoke(items);
+
+    // 해금된(unlocked) 아이템 리스트 요청 (커스터마이즈용)
+    public static event Action<ItemType> OnRequestUnlockedItems;
+    public static void RaiseRequestUnlockedItems(ItemType type) => OnRequestUnlockedItems?.Invoke(type);
+
+    // 해금된(unlocked) 아이템 리스트 제공 (커스터마이즈용)
+    public static event Action<List<CustomizeItemSO>> OnProvideUnlockedItems;
+    public static void RaiseProvideUnlockedItems(List<CustomizeItemSO> items) => OnProvideUnlockedItems?.Invoke(items);
+
+    // 아이템 해금(구매) 요청
+    public static event Action<CustomizeItemSO> OnRequestUnlockItem;
+    public static void RaiseRequestUnlockItem(CustomizeItemSO item) => OnRequestUnlockItem?.Invoke(item);
+
+    // 아이템 장착 요청
+    public static event Action<CustomizeItemSO> OnRequestEquipItem;
+    public static void RaiseRequestEquipItem(CustomizeItemSO item) => OnRequestEquipItem?.Invoke(item);
+    
     // 재화 관리
     public static event Action<int> OnRequestAddCurrency;
-    public static void RaiseRequestAddCurrency(int amount) => OnRequestAddCurrency?.Invoke(amount);
+    public static void RaiseRequestAddCurrency(int amount)
+    => OnRequestAddCurrency?.Invoke(amount);
 
     public static event Func<int, bool> OnRequestSpendCurrency;
-    public static bool RaiseRequestSpendCurrency(int amount) => OnRequestSpendCurrency?.Invoke(amount) ?? false;
+    public static bool RaiseRequestSpendCurrency(int amount)
+    => OnRequestSpendCurrency?.Invoke(amount) ?? false;
 
     public static event Action<int> OnChangeCurrency;
-    public static void RaiseChangeCurrency(int amount) => OnChangeCurrency?.Invoke(amount);
+    public static void RaiseChangeCurrency(int amount)
+    => OnChangeCurrency?.Invoke(amount);
 
     #endregion
 }
