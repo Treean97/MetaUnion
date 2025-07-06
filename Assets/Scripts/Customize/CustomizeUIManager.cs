@@ -16,7 +16,6 @@ public class CustomizeUIManager : MonoBehaviour
     {
         // 기본 카테고리 설정
         _CurType = _ItemPool.GetFirstType();
-        gameObject.SetActive(false);
 
         // 카테고리 버튼 세팅
         for (int i = 0; i < _CategoryBtns.Count; i++)

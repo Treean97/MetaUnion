@@ -16,7 +16,6 @@ public class ShopUIManager : MonoBehaviour
     {
         // 초기 카테고리와 비활성화
         _CurType = _ItemPool.GetFirstType();
-        gameObject.SetActive(false);
 
         // 카테고리 버튼 세팅
         for (int i = 0; i < _CategoryBtns.Count; i++)

@@ -64,7 +64,6 @@ public class SlotMachineUIManager : MonoBehaviour
         _Destiny = new int[_Lanes.Length];
         _ItemCnt = _DisplayItemSlots[0].SlotObj.Count;
 
-        gameObject.SetActive(false);
     }
 
     void SetRandomInit()
