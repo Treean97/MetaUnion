@@ -18,4 +18,5 @@ public class SlotMachineUIListener : MonoBehaviour
     {
         _SlotMachineUI.gameObject.SetActive(true);
     }
+    
 }

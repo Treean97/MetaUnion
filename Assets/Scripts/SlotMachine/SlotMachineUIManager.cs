@@ -1,6 +1,8 @@
-using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,113 +10,141 @@ using UnityEngine.UI;
 public class SlotMachineUIManager : MonoBehaviour
 {
     [SerializeField] GameObject[] _Lanes;
-    [SerializeField] GameObject[] _Masks;
-    [SerializeField] private int _MaxIndex = 9;
-    [SerializeField] private float _Speed = 200f;
-    [SerializeField] private float _DefauleSpeed = 10f;
-    [SerializeField] private int   _RollTime = 20;    // 반복 사이클 수
-    private int _RequestCnt = 0;
-    bool _IsRolling = false;
 
-    [Header("Button")]
-    [SerializeField] Button _RerollBtn;
-    [SerializeField] Button _CloseBtn;
+    [SerializeField] int _MaxIndex;
 
-    // 속도 변경 이벤트
-    public static event Action<float> OnSpeedChanged;
-    public void RaiseSpeedChanged(float speed) => OnSpeedChanged?.Invoke(speed);    
+    [SerializeField] int _RollTime;
 
+    int _ItemCnt = 0;
 
+    int GetRandom(int minIndex, int maxIndex) => UnityEngine.Random.Range(minIndex, maxIndex);
+
+    [System.Serializable]
+    public class DisplayItemSlot
+    {
+        public List<GameObject> SlotObj = new List<GameObject>();
+    }
+    public DisplayItemSlot[] _DisplayItemSlots;
+    [SerializeField] private int[] _Destiny;
+
+    private bool _IsRolling = false;
+
+    [Header("Button Setting")]
+    [SerializeField] private Button _RerollBtn;
+    [SerializeField] private Button _CloseBtn;
 
     void Awake()
     {
-        _RerollBtn.onClick.AddListener(RerollBtn);
-        _CloseBtn.onClick.AddListener(CloseBtn);
+        _RerollBtn.onClick.AddListener(OnClickRerollBtn);
+        _CloseBtn.onClick.AddListener(OnClickCloseBtn);
     }
 
-    void OnEnable()
+    void OnClickRerollBtn()
     {
-        // 초기 속도 설정
-        RaiseSpeedChanged(_DefauleSpeed);
-        SlotElement.OnRequestInfo += HandleRequestInfo;
+        Reroll();
     }
 
-    void OnDisable()
+    void OnClickCloseBtn()
     {
-        SlotElement.OnRequestInfo -= HandleRequestInfo;
+        gameObject.SetActive(false);
     }
 
-    void Update()
+
+    // 결정된 값
+    void GetDestiny()
     {
-        // 돌아가는 중이고, 일정 바퀴수를 채웠다면
-        if (_RequestCnt >= _RollTime && _IsRolling)
+        for (int i = 0; i < _Destiny.Length; i++)
         {
-            RaiseSpeedChanged(0);
-            GetResult();
+            _Destiny[i] = GetRandom(0, _MaxIndex);
         }
     }
 
-    void GetResult()
+    void Start()
     {
-        for (int i = 0; i < _Lanes.Length; i++)
-        {
-            Transform lane = _Lanes[i].transform;
-            RectTransform maskRect = _Masks[i].GetComponent<RectTransform>();
-
-            // 마스크 중앙의 월드 위치를 레인 로컬 좌표로 변환
-            Vector3 worldCenter = maskRect.transform.position;
-            Vector3 localCenter = lane.InverseTransformPoint(worldCenter);
-            float centerY = localCenter.y;
-
-            // 중앙에 가장 가까운 슬롯 찾기
-            Transform closest = null;
-            float minDist = float.MaxValue;
-            foreach (Transform slot in lane)
-            {
-                float dist = Mathf.Abs(slot.localPosition.y - centerY);
-                if (dist < minDist)
-                {
-                    minDist = dist;
-                    closest = slot;
-                }
-            }
-
-            if (closest != null)
-            {
-                var textComp = closest.GetComponentInChildren<TMP_Text>();
-                Debug.Log($"Lane {i} result: {textComp.text}");
-            }
-        }
-    }
-
-    void HandleRequestInfo(GameObject obj)
-    {
-        obj.GetComponent<SlotElement>().SetInfo(GetRandom());
-        // 할당 카운트 추가
-        AddCount();
-    }
-
-    void RerollBtn()
-    {
-        if (_IsRolling) return;
-        _IsRolling = true;
-
-        // 스핀 시작 속도 설정
-        RaiseSpeedChanged(_Speed);
-
-        // 카운트 초기화
-        _RequestCnt = 0;
-    }
-
-    void AddCount() => _RequestCnt++;    
-
-
-    void CloseBtn()
-    {
-        if (_IsRolling) return;
+        _Destiny = new int[_Lanes.Length];
+        _ItemCnt = _DisplayItemSlots[0].SlotObj.Count;
 
         gameObject.SetActive(false);
     }
 
-    int GetRandom() => UnityEngine.Random.Range(0, _MaxIndex);
+    void SetRandomInit()
+    {
+        for (int i = 0; i < _Lanes.Length; i++)
+        {
+            // 마지막 전 까지 랜덤
+            for (int j = 0; j < _ItemCnt - 1; j++)
+            {
+                _DisplayItemSlots[i].SlotObj[j].GetComponentInChildren<TMP_Text>().text
+                = GetRandom(0, _MaxIndex).ToString();
+            }
+            // 마지막은 첫번째와 같음
+            _DisplayItemSlots[i].SlotObj[_ItemCnt - 1].GetComponentInChildren<TMP_Text>().text
+            = _DisplayItemSlots[i].SlotObj[0].GetComponentInChildren<TMP_Text>().text;
+        }
+
+        SetDestiny();
+    }
+
+    void SetDestiny()
+    {
+        for (int i = 0; i < _Destiny.Length; i++)
+        {
+            _DisplayItemSlots[i].SlotObj[0].GetComponentInChildren<TMP_Text>().text
+            = _Destiny[i].ToString();
+        }
+    }
+
+    void SetRandom()
+    { 
+        for (int i = 0; i < _Lanes.Length; i++)
+        {
+            // 1 ~ 마지막-1 까지 랜덤
+            for (int j = 1; j < _ItemCnt - 1; j++)
+            {
+                _DisplayItemSlots[i].SlotObj[j].GetComponentInChildren<TMP_Text>().text
+                = GetRandom(0, _MaxIndex).ToString();
+            }            
+        }
+    }
+
+    void Reroll()
+    {
+        if (_IsRolling) return;
+
+        GetDestiny();
+        SetRandomInit();       
+
+        for (int i = 0; i < _Lanes.Length; i++)
+        {
+            StartCoroutine(StartRoll(i));
+        }
+    }
+
+    IEnumerator StartRoll(int slotIndex)
+    {
+        _IsRolling = true;
+
+        // 인덱스 별 바퀴 수
+        for (int i = 0; i < _RollTime * (slotIndex + 1); i++)
+        {
+            // 2번 움직임에 1칸 이동이고, 처음과 마지막은 같으니 (_ItemCnt - 1) * 2
+            for (int j = 0; j < (_ItemCnt - 1) * 2; j++)
+            {
+                _Lanes[slotIndex].transform.localPosition -= new Vector3(0, 50f, 0);
+                if (_Lanes[slotIndex].transform.localPosition.y < 0)
+                {
+                    _Lanes[slotIndex].transform.localPosition
+                    += new Vector3(0, (_ItemCnt - 1) * 100f, 0);
+                }
+                yield return new WaitForSeconds(0.05f);
+
+            }
+
+            SetRandom();
+        }
+
+        _IsRolling = false;
+    }
+    
+
 }
