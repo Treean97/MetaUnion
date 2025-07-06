@@ -17,6 +17,7 @@ public class InteractableObjectTest : MonoBehaviour, IInteractable
 
     public void OnInteract()
     {
+        GameEvents.RaiseRequestOpenSlotMachineUI();
         Debug.Log("Interact");
     }
 

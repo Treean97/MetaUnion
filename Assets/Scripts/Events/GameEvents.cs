@@ -124,7 +124,7 @@ public static class GameEvents
     // 아이템 장착 요청
     public static event Action<CustomizeItemSO> OnRequestEquipItem;
     public static void RaiseRequestEquipItem(CustomizeItemSO item) => OnRequestEquipItem?.Invoke(item);
-    
+
     // 재화 관리
     public static event Action<int> OnRequestAddCurrency;
     public static void RaiseRequestAddCurrency(int amount)
@@ -137,6 +137,13 @@ public static class GameEvents
     public static event Action<int> OnChangeCurrency;
     public static void RaiseChangeCurrency(int amount)
     => OnChangeCurrency?.Invoke(amount);
+
+    // 슬롯머신 UI 요청
+    public static event Action OnRequestOpenSlotMachineUI;
+    public static void RaiseRequestOpenSlotMachineUI()
+    => OnRequestOpenSlotMachineUI?.Invoke();
+
+
 
     #endregion
 }
