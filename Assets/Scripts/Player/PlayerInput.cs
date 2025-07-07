@@ -47,7 +47,7 @@ namespace Controller
         {
             m_Mover = GetComponent<MoveHandler>();
 
-            GameEvents.OnChatIsRunning += HandleUIRunningStateChanged; // 추가: 구독
+            InputBlock.OnInputBlockStatus += HandleUIRunningStateChanged; // 추가: 구독
 
             _StatusEffectManager = GetComponent<StatusEffectManager>();
             if (_StatusEffectManager != null)
@@ -55,12 +55,12 @@ namespace Controller
                 _StatusEffectManager.OnEffectApplied += HandleEffectApplied;
                 _StatusEffectManager.OnEffectRemoved += HandleEffectRemoved;
             }
-        
+
         }
 
         private void OnDestroy()
         {
-            GameEvents.OnChatIsRunning -= HandleUIRunningStateChanged; // 추가: 구독 해제
+            InputBlock.OnInputBlockStatus -= HandleUIRunningStateChanged; // 추가: 구독 해제
             if (_StatusEffectManager != null)
             {
                 _StatusEffectManager.OnEffectApplied -= HandleEffectApplied;
@@ -68,9 +68,9 @@ namespace Controller
             }        
         }
 
-        private void HandleUIRunningStateChanged(bool isRunning)
+        private void HandleUIRunningStateChanged(bool isBlocked)
         {
-            _IsMovementBlocked = isRunning; // 추가: UI가 활성화되면 움직임 차단
+            _IsMovementBlocked = isBlocked; // 추가: UI가 활성화되면 움직임 차단
         }
 
         // 기절이 걸렸을 때

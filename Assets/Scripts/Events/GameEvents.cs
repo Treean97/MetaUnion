@@ -45,7 +45,8 @@ public static class GameEvents
     // 방 생성 UI 요청
     public static event Action OnRequestOpenCreateRoomUI;
     // 방 생성 UI 요청
-    public static void RaiseRequestOpenCreateRoomUI() => OnRequestOpenCreateRoomUI?.Invoke();
+    public static void RaiseRequestOpenCreateRoomUI()
+    => OnRequestOpenCreateRoomUI?.Invoke();
 
     // 방 생성 UI 열림
     public static event Action OnOpenCreateRoomUI;
@@ -55,7 +56,8 @@ public static class GameEvents
     // 방 입장 요청
     public static event Action<RoomInfo> OnRequestJoinRoom;
     // 방 입장 요청
-    public static void RaiseRequestJoinRoom(RoomInfo info) => OnRequestJoinRoom?.Invoke(info);
+    public static void RaiseRequestJoinRoom(RoomInfo info)
+    => OnRequestJoinRoom?.Invoke(info);
 
     // 방 입장 성공
     public static event Action OnJoinRoomSuccess;
@@ -65,12 +67,14 @@ public static class GameEvents
     // 업데이트된 방 목록 전달
     public static event Action<List<RoomInfo>> OnRoomListUpdated;
     // 방 목록 갱신
-    public static void RaiseRoomListUpdate(List<RoomInfo> roomList) => OnRoomListUpdated?.Invoke(roomList);
+    public static void RaiseRoomListUpdate(List<RoomInfo> roomList)
+    => OnRoomListUpdated?.Invoke(roomList);
 
     // 방 선택
     public static event Action<RoomInfo> OnSelectRoom;
     // 방 선택
-    public static void RaiseRoomSelect(RoomInfo info) => OnSelectRoom?.Invoke(info);
+    public static void RaiseRoomSelect(RoomInfo info)
+    => OnSelectRoom?.Invoke(info);
 
     // 방 나가기
     public static event Action OnLeaveRoom;
@@ -79,15 +83,11 @@ public static class GameEvents
 
     #endregion
 
-    #region 게임 화면 이벤트
-
-    // 채팅UI 포커스
-    public static event Action<bool> OnChatIsRunning;
-    public static void RaiseUIIsRunning(bool isRun) => OnChatIsRunning?.Invoke(isRun);
-
+    #region 게임 화면 이벤트  
     // Focus UI 호출
     public static event Action<ObjectInfoSO> OnFocus;
-    public static void RaiseFocus(ObjectInfoSO objInfo) => OnFocus?.Invoke(objInfo);
+    public static void RaiseFocus(ObjectInfoSO objInfo)
+    => OnFocus?.Invoke(objInfo);
 
     // Focus UI 해제
     public static event Action OnDefocus;
@@ -95,35 +95,47 @@ public static class GameEvents
 
     // Customize UI 열기 요청
     public static event Action OnRequestOpenCustomizeUI;
-    public static void RaiseRequestOpenCustomizeUI() => OnRequestOpenCustomizeUI?.Invoke();
+    public static void RaiseRequestOpenCustomizeUI()
+    => OnRequestOpenCustomizeUI?.Invoke();
 
     // Shop UI 열기 요청
     public static event Action OnRequestOpenShopUI;
-    public static void RaiseRequestOpenShopUI() => OnRequestOpenShopUI?.Invoke();
+    public static void RaiseRequestOpenShopUI()
+    => OnRequestOpenShopUI?.Invoke();
 
     // 잠긴(locked) 아이템 리스트 요청 (상점용)
     public static event Action<ItemType> OnRequestLockedItems;
-    public static void RaiseRequestLockedItems(ItemType type) => OnRequestLockedItems?.Invoke(type);
+    public static void RaiseRequestLockedItems(ItemType type)
+    => OnRequestLockedItems?.Invoke(type);
 
     // 잠긴(locked) 아이템 리스트 제공 (상점용)
     public static event Action<List<CustomizeItemSO>> OnProvideLockedItems;
-    public static void RaiseProvideLockedItems(List<CustomizeItemSO> items) => OnProvideLockedItems?.Invoke(items);
+    public static void RaiseProvideLockedItems(List<CustomizeItemSO> items)
+    => OnProvideLockedItems?.Invoke(items);
 
     // 해금된(unlocked) 아이템 리스트 요청 (커스터마이즈용)
     public static event Action<ItemType> OnRequestUnlockedItems;
-    public static void RaiseRequestUnlockedItems(ItemType type) => OnRequestUnlockedItems?.Invoke(type);
+    public static void RaiseRequestUnlockedItems(ItemType type)
+    => OnRequestUnlockedItems?.Invoke(type);
 
     // 해금된(unlocked) 아이템 리스트 제공 (커스터마이즈용)
     public static event Action<List<CustomizeItemSO>> OnProvideUnlockedItems;
-    public static void RaiseProvideUnlockedItems(List<CustomizeItemSO> items) => OnProvideUnlockedItems?.Invoke(items);
+    public static void RaiseProvideUnlockedItems(List<CustomizeItemSO> items)
+    => OnProvideUnlockedItems?.Invoke(items);
 
     // 아이템 해금(구매) 요청
     public static event Action<CustomizeItemSO> OnRequestUnlockItem;
-    public static void RaiseRequestUnlockItem(CustomizeItemSO item) => OnRequestUnlockItem?.Invoke(item);
+    public static void RaiseRequestUnlockItem(CustomizeItemSO item)
+    => OnRequestUnlockItem?.Invoke(item);
+
+    public static event Action OnItemPurchaseSuccess;
+    public static void RaiseItemPurchaseSuccess()
+    => OnItemPurchaseSuccess?.Invoke();
 
     // 아이템 장착 요청
     public static event Action<CustomizeItemSO> OnRequestEquipItem;
-    public static void RaiseRequestEquipItem(CustomizeItemSO item) => OnRequestEquipItem?.Invoke(item);
+    public static void RaiseRequestEquipItem(CustomizeItemSO item)
+    => OnRequestEquipItem?.Invoke(item);
 
     // 재화 관리
     public static event Action<int> OnRequestAddCurrency;

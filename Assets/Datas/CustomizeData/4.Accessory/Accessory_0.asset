@@ -15,3 +15,5 @@ MonoBehaviour:
   _Type: 3
   _ID: Accessory_0
   _ItemMesh: {fileID: 7061910613977320673, guid: 9ca093b63b32bc6479e8706c849e1ee2, type: 3}
+  _Price: 0
+  _IsDefaultUnlocked: 1

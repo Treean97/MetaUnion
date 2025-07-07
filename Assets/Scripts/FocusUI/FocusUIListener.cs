@@ -3,6 +3,7 @@ using UnityEngine;
 public class FocusUIListener : MonoBehaviour
 {
     [SerializeField] FocusUIManager _FocusUIPanel;
+    private bool _IsBlocked;
 
     void OnEnable()
     {
@@ -19,7 +20,9 @@ public class FocusUIListener : MonoBehaviour
     }
 
     private void HandleFocus(ObjectInfoSO objInfo)
-    {                
+    {
+        if(_IsBlocked) return;
+        
         _FocusUIPanel.Show(objInfo);
         _FocusUIPanel.gameObject.SetActive(true);
     }

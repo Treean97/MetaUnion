@@ -15,3 +15,5 @@ MonoBehaviour:
   _Type: 5
   _ID: Outwear_0
   _ItemMesh: {fileID: 1617087265200637012, guid: e79b799a85000cd4ea6d2332153cbd7b, type: 3}
+  _Price: 0
+  _IsDefaultUnlocked: 1

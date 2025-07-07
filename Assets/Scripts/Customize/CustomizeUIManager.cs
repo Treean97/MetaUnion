@@ -31,10 +31,14 @@ public class CustomizeUIManager : MonoBehaviour
     void OnEnable()
     {
         Debug.Log("[CustomizeUI] OnEnable: 요청한 카테고리 = " + _CurType);
+        // UI 켜짐(입력제한)
+        InputBlock.BlockInput();
         // 해금된 아이템 리스트 받기
         GameEvents.OnProvideUnlockedItems += HandleProvideItems;
         // 장착 요청 받기
         GameEvents.OnRequestEquipItem   += HandleEquipItem;
+        // 아이템 구매 성공 시 리스트 갱신
+        GameEvents.OnItemPurchaseSuccess += HandlePurchaseSueecss;
 
         // 리스트 요청
         GameEvents.RaiseRequestUnlockedItems(_CurType);
@@ -42,8 +46,10 @@ public class CustomizeUIManager : MonoBehaviour
 
     void OnDisable()
     {
+        InputBlock.UnblockInput();
         GameEvents.OnProvideUnlockedItems -= HandleProvideItems;
-        GameEvents.OnRequestEquipItem   -= HandleEquipItem;
+        GameEvents.OnRequestEquipItem -= HandleEquipItem;
+        GameEvents.OnItemPurchaseSuccess -= HandlePurchaseSueecss;
     }
 
     private void ChangeCategory(ItemType type)
@@ -53,6 +59,12 @@ public class CustomizeUIManager : MonoBehaviour
         Debug.Log("[CustomizeUI] ChangeCategory: 새 카테고리 = " + _CurType);
         GameEvents.RaiseRequestUnlockedItems(_CurType);
     }
+
+    void HandlePurchaseSueecss()
+    {
+        GameEvents.RaiseRequestLockedItems(_CurType);
+    }
+
 
     private void HandleProvideItems(List<CustomizeItemSO> items)
     {

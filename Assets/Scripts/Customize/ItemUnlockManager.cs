@@ -85,6 +85,7 @@ public class ItemUnlockManager : MonoBehaviourPunCallbacks
         _Unlocked.Add(item.ID);
         OnItemUnlocked?.Invoke(item);
         SaveUnlockedToPhoton();
+        GameEvents.RaiseItemPurchaseSuccess();
     }
 
     void SaveUnlockedToPhoton()

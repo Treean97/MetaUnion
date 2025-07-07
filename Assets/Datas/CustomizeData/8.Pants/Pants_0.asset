@@ -15,3 +15,5 @@ MonoBehaviour:
   _Type: 7
   _ID: Pants_0
   _ItemMesh: {fileID: -987022824948863293, guid: 0f24f9714abd24a4596c28822aaa7a39, type: 3}
+  _Price: 0
+  _IsDefaultUnlocked: 1

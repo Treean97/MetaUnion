@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -33,10 +32,27 @@ public class SlotMachineUIManager : MonoBehaviour
     [SerializeField] private Button _RerollBtn;
     [SerializeField] private Button _CloseBtn;
 
+    [Header("Betting")]
+    [SerializeField] private TMP_InputField _MoneyInputField;
+    private int _BettingMoney;
+    [SerializeField] private int _3Match;
+    [SerializeField] private int _2Match;
+    
+
     void Awake()
     {
         _RerollBtn.onClick.AddListener(OnClickRerollBtn);
         _CloseBtn.onClick.AddListener(OnClickCloseBtn);
+    }
+
+    void OnEnable()
+    {        
+        InputBlock.BlockInput();
+    }
+
+    void OnDisable()
+    {
+        InputBlock.UnblockInput();   
     }
 
     void OnClickRerollBtn()
@@ -63,7 +79,7 @@ public class SlotMachineUIManager : MonoBehaviour
     {
         _Destiny = new int[_Lanes.Length];
         _ItemCnt = _DisplayItemSlots[0].SlotObj.Count;
-
+        _MoneyInputField.characterValidation = TMP_InputField.CharacterValidation.Digit;
     }
 
     void SetRandomInit()
@@ -94,7 +110,7 @@ public class SlotMachineUIManager : MonoBehaviour
     }
 
     void SetRandom()
-    { 
+    {
         for (int i = 0; i < _Lanes.Length; i++)
         {
             // 1 ~ 마지막-1 까지 랜덤
@@ -102,16 +118,25 @@ public class SlotMachineUIManager : MonoBehaviour
             {
                 _DisplayItemSlots[i].SlotObj[j].GetComponentInChildren<TMP_Text>().text
                 = GetRandom(0, _MaxIndex).ToString();
-            }            
+            }
         }
     }
 
     void Reroll()
     {
+        // 이미 돌아가고 있으면 안됨
         if (_IsRolling) return;
 
+        // 베팅 실패 시 안됨(잔여금 부족)
+        if (!SetBettingMoney())
+        {
+            return;
+        }
+        
+        // 결과 값 결정
         GetDestiny();
-        SetRandomInit();       
+        // 룰렛 초기화
+        SetRandomInit();
 
         for (int i = 0; i < _Lanes.Length; i++)
         {
@@ -121,7 +146,9 @@ public class SlotMachineUIManager : MonoBehaviour
 
     IEnumerator StartRoll(int slotIndex)
     {
+        // 돌아가는 중 다시 돌리기 방지
         _IsRolling = true;
+
 
         // 인덱스 별 바퀴 수
         for (int i = 0; i < _RollTime * (slotIndex + 1); i++)
@@ -142,8 +169,65 @@ public class SlotMachineUIManager : MonoBehaviour
             SetRandom();
         }
 
-        _IsRolling = false;
-    }
-    
 
+        // 마지막 룰렛이 종료될 때만 실행
+        if (slotIndex == _Lanes.Length - 1)
+        {
+            GetReward();
+            _IsRolling = false;
+        }        
+    }
+
+    bool SetBettingMoney()
+    {
+        // 값을 입력 안했을 경우
+        if (string.IsNullOrWhiteSpace(_MoneyInputField.text))
+        {
+            // 경고 메세지 출력
+            GameEvents.RaiseShowWarning("Need Betting!!");
+            return false;
+        }
+
+        _BettingMoney = int.Parse(_MoneyInputField.text.ToString());
+
+        // 0 원 입력
+        if (_BettingMoney == 0)
+        {
+            // 경고 메세지 출력
+            GameEvents.RaiseShowWarning("Can`t 0 Betting!!");
+            return false;
+        }
+
+        if (!GameEvents.RaiseRequestSpendCurrency(_BettingMoney))
+            {
+                return false;
+            }
+
+        // 넣은 돈 수정 불가
+        _MoneyInputField.interactable = false;
+
+        return true;
+    }
+
+
+    // _Destiny 기반으로 같은 수 3개면 3Match , 2개면 2Match 배율
+    void GetReward()
+    {
+        var groups = _Destiny.GroupBy(x => x);
+        var maxCount = groups.Max(g => g.Count());
+
+        switch (maxCount)
+        {
+            case 3:
+                GameEvents.RaiseRequestAddCurrency(_BettingMoney * _3Match);
+                break;
+            case 2:
+                GameEvents.RaiseRequestAddCurrency(_BettingMoney * _2Match);
+                break;
+            default:
+                break;
+        }
+
+        _MoneyInputField.interactable = true;    
+    }
 }

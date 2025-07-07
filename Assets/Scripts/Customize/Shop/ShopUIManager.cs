@@ -29,14 +29,21 @@ public class ShopUIManager : MonoBehaviour
 
     void OnEnable()
     {
+        // UI 켜짐(입력제한)
+        InputBlock.BlockInput();
+        // 잠긴 아이템 리스트 요청
         GameEvents.OnProvideLockedItems += HandleProvideItems;
         // 활성화될 때 현재 카테고리 요청
         GameEvents.RaiseRequestLockedItems(_CurType);
+        // 상점 구매 시 카테고리 갱신을 위한 이벤트
+        GameEvents.OnItemPurchaseSuccess += HandlePurchaseSueecss;
     }
 
     void OnDisable()
     {
+        InputBlock.UnblockInput();
         GameEvents.OnProvideLockedItems -= HandleProvideItems;
+        GameEvents.OnItemPurchaseSuccess -= HandlePurchaseSueecss;
     }
 
     void ChangeCategory(ItemType type)
@@ -46,28 +53,34 @@ public class ShopUIManager : MonoBehaviour
         GameEvents.RaiseRequestLockedItems(_CurType);
     }
 
-    void HandleProvideItems(List<CustomizeItemSO> items)
-{
-    // 기존 슬롯 제거
-    foreach (Transform c in _Contents)
-        Destroy(c.gameObject);
-
-    foreach (var item in items)
+    void HandlePurchaseSueecss()
     {
-        // 1) 프리팹 인스턴스 생성
-        var go = Instantiate(_SlotPrefab, _Contents);
-
-        // 2) ShopItemSlot 컴포넌트 꺼내기
-        var slot = go.GetComponent<ShopItemSlot>();
-        if (slot == null)
-        {
-            Debug.LogError("[ShopUIManager] Slot Prefab에 ShopItemSlot 컴포넌트가 없습니다!");
-            continue;
-        }
-
-        // 3) 슬롯 세팅 (이 안에서 버튼 클릭 리스너까지 모두 처리됨)
-        slot.Setup(item);
+        GameEvents.RaiseRequestLockedItems(_CurType);
     }
-}
+
+    void HandleProvideItems(List<CustomizeItemSO> items)
+    {
+        // 기존 슬롯 제거
+        foreach (Transform c in _Contents)
+            Destroy(c.gameObject);
+
+        foreach (var item in items)
+        {
+            // 1) 프리팹 인스턴스 생성
+            var go = Instantiate(_SlotPrefab, _Contents);
+
+            // 2) ShopItemSlot 컴포넌트 꺼내기
+            var slot = go.GetComponent<ShopItemSlot>();
+            if (slot == null)
+            {
+                Debug.LogError("[ShopUIManager] Slot Prefab에 ShopItemSlot 컴포넌트가 없습니다!");
+                continue;
+            }
+
+            // 3) 슬롯 세팅 (이 안에서 버튼 클릭 리스너까지 모두 처리됨)
+            slot.Setup(item);
+        }
+    }
+
 
 }

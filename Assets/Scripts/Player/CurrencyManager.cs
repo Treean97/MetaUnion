@@ -35,7 +35,11 @@ public class CurrencyManager : MonoBehaviour
 
     bool SpendGold(int amount)
     {
-        if (_Gold < amount) return false;
+        if (_Gold < amount)
+        {
+            GameEvents.RaiseShowWarning("Not Enough Money!!");
+            return false;
+        }
 
         _Gold -= amount;
         GameEvents.RaiseChangeCurrency(_Gold);

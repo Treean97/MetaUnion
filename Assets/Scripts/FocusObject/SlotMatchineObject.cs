@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class InteractableObjectTest : MonoBehaviour, IInteractable
+public class SlotMatchineObject : MonoBehaviour, IInteractable
 {
     [SerializeField]
     ObjectInfoSO _ObjInfo;
@@ -18,6 +18,7 @@ public class InteractableObjectTest : MonoBehaviour, IInteractable
     public void OnInteract()
     {
         GameEvents.RaiseRequestOpenSlotMachineUI();
+        OnDefocus();
         Debug.Log("Interact");
     }
 
