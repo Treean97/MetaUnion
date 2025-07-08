@@ -1838,6 +1838,9 @@ MonoBehaviour:
   m_MouseScroll: Mouse ScrollWheel
   m_InteractKey: 101
   m_AttackKey: 323
+  m_Handkey: 49
+  m_Axekey: 50
+  m_Pickaxekey: 51
 --- !u!114 &1229482598479855776
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1850,7 +1853,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9a74f38aacbc854da46fe0f755e7f5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _statsSO: {fileID: 11400000, guid: 57e915e6a049d3144bcc19300facea47, type: 2}
+  _StatsSO: {fileID: 11400000, guid: 57e915e6a049d3144bcc19300facea47, type: 2}
 --- !u!114 &3751051721379943407
 MonoBehaviour:
   m_ObjectHideFlags: 0

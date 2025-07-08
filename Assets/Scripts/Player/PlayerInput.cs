@@ -23,6 +23,9 @@ namespace Controller
         [Header("Input")]
         [SerializeField] private KeyCode m_InteractKey = KeyCode.E;
         [SerializeField] private KeyCode m_AttackKey = KeyCode.Mouse0;
+        [SerializeField] private KeyCode m_Handkey = KeyCode.Alpha1;
+        [SerializeField] private KeyCode m_Axekey = KeyCode.Alpha2;
+        [SerializeField] private KeyCode m_Pickaxekey = KeyCode.Alpha3;
 
         private MoveHandler m_Mover;
 
@@ -42,6 +45,8 @@ namespace Controller
         public event Action OnInteract;
         public event Action OnAttack;
 
+        // 무기 상태 변경 이벤트
+        public event Action<IWeaponState> OnWeaponChange;
 
         private void Awake()
         {
@@ -71,6 +76,10 @@ namespace Controller
         private void HandleUIRunningStateChanged(bool isBlocked)
         {
             _IsMovementBlocked = isBlocked; // 추가: UI가 활성화되면 움직임 차단
+
+            // 움직임 0으로 
+            m_Axis = Vector3.zero;
+
         }
 
         // 기절이 걸렸을 때
@@ -95,16 +104,6 @@ namespace Controller
 
             GatherInput();
             SetInput();
-
-            if (Input.GetKeyDown(m_InteractKey))
-            {
-                OnInteract?.Invoke();
-            }
-
-            if (Input.GetKeyDown(m_AttackKey))
-            {
-                OnAttack?.Invoke();
-            }
         }
 
         public void BindCamera(PlayerCamera cam)
@@ -123,6 +122,31 @@ namespace Controller
             m_Target = (m_Camera == null) ? Vector3.zero : m_Camera.Target;
             m_MouseDelta = new Vector2(Input.GetAxis(m_MouseX), Input.GetAxis(m_MouseY));
             m_Scroll = Input.GetAxis(m_MouseScroll);
+            
+            if (Input.GetKeyDown(m_InteractKey))
+            {
+                OnInteract?.Invoke();
+            }
+
+            if (Input.GetKeyDown(m_AttackKey))
+            {
+                OnAttack?.Invoke();
+            }
+
+            if (Input.GetKeyDown(m_Handkey))
+            {
+                OnWeaponChange?.Invoke(new HandState());
+            }
+
+            if (Input.GetKeyDown(m_Axekey))
+            {
+                OnWeaponChange?.Invoke(new AxeState());
+            }
+
+            if (Input.GetKeyDown(m_Pickaxekey))
+            {
+                OnWeaponChange?.Invoke(new PickaxeState());
+            }
         }
 
         public void SetInput()

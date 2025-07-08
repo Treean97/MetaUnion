@@ -8,21 +8,44 @@ using System.Collections;
 [RequireComponent(typeof(Animator))]
 public class AttackHandler : MonoBehaviourPun
 {
+
     [Header("Attack Point")]
-    [SerializeField] private Transform _AttackPoint;
-    [SerializeField] private float _AttackRadius = 1f;
+    [SerializeField] internal Transform _AttackPoint;
+    [SerializeField] internal float _AttackRadius = 1f;
 
     [Header("Stun")]
-    [SerializeField] private float _AttackStunDuration = 1f;
+    [SerializeField] internal float _AttackStunDuration = 1f;
 
     [Header("Animation")]
-    [SerializeField] AnimationClip _AttackClip;
-
+    [SerializeField] internal AnimationClip _AttackClip;
+    internal Animator _Animator;    
+    internal PlayerInput _Input;
+    internal PlayerStat  _Stat;
     
-    private PlayerInput _Input;
-    private PlayerStat  _Stat;
-    private Animator _Animator;
     private int _AttackLayerIndex;
+    
+    private IWeaponState _CurrentState;
+
+    // 상태 전환 메서드
+    public void ChangeState(IWeaponState newState)
+    {
+        _CurrentState?.ExitState(this);
+        _CurrentState = newState;
+        _CurrentState.EnterState(this);
+
+        Debug.Log($"ChageState : {_CurrentState}");
+    }
+
+    void OnEnable()
+    {
+        _Input.OnAttack += () => _CurrentState?.ExecuteAttack(this);
+        _Input.OnWeaponChange += ChangeState;
+    }
+    void OnDisable()
+    {
+        _Input.OnAttack -= () => _CurrentState?.ExecuteAttack(this);
+        _Input.OnWeaponChange -= ChangeState;
+    }
 
     void Awake()
     {
@@ -32,75 +55,34 @@ public class AttackHandler : MonoBehaviourPun
         _AttackLayerIndex = _Animator.GetLayerIndex("Attack");
     }
 
-    void OnEnable()
+    void Start()
     {
-        _Input.OnAttack += ExecuteAttack;
+        var handState = new HandState();
+        ChangeState(handState);
     }
 
-    void OnDisable()
-    {
-        _Input.OnAttack -= ExecuteAttack;
-    }
-
-    private void ExecuteAttack()
-    {
-        var stateInfo = _Animator.GetCurrentAnimatorStateInfo(_AttackLayerIndex);
-        var clips = _Animator.GetCurrentAnimatorClipInfo(_AttackLayerIndex);
-        if (clips.Length > 0 && clips[0].clip == _AttackClip && stateInfo.normalizedTime < 1f)
-        {
-            return;
-        }
-
-        // 애니메이션 발동
-        _Animator.SetBool("IsAttack", true);
-
-        Collider[] hits = Physics.OverlapSphere(_AttackPoint.position, _AttackRadius);
-        foreach (var col in hits)
-        {
-            if (col.TryGetComponent<IDamageable>(out var dmgable))
-            {
-                int viewID = col.GetComponent<PhotonView>().ViewID;
-                float dmg  = _Stat.GetBaseStat(StatType.AttackPower);
-
-                // 데미지 RPC
-                photonView.RPC(
-                    nameof(RPC_DealDamage),
-                    RpcTarget.All,
-                    viewID,
-                    dmg
-                );
-
-                // **기절 RPC** (StatusType.Stun, 지속시간 전달)
-                photonView.RPC(
-                    nameof(RPC_ApplyStatus),
-                    RpcTarget.All,
-                    viewID,
-                    (int)StatusType.Stun,
-                    _AttackStunDuration
-                );
-
-                break;  // 한 명만 공격
-            }
-        }
-
-        StartCoroutine(ResetAttackFlag(_AttackClip.length));
-    }
-
-    IEnumerator ResetAttackFlag(float animationClipLength)
+    internal IEnumerator ResetAttackFlag(float animationClipLength)
     {
         yield return new WaitForSeconds(animationClipLength);
         _Animator.SetBool("IsAttack", false);
     }
 
     [PunRPC]
-    void RPC_DealDamage(int viewID, float dmg)
+    internal void RPC_DealDamage(int viewID, float dmg)
     {
         var pv = PhotonView.Find(viewID);
         pv?.GetComponent<IDamageable>()?.Damaged(dmg);
     }
+
+    [PunRPC]
+    internal void RPC_HarvestResource(int viewID, float power)
+    {
+        var pv = PhotonView.Find(viewID);
+        pv?.GetComponent<IHarvestable>()?.Harvest(power);
+    }
     
     [PunRPC]
-    void RPC_ApplyStatus(int viewID, int statusType, float duration)
+    internal void RPC_ApplyStatus(int viewID, int statusType, float duration)
     {
         var pv = PhotonView.Find(viewID);
         if (pv != null && pv.TryGetComponent<StatusEffectManager>(out var mgr))
@@ -110,9 +92,4 @@ public class AttackHandler : MonoBehaviourPun
         }
     }
 
-    void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(_AttackPoint.position, _AttackRadius);
-    }
 }

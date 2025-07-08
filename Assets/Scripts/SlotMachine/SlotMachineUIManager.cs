@@ -62,6 +62,8 @@ public class SlotMachineUIManager : MonoBehaviour
 
     void OnClickCloseBtn()
     {
+        if (_IsRolling) return;
+
         gameObject.SetActive(false);
     }
 

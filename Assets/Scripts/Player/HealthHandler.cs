@@ -8,18 +8,12 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public class HealthHandler : MonoBehaviour, IDamageable
 {
-    [Header("Health Settings")]
-    private PlayerStat _PlayerStat;
-    private float _CurHealth;
-
     [Header("Animation")]
     [SerializeField] AnimationClip _HitClip;
     private Animator _Animator;
 
     private void Awake()
     {
-        _PlayerStat = GetComponent<PlayerStat>();
-        _CurHealth = _PlayerStat.GetBaseStat(StatType.Health);
         _Animator = GetComponent<Animator>();
     }
 
@@ -29,14 +23,7 @@ public class HealthHandler : MonoBehaviour, IDamageable
     /// <param name="amount">입힐 대미지</param>
     public void Damaged(float amount)
     {
-        _CurHealth = Mathf.Max(_CurHealth - amount, 0f);
-        OnDamaged();
-
-        if (_CurHealth <= 0f)
-        {
-            Die();
-        }
-            
+        OnDamaged();            
     }
 
     /// <summary>
@@ -45,7 +32,7 @@ public class HealthHandler : MonoBehaviour, IDamageable
     public void OnDamaged()
     {
         // 예: 피격 이펙트, 애니메이션 트리거
-        Debug.Log($"{gameObject.name} took damage. Remaining health: {_CurHealth}");
+        Debug.Log($"{gameObject.name} took damage.");
 
         _Animator.SetBool("IsHit", true);
         StartCoroutine(ResetHitFlag(_HitClip.length));
@@ -57,12 +44,4 @@ public class HealthHandler : MonoBehaviour, IDamageable
         _Animator.SetBool("IsHit", false);
     }
 
-    /// <summary>
-    /// 체력 0 이하 시 사망 처리
-    /// </summary>
-    private void Die()
-    {
-        // 예: 사망 애니메이션
-        Debug.Log($"{gameObject.name} died.");
-    }
 }

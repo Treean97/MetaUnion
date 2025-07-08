@@ -3,7 +3,7 @@ using UnityEngine;
 public class FocusableObjectTest : MonoBehaviour, IFocusable
 {
     [SerializeField]
-    ObjectInfoSO _ObjInfo;
+    ItemInfoSO _ObjInfo;
 
     public void OnFocus()
     {
@@ -15,7 +15,7 @@ public class FocusableObjectTest : MonoBehaviour, IFocusable
         GameEvents.RaiseDefocus();
     }
 
-    public ObjectInfoSO GetObjectInfo()
+    public ItemInfoSO GetObjectInfo()
     {
         return _ObjInfo;
     }

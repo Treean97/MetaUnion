@@ -31,6 +31,8 @@ public class CurrencyManager : MonoBehaviour
     {
         _Gold += amount;
         GameEvents.RaiseChangeCurrency(_Gold);
+
+        Debug.Log($"AddGold : {amount}");
     }
 
     bool SpendGold(int amount)
@@ -41,6 +43,7 @@ public class CurrencyManager : MonoBehaviour
             return false;
         }
 
+        Debug.Log($"SpendGold : {amount}");
         _Gold -= amount;
         GameEvents.RaiseChangeCurrency(_Gold);
         return true;

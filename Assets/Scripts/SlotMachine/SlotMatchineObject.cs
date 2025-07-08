@@ -3,7 +3,7 @@ using UnityEngine;
 public class SlotMatchineObject : MonoBehaviour, IInteractable
 {
     [SerializeField]
-    ObjectInfoSO _ObjInfo;
+    ItemInfoSO _ObjInfo;
 
     public void OnFocus()
     {
@@ -22,7 +22,7 @@ public class SlotMatchineObject : MonoBehaviour, IInteractable
         Debug.Log("Interact");
     }
 
-    public ObjectInfoSO GetObjectInfo()
+    public ItemInfoSO GetObjectInfo()
     {
         return _ObjInfo;
     }

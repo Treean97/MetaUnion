@@ -1,0 +1,37 @@
+using System;
+using Photon.Pun;
+using UnityEngine;
+
+public class Tree : MonoBehaviourPun, IHarvestable, IDestructible
+{
+    [SerializeField] HarvestableDataSO _HarvestableObjectData;
+    private float _CurDurability;
+
+    public event Action OnDestroyed;
+
+    void Start()
+    {
+        _CurDurability = _HarvestableObjectData.Durability;
+    }
+
+    public void Harvest(float power)
+    {
+        _CurDurability -= power;
+
+        Debug.Log($"Hit !! CurDurability : {_CurDurability}");
+
+        if (_CurDurability <= 0f)
+        {
+            Debug.Log("Destroyed");
+
+            OnDestroyed?.Invoke();
+            photonView.RPC(nameof(RPC_DestroySelf), RpcTarget.All);            
+        }
+    }
+
+    [PunRPC]
+    void RPC_DestroySelf()
+    {
+        Destroy(gameObject);
+    }
+}

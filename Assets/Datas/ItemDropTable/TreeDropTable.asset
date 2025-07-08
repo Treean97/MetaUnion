@@ -9,17 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 527abea39a6f2c84f956d0e69762fdc5, type: 3}
-  m_Name: PlayerStat
+  m_Script: {fileID: 11500000, guid: c6c5fd3cf654b8a44b58c3aeaa57b76a, type: 3}
+  m_Name: TreeDropTable
   m_EditorClassIdentifier: 
-  DefaultStats:
-  - Type: 0
-    BaseValue: 1
-  - Type: 1
-    BaseValue: 4
-  - Type: 2
-    BaseValue: 3
-  - Type: 3
-    BaseValue: 10
-  - Type: 4
-    BaseValue: 100
+  _Entries:
+  - ItemPrefab: {fileID: 128184381135264871, guid: 160c6f64d6ffbb14aa81bf012209ff7b, type: 3}
+    DropChance: 1
+    MinAmount: 100
+    MaxAmount: 200
