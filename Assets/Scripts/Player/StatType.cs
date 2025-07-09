@@ -5,5 +5,6 @@ public enum StatType
     RunSpeed,
     JumpPower,
     AttackPower,
-    HarvestPower
+    AxePower,
+    PickaxePower
 }

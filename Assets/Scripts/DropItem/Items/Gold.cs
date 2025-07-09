@@ -14,7 +14,7 @@ public class Gold : ItemBase
     public override void OnInteract()
     {
         // 골드 획득 로직
-        GameEvents.RaiseRequestAddCurrency(_Amount);
+        GameEvents.RaiseRequestCurrencyGain(CurrencyType.Gold, _Amount);
         OnDefocus();
         // 네트워크 상에서도 파괴
         PhotonNetwork.Destroy(photonView);

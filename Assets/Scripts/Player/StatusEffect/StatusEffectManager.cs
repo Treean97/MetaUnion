@@ -39,7 +39,7 @@ public class StatusEffectManager : MonoBehaviour
 
             if (state.Remaining <= 0f)
             {
-                OnEffectRemoved?.Invoke(state.Effect._Type);
+                OnEffectRemoved?.Invoke(state.Effect.Type);
                 state.Effect.Remove(gameObject);
                 _ActiveEffects.RemoveAt(i);
             }
@@ -62,7 +62,7 @@ public class StatusEffectManager : MonoBehaviour
         }
 
         // 이미 존재하면 남은 시간만 연장
-        int idx = _ActiveEffects.FindIndex(s => s.Effect._Type == type);
+        int idx = _ActiveEffects.FindIndex(s => s.Effect.Type == type);
         if (idx >= 0)
         {
             var exist = _ActiveEffects[idx];
@@ -79,5 +79,5 @@ public class StatusEffectManager : MonoBehaviour
     }
 
     public bool IsActive(StatusType type)
-        => _ActiveEffects.Exists(s => s.Effect._Type == type);
+        => _ActiveEffects.Exists(s => s.Effect.Type == type);
 }

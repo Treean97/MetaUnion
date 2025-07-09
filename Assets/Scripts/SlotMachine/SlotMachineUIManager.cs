@@ -200,7 +200,7 @@ public class SlotMachineUIManager : MonoBehaviour
             return false;
         }
 
-        if (!GameEvents.RaiseRequestSpendCurrency(_BettingMoney))
+        if (!GameEvents.RaiseRequestCurrencySpend(CurrencyType.Gold, _BettingMoney))
             {
                 return false;
             }
@@ -221,10 +221,10 @@ public class SlotMachineUIManager : MonoBehaviour
         switch (maxCount)
         {
             case 3:
-                GameEvents.RaiseRequestAddCurrency(_BettingMoney * _3Match);
+
                 break;
             case 2:
-                GameEvents.RaiseRequestAddCurrency(_BettingMoney * _2Match);
+
                 break;
             default:
                 break;

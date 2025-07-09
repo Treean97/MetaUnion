@@ -2,9 +2,11 @@ using System;
 using Photon.Pun;
 using UnityEngine;
 
-public class Tree : MonoBehaviourPun, IHarvestable, IDestructible
+public class TreeObject : MonoBehaviourPun, IChoppable, IDestructible, IDropSource
 {
     [SerializeField] HarvestableDataSO _HarvestableObjectData;
+    public DropItemTableSO DropTable => _HarvestableObjectData.DropTable;
+    
     private float _CurDurability;
 
     public event Action OnDestroyed;
@@ -14,7 +16,7 @@ public class Tree : MonoBehaviourPun, IHarvestable, IDestructible
         _CurDurability = _HarvestableObjectData.Durability;
     }
 
-    public void Harvest(float power)
+    public void Chop(float power)
     {
         _CurDurability -= power;
 

@@ -46,6 +46,8 @@ MonoBehaviour:
   - RPC_ApplyStatus
   - RPC_DestroySelf
   - RPC_HarvestResource
+  - RPC_HarvestChoppableResource
+  - RPC_HarvestMineableResource
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

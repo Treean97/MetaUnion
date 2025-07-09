@@ -4,7 +4,7 @@ public enum StatusType { Stun, Slow, Poison /*…*/ }
 
 public interface IStatusEffect
 {
-    StatusType _Type { get; }
+    StatusType Type { get; }
     void Apply(GameObject target);
     void UpdateEffect(GameObject target, float deltaTime);
     void Remove(GameObject target);
@@ -13,7 +13,7 @@ public interface IStatusEffect
 
 public class StunEffect : IStatusEffect
 {
-    public StatusType _Type => StatusType.Stun;
+    public StatusType Type => StatusType.Stun;
 
     public void Apply(GameObject target)
     {

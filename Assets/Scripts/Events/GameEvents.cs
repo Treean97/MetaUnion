@@ -83,6 +83,7 @@ public static class GameEvents
 
     #endregion
 
+
     #region 게임 화면 이벤트  
     // Focus UI 호출
     public static event Action<ItemInfoSO> OnFocus;
@@ -103,27 +104,27 @@ public static class GameEvents
     public static void RaiseRequestOpenShopUI()
     => OnRequestOpenShopUI?.Invoke();
 
-    // 잠긴(locked) 아이템 리스트 요청 (상점용)
+    // 잠긴(locked) 커스터마이즈 아이템 리스트 요청 (상점용)
     public static event Action<ItemType> OnRequestLockedItems;
     public static void RaiseRequestLockedItems(ItemType type)
     => OnRequestLockedItems?.Invoke(type);
 
-    // 잠긴(locked) 아이템 리스트 제공 (상점용)
+    // 잠긴(locked) 커스터마이즈 아이템 리스트 제공 (상점용)
     public static event Action<List<CustomizeItemSO>> OnProvideLockedItems;
     public static void RaiseProvideLockedItems(List<CustomizeItemSO> items)
     => OnProvideLockedItems?.Invoke(items);
 
-    // 해금된(unlocked) 아이템 리스트 요청 (커스터마이즈용)
+    // 해금된(unlocked) 커스터마이즈 아이템 리스트 요청 (커스터마이즈용)
     public static event Action<ItemType> OnRequestUnlockedItems;
     public static void RaiseRequestUnlockedItems(ItemType type)
     => OnRequestUnlockedItems?.Invoke(type);
 
-    // 해금된(unlocked) 아이템 리스트 제공 (커스터마이즈용)
+    // 해금된(unlocked) 커스터마이즈 아이템 리스트 제공 (커스터마이즈용)
     public static event Action<List<CustomizeItemSO>> OnProvideUnlockedItems;
     public static void RaiseProvideUnlockedItems(List<CustomizeItemSO> items)
     => OnProvideUnlockedItems?.Invoke(items);
 
-    // 아이템 해금(구매) 요청
+    // 커스터마이즈 아이템 해금(구매) 요청
     public static event Action<CustomizeItemSO> OnRequestUnlockItem;
     public static void RaiseRequestUnlockItem(CustomizeItemSO item)
     => OnRequestUnlockItem?.Invoke(item);
@@ -132,23 +133,24 @@ public static class GameEvents
     public static void RaiseItemPurchaseSuccess()
     => OnItemPurchaseSuccess?.Invoke();
 
-    // 아이템 장착 요청
+    // 커스터마이즈 아이템 장착 요청
     public static event Action<CustomizeItemSO> OnRequestEquipItem;
     public static void RaiseRequestEquipItem(CustomizeItemSO item)
     => OnRequestEquipItem?.Invoke(item);
 
-    // 재화 관리
-    public static event Action<int> OnRequestAddCurrency;
-    public static void RaiseRequestAddCurrency(int amount)
-    => OnRequestAddCurrency?.Invoke(amount);
+    // 획득
+    public static event Action<CurrencyType, int> OnRequestCurrencyGain;
+    public static void RaiseRequestCurrencyGain(CurrencyType type, int amount)
+        => OnRequestCurrencyGain?.Invoke(type, amount);
 
-    public static event Func<int, bool> OnRequestSpendCurrency;
-    public static bool RaiseRequestSpendCurrency(int amount)
-    => OnRequestSpendCurrency?.Invoke(amount) ?? false;
+    // 소비
+    public static event Func<CurrencyType, int, bool> OnRequestCurrencySpend;
+    public static bool RaiseRequestCurrencySpend(CurrencyType type, int amount)
+        => OnRequestCurrencySpend?.Invoke(type, amount) ?? false;
 
-    public static event Action<int> OnChangeCurrency;
-    public static void RaiseChangeCurrency(int amount)
-    => OnChangeCurrency?.Invoke(amount);
+    public static event Action<CurrencyType, int> OnRequestUpdateCurrency;
+    public static void RaiseRequestUpdateCurrency(CurrencyType type, int newValue)
+    => OnRequestUpdateCurrency?.Invoke(type, newValue);
 
     // 슬롯머신 UI 요청
     public static event Action OnRequestOpenSlotMachineUI;

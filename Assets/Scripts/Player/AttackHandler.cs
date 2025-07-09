@@ -22,7 +22,7 @@ public class AttackHandler : MonoBehaviourPun
     internal PlayerInput _Input;
     internal PlayerStat  _Stat;
     
-    private int _AttackLayerIndex;
+
     
     private IWeaponState _CurrentState;
 
@@ -52,7 +52,6 @@ public class AttackHandler : MonoBehaviourPun
         _Input = GetComponent<PlayerInput>();
         _Stat = GetComponent<PlayerStat>();
         _Animator = GetComponent<Animator>();
-        _AttackLayerIndex = _Animator.GetLayerIndex("Attack");
     }
 
     void Start()
@@ -75,10 +74,17 @@ public class AttackHandler : MonoBehaviourPun
     }
 
     [PunRPC]
-    internal void RPC_HarvestResource(int viewID, float power)
+    internal void RPC_HarvestChoppableResource(int viewID, float power)
     {
         var pv = PhotonView.Find(viewID);
-        pv?.GetComponent<IHarvestable>()?.Harvest(power);
+        pv?.GetComponent<IChoppable>()?.Chop(power);
+    }
+
+    [PunRPC]
+    internal void RPC_HarvestMineableResource(int viewID, float power)
+    {
+        var pv = PhotonView.Find(viewID);
+        pv?.GetComponent<IMineable>()?.Mine(power);
     }
     
     [PunRPC]

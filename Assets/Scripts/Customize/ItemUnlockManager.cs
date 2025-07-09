@@ -76,7 +76,7 @@ public class ItemUnlockManager : MonoBehaviourPunCallbacks
     public void TryPurchase(CustomizeItemSO item)
     {
         if (_Unlocked.Contains(item.ID)) return;
-        if (!GameEvents.RaiseRequestSpendCurrency(item.Price))
+        if (!GameEvents.RaiseRequestCurrencySpend(CurrencyType.Gold, item.Price))
         {
             Debug.LogWarning("재화가 부족합니다.");
             return;
