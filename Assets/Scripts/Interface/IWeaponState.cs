@@ -3,7 +3,6 @@ using UnityEngine;
 
 public interface IWeaponState
 {
-    void SetAttackClip(AnimationClip clip);
     void EnterState(AttackHandler handler);
     void ExecuteAttack(AttackHandler handler);
     void ExitState(AttackHandler handler);
@@ -12,14 +11,11 @@ public interface IWeaponState
 
 public class HandState : IWeaponState
 {
-    private static readonly int AttackHandHash = Animator.StringToHash("IsAttackHand");
-    private const string ClipKey = "HandAttack";
-    private AnimationClip _AttackClip;
-    public void SetAttackClip(AnimationClip clip) => _AttackClip = clip;
-
+    private static readonly int _Trigger = Animator.StringToHash("HandAttackTrigger");
+    
     public void EnterState(AttackHandler handler)
     {
-        _AttackClip = handler.GetClip(ClipKey);
+
     }
 
     public void ExecuteAttack(AttackHandler handler)
@@ -28,7 +24,8 @@ public class HandState : IWeaponState
         // if (aniInfo.IsName(_AttackClip.name) && aniInfo.normalizedTime < 1f)
         //     return;
         Debug.Log("hand attack");
-        handler._Animator.SetBool(AttackHandHash, true);
+
+        handler._Animator.SetTrigger(_Trigger);
 
         Collider[] hits = Physics.OverlapSphere(handler._AttackPoint.position, handler._AttackRadius);
         foreach (var col in hits)
@@ -55,14 +52,6 @@ public class HandState : IWeaponState
                 break;
             }
         }
-
-        
-        handler.StartCoroutine(
-            handler.ResetAttackFlag(
-                _AttackClip.length,
-                () => handler._Animator.SetBool(AttackHandHash, false)
-                )
-            );
     }
 
     public void ExitState(AttackHandler handler) { }
@@ -71,14 +60,10 @@ public class HandState : IWeaponState
 
 public class AxeState : IWeaponState
 {
-    private static readonly int AttackAxeHash = Animator.StringToHash("IsAttackAxe");
-    private const string ClipKey = "AxeAttack";
-    private AnimationClip _AttackClip;
-    public void SetAttackClip(AnimationClip clip) => _AttackClip = clip;
+    private static readonly int _Trigger = Animator.StringToHash("AxeAttackTrigger");
 
     public void EnterState(AttackHandler handler)
     {
-        _AttackClip = handler.GetClip(ClipKey);
     }
 
     public void ExecuteAttack(AttackHandler handler)
@@ -88,7 +73,7 @@ public class AxeState : IWeaponState
         //     return;
         Debug.Log("axe attack");
 
-        handler._Animator.SetBool(AttackAxeHash, true);
+        handler._Animator.SetTrigger(_Trigger);
 
 
         Collider[] hits = Physics.OverlapSphere(handler._AttackPoint.position, handler._AttackRadius);
@@ -107,15 +92,7 @@ public class AxeState : IWeaponState
                     power);
                 break;
             }
-        }
-
-        handler.StartCoroutine(
-            handler.ResetAttackFlag(
-                _AttackClip.length,
-                () => handler._Animator.SetBool(AttackAxeHash, false)
-            )
-        );
-            
+        }            
     }
 
     public void ExitState(AttackHandler handler) { }
@@ -124,13 +101,10 @@ public class AxeState : IWeaponState
 
 public class PickaxeState : IWeaponState
 {
-    private static readonly int AttackPickaxeHash = Animator.StringToHash("IsAttackPickaxe");
-    private const string ClipKey = "PickaxeAttack";
-    private AnimationClip _AttackClip;
-    public void SetAttackClip(AnimationClip clip) => _AttackClip = clip;
+    private static readonly int _Trigger = Animator.StringToHash("PickaxeAttackTrigger");
     public void EnterState(AttackHandler handler)
     {
-        _AttackClip = handler.GetClip(ClipKey);
+        
     }
 
     public void ExecuteAttack(AttackHandler handler)
@@ -140,7 +114,7 @@ public class PickaxeState : IWeaponState
         //     return;
         Debug.Log("pickaxe attack");
 
-        handler._Animator.SetBool(AttackPickaxeHash, true);
+        handler._Animator.SetTrigger(_Trigger);
 
         Collider[] hits = Physics.OverlapSphere(handler._AttackPoint.position, handler._AttackRadius);
         foreach (var col in hits)
@@ -158,13 +132,6 @@ public class PickaxeState : IWeaponState
                 break;
             }
         }
-
-        handler.StartCoroutine(
-            handler.ResetAttackFlag(
-                _AttackClip.length,
-                () => handler._Animator.SetBool(AttackPickaxeHash, false)
-            )
-        );
     }
 
     public void ExitState(AttackHandler handler) { }

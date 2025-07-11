@@ -34,14 +34,8 @@ public class HealthHandler : MonoBehaviour, IDamageable
         // 예: 피격 이펙트, 애니메이션 트리거
         Debug.Log($"{gameObject.name} took damage.");
 
-        _Animator.SetBool("IsHit", true);
-        StartCoroutine(ResetHitFlag(_HitClip.length));
+        _Animator.SetTrigger("HitTigger");
     }
     
-    IEnumerator ResetHitFlag(float animationClipLength)
-    {
-        yield return new WaitForSeconds(animationClipLength);
-        _Animator.SetBool("IsHit", false);
-    }
 
 }
