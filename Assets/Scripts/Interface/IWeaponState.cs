@@ -3,6 +3,7 @@ using UnityEngine;
 
 public interface IWeaponState
 {
+    void SetAttackClip(AnimationClip clip);
     void EnterState(AttackHandler handler);
     void ExecuteAttack(AttackHandler handler);
     void ExitState(AttackHandler handler);
@@ -11,18 +12,23 @@ public interface IWeaponState
 
 public class HandState : IWeaponState
 {
+    private static readonly int AttackHandHash = Animator.StringToHash("IsAttackHand");
+    private const string ClipKey = "HandAttack";
+    private AnimationClip _AttackClip;
+    public void SetAttackClip(AnimationClip clip) => _AttackClip = clip;
+
     public void EnterState(AttackHandler handler)
     {
-        // 전환 시 할 일 (ex. 무기 변경, 애니메이션 컨트롤러 변경 등)
+        _AttackClip = handler.GetClip(ClipKey);
     }
 
     public void ExecuteAttack(AttackHandler handler)
     {
-        var aniInfo = handler._Animator.GetCurrentAnimatorStateInfo(0);
-        if (aniInfo.IsName(handler._AttackClip.name) && aniInfo.normalizedTime < 1f)
-            return;
-
-        handler._Animator.Play(handler._AttackClip.name);
+        // var aniInfo = handler._Animator.GetCurrentAnimatorStateInfo(0);
+        // if (aniInfo.IsName(_AttackClip.name) && aniInfo.normalizedTime < 1f)
+        //     return;
+        Debug.Log("hand attack");
+        handler._Animator.SetBool(AttackHandHash, true);
 
         Collider[] hits = Physics.OverlapSphere(handler._AttackPoint.position, handler._AttackRadius);
         foreach (var col in hits)
@@ -31,8 +37,14 @@ public class HandState : IWeaponState
             {
                 int viewID = col.GetComponent<PhotonView>().ViewID;
                 float dmg = handler._Stat.GetBaseStat(StatType.AttackPower);
-
-                handler.photonView.RPC(nameof(handler.RPC_DealDamage), RpcTarget.All, viewID, dmg);
+                // 데미지
+                handler.photonView.RPC(
+                    nameof(handler.RPC_DealDamage),
+                    RpcTarget.All,
+                    viewID,
+                    dmg);
+                
+                // 스턴
                 handler.photonView.RPC(
                     nameof(handler.RPC_ApplyStatus),
                     RpcTarget.All,
@@ -44,7 +56,13 @@ public class HandState : IWeaponState
             }
         }
 
-        handler.StartCoroutine(handler.ResetAttackFlag(handler._AttackClip.length));
+        
+        handler.StartCoroutine(
+            handler.ResetAttackFlag(
+                _AttackClip.length,
+                () => handler._Animator.SetBool(AttackHandHash, false)
+                )
+            );
     }
 
     public void ExitState(AttackHandler handler) { }
@@ -53,18 +71,25 @@ public class HandState : IWeaponState
 
 public class AxeState : IWeaponState
 {
+    private static readonly int AttackAxeHash = Animator.StringToHash("IsAttackAxe");
+    private const string ClipKey = "AxeAttack";
+    private AnimationClip _AttackClip;
+    public void SetAttackClip(AnimationClip clip) => _AttackClip = clip;
+
     public void EnterState(AttackHandler handler)
     {
-        // 전환 시 할 일 (ex. 무기 변경, 애니메이션 컨트롤러 변경 등)
+        _AttackClip = handler.GetClip(ClipKey);
     }
 
     public void ExecuteAttack(AttackHandler handler)
     {
-        var aniInfo = handler._Animator.GetCurrentAnimatorStateInfo(0);
-        if (aniInfo.IsName(handler._AttackClip.name) && aniInfo.normalizedTime < 1f)
-            return;
+        // var aniInfo = handler._Animator.GetCurrentAnimatorStateInfo(0);
+        // if (aniInfo.IsName(_AttackClip.name) && aniInfo.normalizedTime < 1f)
+        //     return;
+        Debug.Log("axe attack");
 
-        handler._Animator.Play(handler._AttackClip.name);
+        handler._Animator.SetBool(AttackAxeHash, true);
+
 
         Collider[] hits = Physics.OverlapSphere(handler._AttackPoint.position, handler._AttackRadius);
 
@@ -84,7 +109,13 @@ public class AxeState : IWeaponState
             }
         }
 
-        handler.StartCoroutine(handler.ResetAttackFlag(handler._AttackClip.length));
+        handler.StartCoroutine(
+            handler.ResetAttackFlag(
+                _AttackClip.length,
+                () => handler._Animator.SetBool(AttackAxeHash, false)
+            )
+        );
+            
     }
 
     public void ExitState(AttackHandler handler) { }
@@ -93,18 +124,23 @@ public class AxeState : IWeaponState
 
 public class PickaxeState : IWeaponState
 {
+    private static readonly int AttackPickaxeHash = Animator.StringToHash("IsAttackPickaxe");
+    private const string ClipKey = "PickaxeAttack";
+    private AnimationClip _AttackClip;
+    public void SetAttackClip(AnimationClip clip) => _AttackClip = clip;
     public void EnterState(AttackHandler handler)
     {
-        // 전환 시 할 일 (ex. 무기 변경, 애니메이션 컨트롤러 변경 등)
+        _AttackClip = handler.GetClip(ClipKey);
     }
 
     public void ExecuteAttack(AttackHandler handler)
     {
-        var aniInfo = handler._Animator.GetCurrentAnimatorStateInfo(0);
-        if (aniInfo.IsName(handler._AttackClip.name) && aniInfo.normalizedTime < 1f)
-            return;
+        // var aniInfo = handler._Animator.GetCurrentAnimatorStateInfo(0);
+        // if (aniInfo.IsName(_AttackClip.name) && aniInfo.normalizedTime < 1f)
+        //     return;
+        Debug.Log("pickaxe attack");
 
-        handler._Animator.Play(handler._AttackClip.name);
+        handler._Animator.SetBool(AttackPickaxeHash, true);
 
         Collider[] hits = Physics.OverlapSphere(handler._AttackPoint.position, handler._AttackRadius);
         foreach (var col in hits)
@@ -122,8 +158,13 @@ public class PickaxeState : IWeaponState
                 break;
             }
         }
-        
-        handler.StartCoroutine(handler.ResetAttackFlag(handler._AttackClip.length));
+
+        handler.StartCoroutine(
+            handler.ResetAttackFlag(
+                _AttackClip.length,
+                () => handler._Animator.SetBool(AttackPickaxeHash, false)
+            )
+        );
     }
 
     public void ExitState(AttackHandler handler) { }

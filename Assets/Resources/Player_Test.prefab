@@ -1869,7 +1869,13 @@ MonoBehaviour:
   _AttackPoint: {fileID: 7074244965923215746}
   _AttackRadius: 0.5
   _AttackStunDuration: 1
-  _AttackClip: {fileID: -7394484345467444417, guid: 5dbb2366974668d48a42568690792034, type: 3}
+  _AttackClips:
+  - Name: HandAttack
+    Clip: {fileID: -7394484345467444417, guid: 5dbb2366974668d48a42568690792034, type: 3}
+  - Name: AxeAttack
+    Clip: {fileID: 7400000, guid: 0880e8d331b799543a2b4752a22792dc, type: 2}
+  - Name: PickaxeAttack
+    Clip: {fileID: 7400000, guid: 14687383233e723438887820db5db061, type: 2}
 --- !u!114 &4928708100084350539
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2028,10 +2034,16 @@ MonoBehaviour:
     Name: IsJump
   - Type: 4
     SynchronizeType: 0
-    Name: IsAttack
+    Name: IsHit
   - Type: 4
     SynchronizeType: 0
-    Name: IsHit
+    Name: IsAttackHand
+  - Type: 4
+    SynchronizeType: 0
+    Name: IsAttackAxe
+  - Type: 4
+    SynchronizeType: 0
+    Name: IsAttackPickaxe
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
