@@ -45,6 +45,11 @@ namespace Controller
         public event Action OnInteract;
         public event Action OnAttack;
 
+        // 무기 키 입력 이벤트
+        public event Action OnHandKeyPressed;
+        public event Action OnAxeKeyPressed;
+        public event Action OnPickaxeKeyPressed;
+
         // 무기 상태 변경 이벤트
         public event Action<IWeaponState> OnWeaponChange;
 
@@ -61,6 +66,10 @@ namespace Controller
                 _StatusEffectManager.OnEffectRemoved += HandleEffectRemoved;
             }
 
+            // 키 입력 이벤트 구독
+            OnHandKeyPressed     += () => OnWeaponChange?.Invoke(new HandState());
+            OnAxeKeyPressed      += () => OnWeaponChange?.Invoke(new AxeState());
+            OnPickaxeKeyPressed  += () => OnWeaponChange?.Invoke(new PickaxeState());
         }
 
         private void OnDestroy()
@@ -70,7 +79,7 @@ namespace Controller
             {
                 _StatusEffectManager.OnEffectApplied -= HandleEffectApplied;
                 _StatusEffectManager.OnEffectRemoved -= HandleEffectRemoved;
-            }        
+            }
         }
 
         private void HandleUIRunningStateChanged(bool isBlocked)
@@ -87,8 +96,8 @@ namespace Controller
         {
             if (type == StatusType.Stun)
                 _IsStunnedBlocked = true;
-        }   
-    
+        }
+
 
         // 기절 해제될 때
         private void HandleEffectRemoved(StatusType type)
@@ -122,7 +131,7 @@ namespace Controller
             m_Target = (m_Camera == null) ? Vector3.zero : m_Camera.Target;
             m_MouseDelta = new Vector2(Input.GetAxis(m_MouseX), Input.GetAxis(m_MouseY));
             m_Scroll = Input.GetAxis(m_MouseScroll);
-            
+
             if (Input.GetKeyDown(m_InteractKey))
             {
                 OnInteract?.Invoke();
@@ -135,17 +144,17 @@ namespace Controller
 
             if (Input.GetKeyDown(m_Handkey))
             {
-                OnWeaponChange?.Invoke(new HandState());
+                OnHandKeyPressed?.Invoke();
             }
 
             if (Input.GetKeyDown(m_Axekey))
             {
-                OnWeaponChange?.Invoke(new AxeState());
+                OnAxeKeyPressed?.Invoke();
             }
 
             if (Input.GetKeyDown(m_Pickaxekey))
             {
-                OnWeaponChange?.Invoke(new PickaxeState());
+                OnPickaxeKeyPressed?.Invoke();
             }
         }
 
@@ -161,5 +170,7 @@ namespace Controller
                 m_Camera.SetInput(in m_MouseDelta, m_Scroll);
             }
         }
+        
+        
     }
 }
