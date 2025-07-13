@@ -1,101 +1,111 @@
 using System.Collections.Generic;
 using Controller;
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
 [System.Serializable]
-public struct WeaponEntry
+public class WeaponEntry
 {
-    [Tooltip("무기를 선택할 때 사용할 이름입니다.")]
     public string Name;
-    [Tooltip("해당 이름에 맵핑할 무기 Prefab")]
     public GameObject Prefab;
+    public Transform InstantiateTransform;
 }
 
 public class WeaponEquip : MonoBehaviour
 {
     [Header("무기 리스트")]
     [SerializeField] private List<WeaponEntry> _Weapons;
-    private Dictionary<string, GameObject> _WeaponDict;
+    private Dictionary<string, WeaponEntry> _WeaponDict;
+
+    [Header("무기 생성 부모")]
+    [SerializeField] private Transform _HandAnchor;
 
     [Header("Rig & IK 세팅")]
-    [SerializeField] private Rig                _WeaponRig;  // WeaponRig에 붙은 Rig 컴포넌트
-    [SerializeField] private TwoBoneIKConstraint _RightArmIK; // RightArmIK 오브젝트의 Two Bone IK Constraint
-    [SerializeField] private TwoBoneIKConstraint _LeftArmIK;  // LeftArmIK 오브젝트의 Two Bone IK Constraint
+    [SerializeField] private Rig _WeaponRig;
+    [SerializeField] private TwoBoneIKConstraint _RightArmIK;
+    [SerializeField] private TwoBoneIKConstraint _LeftArmIK;
+
+    [Header("입력")]
     [SerializeField] private PlayerInput _Input;
+
     private GameObject _CurrentWeapon;
+    
 
     private void Awake()
-    {
-        // 리스트 → 딕셔너리로 빌드
-        _WeaponDict = new Dictionary<string, GameObject>();
+    {        
+        // 리스트 → 딕셔너리
+        _WeaponDict = new Dictionary<string, WeaponEntry>();
         foreach (var entry in _Weapons)
         {
             if (string.IsNullOrEmpty(entry.Name) || entry.Prefab == null)
                 continue;
 
             if (_WeaponDict.ContainsKey(entry.Name))
-                Debug.LogWarning($"WeaponEquip: 중복된 무기 이름 '{entry.Name}' 감지");
+                Debug.LogWarning($"WeaponEquip: 중복된 무기 이름 '{entry.Name}'");
             else
-                _WeaponDict.Add(entry.Name, entry.Prefab);
+                _WeaponDict.Add(entry.Name, entry);
         }
 
         _Input.OnHandKeyPressed += UnequipWeapon;
         _Input.OnAxeKeyPressed += () => EquipWeapon("Axe");
-        _Input.OnPickaxeKeyPressed += () =>  EquipWeapon("Pickaxe");
-
+        _Input.OnPickaxeKeyPressed += () => EquipWeapon("Pickaxe");
     }
 
-
-    /// <summary>
-    /// <paramref name="weaponName"/>에 해당하는 프리팹을 장착하고 IK/리깅 활성화
-    /// </summary>
     public void EquipWeapon(string weaponName)
     {
-        if (!_WeaponDict.TryGetValue(weaponName, out var prefab))
+        if (!_WeaponDict.TryGetValue(weaponName, out var weapon))
         {
             Debug.LogError($"WeaponEquip: '{weaponName}' 무기를 찾을 수 없습니다.");
             return;
         }
 
-        // 기존 무기 비활성
+        // 이전 무기 제거
         if (_CurrentWeapon != null)
-            _CurrentWeapon.gameObject.SetActive(false);
+            PhotonNetwork.Destroy(_CurrentWeapon);
 
-        // 새로운 무기 활성
-        _CurrentWeapon = prefab;
-        _CurrentWeapon.gameObject.SetActive(true);
-        
+        // 새 무기 인스턴스화 
+        var weaponInstance = PhotonNetwork.Instantiate(
+            weapon.Prefab.name,
+            Vector3.zero,
+            Quaternion.identity,
+            0
+        );
 
-        // 프리팹 내부에 'LeftGrip', 'RightGrip' 이름의 Transform이 있어야 합니다.
-        var leftGrip = _CurrentWeapon.transform.Find("LeftGrip");
-        var rightGrip = _CurrentWeapon.transform.Find("RightGrip");
+        weaponInstance.transform.SetParent(_HandAnchor, false);
+        weaponInstance.transform.localPosition = weapon.InstantiateTransform.localPosition;
+        weaponInstance.transform.localRotation = weapon.InstantiateTransform.localRotation;
+        _CurrentWeapon = weaponInstance;
 
+        // Grip 찾기
+        var leftGrip  = weaponInstance.transform.Find("LeftGrip");
+        var rightGrip = weaponInstance.transform.Find("RightGrip");
         if (leftGrip == null || rightGrip == null)
         {
             Debug.LogError("WeaponEquip: Prefab에 'LeftGrip' 또는 'RightGrip' Transform이 없습니다.");
-        }
-        else
-        {
-            // IK 타겟에 할당
-            _LeftArmIK.data.target = leftGrip;
-            _RightArmIK.data.target = rightGrip;
+            return;
         }
 
-        // IK, Rig 활성화
-        _LeftArmIK.weight = 1f;
+        // IK Constraint.data 수정 후 재할당
+        var leftData = _LeftArmIK.data;
+        leftData.target = leftGrip;
+        _LeftArmIK.data = leftData;
+
+        var rightData = _RightArmIK.data;
+        rightData.target = rightGrip;
+        _RightArmIK.data = rightData;
+
+        // IK & Rig 활성화
+        _LeftArmIK.weight  = 1f;
         _RightArmIK.weight = 1f;
-        _WeaponRig.weight = 1f;
+        _WeaponRig.weight  = 1f;
     }
 
-    /// <summary>
-    /// 장착 해제하고 IK/리깅 비활성화
-    /// </summary>
     public void UnequipWeapon()
     {
         if (_CurrentWeapon != null)
         {
-            _CurrentWeapon.gameObject.SetActive(false);
+            Destroy(_CurrentWeapon);
             _CurrentWeapon = null;
         }
 
