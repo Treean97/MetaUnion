@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -33,16 +34,41 @@ public class SlotMachineUIManager : MonoBehaviour
     [SerializeField] private Button _CloseBtn;
 
     [Header("Betting")]
-    [SerializeField] private TMP_InputField _MoneyInputField;
-    private int _BettingMoney;
-    [SerializeField] private int _3Match;
-    [SerializeField] private int _2Match;
-    
+    [SerializeField] private TMP_Dropdown _BetCurrencyDropdown;
+    [SerializeField] private CurrencyDataPoolSO _CurrencyDataPoolSO;
+    [SerializeField] private TMP_InputField _CurrencyInputField;    
+    [SerializeField] private int _3MatchMul;
+    [SerializeField] private int _2MatchMul;
+
+
+    private List<ItemDataSO> _CurrencyList;
+    private int _BettingCurrencyID;
+    private int _BettingCurrencyAmount;
 
     void Awake()
     {
         _RerollBtn.onClick.AddListener(OnClickRerollBtn);
         _CloseBtn.onClick.AddListener(OnClickCloseBtn);
+    }
+
+    void Start()
+    {
+        _CurrencyList = _CurrencyDataPoolSO.GetAllCurrencies().ToList();
+
+        // 배팅 타입 드롭다운
+        _BetCurrencyDropdown.options
+        = _CurrencyList.Select(
+            c => new TMP_Dropdown.OptionData(c.ItemInfo._DisplayName)).ToList();
+
+        _BettingCurrencyID = _CurrencyList[_BetCurrencyDropdown.value].ID;
+
+        _BetCurrencyDropdown.onValueChanged.AddListener(
+            idx => _BettingCurrencyID = _CurrencyList[idx].ID);
+
+        _Destiny = new int[_Lanes.Length];
+        _ItemCnt = _DisplayItemSlots[0].SlotObj.Count;
+        _CurrencyInputField.characterValidation
+        = TMP_InputField.CharacterValidation.Digit;
     }
 
     void OnEnable()
@@ -77,12 +103,6 @@ public class SlotMachineUIManager : MonoBehaviour
         }
     }
 
-    void Start()
-    {
-        _Destiny = new int[_Lanes.Length];
-        _ItemCnt = _DisplayItemSlots[0].SlotObj.Count;
-        _MoneyInputField.characterValidation = TMP_InputField.CharacterValidation.Digit;
-    }
 
     void SetRandomInit()
     {
@@ -183,30 +203,30 @@ public class SlotMachineUIManager : MonoBehaviour
     bool SetBettingMoney()
     {
         // 값을 입력 안했을 경우
-        if (string.IsNullOrWhiteSpace(_MoneyInputField.text))
+        if (string.IsNullOrWhiteSpace(_CurrencyInputField.text))
         {
             // 경고 메세지 출력
             GameEvents.RaiseShowWarning("Need Betting!!");
             return false;
         }
 
-        _BettingMoney = int.Parse(_MoneyInputField.text.ToString());
+        _BettingCurrencyAmount = int.Parse(_CurrencyInputField.text.ToString());
 
         // 0 원 입력
-        if (_BettingMoney == 0)
+        if (_BettingCurrencyAmount == 0)
         {
             // 경고 메세지 출력
             GameEvents.RaiseShowWarning("Can`t 0 Betting!!");
             return false;
         }
 
-        if (!GameEvents.RaiseRequestCurrencySpend(CurrencyType.Gold, _BettingMoney))
+        if (!GameEvents.RaiseRequestCurrencySpend(_BettingCurrencyID, _BettingCurrencyAmount))
             {
                 return false;
             }
 
         // 넣은 돈 수정 불가
-        _MoneyInputField.interactable = false;
+        _CurrencyInputField.interactable = false;
 
         return true;
     }
@@ -230,6 +250,6 @@ public class SlotMachineUIManager : MonoBehaviour
                 break;
         }
 
-        _MoneyInputField.interactable = true;    
+        _CurrencyInputField.interactable = true;    
     }
 }

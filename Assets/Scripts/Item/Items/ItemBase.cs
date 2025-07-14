@@ -4,8 +4,10 @@ using UnityEngine;
 public abstract class ItemBase : MonoBehaviourPun, IInteractable, IPunInstantiateMagicCallback
 {
     [Header("공통 설정")]
-    [SerializeField] private ItemInfoSO _ItemInfo;
-    [SerializeField] private float      _RotationSpeed = 30f;
+    [SerializeField] protected ItemDataSO _ItemData;
+    [SerializeField] private float _RotationSpeed = 30f;
+
+    protected int _Amount;
 
     /// <summary>네트워크 생성 시 전달된 데이터를 처리</summary>
     public void OnPhotonInstantiate(PhotonMessageInfo info)
@@ -25,8 +27,8 @@ public abstract class ItemBase : MonoBehaviourPun, IInteractable, IPunInstantiat
     }
 
     // IInteractable 인터페이스 기본 구현
-    public virtual ItemInfoSO GetObjectInfo() => _ItemInfo;
-    public virtual void OnFocus()   => GameEvents.RaiseFocus(_ItemInfo);
+    public virtual ItemInfoSO GetObjectInfo() => _ItemData.ItemInfo;
+    public virtual void OnFocus()   => GameEvents.RaiseFocus(_ItemData.ItemInfo);
     public virtual void OnDefocus() => GameEvents.RaiseDefocus();
     public abstract void OnInteract();
 }

@@ -6,18 +6,28 @@ using UnityEngine;
 
 public class CurrencyManager : MonoBehaviour
 {
-    private Dictionary<CurrencyType, int> _Currencies;
+    [SerializeField] private CurrencyDataPoolSO _CurrencyPoolSO;
+    // id, amount
+    private Dictionary<int, int> _Currencies;
 
     void Awake()
     {
-        _Currencies = new Dictionary<CurrencyType, int>();
+        _Currencies = new Dictionary<int, int>();
         
-        foreach (CurrencyType t in Enum.GetValues(typeof(CurrencyType)))
+        foreach (var currency in _CurrencyPoolSO.GetAllCurrencies())
         {
-            _Currencies[t] = 0;    // Gold, Silver 등 모두 0으로 초기화
+            _Currencies[currency.ID] = 0;
         }
     }
-
+    void Start()
+    {
+        // 초기 값 세팅(세이브 로드 대비)
+        foreach (var kv in _Currencies)
+        {
+            GameEvents.RaiseRequestUpdateCurrency(kv.Key, kv.Value);
+        }
+            
+    }
 
     void Update()
     {
@@ -25,7 +35,7 @@ public class CurrencyManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.P))
         {
             Debug.Log("Gold+100");
-            GameEvents.RaiseRequestCurrencyGain(CurrencyType.Gold, 100);
+            GameEvents.RaiseRequestCurrencyGain(10000, 100);
         }
     }
 
@@ -41,24 +51,36 @@ public class CurrencyManager : MonoBehaviour
         GameEvents.OnRequestCurrencySpend -= HandleConsume;
     }
 
-    void HandleGain(CurrencyType type, int amount)
+    void HandleGain(int id, int amount)
     {
-        _Currencies[type] += amount;
-        GameEvents.RaiseRequestUpdateCurrency(type, _Currencies[type]);
-        Debug.Log($"Add : {type}, {_Currencies[type]}");
+        if (!_Currencies.ContainsKey(id))
+        {
+            Debug.LogError("잘못된 Item ID 입니다");
+            return;
+        }
+
+        _Currencies[id] += amount;
+        GameEvents.RaiseRequestUpdateCurrency(id, _Currencies[id]);
+        Debug.Log($"Add : {id}, {_Currencies[id]}");
     }
 
-    bool HandleConsume(CurrencyType type, int amount)
+    bool HandleConsume(int id, int amount)
     {
-        if (_Currencies[type] < amount)
+        if (!_Currencies.ContainsKey(id))
         {
-            GameEvents.RaiseShowWarning($"{type}가 부족합니다!");
+            Debug.LogError("잘못된 Item ID 입니다");
             return false;
         }
 
-        _Currencies[type] -= amount;
-        GameEvents.RaiseRequestUpdateCurrency(type, _Currencies[type]);
-        Debug.Log($"Spend : {_Currencies[type]}");
+        if (_Currencies[id] < amount)
+        {
+            GameEvents.RaiseShowWarning($"{id}가 부족합니다!");
+            return false;
+        }
+
+        _Currencies[id] -= amount;
+        GameEvents.RaiseRequestUpdateCurrency(id, _Currencies[id]);
+        Debug.Log($"Spend : {_Currencies[id]}");
         return true;
     }
     

@@ -5,7 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public struct CurrencyUI
 {
-    public CurrencyType Type;
+    public ItemDataSO Currency;
     public TMP_Text Text;
 }
 
@@ -13,14 +13,22 @@ public class CurrencyUIManager : MonoBehaviour
 {
     [SerializeField] private List<CurrencyUI> _CurrencyUIs;
 
-    private Dictionary<CurrencyType, TMP_Text> _Map;
+    private Dictionary<int, TMP_Text> _Map;
 
     void Awake()
     {
         // 에디터에서 설정한 리스트를 딕셔너리로 변환
-        _Map = new Dictionary<CurrencyType, TMP_Text>();
+        _Map = new Dictionary<int, TMP_Text>();
         foreach (var ui in _CurrencyUIs)
-            _Map[ui.Type] = ui.Text;
+        {
+            // 중복 키 검사
+            if (_Map.ContainsKey(ui.Currency.ID))
+            {
+                Debug.LogError("중복 키 할당");
+            }
+            _Map[ui.Currency.ID] = ui.Text;
+        }
+            
     }
 
     void OnEnable()
@@ -34,9 +42,9 @@ public class CurrencyUIManager : MonoBehaviour
     }
 
 
-    void HandleChangeCurrency(CurrencyType type, int amount)
+    void HandleChangeCurrency(int id, int amount)
     {
-        if (_Map.TryGetValue(type, out var text))
+        if (_Map.TryGetValue(id, out var text))
         {
             text.text = amount.ToString();
         }

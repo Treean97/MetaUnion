@@ -3,9 +3,6 @@ using UnityEngine;
 
 public class ItemPickup : ItemBase
 {
-    [SerializeField] private ItemInfoSO _ItemData;
-    [SerializeField] private int _Amount;
-
     // 네트워크 Instantiate 시 전송된 수량 데이터 처리
     protected override void ProcessInstantiationData(object[] data)
     {

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bdb04b2b2e5a9da479ecb184b5a02d5a, type: 3}
-  m_Name: Gold
+  m_Name: Diamond
   m_EditorClassIdentifier: 
-  _ID: 10000
-  _ItemInfo: {fileID: 11400000, guid: 5328aef74c7fa8d48ad8ee2b184b7d4b, type: 2}
+  _ID: 10001
+  _ItemInfo: {fileID: 11400000, guid: 984312baa3b527745a0578205578d65b, type: 2}

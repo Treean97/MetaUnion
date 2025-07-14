@@ -3,11 +3,6 @@ using UnityEngine;
 
 public class CurrencyPickup : ItemBase
 {
-    [Header("통화 타입")]
-    [SerializeField] private CurrencyType _CurrencyType;
-
-    private int _Amount;
-
     /// <summary>
     /// Instantiate 시 전달된 데이터 처리 (예: amount)
     /// </summary>
@@ -23,7 +18,7 @@ public class CurrencyPickup : ItemBase
     public override void OnInteract()
     {        
         // 획득
-        GameEvents.RaiseRequestCurrencyGain(_CurrencyType, _Amount);
+        GameEvents.RaiseRequestCurrencyGain(_ItemData.ID, _Amount);
         
         // UI 해제
         OnDefocus();

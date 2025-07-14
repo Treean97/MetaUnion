@@ -139,18 +139,18 @@ public static class GameEvents
     => OnRequestEquipItem?.Invoke(item);
 
     // 획득
-    public static event Action<CurrencyType, int> OnRequestCurrencyGain;
-    public static void RaiseRequestCurrencyGain(CurrencyType type, int amount)
-        => OnRequestCurrencyGain?.Invoke(type, amount);
+    public static event Action<int, int> OnRequestCurrencyGain;
+    public static void RaiseRequestCurrencyGain(int currencyId, int amount)
+    => OnRequestCurrencyGain?.Invoke(currencyId, amount);
 
     // 소비
-    public static event Func<CurrencyType, int, bool> OnRequestCurrencySpend;
-    public static bool RaiseRequestCurrencySpend(CurrencyType type, int amount)
-        => OnRequestCurrencySpend?.Invoke(type, amount) ?? false;
+    public static event Func<int, int, bool> OnRequestCurrencySpend;
+    public static bool RaiseRequestCurrencySpend(int currencyId, int amount)
+    => OnRequestCurrencySpend?.Invoke(currencyId, amount) ?? false;
 
-    public static event Action<CurrencyType, int> OnRequestUpdateCurrency;
-    public static void RaiseRequestUpdateCurrency(CurrencyType type, int newValue)
-    => OnRequestUpdateCurrency?.Invoke(type, newValue);
+    public static event Action<int, int> OnRequestUpdateCurrency;
+    public static void RaiseRequestUpdateCurrency(int currencyId, int newValue)
+    => OnRequestUpdateCurrency?.Invoke(currencyId, newValue);
 
     // 슬롯머신 UI 요청
     public static event Action OnRequestOpenSlotMachineUI;

@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bdb04b2b2e5a9da479ecb184b5a02d5a, type: 3}
-  m_Name: Gold
+  m_Script: {fileID: 11500000, guid: 093c64649d6c28848acfcd6d395f0b6b, type: 3}
+  m_Name: Diamond
   m_EditorClassIdentifier: 
-  _ID: 10000
-  _ItemInfo: {fileID: 11400000, guid: 5328aef74c7fa8d48ad8ee2b184b7d4b, type: 2}
+  _DisplayName: Diamond
+  _Description: Diamond Des

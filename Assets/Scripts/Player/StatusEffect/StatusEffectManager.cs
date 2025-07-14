@@ -15,6 +15,7 @@ public class StatusEffectManager : MonoBehaviour
         public IStatusEffect Effect;
         public float         Remaining;
     }
+    
     private readonly List<EffectState> _ActiveEffects = new();
 
     // 범용 이벤트 (필요시 구독)
