@@ -10,8 +10,6 @@ public class ItemUnlockManager : MonoBehaviourPunCallbacks
     [Header("사용 가능 재화")]
     [SerializeField] private ItemDataSO _UseableCurrency;
 
-    [Header("커스터마이징 아이템 목록")]
-    [SerializeField] private CustomizeItemPoolSO _ItemPool;
     private readonly HashSet<string> _Unlocked = new();
 
     public static event Action<CustomizeItemSO> OnItemUnlocked;
@@ -25,13 +23,14 @@ public class ItemUnlockManager : MonoBehaviourPunCallbacks
         LoadUnlockedFromProperties();
 
         // 3) SO에 설정된 기본 해금 아이템만큼 루프
-        if (_ItemPool == null)
+        
+        if (ItemManager._Inst.CustomizeItemPoolSO == null)
         {
             Debug.LogError("[ItemUnlockManager] _ItemPool이 할당되지 않았습니다!");
         }
         else
         {
-            foreach (var item in _ItemPool.GetDefaultUnlockedItems())
+            foreach (var item in ItemManager._Inst.CustomizeItemPoolSO.GetDefaultUnlockedItems())
             {
                 if (_Unlocked.Add(item.ID))
                     OnItemUnlocked?.Invoke(item);
@@ -61,8 +60,8 @@ public class ItemUnlockManager : MonoBehaviourPunCallbacks
 
     void HandleRequestLockedItems(ItemType type)
     {
-        if (_ItemPool == null) return;
-        var locked = _ItemPool.GetItems(type)
+        if (ItemManager._Inst.CustomizeItemPoolSO == null) return;
+        var locked = ItemManager._Inst.CustomizeItemPoolSO.GetItems(type)
                               .Where(i => !_Unlocked.Contains(i.ID))
                               .ToList();
         GameEvents.RaiseProvideLockedItems(locked);
@@ -70,8 +69,8 @@ public class ItemUnlockManager : MonoBehaviourPunCallbacks
 
     void HandleRequestUnlockedItems(ItemType type)
     {
-        if (_ItemPool == null) return;
-        var unlocked = _ItemPool.GetItems(type)
+        if (ItemManager._Inst.CustomizeItemPoolSO == null) return;
+        var unlocked = ItemManager._Inst.CustomizeItemPoolSO.GetItems(type)
                                 .Where(i => _Unlocked.Contains(i.ID))
                                 .ToList();
         GameEvents.RaiseProvideUnlockedItems(unlocked);

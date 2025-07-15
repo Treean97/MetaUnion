@@ -14,6 +14,7 @@ public class ItemPickup : ItemBase
     public override void OnInteract()
     {
         // 아이템 획득 로직
+        GameEvents.RaiseRequestItemGain(_ItemData.ID, _Amount);
         
         // 네트워크 상에서 오브젝트 파괴
         PhotonNetwork.Destroy(photonView);

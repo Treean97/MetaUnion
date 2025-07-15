@@ -129,7 +129,7 @@ public class PlayerCustomization : MonoBehaviourPunCallbacks, IPunInstantiateMag
         }
 
         // 2) ItemManager에서 아이템 정보 조회
-        var itemSO = ItemManager._Inst.GetItem(type, itemId);
+        var itemSO = ItemManager._Inst.GetCustomizeItem(type, itemId);
         if (itemSO == null)
         {
             Debug.LogWarning($"ID '{itemId}' 아이템을 찾을 수 없습니다.");

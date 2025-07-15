@@ -1,4 +1,5 @@
 using System;
+using Photon.Pun.Demo.Cockpit;
 using UnityEngine;
 
 namespace Controller
@@ -26,6 +27,8 @@ namespace Controller
         [SerializeField] private KeyCode m_Handkey = KeyCode.Alpha1;
         [SerializeField] private KeyCode m_Axekey = KeyCode.Alpha2;
         [SerializeField] private KeyCode m_Pickaxekey = KeyCode.Alpha3;
+        [SerializeField] private KeyCode m_InventoryKey = KeyCode.Q;
+        [SerializeField] private KeyCode m_PlayerListKey = KeyCode.Tab;
 
         private MoveHandler m_Mover;
 
@@ -155,6 +158,21 @@ namespace Controller
             if (Input.GetKeyDown(m_Pickaxekey))
             {
                 OnPickaxeKeyPressed?.Invoke();
+            }
+
+            if (Input.GetKeyDown(m_InventoryKey))
+            {
+                GameEvents.RaiseRequestToggleInventoryUI();
+            }
+
+            if (Input.GetKeyDown(m_PlayerListKey))
+            {
+                GameEvents.RaiseRequestOpenPlayerListUI();
+            }
+
+            if (Input.GetKeyUp(m_PlayerListKey))
+            {
+                GameEvents.RaiseRequestClosePlayerListUI();
             }
         }
 

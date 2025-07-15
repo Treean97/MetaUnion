@@ -138,26 +138,50 @@ public static class GameEvents
     public static void RaiseRequestEquipItem(CustomizeItemSO item)
     => OnRequestEquipItem?.Invoke(item);
 
-    // 획득
+    // 커런시 획득
     public static event Action<int, int> OnRequestCurrencyGain;
     public static void RaiseRequestCurrencyGain(int currencyId, int amount)
     => OnRequestCurrencyGain?.Invoke(currencyId, amount);
 
-    // 소비
+    // 커런시 소비
     public static event Func<int, int, bool> OnRequestCurrencySpend;
     public static bool RaiseRequestCurrencySpend(int currencyId, int amount)
     => OnRequestCurrencySpend?.Invoke(currencyId, amount) ?? false;
 
+    // 커런시 UI 갱신
     public static event Action<int, int> OnRequestUpdateCurrency;
     public static void RaiseRequestUpdateCurrency(int currencyId, int newValue)
     => OnRequestUpdateCurrency?.Invoke(currencyId, newValue);
+
+    // 아이템 획득
+    public static event Action<int, int> OnRequestItemGain;
+    public static void RaiseRequestItemGain(int itemId, int amount)
+    => OnRequestItemGain?.Invoke(itemId, amount);
+
+    // 아이템 소비
+    public static event Action<int, int> OnRequestItemSpend;
+    public static void RaiseRequestItemSpend(int itemId, int amount)
+    => OnRequestItemSpend?.Invoke(itemId, amount);
+
 
     // 슬롯머신 UI 요청
     public static event Action OnRequestOpenSlotMachineUI;
     public static void RaiseRequestOpenSlotMachineUI()
     => OnRequestOpenSlotMachineUI?.Invoke();
 
+    // 인벤토리 UI 열고 닫기 요청
+    public static event Action OnRequestToggleInventoryUI;
+    public static void RaiseRequestToggleInventoryUI()
+    => OnRequestToggleInventoryUI?.Invoke();
 
+    // 플레이어 리스트 UI
+    public static event Action OnRequestOpenPlayerListUI;
+    public static void RaiseRequestOpenPlayerListUI()
+    => OnRequestOpenPlayerListUI?.Invoke();
+
+    public static event Action OnRequestClosePlayerListUI;
+    public static void RaiseRequestClosePlayerListUI()
+    => OnRequestClosePlayerListUI?.Invoke();  
 
     #endregion
 }

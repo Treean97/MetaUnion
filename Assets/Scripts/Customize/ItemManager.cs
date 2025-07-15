@@ -8,8 +8,13 @@ public class ItemManager : MonoBehaviour
 {
     public static ItemManager _Inst { get; private set; }
 
-    [Header("Static Data")]
+    [Header("커스터마이징 아이템")]
     [SerializeField] private CustomizeItemPoolSO _CustomizeItemPoolSO;
+    public CustomizeItemPoolSO CustomizeItemPoolSO => _CustomizeItemPoolSO;
+
+    [Header("일반 아이템")]
+    [SerializeField] private ItemDataPoolSO _ItemDataPoolSO;
+    public ItemDataPoolSO ItemDataPoolSO => _ItemDataPoolSO;
 
     // 런타임에 빠르게 조회할 딕셔너리
     private Dictionary<ItemType, List<CustomizeItemSO>> _ItemsByType;
@@ -33,7 +38,7 @@ public class ItemManager : MonoBehaviour
     /// <summary>
     /// 타입별 전체 아이템 리스트 조회
     /// </summary>
-    public IReadOnlyList<CustomizeItemSO> GetItems(ItemType type)
+    public IReadOnlyList<CustomizeItemSO> GetCustomizeItems(ItemType type)
     {
         return _ItemsByType.TryGetValue(type, out var list)
             ? list
@@ -43,8 +48,8 @@ public class ItemManager : MonoBehaviour
     /// <summary>
     /// ID로 단일 아이템 조회
     /// </summary>
-    public CustomizeItemSO GetItem(ItemType type, string id)
+    public CustomizeItemSO GetCustomizeItem(ItemType type, string id)
     {
-        return GetItems(type).FirstOrDefault(i => i.ID == id);
+        return GetCustomizeItems(type).FirstOrDefault(i => i.ID == id);
     }
 }

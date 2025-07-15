@@ -14,8 +14,7 @@ public class CustomizeItemPoolSO : ScriptableObject
 
     private void OnEnable()
     {
-        _Groups = _ItemGroups
-            .ToDictionary(g => g.Type, g => g.Items);
+        _Groups = _ItemGroups.ToDictionary(g => g.Type, g => g.Items);
     }
 
     // UI 쪽에서 호출할 메서드
@@ -41,7 +40,6 @@ public class CustomizeItemPoolSO : ScriptableObject
     }
 
     public IEnumerable<CustomizeItemSO> GetDefaultUnlockedItems()
-    => _ItemGroups.SelectMany(g => g.Items)
-                  .Where(i => i.IsDefaultUnlocked);
+    => _ItemGroups.SelectMany(g => g.Items).Where(i => i.IsDefaultUnlocked);
 
 }

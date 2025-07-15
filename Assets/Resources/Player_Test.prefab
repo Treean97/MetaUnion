@@ -1985,6 +1985,7 @@ GameObject:
   - component: {fileID: 7326643668330111642}
   - component: {fileID: 4805114103450155677}
   - component: {fileID: 559015421560556864}
+  - component: {fileID: 7600146672090614015}
   - component: {fileID: 239484582011537738}
   - component: {fileID: 5841054823660800388}
   - component: {fileID: 2457597801121862179}
@@ -2087,6 +2088,18 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &7600146672090614015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5832607453936394915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 131fa92f352efea4bb8419e88825beb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &239484582011537738
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2100,7 +2113,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _UseableCurrency: {fileID: 11400000, guid: 70644ca84e646ec40a3ad228d43c3205, type: 2}
-  _ItemPool: {fileID: 11400000, guid: a1f021026cb15fe49b9a499123d09550, type: 2}
 --- !u!114 &5841054823660800388
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2167,6 +2179,8 @@ MonoBehaviour:
   m_Handkey: 49
   m_Axekey: 50
   m_Pickaxekey: 51
+  m_InventoryKey: 113
+  m_PlayerListKey: 9
 --- !u!114 &1229482598479855776
 MonoBehaviour:
   m_ObjectHideFlags: 0
