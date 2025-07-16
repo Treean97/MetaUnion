@@ -163,7 +163,6 @@ public static class GameEvents
     public static void RaiseRequestItemSpend(int itemId, int amount)
     => OnRequestItemSpend?.Invoke(itemId, amount);
 
-
     // 슬롯머신 UI 요청
     public static event Action OnRequestOpenSlotMachineUI;
     public static void RaiseRequestOpenSlotMachineUI()
@@ -173,6 +172,22 @@ public static class GameEvents
     public static event Action OnRequestToggleInventoryUI;
     public static void RaiseRequestToggleInventoryUI()
     => OnRequestToggleInventoryUI?.Invoke();
+
+    // 인벤토리 업데이트 요청
+    public static event Action OnRequestUpdateInventory;
+    public static void RaiseRequestUpdateInventory()
+    => OnRequestUpdateInventory?.Invoke();
+
+    // 인벤토리 상태 요청
+    public static event Func<List<ItemDataSO>> OnRequestInventoryStatus;
+    public static List<ItemDataSO> RaiseRequestInvetoryStatus()
+    => OnRequestInventoryStatus?.Invoke();
+
+    // 인벤토리 슬롯 수 요청
+    public static event Func<int> OnRequestInventorySlotCount;
+    public static int RaiseRequestInventorySlotCount()
+    => OnRequestInventorySlotCount?.Invoke() ?? 0;
+
 
     // 플레이어 리스트 UI
     public static event Action OnRequestOpenPlayerListUI;

@@ -36,6 +36,7 @@ public class CurrencyManager : MonoBehaviour
         {
             Debug.Log("Gold+100");
             GameEvents.RaiseRequestCurrencyGain(10000, 100);
+            GameEvents.RaiseRequestCurrencyGain(10001, 100);
         }
     }
 

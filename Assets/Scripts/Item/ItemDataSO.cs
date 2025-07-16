@@ -8,8 +8,8 @@ public class ItemDataSO : ScriptableObject
     public int ID => _ID;
     [SerializeField] ItemInfoSO _ItemInfo;
     public ItemInfoSO ItemInfo => _ItemInfo;
-
-    // [Header("리소스")]
-    // public Sprite _Icon;
-    // public GameObject _Prefab;
+    [SerializeField] Sprite _Icon;
+    public Sprite Icon => _Icon;
+    [SerializeField] GameObject _Prefab;
+    public GameObject Prefab => _Prefab;
 }

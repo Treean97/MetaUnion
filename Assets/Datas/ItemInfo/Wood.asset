@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 093c64649d6c28848acfcd6d395f0b6b, type: 3}
-  m_Name: TestItem
+  m_Name: Wood
   m_EditorClassIdentifier: 
-  _DisplayName: Test
-  _Description: Test Des
+  _DisplayName: Wood
+  _Description: Wood Des

@@ -10,7 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bdb04b2b2e5a9da479ecb184b5a02d5a, type: 3}
-  m_Name: TestItem
+  m_Name: Stone
   m_EditorClassIdentifier: 
-  _ID: 0
-  _ItemInfo: {fileID: 11400000, guid: b90af6c6803d5564f8c9aeb818dac879, type: 2}
+  _ID: 1
+  _ItemInfo: {fileID: 11400000, guid: 5124ff5bdba4f83499ee6035b0343e55, type: 2}
+  _Icon: {fileID: 21300000, guid: 0b52d0f2af7f0cd4d88e792e44b3aea9, type: 3}
+  _Prefab: {fileID: 128184381135264871, guid: 35282005910dc8d40b557f510bea0f27, type: 3}

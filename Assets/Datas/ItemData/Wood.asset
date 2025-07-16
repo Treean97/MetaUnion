@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bdb04b2b2e5a9da479ecb184b5a02d5a, type: 3}
-  m_Name: Diamond
+  m_Name: Wood
   m_EditorClassIdentifier: 
-  _ID: 10001
-  _ItemInfo: {fileID: 11400000, guid: 984312baa3b527745a0578205578d65b, type: 2}
-  _Icon: {fileID: 21300000, guid: e46576b0a1aa5d24ab2d72689c1329f5, type: 3}
-  _Prefab: {fileID: 128184381135264871, guid: 8119472e5a1632c40bd9f667c154d5bf, type: 3}
+  _ID: 0
+  _ItemInfo: {fileID: 11400000, guid: b90af6c6803d5564f8c9aeb818dac879, type: 2}
+  _Icon: {fileID: 21300000, guid: 24000cca93ea5814889d8377dcdfa2ca, type: 3}
+  _Prefab: {fileID: 128184381135264871, guid: 822bcd71462653f4181f7b072def20ab, type: 3}
