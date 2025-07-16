@@ -2551,6 +2551,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -5832728598620746387, guid: 35282005910dc8d40b557f510bea0f27, type: 3}
+      propertyPath: _Amount
+      value: 999
+      objectReference: {fileID: 0}
     - target: {fileID: 128184381135264871, guid: 35282005910dc8d40b557f510bea0f27, type: 3}
       propertyPath: m_Name
       value: Stone
@@ -6237,6 +6241,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -5832728598620746387, guid: 822bcd71462653f4181f7b072def20ab, type: 3}
+      propertyPath: _Amount
+      value: 999
+      objectReference: {fileID: 0}
     - target: {fileID: 128184381135264871, guid: 822bcd71462653f4181f7b072def20ab, type: 3}
       propertyPath: m_Name
       value: Wood

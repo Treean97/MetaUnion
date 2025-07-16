@@ -154,14 +154,28 @@ public static class GameEvents
     => OnRequestUpdateCurrency?.Invoke(currencyId, newValue);
 
     // 아이템 획득
-    public static event Action<int, int> OnRequestItemGain;
-    public static void RaiseRequestItemGain(int itemId, int amount)
-    => OnRequestItemGain?.Invoke(itemId, amount);
+    public static event Func<int, int, bool> OnRequestItemGain;
+    public static bool RaiseRequestItemGain(int itemId, int amount)
+    {
+        bool success = OnRequestItemGain?.Invoke(itemId, amount) ?? false;
+        if (success)
+        {
+            OnRequestUpdateInventory?.Invoke();
+        }
+        return success;
+    }
 
     // 아이템 소비
-    public static event Action<int, int> OnRequestItemSpend;
-    public static void RaiseRequestItemSpend(int itemId, int amount)
-    => OnRequestItemSpend?.Invoke(itemId, amount);
+    public static event Func<int, int, bool> OnRequestItemSpend;
+    public static bool RaiseRequestItemSpend(int itemId, int amount)
+    {
+        bool success = OnRequestItemSpend?.Invoke(itemId, amount) ?? false;
+        if (success)
+        {
+            OnRequestUpdateInventory?.Invoke();
+        }
+        return success;
+    }
 
     // 슬롯머신 UI 요청
     public static event Action OnRequestOpenSlotMachineUI;
@@ -178,9 +192,9 @@ public static class GameEvents
     public static void RaiseRequestUpdateInventory()
     => OnRequestUpdateInventory?.Invoke();
 
-    // 인벤토리 상태 요청
-    public static event Func<List<ItemDataSO>> OnRequestInventoryStatus;
-    public static List<ItemDataSO> RaiseRequestInvetoryStatus()
+    // 인벤토리 상태 요청 id, amount
+    public static event Func<Dictionary<int,int>> OnRequestInventoryStatus;
+    public static Dictionary<int,int> RaiseRequestInventoryStatus()
     => OnRequestInventoryStatus?.Invoke();
 
     // 인벤토리 슬롯 수 요청

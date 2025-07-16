@@ -7,6 +7,7 @@ public abstract class ItemBase : MonoBehaviourPun, IInteractable, IPunInstantiat
     [SerializeField] protected ItemDataSO _ItemData;
     [SerializeField] private float _RotationSpeed = 30f;
 
+    [SerializeField]
     protected int _Amount;
 
     /// <summary>네트워크 생성 시 전달된 데이터를 처리</summary>
