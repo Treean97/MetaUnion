@@ -8,15 +8,16 @@ public class InventorySlot : MonoBehaviour
     [SerializeField] private Image _Icon;
     [SerializeField] private TMP_Text _Amount;
     private ItemDataSO _ItemDataSO;
+    public ItemDataSO ItemDataSO => _ItemDataSO;
 
-    public void UpdateSlot(int id, int amount)
+    public void UpdateSlot(InventoryItem inventory)
     {
-        Debug.Log($"Update Slot {id}, {amount}");
+        Debug.Log($"Update Slot {inventory.ID}, {inventory.Amount}");
         // 아이템 정보 저장
-        ItemManager._Inst.ItemDataPoolSO.TryGetItem(id, out _ItemDataSO);
+        ItemManager._Inst.ItemDataPoolSO.TryGetItem(inventory.ID, out _ItemDataSO);
         _Icon.sprite = _ItemDataSO.Icon;
         _Icon.enabled = true;
-        _Amount.text = amount.ToString();        
+        _Amount.text = inventory.Amount.ToString();
         _Amount.enabled = true;
     }
 

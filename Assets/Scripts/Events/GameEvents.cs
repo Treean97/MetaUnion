@@ -193,8 +193,8 @@ public static class GameEvents
     => OnRequestUpdateInventory?.Invoke();
 
     // 인벤토리 상태 요청 id, amount
-    public static event Func<Dictionary<int,int>> OnRequestInventoryStatus;
-    public static Dictionary<int,int> RaiseRequestInventoryStatus()
+    public static event Func<InventoryItem[]> OnRequestInventoryStatus;
+    public static InventoryItem[] RaiseRequestInventoryStatus()
     => OnRequestInventoryStatus?.Invoke();
 
     // 인벤토리 슬롯 수 요청

@@ -40,21 +40,21 @@ public class InventoryUIManager : MonoBehaviour
     void HandleUpdateInventory()
     {
         Debug.Log("Update Inventory");
-        Dictionary<int, int> inventory = GameEvents.RaiseRequestInventoryStatus();
+        InventoryItem[] inventory = GameEvents.RaiseRequestInventoryStatus();        
 
         foreach (var slot in _Slots)
         {
             slot.ClearSlot();
         }
 
-        int index = 0;
-        foreach (var item in inventory)
+        int count = Mathf.Min(inventory.Length, _Slots.Length);
+        for (int i = 0; i < count; i++)
         {
-            int id = item.Key;
-            int amount = item.Value;
-
-            _Slots[index].UpdateSlot(id, amount);
-            index++;
+            // 빈 슬롯이 아니면
+            if (inventory[i].ID >= 0)
+            {
+                _Slots[i].UpdateSlot(inventory[i]);
+            }                
         }
     }
 

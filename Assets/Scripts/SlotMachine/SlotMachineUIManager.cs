@@ -241,10 +241,12 @@ public class SlotMachineUIManager : MonoBehaviour
         switch (maxCount)
         {
             case 3:
-
+                GameEvents.RaiseRequestCurrencyGain(
+                    _BettingCurrencyID, _BettingCurrencyAmount * _3MatchMul);
                 break;
             case 2:
-
+                GameEvents.RaiseRequestCurrencyGain(
+                    _BettingCurrencyID, _BettingCurrencyAmount * _2MatchMul);
                 break;
             default:
                 break;
