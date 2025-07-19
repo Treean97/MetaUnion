@@ -215,7 +215,17 @@ public static class GameEvents
 
     public static event Action OnRequestClosePlayerListUI;
     public static void RaiseRequestClosePlayerListUI()
-    => OnRequestClosePlayerListUI?.Invoke();  
+    => OnRequestClosePlayerListUI?.Invoke();
 
+    // 낚시 미니 게임 UI
+    public static event Action OnRequestOpenFishingUI;
+    public static void RaiseRequestOpenFishingUI()
+    => OnRequestOpenFishingUI?.Invoke();
+
+    public static event Action OnRequestCloseFishingUI;
+    public static void RaiseRequestCloseFishingUI()
+    => OnRequestCloseFishingUI?.Invoke();
     #endregion
+
+
 }
