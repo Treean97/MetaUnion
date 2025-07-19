@@ -1,6 +1,7 @@
 using System;
 using Photon.Pun.Demo.Cockpit;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Controller
 {
@@ -142,6 +143,9 @@ namespace Controller
 
             if (Input.GetKeyDown(m_AttackKey))
             {
+                if (EventSystem.current.IsPointerOverGameObject())
+                return;
+                
                 OnAttack?.Invoke();
             }
 

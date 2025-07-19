@@ -202,6 +202,11 @@ public static class GameEvents
     public static int RaiseRequestInventorySlotCount()
     => OnRequestInventorySlotCount?.Invoke() ?? 0;
 
+    // 인벤토리 슬롯 교환 요청
+    public static event Action<int, int> OnRequestSwapSlot;
+    public static void RaiseRequestSwapSlot(int from, int to)
+    => OnRequestSwapSlot?.Invoke(from, to);
+
 
     // 플레이어 리스트 UI
     public static event Action OnRequestOpenPlayerListUI;

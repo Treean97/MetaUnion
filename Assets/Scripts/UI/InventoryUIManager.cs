@@ -1,18 +1,18 @@
-using System.Collections.Generic;
-using System.Data.Common;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InventoryUIManager : MonoBehaviour
 {
     [SerializeField] private GameObject _SlotPrefab;
     [SerializeField] private Transform _InventoryUIPanel;
+    [SerializeField] private Image _DragImage;
     private InventorySlot[] _Slots;
     private int _MaxSlotCount;
 
 
     void Awake()
     {
-        GameEvents.OnRequestUpdateInventory += HandleUpdateInventory;
+        GameEvents.OnRequestUpdateInventory += HandleUpdateInventory;        
     }
 
     void Start()
@@ -25,6 +25,7 @@ public class InventoryUIManager : MonoBehaviour
         {
             var go = Instantiate(_SlotPrefab, _InventoryUIPanel);
             _Slots[i] = go.GetComponent<InventorySlot>();
+            _Slots[i].Init(i, _DragImage);
         }
 
         // 한번 초기화
@@ -33,7 +34,7 @@ public class InventoryUIManager : MonoBehaviour
 
     void OnDestroy()
     {
-        GameEvents.OnRequestUpdateInventory -= HandleUpdateInventory;
+        GameEvents.OnRequestUpdateInventory -= HandleUpdateInventory;        
     }
 
     // 인벤토리 갱신
