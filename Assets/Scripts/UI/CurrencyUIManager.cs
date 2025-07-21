@@ -24,7 +24,7 @@ public class CurrencyUIManager : MonoBehaviour
             // 중복 키 검사
             if (_Map.ContainsKey(ui.Currency.ID))
             {
-                Debug.LogError("중복 키 할당");
+                Debug.LogError("Key Dup Error");
             }
             _Map[ui.Currency.ID] = ui.Text;
         }
@@ -33,16 +33,16 @@ public class CurrencyUIManager : MonoBehaviour
 
     void OnEnable()
     {
-        GameEvents.OnRequestUpdateCurrency += HandleChangeCurrency;
+        GameEvents.OnRequestUpdateCurrency += HandleUpdateCurrency;
     }
 
     void OnDisable()
     {
-        GameEvents.OnRequestUpdateCurrency -= HandleChangeCurrency;
+        GameEvents.OnRequestUpdateCurrency -= HandleUpdateCurrency;
     }
 
 
-    void HandleChangeCurrency(int id, int amount)
+    void HandleUpdateCurrency(int id, int amount)
     {
         if (_Map.TryGetValue(id, out var text))
         {

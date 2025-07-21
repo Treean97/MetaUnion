@@ -17,23 +17,49 @@ public class FishingUIManager : MonoBehaviour
     [SerializeField] private float _GaugePower;
     [Tooltip("게이지 초기 값")]
     [SerializeField] private float _GaugeSet;
+    [SerializeField] private ItemDataPoolSO _RewardItemPool;
+    [SerializeField] private int _MaxRewardAmount;
+
 
     public static event Action OnFishInCheckBox;
+    public static void RaiseFishInCheckBox() => OnFishInCheckBox?.Invoke();
     public static event Action OnFishOutCheckBox;
+    public static void RaiseFishOutCheckBox() => OnFishOutCheckBox?.Invoke();
 
-    void OnEnable()
+    private bool _IsInCheckBox = false;
+
+    void Awake()
     {
-        OnFishInCheckBox += GaugeIncrease;
-        OnFishOutCheckBox += GaugeDecrease;
+        OnFishInCheckBox += () => _IsInCheckBox = true;
+        OnFishOutCheckBox += () => _IsInCheckBox = false;
 
         // 게이지 초기화
         _Gauge.value = _GaugeSet;
     }
 
+    void OnEnable()
+    {
+        // 인풋 차단
+        InputBlock.BlockInput();
+    }
+
     void OnDisable()
     {
-        OnFishInCheckBox -= GaugeIncrease;
-        OnFishOutCheckBox -= GaugeDecrease;
+        // 인풋 차단 해제
+        InputBlock.UnblockInput();
+    }
+
+
+    void Update()
+    {
+        if (_IsInCheckBox)
+        {
+            GaugeIncrease();
+        }
+        else
+        {
+            GaugeDecrease();
+        }
     }
 
 
@@ -66,10 +92,21 @@ public class FishingUIManager : MonoBehaviour
     void FishingSuccess()
     {
         // 물고기 아이템 획득 및 종료
+        int idx = UnityEngine.Random.Range(0, _RewardItemPool.GetItemCount());
+        var randomItem = _RewardItemPool.GetItemAt(idx);
+        int amount = UnityEngine.Random.Range(1, _MaxRewardAmount);
+        GameEvents.RaiseRequestItemGain(randomItem.ID, amount);
+        FishingUIClose();
     }
 
     void FishingFail()
     {
         // 낚시 종료
+        FishingUIClose();
+    }
+
+    void FishingUIClose()
+    {
+        gameObject.SetActive(false);
     }
 }

@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 093c64649d6c28848acfcd6d395f0b6b, type: 3}
   m_Name: SlotMachine
   m_EditorClassIdentifier: 
-  DisplayName: SlotMachine
-  Description: Press "E"
+  _DisplayName: Slot Machine
+  _Description: Press "E"

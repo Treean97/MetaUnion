@@ -23,4 +23,14 @@ public class ItemDataPoolSO : ScriptableObject
         Init();
         return _ItemDic.TryGetValue(id, out data);
     }
+
+    public int GetItemCount()
+    {
+        return _Items.Count;
+    }
+
+    public ItemDataSO GetItemAt(int index)
+    {
+        return _Items[index];
+    }
 }
