@@ -154,6 +154,8 @@ public class SlotMachineUIManager : MonoBehaviour
         {
             return;
         }
+        // 드롭다운 비활성
+        _BetCurrencyDropdown.interactable = false;
         
         // 결과 값 결정
         GetDestiny();
@@ -252,6 +254,7 @@ public class SlotMachineUIManager : MonoBehaviour
                 break;
         }
 
-        _CurrencyInputField.interactable = true;    
+        _CurrencyInputField.interactable = true;
+        _BetCurrencyDropdown.interactable = true;
     }
 }

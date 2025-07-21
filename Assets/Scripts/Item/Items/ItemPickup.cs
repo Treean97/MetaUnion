@@ -15,8 +15,30 @@ public class ItemPickup : ItemBase
     {
         // 아이템 획득 로직
         GameEvents.RaiseRequestItemGain(_ItemData.ID, _Amount);
-        
+
         // 네트워크 상에서 오브젝트 파괴
-        PhotonNetwork.Destroy(photonView);
+        TryDestroy();
+    }
+    
+    void TryDestroy()
+    {
+        if (photonView.IsMine || PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.Destroy(gameObject);
+        }
+        else
+        {
+            // 내가 삭제 권한 없으면, MasterClient에게 삭제 요청
+            photonView.RPC(nameof(RequestDestroyByMaster), RpcTarget.MasterClient);
+        }
+    }
+
+    [PunRPC]
+    void RequestDestroyByMaster()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.Destroy(gameObject);
+        }
     }
 }
