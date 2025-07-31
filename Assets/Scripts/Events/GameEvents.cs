@@ -222,9 +222,12 @@ public static class GameEvents
     public static void RaiseRequestOpenFishingUI()
     => OnRequestOpenFishingUI?.Invoke();
 
-    public static event Action OnRequestCloseFishingUI;
-    public static void RaiseRequestCloseFishingUI()
-    => OnRequestCloseFishingUI?.Invoke();
+
+    // 룰렛 UI
+    public static event Action OnRequestOpenRouletteUI;
+    public static void RaiseRequestOpenRolutteUI()
+    => OnRequestOpenRouletteUI?.Invoke();
+
     #endregion
 
 
