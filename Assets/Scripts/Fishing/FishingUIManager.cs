@@ -37,18 +37,6 @@ public class FishingUIManager : MonoBehaviour
         _Gauge.value = _GaugeSet;
     }
 
-    void OnEnable()
-    {
-        // 인풋 차단
-        InputBlock.BlockInput();
-    }
-
-    void OnDisable()
-    {
-        // 인풋 차단 해제
-        InputBlock.UnblockInput();
-    }
-
 
     void Update()
     {
@@ -96,6 +84,8 @@ public class FishingUIManager : MonoBehaviour
         var randomItem = _RewardItemPool.GetItemAt(idx);
         int amount = UnityEngine.Random.Range(1, _MaxRewardAmount);
         GameEvents.RaiseRequestItemGain(randomItem.ID, amount);
+
+        // 낚시 종료
         FishingUIClose();
     }
 

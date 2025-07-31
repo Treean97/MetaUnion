@@ -11,6 +11,7 @@ public static class InputBlock
     // 팝업 열 때 호출
     public static void BlockInput()
     {
+        Debug.Log("BlockInput");
         if (_BlockCount == 0)
         {
             OnInputBlockStatus?.Invoke(true);
@@ -22,6 +23,7 @@ public static class InputBlock
     // 팝업 닫을 때 호출
     public static void UnblockInput()
     {
+        Debug.Log("UnBlockInput");
         if (_BlockCount <= 0) return;
 
         _BlockCount--;
