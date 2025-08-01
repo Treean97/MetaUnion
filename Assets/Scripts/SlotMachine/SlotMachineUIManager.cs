@@ -2,13 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 
 public class SlotMachineUIManager : MonoBehaviour
 {
+    /*
+    라인 별 슬롯 분리
+    레이아웃 그리드 제거
+    회전할 때 상단으로 위치 변경 시 숫자도 다시 랜덤으로
+    마지막 표기할 곳에 초기 설정된 결과 값 넣기
+    */
     [SerializeField] GameObject[] _Lanes;
 
     [SerializeField] int _MaxIndex;
@@ -17,7 +22,7 @@ public class SlotMachineUIManager : MonoBehaviour
 
     int _ItemCnt = 0;
 
-    int GetRandom(int minIndex, int maxIndex) => UnityEngine.Random.Range(minIndex, maxIndex);
+    int GetRandom(int minIndex, int maxIndex) => Random.Range(minIndex, maxIndex);
 
     [System.Serializable]
     public class DisplayItemSlot
@@ -69,6 +74,15 @@ public class SlotMachineUIManager : MonoBehaviour
         _ItemCnt = _DisplayItemSlots[0].SlotObj.Count;
         _CurrencyInputField.characterValidation
         = TMP_InputField.CharacterValidation.Digit;
+    }
+
+    void Update()
+    {
+        // 평상 시 돌아가는 것 처럼 구현
+        if (!_IsRolling)
+        {
+            return;
+        }
     }
 
     void OnEnable()
