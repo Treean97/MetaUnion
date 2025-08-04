@@ -1,8 +1,11 @@
+using System;
 using Photon.Pun;
 using UnityEngine;
 
 public class CurrencyPickup : ItemBase
 {
+    public static event Action OnCurrecnyPickUp;
+
     /// <summary>
     /// Instantiate 시 전달된 데이터 처리 (예: amount)
     /// </summary>
@@ -17,6 +20,9 @@ public class CurrencyPickup : ItemBase
     /// </summary>
     public override void OnInteract()
     {
+        // 줍기
+        OnCurrecnyPickUp?.Invoke();
+
         // 획득
         GameEvents.RaiseRequestCurrencyGain(_ItemData.ID, _Amount);
 

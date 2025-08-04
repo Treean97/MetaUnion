@@ -26,6 +26,9 @@ public class FishingUIManager : MonoBehaviour
     public static event Action OnFishOutCheckBox;
     public static void RaiseFishOutCheckBox() => OnFishOutCheckBox?.Invoke();
 
+    public static event Action OnFishingSuccess;
+    public static event Action OnFishingFail;
+
     private bool _IsInCheckBox = false;
 
     void Awake()
@@ -79,6 +82,8 @@ public class FishingUIManager : MonoBehaviour
 
     void FishingSuccess()
     {
+        OnFishingSuccess?.Invoke();
+
         // 물고기 아이템 획득 및 종료
         int idx = UnityEngine.Random.Range(0, _RewardItemPool.GetItemCount());
         var randomItem = _RewardItemPool.GetItemAt(idx);
@@ -91,12 +96,14 @@ public class FishingUIManager : MonoBehaviour
 
     void FishingFail()
     {
+        OnFishingFail?.Invoke();
         // 낚시 종료
         FishingUIClose();
     }
 
     void FishingUIClose()
     {
+        InputBlock.UnblockInput();
         gameObject.SetActive(false);
     }
 }

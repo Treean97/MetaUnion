@@ -1992,6 +1992,8 @@ GameObject:
   - component: {fileID: 5568501472016897232}
   - component: {fileID: 1229482598479855776}
   - component: {fileID: 3751051721379943407}
+  - component: {fileID: 8296784686235821923}
+  - component: {fileID: 6948469282394973655}
   - component: {fileID: 4928708100084350539}
   - component: {fileID: 1448556797334339772}
   - component: {fileID: 16416478344735379}
@@ -2210,6 +2212,30 @@ MonoBehaviour:
   _AttackPoint: {fileID: 7074244965923215746}
   _AttackRadius: 0.5
   _AttackStunDuration: 1
+--- !u!114 &8296784686235821923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5832607453936394915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65734f9564291ae409ae7b9db3b11478, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6948469282394973655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5832607453936394915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e9a47284d56cfd48a619867f4e0b5ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &4928708100084350539
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2404,6 +2430,18 @@ MonoBehaviour:
   - Type: 9
     SynchronizeType: 0
     Name: PickaxeAttackTrigger
+  - Type: 9
+    SynchronizeType: 0
+    Name: FishingTrigger
+  - Type: 9
+    SynchronizeType: 0
+    Name: FishingSuccessTrigger
+  - Type: 9
+    SynchronizeType: 0
+    Name: FishingFailTrigger
+  - Type: 9
+    SynchronizeType: 0
+    Name: ItemPickUp
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
@@ -2411,6 +2449,10 @@ MonoBehaviour:
     LayerIndex: 1
   - SynchronizeType: 0
     LayerIndex: 2
+  - SynchronizeType: 0
+    LayerIndex: 3
+  - SynchronizeType: 0
+    LayerIndex: 4
 --- !u!114 &6165579039408698240
 MonoBehaviour:
   m_ObjectHideFlags: 0

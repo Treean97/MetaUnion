@@ -3,8 +3,6 @@ using UnityEngine;
 using Photon.Pun;
 using Controller;
 using System.Collections;
-using System;
-using System.Collections.Generic;
 
 [RequireComponent(typeof(PlayerStat), typeof(PhotonView))]
 [RequireComponent(typeof(Animator))]
