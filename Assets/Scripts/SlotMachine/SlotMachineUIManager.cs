@@ -8,12 +8,6 @@ using UnityEngine.UI;
 
 public class SlotMachineUIManager : MonoBehaviour
 {
-    /*
-    라인 별 슬롯 분리
-    레이아웃 그리드 제거
-    회전할 때 상단으로 위치 변경 시 숫자도 다시 랜덤으로
-    마지막 표기할 곳에 초기 설정된 결과 값 넣기
-    */
     [SerializeField] GameObject[] _Lanes;
 
     [SerializeField] int _MaxIndex;
