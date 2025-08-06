@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Photon.Realtime;
+using UnityEngine.Experimental.GlobalIllumination;
 using UnityEngine.UI;
 
 
@@ -153,6 +154,23 @@ public static class GameEvents
     public static void RaiseRequestUpdateCurrency(int currencyId, int newValue)
     => OnRequestUpdateCurrency?.Invoke(currencyId, newValue);
 
+    // 아이템 구매
+    public static event Func<int, int, int, bool> OnRequestPurchaseItem;
+    public static bool RaiseRequestPurchaseItem(int itemId, int amount, int price)
+    {
+        bool success = OnRequestPurchaseItem?.Invoke(itemId, amount, price) ?? false;
+        if (success)
+        {
+            RaiseRequestItemGain(itemId, amount);
+        }
+        else
+        {
+            RaiseShowWarning("Not Enough Money");
+        }
+
+        return success;
+    }
+
     // 아이템 획득
     public static event Func<int, int, bool> OnRequestItemGain;
     public static bool RaiseRequestItemGain(int itemId, int amount)
@@ -232,7 +250,17 @@ public static class GameEvents
     public static void RaiseRequestOpenVendingMachineUI()
     => OnRequestOpenVendingMachineUI?.Invoke();
 
+    // 포션 효과
+    public static event Action<float, float> OnRequestMoveSpeedBuff;
+    public static void RaiseRequestMoveSpeedBuff(float value, float duration)
+    => OnRequestMoveSpeedBuff(value, duration);
+
+    public static event Action<float, float> OnRequestJumpBoostBuff;
+    public static void RaiseRequestJumpBoostBuff(float value, float duration)
+    => OnRequestJumpBoostBuff(value, duration);
+
     #endregion
+
 
 
 }

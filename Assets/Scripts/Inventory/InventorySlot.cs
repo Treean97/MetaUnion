@@ -1,5 +1,6 @@
 using System;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -13,6 +14,7 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler,
     [SerializeField] private GameObject _InventoryFocusUI;
     private ItemDataSO _ItemDataSO;
     public ItemDataSO ItemDataSO => _ItemDataSO;
+    InventoryItem _InventoryItem;
     int _SlotIndex;
     Image _DragImage;
 
@@ -33,6 +35,9 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler,
             ClearSlot();
             return;
         }
+
+        _InventoryItem = inventory;
+
 
         Debug.Log($"Update Slot {inventory.ID}, {inventory.Amount}");
         // 아이템 정보 저장
@@ -90,5 +95,24 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler,
     public void OnPointerExit(PointerEventData eventData)
     {
         OnPointerExitInventorySlot?.Invoke();
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (eventData.button == PointerEventData.InputButton.Right && _ItemDataSO != null)
+    {
+        // 런타임 데이터에 접근 가능
+        Debug.Log($"아이템 ID: {_InventoryItem.ID}, 수량: {_InventoryItem.Amount}");
+
+        // // ItemDataSO에서 액션 목록 가져오기
+        // var actions = _ItemDataSO.Actions;
+        // foreach (var act in actions)
+        // {
+        //     ContextMenuUI.Instance.AddOption(act.Label, () => {
+        //         act.Execute(_inventoryItem, Player.Instance.gameObject);
+        //     });
+        // }
+        // ContextMenuUI.Instance.Show(transform.position);
+    }
     }
 }
