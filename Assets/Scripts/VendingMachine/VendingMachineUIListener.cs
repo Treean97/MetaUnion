@@ -2,15 +2,20 @@ using UnityEngine;
 
 public class VendingMachineUIListener : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField] VendingMachineUIManager _VendingMachineUIManager;
+
+    void OnEnable()
     {
-        
+        GameEvents.OnRequestOpenVendingMachineUI += HandleSetActive;
     }
 
-    // Update is called once per frame
-    void Update()
+    void OnDisable()
     {
-        
+        GameEvents.OnRequestOpenVendingMachineUI -= HandleSetActive;
+    }
+
+    void HandleSetActive()
+    {
+        _VendingMachineUIManager.gameObject.SetActive(true);
     }
 }

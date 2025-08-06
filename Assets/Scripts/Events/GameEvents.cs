@@ -222,11 +222,15 @@ public static class GameEvents
     public static void RaiseRequestOpenFishingUI()
     => OnRequestOpenFishingUI?.Invoke();
 
-
     // 룰렛 UI
     public static event Action OnRequestOpenRouletteUI;
     public static void RaiseRequestOpenRolutteUI()
     => OnRequestOpenRouletteUI?.Invoke();
+
+    // 자판기 UI
+    public static event Action OnRequestOpenVendingMachineUI;
+    public static void RaiseRequestOpenVendingMachineUI()
+    => OnRequestOpenVendingMachineUI?.Invoke();
 
     #endregion
 
