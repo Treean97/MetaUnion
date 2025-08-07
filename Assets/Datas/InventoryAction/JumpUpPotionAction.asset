@@ -13,6 +13,4 @@ MonoBehaviour:
   m_Name: JumpUpPotionAction
   m_EditorClassIdentifier: 
   _Label: Use
-  _EffectType: 1
-  _Value: 2
-  _Duration: 5
+  _BuffData: {fileID: 11400000, guid: 1a58a4acf2916444abbdad994f40fd99, type: 2}

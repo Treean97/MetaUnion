@@ -9,8 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c696ce7bc047fcd469ddab998da6a7d1, type: 3}
-  m_Name: SpeedUpPotionAction
+  m_Script: {fileID: 11500000, guid: 2fb8c24a472bf6c48a49c1b1481cf87c, type: 3}
+  m_Name: SpeedUpEffect
   m_EditorClassIdentifier: 
-  _Label: Use
-  _BuffData: {fileID: 11400000, guid: f099fb7faf469a740bb10d71dbb757df, type: 2}

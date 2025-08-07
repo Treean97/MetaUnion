@@ -26,14 +26,12 @@ public class PlayerStat : MonoBehaviour
 
     void OnEnable()
     {
-        GameEvents.OnRequestMoveSpeedBuff += HandleMoveSpeedBuff;
-        GameEvents.OnRequestJumpBoostBuff += HandleJumpBoostBuff;
+        GameEvents.OnRequestApplyBuff += HandleApplyBuff;
     }
 
     void OnDisable()
     {
-        GameEvents.OnRequestMoveSpeedBuff -= HandleMoveSpeedBuff;
-        GameEvents.OnRequestJumpBoostBuff -= HandleJumpBoostBuff;
+        GameEvents.OnRequestApplyBuff -= HandleApplyBuff;
     }
 
     void Update()
@@ -50,6 +48,14 @@ public class PlayerStat : MonoBehaviour
             }
         }
     }
+
+    private void HandleApplyBuff(BuffDataSO buff, GameObject user)
+    {
+
+        var playerStat = user.GetComponent<PlayerStat>();
+        buff.Effect.Apply(playerStat, buff);
+    }
+
 
     public void AddModifier(StatModifier mod)
     {
@@ -94,15 +100,15 @@ public class PlayerStat : MonoBehaviour
 
     #region Potion Effect
 
-    private void HandleMoveSpeedBuff(PotionValueType type, float value, float duration)
+    private void HandleMoveSpeedBuff(BuffValueType type, float value, float duration)
     {
         
 
         var mod1 = new StatModifier
         {
             Type = StatType.MoveSpeed,
-            AddValue = type == PotionValueType.Add ? value : 0,    
-            MulFactor = type == PotionValueType.Multiple ? value : 1,
+            AddValue = type == BuffValueType.Add ? value : 0,    
+            MulFactor = type == BuffValueType.Multiple ? value : 1,
             Duration = duration
         };
         AddModifier(mod1);
@@ -110,8 +116,8 @@ public class PlayerStat : MonoBehaviour
         var mod2 = new StatModifier
         {
             Type = StatType.RunSpeed,
-            AddValue = type == PotionValueType.Add ? value : 0,    
-            MulFactor = type == PotionValueType.Multiple ? value : 1,
+            AddValue = type == BuffValueType.Add ? value : 0,    
+            MulFactor = type == BuffValueType.Multiple ? value : 1,
             Duration = duration
         };
         AddModifier(mod2);
@@ -119,13 +125,13 @@ public class PlayerStat : MonoBehaviour
         Debug.Log($"Speed Up / {GetStat(StatType.MoveSpeed)}, {GetStat(StatType.RunSpeed)}");
     }
 
-    private void HandleJumpBoostBuff(PotionValueType type, float value, float duration)
+    private void HandleJumpBoostBuff(BuffValueType type, float value, float duration)
     {
         var mod = new StatModifier
         {
             Type = StatType.JumpPower,
-            AddValue = type == PotionValueType.Add ? value : 0,    
-            MulFactor = type == PotionValueType.Multiple ? value : 1,
+            AddValue = type == BuffValueType.Add ? value : 0,    
+            MulFactor = type == BuffValueType.Multiple ? value : 1,
             Duration = duration
         };
         AddModifier(mod);

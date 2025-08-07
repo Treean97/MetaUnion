@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Photon.Realtime;
 using Unity.Mathematics;
+using UnityEngine;
 using UnityEngine.Experimental.GlobalIllumination;
 using UnityEngine.UI;
 
@@ -251,14 +252,10 @@ public static class GameEvents
     public static void RaiseRequestOpenVendingMachineUI()
     => OnRequestOpenVendingMachineUI?.Invoke();
 
-    // 포션 효과
-    public static event Action<PotionValueType, float, float> OnRequestMoveSpeedBuff;
-    public static void RaiseRequestMoveSpeedBuff(PotionValueType type, float value, float duration)
-    => OnRequestMoveSpeedBuff(type, value, duration);
-
-    public static event Action<PotionValueType, float, float> OnRequestJumpBoostBuff;
-    public static void RaiseRequestJumpBoostBuff(PotionValueType type, float value, float duration)
-    => OnRequestJumpBoostBuff(type, value, duration);
+    // 버프
+    public static event Action<BuffDataSO, GameObject> OnRequestApplyBuff;
+    public static void RaiseRequestApplyBuff(BuffDataSO buff, GameObject user)
+    => OnRequestApplyBuff(buff, user);
 
     #endregion
 
