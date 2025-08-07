@@ -1,8 +1,9 @@
 using System.Linq;
 using UnityEngine;
 
+
 [CreateAssetMenu(fileName = "ItemData", menuName = "Item/ItemData")]
-public class ItemDataSO : ScriptableObject
+public class ItemDataSO : ScriptableObject, IItemData
 {
     [Header("아이템 정보")]
     [SerializeField] private int _ID;

@@ -13,6 +13,16 @@ public class VendingMachineUIManager : MonoBehaviour
         _CloseBtn.onClick.AddListener(OnClickCloseBtn);
     }
 
+    void OnEnable()
+    {
+        InputBlock.BlockInput();
+    }
+
+    void OnDisable()
+    {
+        InputBlock.UnblockInput();
+    }
+
     void Start()
     {
         // 슬롯 생성 및 할당

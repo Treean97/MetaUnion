@@ -1,14 +1,18 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System;
 
 public class PlayerStat : MonoBehaviour
 {
     [Header("Default Stats")]
     [SerializeField] private PlayerStatsSO _StatsSO;
     // StatType → BaseValue 매핑
-    private Dictionary<StatType, float> _BaseStats;    
-    
+    private Dictionary<StatType, float> _BaseStats;
+
     private List<StatModifier> _Modifiers = new();
+
+    public static event Action<StatType, float> OnStatChanged;
+    public static event Action<StatType, float> OnBuffAdded;
 
     private void Awake()
     {
@@ -35,7 +39,16 @@ public class PlayerStat : MonoBehaviour
     void Update()
     {
         float now = Time.time;
-        _Modifiers.RemoveAll(m => m.Duration > 0 && now >= m.ExpireTime);
+
+        for (int i = 0; i < _Modifiers.Count; i++)
+        {
+            var m = _Modifiers[i];
+            if (m.Duration > 0 && now >= m.ExpireTime)
+            {
+                _Modifiers.RemoveAt(i);
+                OnStatChanged?.Invoke(m.Type, GetStat(m.Type));
+            }
+        }
     }
 
     public void AddModifier(StatModifier mod)
@@ -45,8 +58,11 @@ public class PlayerStat : MonoBehaviour
         {
             mod.ExpireTime = Time.time + mod.Duration;
         }
-        
+
         _Modifiers.Add(mod);
+
+        OnStatChanged?.Invoke(mod.Type, GetStat(mod.Type));
+        OnBuffAdded?.Invoke(mod.Type, mod.Duration);
     }
 
     public float GetStat(StatType type)
@@ -76,34 +92,46 @@ public class PlayerStat : MonoBehaviour
         return 0f;
     }
 
+    #region Potion Effect
 
-    private void HandleMoveSpeedBuff(float value, float duration)
+    private void HandleMoveSpeedBuff(PotionValueType type, float value, float duration)
     {
-        var mod = new StatModifier
+        
+
+        var mod1 = new StatModifier
         {
             Type = StatType.MoveSpeed,
-            AddValue = 0f,
-            MulFactor = value,
+            AddValue = type == PotionValueType.Add ? value : 0,    
+            MulFactor = type == PotionValueType.Multiple ? value : 1,
             Duration = duration
         };
-        AddModifier(mod);
+        AddModifier(mod1);
 
+        var mod2 = new StatModifier
+        {
+            Type = StatType.RunSpeed,
+            AddValue = type == PotionValueType.Add ? value : 0,    
+            MulFactor = type == PotionValueType.Multiple ? value : 1,
+            Duration = duration
+        };
+        AddModifier(mod2);
 
-        Debug.Log("Speed Up");
+        Debug.Log($"Speed Up / {GetStat(StatType.MoveSpeed)}, {GetStat(StatType.RunSpeed)}");
     }
 
-    private void HandleJumpBoostBuff(float value, float duration)
+    private void HandleJumpBoostBuff(PotionValueType type, float value, float duration)
     {
         var mod = new StatModifier
         {
             Type = StatType.JumpPower,
-            AddValue = 0f,
-            MulFactor = value,
+            AddValue = type == PotionValueType.Add ? value : 0,    
+            MulFactor = type == PotionValueType.Multiple ? value : 1,
             Duration = duration
         };
         AddModifier(mod);
-        
-        Debug.Log("Jump Boost");
+
+        Debug.Log($"Jump Boost / {GetStat(StatType.JumpPower)}");
     }
     
+    #endregion
 }

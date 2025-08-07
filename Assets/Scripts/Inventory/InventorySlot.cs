@@ -1,4 +1,7 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using Photon.Realtime;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -21,6 +24,8 @@ IBeginDragHandler, IEndDragHandler, IDropHandler,
     public static event Action OnEndDragSlot;
     public static event Action<ItemDataSO> OnPointerEnterInventorySlot;
     public static event Action OnPointerExitInventorySlot;
+    public static event Action<Dictionary<string, Action>, Vector2> OnRightClickInventorySlot;
+
 
 
     public void Init(int index)
@@ -94,19 +99,17 @@ IBeginDragHandler, IEndDragHandler, IDropHandler,
     public void OnPointerClick(PointerEventData eventData)
     {
         if (eventData.button == PointerEventData.InputButton.Right && _ItemDataSO != null)
-    {
-        // 런타임 데이터에 접근 가능
-        Debug.Log($"아이템 ID: {_InventoryItem.ID}, 수량: {_InventoryItem.Amount}");
+        {
+            // 런타임 데이터에 접근 가능
+            Debug.Log($"아이템 ID: {_InventoryItem.ID}, 수량: {_InventoryItem.Amount}");
 
-        // // ItemDataSO에서 액션 목록 가져오기
-        // var actions = _ItemDataSO.Actions;
-        // foreach (var act in actions)
-        // {
-        //     ContextMenuUI.Instance.AddOption(act.Label, () => {
-        //         act.Execute(_inventoryItem, Player.Instance.gameObject);
-        //     });
-        // }
-        // ContextMenuUI.Instance.Show(transform.position);
-    }
+            var menuOptions = _ItemDataSO.Actions.
+                ToDictionary(action => action.Label,
+                action => (Action)(() => action.Execute(_InventoryItem, PlayerSetup._LocalPlayer))
+            );
+
+            OnRightClickInventorySlot?.Invoke(menuOptions, eventData.position);
+        }
+        
     }
 }

@@ -11,11 +11,12 @@ namespace Controller
     public class MoveHandler : MonoBehaviour
     {
         [Header("Movement")]
-        [SerializeField] private float m_WalkSpeed = 1f;
-        [SerializeField] private float m_RunSpeed = 4f;
+        [SerializeField] private float m_WalkSpeed;
+        [SerializeField] private float m_RunSpeed;
         [SerializeField, Range(0f, 360f)] private float m_RotateSpeed = 90f;
         [SerializeField] private Space m_Space = Space.Self;
-        [SerializeField] private float m_JumpHeight = 5f;
+        [SerializeField] private float m_JumpHeight;
+        [SerializeField] PlayerStat _PlayerStat;
 
         [Header("Animator")]
         [SerializeField] private string m_HorizontalID = "Hor";
@@ -60,23 +61,40 @@ namespace Controller
             m_Animator = GetComponent<Animator>();
             _PhotonView = GetComponent<PhotonView>();
 
-
             // 핸들러 초기화
             m_Movement = new MovementHandler(m_Controller, m_Transform, m_WalkSpeed, m_RunSpeed, m_RotateSpeed, m_JumpHeight, m_Space, m_GroundCheck, m_CheckRadius);
             m_Animation = new AnimationHandler(m_Animator, m_HorizontalID, m_VerticalID, m_StateID, m_JumpID);
+
+            PlayerStat.OnStatChanged += HandleStatChanged;
+        }
+
+        void OnDestroy()
+        {
+            PlayerStat.OnStatChanged -= HandleStatChanged;
         }
 
         void Start()
-        {            
-            // PlayerStat에서 값을 가져와 이동 속성 설정
-            var stat = GetComponent<PlayerStat>();
-            if (stat != null)
-            {
-                m_WalkSpeed = stat.GetStat(StatType.MoveSpeed);
-                m_RunSpeed = stat.GetStat(StatType.RunSpeed);
-                m_JumpHeight = stat.GetStat(StatType.JumpPower);
-            }
+        {
+            UpdateMovementStats();
         }
+
+        private void HandleStatChanged(StatType type, float newValue)
+        {
+            // MoveSpeed, RunSpeed, JumpPower가 바뀌었을 때만 재세팅
+            if (type == StatType.MoveSpeed || type == StatType.RunSpeed || type == StatType.JumpPower)
+                UpdateMovementStats();
+        }
+    
+
+        private void UpdateMovementStats()
+        {
+            float walk = _PlayerStat.GetStat(StatType.MoveSpeed);
+            float run = _PlayerStat.GetStat(StatType.RunSpeed);
+            float jump = _PlayerStat.GetStat(StatType.JumpPower);
+
+            m_Movement.SetStats(walk, run, m_RotateSpeed, jump, m_Space);
+        }
+
 
         private void Update()
         {
