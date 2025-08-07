@@ -155,20 +155,20 @@ public static class GameEvents
     => OnRequestUpdateCurrency?.Invoke(currencyId, newValue);
 
     // 아이템 구매
-    public static event Func<int, int, int, bool> OnRequestPurchaseItem;
-    public static bool RaiseRequestPurchaseItem(int itemId, int amount, int price)
+    public static event Func<int, int, int, int, bool> OnRequestPurchaseItem;
+    public static bool RaiseRequestPurchaseItem(int itemId, int amount, int currencyId, int price)
     {
-        bool success = OnRequestPurchaseItem?.Invoke(itemId, amount, price) ?? false;
-        if (success)
+        int totalCost = price * amount;
+
+        if (!RaiseRequestCurrencySpend(currencyId, totalCost))
         {
-            RaiseRequestItemGain(itemId, amount);
-        }
-        else
-        {
+            // 충분한 재화가 없을 때
             RaiseShowWarning("Not Enough Money");
+            return false;
         }
 
-        return success;
+        RaiseRequestItemGain(itemId, amount);
+        return true;
     }
 
     // 아이템 획득

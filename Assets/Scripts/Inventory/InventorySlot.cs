@@ -1,13 +1,13 @@
 using System;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 
-public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler,
- IEndDragHandler, IDropHandler, IPointerEnterHandler, IPointerExitHandler
+public class InventorySlot : MonoBehaviour,
+IBeginDragHandler, IEndDragHandler, IDropHandler,
+ IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     [SerializeField] private Image _Icon;
     [SerializeField] private TMP_Text _Amount;
@@ -16,15 +16,16 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler,
     public ItemDataSO ItemDataSO => _ItemDataSO;
     InventoryItem _InventoryItem;
     int _SlotIndex;
-    Image _DragImage;
 
+    public static event Action<ItemDataSO> OnBeginDragSlot;
+    public static event Action OnEndDragSlot;
     public static event Action<ItemDataSO> OnPointerEnterInventorySlot;
     public static event Action OnPointerExitInventorySlot;
 
-    public void Init(int index, Image dragImage)
+
+    public void Init(int index)
     {
         _SlotIndex = index;
-        _DragImage = dragImage;
     }
 
     public void UpdateSlot(InventoryItem inventory)
@@ -37,7 +38,6 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler,
         }
 
         _InventoryItem = inventory;
-
 
         Debug.Log($"Update Slot {inventory.ID}, {inventory.Amount}");
         // 아이템 정보 저장
@@ -58,22 +58,16 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler,
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        _DragImage.sprite = _ItemDataSO.Icon;
-        _DragImage.gameObject.SetActive(true);
-        _DragImage.transform.position = eventData.position;
+        OnBeginDragSlot?.Invoke(_ItemDataSO);
 
         _Icon.enabled = false;
         _Amount.enabled = false;
     }
 
-    public void OnDrag(PointerEventData eventData)
-    {
-        _DragImage.transform.position = eventData.position;
-    }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        _DragImage.gameObject.SetActive(false);
+        OnEndDragSlot?.Invoke();
 
         _Icon.enabled = true;
         _Amount.enabled = true;

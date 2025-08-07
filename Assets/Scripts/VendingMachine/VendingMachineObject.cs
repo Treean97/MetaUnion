@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class VendingMachineObject : MonoBehaviour
+public class VendingMachineObject : MonoBehaviour, IInteractable
 {
     [SerializeField]    
     ItemInfoSO _ObjInfo;

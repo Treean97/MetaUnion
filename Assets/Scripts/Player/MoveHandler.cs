@@ -72,9 +72,9 @@ namespace Controller
             var stat = GetComponent<PlayerStat>();
             if (stat != null)
             {
-                m_WalkSpeed = stat.GetBaseStat(StatType.MoveSpeed);
-                m_RunSpeed = stat.GetBaseStat(StatType.RunSpeed);
-                m_JumpHeight = stat.GetBaseStat(StatType.JumpPower);
+                m_WalkSpeed = stat.GetStat(StatType.MoveSpeed);
+                m_RunSpeed = stat.GetStat(StatType.RunSpeed);
+                m_JumpHeight = stat.GetStat(StatType.JumpPower);
             }
         }
 

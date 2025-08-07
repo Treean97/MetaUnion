@@ -12,7 +12,9 @@ public class InventoryUIManager : MonoBehaviour
 
     void Awake()
     {
-        GameEvents.OnRequestUpdateInventory += HandleUpdateInventory;        
+        GameEvents.OnRequestUpdateInventory += HandleUpdateInventory;
+        InventorySlot.OnBeginDragSlot += HandleBeginDragSlot;
+        InventorySlot.OnEndDragSlot += HandleEndDragSlot;
     }
 
     void Start()
@@ -25,7 +27,7 @@ public class InventoryUIManager : MonoBehaviour
         {
             var go = Instantiate(_SlotPrefab, _InventoryUIPanel);
             _Slots[i] = go.GetComponent<InventorySlot>();
-            _Slots[i].Init(i, _DragImage);
+            _Slots[i].Init(i);
         }
 
         // 한번 초기화
@@ -34,14 +36,16 @@ public class InventoryUIManager : MonoBehaviour
 
     void OnDestroy()
     {
-        GameEvents.OnRequestUpdateInventory -= HandleUpdateInventory;        
+        GameEvents.OnRequestUpdateInventory -= HandleUpdateInventory;
+        InventorySlot.OnBeginDragSlot -= HandleBeginDragSlot;
+        InventorySlot.OnEndDragSlot -= HandleEndDragSlot;
     }
 
     // 인벤토리 갱신
     void HandleUpdateInventory()
     {
         Debug.Log("Update Inventory");
-        InventoryItem[] inventory = GameEvents.RaiseRequestInventoryStatus();        
+        InventoryItem[] inventory = GameEvents.RaiseRequestInventoryStatus();
 
         foreach (var slot in _Slots)
         {
@@ -55,8 +59,19 @@ public class InventoryUIManager : MonoBehaviour
             if (inventory[i].ID >= 0)
             {
                 _Slots[i].UpdateSlot(inventory[i]);
-            }                
+            }
         }
+    }
+    
+    void HandleBeginDragSlot(ItemDataSO itemDataSO)
+    {
+        _DragImage.sprite = itemDataSO.Icon;
+        _DragImage.gameObject.SetActive(true);        
+    }
+
+    void HandleEndDragSlot()
+    {
+        _DragImage.gameObject.SetActive(false);
     }
 
 }

@@ -33,7 +33,7 @@ public class HandState : IWeaponState
             if (col.TryGetComponent<IDamageable>(out var dmgable))
             {
                 int viewID = col.GetComponent<PhotonView>().ViewID;
-                float dmg = handler._Stat.GetBaseStat(StatType.AttackPower);
+                float dmg = handler._Stat.GetStat(StatType.AttackPower);
                 // 데미지
                 handler.photonView.RPC(
                     nameof(handler.RPC_DealDamage),
@@ -83,7 +83,7 @@ public class AxeState : IWeaponState
             if (col.TryGetComponent<IChoppable>(out var harvestable))
             {
                 int viewID = col.GetComponent<PhotonView>().ViewID;
-                float power = handler._Stat.GetBaseStat(StatType.AxePower);
+                float power = handler._Stat.GetStat(StatType.AxePower);
 
                 handler.photonView.RPC(
                     nameof(handler.RPC_HarvestChoppableResource),
@@ -122,7 +122,7 @@ public class PickaxeState : IWeaponState
             if (col.TryGetComponent<IMineable>(out var harvestable))
             {
                 int viewID = col.GetComponent<PhotonView>().ViewID;
-                float dmg = handler._Stat.GetBaseStat(StatType.PickaxePower);
+                float dmg = handler._Stat.GetStat(StatType.PickaxePower);
 
                 handler.photonView.RPC(
                     nameof(handler.RPC_HarvestMineableResource),
