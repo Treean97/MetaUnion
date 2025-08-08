@@ -65,6 +65,9 @@ public class InventoryUIManager : MonoBehaviour
     
     void HandleBeginDragSlot(ItemDataSO itemDataSO)
     {
+        if (itemDataSO == null)
+            return;
+            
         _DragImage.sprite = itemDataSO.Icon;
         _DragImage.gameObject.SetActive(true);        
     }

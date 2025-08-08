@@ -9,12 +9,11 @@ using UnityEngine.UI;
 
 
 public class InventorySlot : MonoBehaviour,
-IBeginDragHandler, IEndDragHandler, IDropHandler,
+IBeginDragHandler, IEndDragHandler, IDropHandler, IDragHandler,
  IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     [SerializeField] private Image _Icon;
     [SerializeField] private TMP_Text _Amount;
-    [SerializeField] private GameObject _InventoryFocusUI;
     private ItemDataSO _ItemDataSO;
     public ItemDataSO ItemDataSO => _ItemDataSO;
     InventoryItem _InventoryItem;
@@ -44,7 +43,7 @@ IBeginDragHandler, IEndDragHandler, IDropHandler,
 
         _InventoryItem = inventory;
 
-        Debug.Log($"Update Slot {inventory.ID}, {inventory.Amount}");
+        Debug.Log($"Update Inventroy / {inventory.ID}, {inventory.Amount}");
         // 아이템 정보 저장
         ItemManager._Inst.ItemDataPoolSO.TryGetItem(inventory.ID, out _ItemDataSO);
         _Icon.sprite = _ItemDataSO.Icon;
@@ -65,24 +64,24 @@ IBeginDragHandler, IEndDragHandler, IDropHandler,
     {
         OnBeginDragSlot?.Invoke(_ItemDataSO);
 
-        _Icon.enabled = false;
-        _Amount.enabled = false;
     }
 
+    public void OnDrag(PointerEventData eventData)
+    {
+        
+    }
 
     public void OnEndDrag(PointerEventData eventData)
     {
         OnEndDragSlot?.Invoke();
-
-        _Icon.enabled = true;
-        _Amount.enabled = true;
+        
     }
 
     public void OnDrop(PointerEventData eventData)
     {
         var dragged = eventData.pointerDrag?.GetComponent<InventorySlot>();
         if (dragged == null) return;
-
+        
         GameEvents.RaiseRequestSwapSlot(dragged._SlotIndex, this._SlotIndex);
     }
 
@@ -112,4 +111,6 @@ IBeginDragHandler, IEndDragHandler, IDropHandler,
         }
         
     }
+
+
 }

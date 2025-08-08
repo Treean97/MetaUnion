@@ -18,4 +18,5 @@ MonoBehaviour:
   _Prefab: {fileID: 128184381135264871, guid: 2c771a34f174dd84eb7a5cb8f3775fcc, type: 3}
   _Price: 500
   _ActionSOs:
+  - {fileID: 11400000, guid: b594e5b999e5a6b4987079a7c4fc7f5f, type: 2}
   - {fileID: 11400000, guid: 0ca7c147abb7cd14cbcad03c308631ca, type: 2}

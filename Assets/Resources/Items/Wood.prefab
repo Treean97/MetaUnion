@@ -127,6 +127,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ItemData: {fileID: 11400000, guid: 30ddb31554ec4114185ffde4e3b67ee5, type: 2}
   _RotationSpeed: 30
+  _Amount: 0
 --- !u!114 &1533564854152365828
 MonoBehaviour:
   m_ObjectHideFlags: 0

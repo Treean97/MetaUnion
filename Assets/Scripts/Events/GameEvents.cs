@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
+using Photon.Pun;
 using Photon.Realtime;
-using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.Experimental.GlobalIllumination;
-using UnityEngine.UI;
+
 
 
 public enum UIID {Start, Lobby, Control, CreateRoom, JoinRoom, Confirm, Cancel};
@@ -162,12 +161,19 @@ public static class GameEvents
     {
         int totalCost = price * amount;
 
-        if (!RaiseRequestCurrencySpend(currencyId, totalCost))
+        bool success = OnRequestPurchaseItem?.Invoke(itemId, amount, currencyId, totalCost) ?? false;
+
+        if (!success)
         {
-            // 충분한 재화가 없을 때
-            RaiseShowWarning("Not Enough Money");
             return false;
         }
+
+        if (!RaiseRequestCurrencySpend(currencyId, totalCost))
+            {
+                // 충분한 재화가 없을 때
+                RaiseShowWarning("Not Enough Money");
+                return false;
+            }
 
         RaiseRequestItemGain(itemId, amount);
         return true;
@@ -178,6 +184,7 @@ public static class GameEvents
     public static bool RaiseRequestItemGain(int itemId, int amount)
     {
         bool success = OnRequestItemGain?.Invoke(itemId, amount) ?? false;
+
         if (success)
         {
             OnRequestUpdateInventory?.Invoke();
@@ -190,10 +197,12 @@ public static class GameEvents
     public static bool RaiseRequestItemSpend(int itemId, int amount)
     {
         bool success = OnRequestItemSpend?.Invoke(itemId, amount) ?? false;
+
         if (success)
         {
             OnRequestUpdateInventory?.Invoke();
         }
+
         return success;
     }
 
@@ -255,7 +264,22 @@ public static class GameEvents
     // 버프
     public static event Action<BuffDataSO, GameObject> OnRequestApplyBuff;
     public static void RaiseRequestApplyBuff(BuffDataSO buff, GameObject user)
-    => OnRequestApplyBuff(buff, user);
+    => OnRequestApplyBuff?.Invoke(buff, user);
+
+    // 아이템 드롭
+    public static event Func<int, int, GameObject, bool> OnRequestItemDrop;
+    public static bool RaiseRequestItemDrop(int id, int amount, GameObject user)
+    {
+        bool success = RaiseRequestItemSpend(id, amount);
+
+        if (!success)
+        {
+            return false;
+        }
+
+        OnRequestItemDrop?.Invoke(id, amount, user);
+        return true;
+    }
 
     #endregion
 

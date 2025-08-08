@@ -16,3 +16,6 @@ MonoBehaviour:
   _ItemInfo: {fileID: 11400000, guid: 5124ff5bdba4f83499ee6035b0343e55, type: 2}
   _Icon: {fileID: 21300000, guid: 0b52d0f2af7f0cd4d88e792e44b3aea9, type: 3}
   _Prefab: {fileID: 128184381135264871, guid: 35282005910dc8d40b557f510bea0f27, type: 3}
+  _Price: 0
+  _ActionSOs:
+  - {fileID: 11400000, guid: b594e5b999e5a6b4987079a7c4fc7f5f, type: 2}

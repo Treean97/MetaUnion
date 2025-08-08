@@ -10,6 +10,15 @@ public class InventoryContextMenuUIManager : MonoBehaviour
     [SerializeField] private GameObject _ButtonPrefab;
     [SerializeField] private Transform _Container;
 
+    void Update()
+    {
+        // 좌클릭 시 UI 끄기
+        if (Input.GetMouseButtonDown(0))
+        {
+            _InventoryContextMenuUI.SetActive(false);
+        }
+    }
+
     public void SetContextMenu(Dictionary<string, Action> options, Vector2 pos)
     {
         // 1) 기존 옵션 제거
@@ -25,7 +34,8 @@ public class InventoryContextMenuUIManager : MonoBehaviour
 
             text.text = option.Key;
             btn.onClick.RemoveAllListeners();
-            btn.onClick.AddListener(() => {
+            btn.onClick.AddListener(() =>
+            {
                 option.Value?.Invoke();
                 _InventoryContextMenuUI.SetActive(false);
             });
