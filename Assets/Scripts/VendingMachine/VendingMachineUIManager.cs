@@ -1,12 +1,14 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class VendingMachineUIManager : MonoBehaviour
 {
     [SerializeField] ItemDataPoolSO _VendingMachineItemDataPoolSO;
-    [SerializeField] Transform _Contents;
+    [SerializeField] Transform _Contents;    
     [SerializeField] GameObject _SlotPrefab;
-    [SerializeField] Button _CloseBtn;
+    [SerializeField] SetAmountUIManager _SetAmountUI;
+    [SerializeField] Button _CloseBtn;  
 
     void Awake()
     {
@@ -15,6 +17,7 @@ public class VendingMachineUIManager : MonoBehaviour
 
     void OnEnable()
     {
+        _SetAmountUI.gameObject.SetActive(false);
         InputBlock.BlockInput();
     }
 
@@ -34,7 +37,6 @@ public class VendingMachineUIManager : MonoBehaviour
         }
         
     }
-
 
     void OnClickCloseBtn()
     {

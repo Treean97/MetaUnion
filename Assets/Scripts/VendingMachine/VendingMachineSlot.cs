@@ -1,5 +1,4 @@
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -35,7 +34,6 @@ IPointerEnterHandler, IPointerExitHandler
 
     void OnClickSlot()
     {
-        // 테스트 amount = 1 추후 수량 설정 UI 추가
-        GameEvents.RaiseRequestPurchaseItem(_ItemDataSO.ID, 1, 10000, _ItemDataSO.Price);
+        GameEvents.RaiseRequestOpenSetAmountUI(_ItemDataSO);        
     }
 }

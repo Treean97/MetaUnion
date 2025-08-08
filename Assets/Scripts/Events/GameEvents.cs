@@ -159,14 +159,7 @@ public static class GameEvents
     public static event Func<int, int, int, int, bool> OnRequestPurchaseItem;
     public static bool RaiseRequestPurchaseItem(int itemId, int amount, int currencyId, int price)
     {
-        int totalCost = price * amount;
-
-        bool success = OnRequestPurchaseItem?.Invoke(itemId, amount, currencyId, totalCost) ?? false;
-
-        if (!success)
-        {
-            return false;
-        }
+        int totalCost = price * amount;        
 
         if (!RaiseRequestCurrencySpend(currencyId, totalCost))
             {
@@ -260,6 +253,10 @@ public static class GameEvents
     public static event Action OnRequestOpenVendingMachineUI;
     public static void RaiseRequestOpenVendingMachineUI()
     => OnRequestOpenVendingMachineUI?.Invoke();
+
+    public static event Action<ItemDataSO> OnRequestOpenSetAmountUI;
+    public static void RaiseRequestOpenSetAmountUI(ItemDataSO itemData)
+    => OnRequestOpenSetAmountUI?.Invoke(itemData);
 
     // 버프
     public static event Action<BuffDataSO, GameObject> OnRequestApplyBuff;
