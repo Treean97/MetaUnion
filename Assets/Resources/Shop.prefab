@@ -12,8 +12,9 @@ GameObject:
   - component: {fileID: 7572194717559316281}
   - component: {fileID: 2416056857058889422}
   - component: {fileID: 7332412616906285691}
+  - component: {fileID: 3038616598998313093}
   m_Layer: 7
-  m_Name: Store
+  m_Name: Shop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -108,3 +109,16 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3038616598998313093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4779140234497423434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 736e13c855741814eb8b2a826233dc66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ObjInfo: {fileID: 11400000, guid: e0fc9dcd3d2a40b4f991926a3068983b, type: 2}
