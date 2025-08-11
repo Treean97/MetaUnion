@@ -2989,7 +2989,7 @@ GameObject:
   m_Component:
   - component: {fileID: 311202432}
   m_Layer: 5
-  m_Name: Cell
+  m_Name: Sell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3189,9 +3189,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06ae8883acb33104cbb8220855968b16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ItemPool: {fileID: 11400000, guid: a1f021026cb15fe49b9a499123d09550, type: 2}
-  _Contents: {fileID: 981153070}
-  _SlotPrefab: {fileID: 8365039451784562699, guid: 00200ce63a7b3bb4aa8e8e79869c45ee, type: 3}
+  _BuyItemPool: {fileID: 0}
+  _BuyContents: {fileID: 0}
+  _BuySlotPrefab: {fileID: 0}
   _CategoryBtns:
   - {fileID: 1049467046}
   - {fileID: 1502041664}
@@ -3203,6 +3203,9 @@ MonoBehaviour:
   - {fileID: 438447436}
   - {fileID: 282504756}
   - {fileID: 1772736225}
+  _SellItemPool: {fileID: 0}
+  _SellContents: {fileID: 0}
+  _SellSlotPrefab: {fileID: 0}
   _CloseBtn: {fileID: 312072164}
 --- !u!114 &322785695
 MonoBehaviour:
