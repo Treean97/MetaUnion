@@ -3154,7 +3154,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &322785693
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3189,9 +3189,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06ae8883acb33104cbb8220855968b16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _BuyItemPool: {fileID: 0}
-  _BuyContents: {fileID: 0}
-  _BuySlotPrefab: {fileID: 0}
+  _BuyItemPool: {fileID: 11400000, guid: a1f021026cb15fe49b9a499123d09550, type: 2}
+  _BuyContents: {fileID: 981153070}
+  _BuySlotPrefab: {fileID: 8365039451784562699, guid: 00200ce63a7b3bb4aa8e8e79869c45ee, type: 3}
   _CategoryBtns:
   - {fileID: 1049467046}
   - {fileID: 1502041664}
@@ -3203,9 +3203,8 @@ MonoBehaviour:
   - {fileID: 438447436}
   - {fileID: 282504756}
   - {fileID: 1772736225}
-  _SellItemPool: {fileID: 0}
-  _SellContents: {fileID: 0}
-  _SellSlotPrefab: {fileID: 0}
+  _SellContents: {fileID: 1625219019}
+  _SellSlotPrefab: {fileID: 8365039451784562699, guid: 5003b04a82fc29946b474eac0963e75b, type: 3}
   _CloseBtn: {fileID: 312072164}
 --- !u!114 &322785695
 MonoBehaviour:
@@ -9557,7 +9556,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: -110, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &981153071
 MonoBehaviour:
@@ -15262,7 +15261,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: -110, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1625219020
 MonoBehaviour:

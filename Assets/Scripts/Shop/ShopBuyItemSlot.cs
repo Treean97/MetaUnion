@@ -5,7 +5,7 @@ using UnityEngine.UI;
 /// <summary>
 /// 상점 내 아이템 슬롯을 담당하는 컴포넌트입니다.
 /// </summary>
-public class ShopItemSlot : MonoBehaviour
+public class ShopBuyItemSlot : MonoBehaviour
 {
     [SerializeField] private TMP_Text _NameText;
     [SerializeField] private TMP_Text _PriceText;

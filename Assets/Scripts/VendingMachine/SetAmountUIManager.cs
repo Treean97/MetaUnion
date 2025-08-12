@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,6 +11,8 @@ public class SetAmountUIManager : MonoBehaviour
     [SerializeField] private Button _CloseBtn;
 
     private ItemDataSO _ItemData;
+
+    public static event Func<ItemDataSO, int, bool> OnConfirmBuy;
 
     void Awake()
     {
@@ -43,8 +46,18 @@ public class SetAmountUIManager : MonoBehaviour
 
     void OnClickBuyBtn()
     {
-        GameEvents.RaiseRequestPurchaseItem(_ItemData.ID, int.Parse(_AmountInputField.text), 10000, _ItemData.Price);
-        gameObject.SetActive(false);
+        if (!int.TryParse(_AmountInputField.text, out var amount))
+        {
+            amount = 1;
+        }
+        amount = Mathf.Max(1, amount);
+
+        bool success = OnConfirmBuy?.Invoke(_ItemData, amount) ?? false;
+
+        if (success)
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     void OnClickCloseBtn()

@@ -8,22 +8,27 @@ public class VendingMachineUIManager : MonoBehaviour
     [SerializeField] Transform _Contents;    
     [SerializeField] GameObject _SlotPrefab;
     [SerializeField] SetAmountUIManager _SetAmountUI;
-    [SerializeField] Button _CloseBtn;  
+    [SerializeField] Button _CloseBtn;
+
+
 
     void Awake()
     {
         _CloseBtn.onClick.AddListener(OnClickCloseBtn);
+        
     }
 
     void OnEnable()
     {
         _SetAmountUI.gameObject.SetActive(false);
+        SetAmountUIManager.OnConfirmBuy += HandleConfirmBuy;
         InputBlock.BlockInput();
     }
 
     void OnDisable()
     {
-        InputBlock.UnblockInput();
+        SetAmountUIManager.OnConfirmBuy -= HandleConfirmBuy;
+        InputBlock.UnblockInput();        
     }
 
     void Start()
@@ -36,6 +41,15 @@ public class VendingMachineUIManager : MonoBehaviour
             SetSlot(_VendingMachineItemDataPoolSO.GetItemAt(i));            
         }
         
+    }
+
+    bool HandleConfirmBuy(ItemDataSO itemData, int amount)
+    {       
+        return GameEvents.RaiseRequestPurchaseItem(
+            itemData.ID,
+            amount,
+            10000,
+            itemData.Price);
     }
 
     void OnClickCloseBtn()

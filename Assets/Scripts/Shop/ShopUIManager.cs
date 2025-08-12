@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using Mono.Cecil.Cil;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,12 +15,12 @@ public class ShopUIManager : MonoBehaviour
     private ItemType _CurType;
 
     [Header("Sell Area")]
-    [SerializeField] private ItemDataPoolSO _SellItemPool;
+    private List<ItemDataSO> _SellItemPool;
     [SerializeField] private Transform _SellContents;
     [SerializeField] private GameObject _SellSlotPrefab;
     [SerializeField] private Button _CloseBtn;
 
-
+    
 
     void Awake()
     {
@@ -45,6 +47,9 @@ public class ShopUIManager : MonoBehaviour
         GameEvents.RaiseRequestLockedItems(_CurType);
         // 상점 구매 시 카테고리 갱신을 위한 이벤트
         GameEvents.OnItemPurchaseSuccess += HandlePurchaseSueecss;
+
+        // 판매할 아이템 리스트 불러오기
+        UpdateSellItems();
     }
 
     void OnDisable()
@@ -78,21 +83,33 @@ public class ShopUIManager : MonoBehaviour
             var go = Instantiate(_BuySlotPrefab, _BuyContents);
 
             // 2) ShopItemSlot 컴포넌트 꺼내기
-            var slot = go.GetComponent<ShopItemSlot>();
-            if (slot == null)
-            {
-                Debug.LogError("[ShopUIManager] Slot Prefab에 ShopItemSlot 컴포넌트가 없습니다!");
-                continue;
-            }
+            var slot = go.GetComponent<ShopBuyItemSlot>();
 
             // 3) 슬롯 세팅 (이 안에서 버튼 클릭 리스너까지 모두 처리됨)
             slot.Setup(item);
         }
     }
 
-    void HandleProvideSellItems(List<ItemDataSO> items)    
+    void UpdateSellItems()
     {
+        // 플레이어 인벤토리 불러오기
+        InventoryItem[] inventory = GameEvents.RaiseRequestInventoryStatus();
 
+        // 요소 초기화
+        for (int i = 0; i < _SellContents.childCount; i++)
+        {
+            Destroy(_SellContents.GetChild(i));
+        }
+
+        // 요소 생성
+        for (int i = 0; i < inventory.Length; i++)
+        {
+            // 슬롯에 아이템 id, 수량 주입
+            var obj = Instantiate(_SellSlotPrefab, _SellContents);
+            obj.GetComponent<ShopSellItemSlot>().
+            SetSlot(inventory[i].ID, inventory[i].Amount);
+            
+        }
     }
 
 
