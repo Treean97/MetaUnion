@@ -38,6 +38,6 @@ public class ShopSellItemSlot : MonoBehaviour
     // 수량 UI 스크립트에서 판매 수량 입력하면 
     void OnClickSlotBtn()
     {
-        
+        GameEvents.RaiseRequestOpenSetAmountUI(QuantityMode.Sell, _ItemData);
     }
 }

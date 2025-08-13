@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using Photon.Pun.Demo.Cockpit;
 using UnityEngine;
 
 public class InventoryItem
@@ -29,6 +31,7 @@ public class PlayerInventory : MonoBehaviour
         GameEvents.OnRequestInventorySlotCount += HandleInventorySlotCount;
         GameEvents.OnRequestInventoryStatus += HandleInventoryStatus;
         GameEvents.OnRequestSwapSlot += HandleSwapSlot;
+        GameEvents.OnRequestCheckItemAmount += HandleCheckItemAmount;
     }
 
     void OnDisable()
@@ -38,6 +41,7 @@ public class PlayerInventory : MonoBehaviour
         GameEvents.OnRequestInventorySlotCount -= HandleInventorySlotCount;
         GameEvents.OnRequestInventoryStatus -= HandleInventoryStatus;
         GameEvents.OnRequestSwapSlot -= HandleSwapSlot;
+        GameEvents.OnRequestCheckItemAmount -= HandleCheckItemAmount;
     }
 
     int HandleInventorySlotCount()
@@ -75,7 +79,6 @@ public class PlayerInventory : MonoBehaviour
         }
         // 3) 슬롯 가득 찬 경우 실패
         return false;
-
     }
 
     bool HandleItemSpend(int id, int amount)
@@ -86,16 +89,16 @@ public class PlayerInventory : MonoBehaviour
             if (_Inventory[i].ID == id && _Inventory[i].Amount >= amount)
             {
                 _Inventory[i].Amount -= amount;
-                
+
                 // 슬롯이 비었으면 ID 초기화
                 if (_Inventory[i].Amount == 0) _Inventory[i].ID = -1;
                 return true;
             }
         }
-        return false;    
+        return false;
     }
-    
-    
+
+
     void HandleSwapSlot(int from, int to)
     {
         // 같은 슬롯일 경우
@@ -108,5 +111,28 @@ public class PlayerInventory : MonoBehaviour
         (_Inventory[from], _Inventory[to]) = (_Inventory[to], _Inventory[from]);
 
         GameEvents.RaiseRequestUpdateInventory();
+    }
+
+    bool HandleCheckItemAmount(int id, int amount)
+    {
+        // 추후 스택 제한을 넣는다는 가정
+        int total = 0;
+
+        for (int i = 0; i < _Inventory.Length; i++)
+        {
+            if (_Inventory[i].ID != id) continue;
+
+            total += _Inventory[i].Amount;
+
+            if (total >= amount)
+            {
+                Debug.Log("Item is enough");
+                return true;
+            }
+                
+        }
+
+        // 인벤토리 비었음
+        return false;
     }
 }

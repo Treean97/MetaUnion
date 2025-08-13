@@ -156,37 +156,83 @@ public static class GameEvents
     => OnRequestUpdateCurrency?.Invoke(currencyId, newValue);
 
     // 아이템 구매
-    public static event Func<int, int, int, int, bool> OnRequestPurchaseItem;
-    public static bool RaiseRequestPurchaseItem(int itemId, int amount, int currencyId, int price)
+    // public static event Func<int, int, int, int, bool> OnRequestPurchaseItem;
+    // public static bool RaiseRequestPurchaseItem(int itemId, int amount, int currencyId, int price)
+    // {
+    //     int totalCost = price * amount;        
+
+    //     if (!RaiseRequestCurrencySpend(currencyId, totalCost))
+    //         {
+    //             // 충분한 재화가 없을 때
+    //             RaiseShowWarning("Not Enough Money");
+    //             return false;
+    //         }
+
+    //     RaiseRequestItemGain(itemId, amount);
+    //     return true;
+    // }
+
+    public static bool RaiseRequestPurchaseItem(int itemId, int amount, int currencyId, int unitPrice)
     {
-        int totalCost = price * amount;        
+        if (amount <= 0) { RaiseShowWarning("Amount must be >= 1"); return false; }
 
-        if (!RaiseRequestCurrencySpend(currencyId, totalCost))
-            {
-                // 충분한 재화가 없을 때
-                RaiseShowWarning("Not Enough Money");
-                return false;
-            }
+        int totalCost;
+        try { totalCost = checked(unitPrice * amount); }
+        catch (OverflowException)
+        {
+            RaiseShowWarning("Price overflow");
+            return false;
+        }
 
-        RaiseRequestItemGain(itemId, amount);
+        // 통화 차감
+        bool spent = OnRequestCurrencySpend?.Invoke(currencyId, totalCost) ?? false;
+        if (!spent)
+        {
+            RaiseShowWarning("Not Enough Money");
+            return false;
+        }
+
+        // 아이템 지급
+        bool gained = OnRequestItemGain?.Invoke(itemId, amount) ?? false;
+        if (!gained)
+        {
+            // 실패 시 환불
+            OnRequestCurrencyGain?.Invoke(currencyId, totalCost);
+            RaiseShowWarning("Inventory Full");
+            return false;
+        }
+
+        // 후처리
+        OnRequestUpdateInventory?.Invoke();
         return true;
     }
 
-    public static event Func<int, int, int, int, bool> OnRequestSellItem;
+    // 아이템 판매
+    public static event Func<int, int, bool> OnRequestCheckItemAmount;
     public static bool RaiseRequestSellItem(int itemId, int amount, int currencyId, int price)
     {
-        bool success = OnRequestSellItem?.Invoke(itemId, amount, currencyId, price) ?? false;
+        int totalCost = price * amount;
+        bool enough = OnRequestCheckItemAmount?.Invoke(itemId, amount) ?? false;
 
-        if (success)
+        if (!enough)
         {
-            OnRequestUpdateInventory?.Invoke();            
-        }
-        else
-        {
-            RaiseShowWarning("Failed to Sell");
+            RaiseShowWarning("Not enough item");
+            return false;
         }
 
-        return success;
+        bool spent = OnRequestItemSpend?.Invoke(itemId, amount) ?? false;
+
+        if (!spent)
+        {
+            RaiseShowWarning("Spend failed");
+            return false;
+        }
+
+        OnRequestCurrencyGain?.Invoke(currencyId, totalCost);
+
+        OnRequestUpdateInventory?.Invoke();
+
+        return true;
     }
 
     // 아이템 획득

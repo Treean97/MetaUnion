@@ -15,7 +15,6 @@ public class ShopUIManager : MonoBehaviour
     private ItemType _CurType;
 
     [Header("Sell Area")]
-    private List<ItemDataSO> _SellItemPool;
     [SerializeField] private Transform _SellContents;
     [SerializeField] private GameObject _SellSlotPrefab;
     [SerializeField] private Button _CloseBtn;
@@ -52,7 +51,8 @@ public class ShopUIManager : MonoBehaviour
         // 판매할 아이템 리스트 불러오기
         UpdateSellItems();
 
-
+        // 판매 시 리스트 갱신
+        GameEvents.OnRequestUpdateInventory += UpdateSellItems;
     }
 
     void OnDisable()
@@ -60,7 +60,7 @@ public class ShopUIManager : MonoBehaviour
         InputBlock.UnblockInput();
         GameEvents.OnProvideLockedItems -= HandleProvideBuyItems;
         GameEvents.OnItemPurchaseSuccess -= HandlePurchaseSueecss;
-
+        GameEvents.OnRequestUpdateInventory -= UpdateSellItems;
     }
 
     void ChangeCategory(ItemType type)
@@ -104,7 +104,7 @@ public class ShopUIManager : MonoBehaviour
         // 요소 초기화
         for (int i = 0; i < _SellContents.childCount; i++)
         {
-            Destroy(_SellContents.GetChild(i));
+            Destroy(_SellContents.GetChild(i).gameObject);
         }
 
         // 요소 생성

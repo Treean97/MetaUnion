@@ -74,15 +74,11 @@ public class SetAmountUIManager : MonoBehaviour
         switch (_Mode)
         {
             case QuantityMode.Buy:
-                // price는 "단가"로 전달. 합계는 내부에서 계산/검증.
                 success = GameEvents.RaiseRequestPurchaseItem(
                     _ItemData.ID, amount, 10000, _ItemData.Price);
                 break;
 
             case QuantityMode.Sell:
-                // 판매 단가가 별도로 있으면 여기서 넣어주세요.
-                // 예: _ItemData.SellPrice 또는 상점 정책으로 계산.
-                // 아래는 일시적으로 구매 단가 재사용(필요 시 교체)
                 success = GameEvents.RaiseRequestSellItem(
                     _ItemData.ID, amount, 10000, _ItemData.Price);
                 break;
