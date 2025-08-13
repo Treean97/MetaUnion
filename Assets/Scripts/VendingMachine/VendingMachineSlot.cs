@@ -34,6 +34,6 @@ IPointerEnterHandler, IPointerExitHandler
 
     void OnClickSlot()
     {
-        GameEvents.RaiseRequestOpenSetAmountUI(_ItemDataSO);        
+        GameEvents.RaiseRequestOpenSetAmountUI(QuantityMode.Buy, _ItemDataSO);        
     }
 }

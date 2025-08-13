@@ -14,9 +14,9 @@ public class SetAmountUIListener : MonoBehaviour
         GameEvents.OnRequestOpenSetAmountUI -= HandleSetActive;
     }
 
-    void HandleSetActive(ItemDataSO itemData)
+    void HandleSetActive(QuantityMode mode, ItemDataSO itemData)
     {
-        _SetAmountUIManager.SetUI(itemData);
+        _SetAmountUIManager.SetUI(mode, itemData);
         _SetAmountUIManager.gameObject.SetActive(true);
     }
 }

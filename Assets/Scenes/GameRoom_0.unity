@@ -1755,7 +1755,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &202426062
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1831,7 +1831,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _AmountInputField: {fileID: 1777527963}
   _Icon: {fileID: 2139498839}
-  _BuyBtn: {fileID: 1189931840}
+  _ConfirmBtn: {fileID: 1189931840}
   _CloseBtn: {fileID: 1906324357}
 --- !u!1 &226719492
 GameObject:
@@ -3206,6 +3206,7 @@ MonoBehaviour:
   _SellContents: {fileID: 1625219019}
   _SellSlotPrefab: {fileID: 8365039451784562699, guid: 5003b04a82fc29946b474eac0963e75b, type: 3}
   _CloseBtn: {fileID: 312072164}
+  _SetAmountUI: {fileID: 0}
 --- !u!114 &322785695
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3819,7 +3820,6 @@ RectTransform:
   - {fileID: 1573520618}
   - {fileID: 941849166}
   - {fileID: 358034133}
-  - {fileID: 1534034843}
   m_Father: {fileID: 1979024864}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -11034,7 +11034,7 @@ GameObject:
   - component: {fileID: 1189931841}
   - component: {fileID: 1189931840}
   m_Layer: 5
-  m_Name: BuyBtn
+  m_Name: ConfirmBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14445,13 +14445,13 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1534034842}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 202426062}
-  m_Father: {fileID: 389548485}
+  m_Father: {fileID: 2025425426}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -20173,6 +20173,7 @@ RectTransform:
   - {fileID: 256254165}
   - {fileID: 1979024864}
   - {fileID: 960674665}
+  - {fileID: 1534034843}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
