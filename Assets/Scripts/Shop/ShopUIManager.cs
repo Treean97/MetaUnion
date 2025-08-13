@@ -20,7 +20,8 @@ public class ShopUIManager : MonoBehaviour
     [SerializeField] private GameObject _SellSlotPrefab;
     [SerializeField] private Button _CloseBtn;
 
-    
+    [SerializeField] private GameObject _SetAmountUI;
+
 
     void Awake()
     {
@@ -50,6 +51,8 @@ public class ShopUIManager : MonoBehaviour
 
         // 판매할 아이템 리스트 불러오기
         UpdateSellItems();
+
+
     }
 
     void OnDisable()
@@ -57,6 +60,7 @@ public class ShopUIManager : MonoBehaviour
         InputBlock.UnblockInput();
         GameEvents.OnProvideLockedItems -= HandleProvideBuyItems;
         GameEvents.OnItemPurchaseSuccess -= HandlePurchaseSueecss;
+
     }
 
     void ChangeCategory(ItemType type)
@@ -95,6 +99,8 @@ public class ShopUIManager : MonoBehaviour
         // 플레이어 인벤토리 불러오기
         InventoryItem[] inventory = GameEvents.RaiseRequestInventoryStatus();
 
+        if (inventory == null) return;
+
         // 요소 초기화
         for (int i = 0; i < _SellContents.childCount; i++)
         {
@@ -104,13 +110,16 @@ public class ShopUIManager : MonoBehaviour
         // 요소 생성
         for (int i = 0; i < inventory.Length; i++)
         {
+            int id = inventory[i].ID;
+            int amount = inventory[i].Amount;
+
+            if (id < 0 || amount <= 0) continue;
+
             // 슬롯에 아이템 id, 수량 주입
             var obj = Instantiate(_SellSlotPrefab, _SellContents);
             obj.GetComponent<ShopSellItemSlot>().
             SetSlot(inventory[i].ID, inventory[i].Amount);
-            
+
         }
     }
-
-
 }

@@ -12,7 +12,7 @@ public class ShopSellItemSlot : MonoBehaviour
     private ItemDataSO _ItemData;
     private int _Amount;
 
-    public event Action OnRequestSellItem;
+    public static event Action OnRequestSellItem;
 
     void Awake()
     {
@@ -28,7 +28,7 @@ public class ShopSellItemSlot : MonoBehaviour
     }
 
     public void UpdateUI()
-    {
+    {   
         _Icon.sprite = _ItemData.Icon;
         _AmountText.text = _Amount.ToString();
         _PriceText.text = _ItemData.Price.ToString();

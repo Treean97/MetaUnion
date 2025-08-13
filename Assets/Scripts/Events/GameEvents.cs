@@ -172,6 +172,23 @@ public static class GameEvents
         return true;
     }
 
+    public static event Func<int, int, int, int, bool> OnRequestSellItem;
+    public static bool RaiseRequestSellItem(int itemId, int amount, int currencyId, int price)
+    {
+        bool success = OnRequestSellItem?.Invoke(itemId, amount, currencyId, price) ?? false;
+
+        if (success)
+        {
+            OnRequestUpdateInventory?.Invoke();            
+        }
+        else
+        {
+            RaiseShowWarning("Failed to Sell");
+        }
+
+        return success;
+    }
+
     // 아이템 획득
     public static event Func<int, int, bool> OnRequestItemGain;
     public static bool RaiseRequestItemGain(int itemId, int amount)
@@ -254,9 +271,9 @@ public static class GameEvents
     public static void RaiseRequestOpenVendingMachineUI()
     => OnRequestOpenVendingMachineUI?.Invoke();
 
-    public static event Action<ItemDataSO> OnRequestOpenSetAmountUI;
-    public static void RaiseRequestOpenSetAmountUI(ItemDataSO itemData)
-    => OnRequestOpenSetAmountUI?.Invoke(itemData);
+    public static event Action<QuantityMode, ItemDataSO> OnRequestOpenSetAmountUI;
+    public static void RaiseRequestOpenSetAmountUI(QuantityMode mode, ItemDataSO itemData)
+    => OnRequestOpenSetAmountUI?.Invoke(mode, itemData);
 
     // 버프
     public static event Action<BuffDataSO, GameObject> OnRequestApplyBuff;

@@ -14,20 +14,17 @@ public class VendingMachineUIManager : MonoBehaviour
 
     void Awake()
     {
-        _CloseBtn.onClick.AddListener(OnClickCloseBtn);
-        
+        _CloseBtn.onClick.AddListener(OnClickCloseBtn);        
     }
 
     void OnEnable()
     {
         _SetAmountUI.gameObject.SetActive(false);
-        SetAmountUIManager.OnConfirmBuy += HandleConfirmBuy;
         InputBlock.BlockInput();
     }
 
     void OnDisable()
     {
-        SetAmountUIManager.OnConfirmBuy -= HandleConfirmBuy;
         InputBlock.UnblockInput();        
     }
 
@@ -41,15 +38,6 @@ public class VendingMachineUIManager : MonoBehaviour
             SetSlot(_VendingMachineItemDataPoolSO.GetItemAt(i));            
         }
         
-    }
-
-    bool HandleConfirmBuy(ItemDataSO itemData, int amount)
-    {       
-        return GameEvents.RaiseRequestPurchaseItem(
-            itemData.ID,
-            amount,
-            10000,
-            itemData.Price);
     }
 
     void OnClickCloseBtn()
