@@ -1,0 +1,20 @@
+{
+    "asset": "6f17cd8ea0070a141af0c1913f0aef9a",
+    "fileName": "0198acad-f28e-7b91-ba1c-1f278c826608.jpg",
+    "prompt": "cartoon-style, pastel, UI Frame, Round Frame, without center image",
+    "negativePrompt": "",
+    "model": "81c7bc50-f1fa-4e43-96be-2baa3f6233b6",
+    "modelName": "UI Frame Generator",
+    "customSeed": -1,
+    "w3CTraceId": "9b2d2f1efb6523841369575d82468181",
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0
+}
