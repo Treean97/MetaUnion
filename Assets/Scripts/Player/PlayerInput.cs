@@ -90,8 +90,19 @@ namespace Controller
         {
             _IsMovementBlocked = isBlocked; // 추가: UI가 활성화되면 움직임 차단
 
-            // 움직임 0으로 
-            m_Axis = Vector2.zero;
+            if (!photonView.IsMine) return;
+
+            if (isBlocked)
+            {
+                // 움직임 0으로 
+                m_Axis = Vector2.zero;
+                m_IsRun = false;
+                m_IsJump = false;
+                m_MouseDelta = Vector2.zero;
+
+                // 반영
+                SetInput();                
+            }
 
         }
 
@@ -113,11 +124,18 @@ namespace Controller
 
         private void Update()
         {
-            if (_IsMovementBlocked || _IsStunnedBlocked) return; // 추가: 차단 상태 시 입력 방지
+            // 차단 상태 시 입력 방지
+            // 이동 중이라면 정지
+            if (_IsMovementBlocked || _IsStunnedBlocked)
+            {
+                return;
+            }
+            
             if(!photonView.IsMine)
             {
                 return;
             }
+
             GatherInput();
             SetInput();
         }

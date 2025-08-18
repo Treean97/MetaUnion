@@ -24,13 +24,10 @@ public class HealthHandler : MonoBehaviourPun, IDamageable
     /// <param name="amount">입힐 대미지</param>
     public void Damaged(float amount)
     {
-        OnDamaged();            
+        OnDamaged();
     }
 
-    /// <summary>
-    /// 대미지 직후 처리 (이펙트, 사운드 등)
-    /// </summary>
-    public void OnDamaged()
+    void OnDamaged()
     {
         // 피격 이펙트, 애니메이션 트리거
         if (!photonView.IsMine)
