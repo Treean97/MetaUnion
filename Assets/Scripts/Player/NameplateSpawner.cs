@@ -1,0 +1,41 @@
+using Photon.Pun;
+using TMPro;
+using Unity.Mathematics;
+using UnityEngine;
+
+public class NameplateSpawner : MonoBehaviour
+{
+    [SerializeField] private Transform _NameplateTransform;
+    [SerializeField] private GameObject _NameplatePrefab;
+
+    private GameObject _nameplate;
+
+    void Start()
+    {
+        var photonView = GetComponent<PhotonView>();
+
+        _nameplate = Instantiate(_NameplatePrefab);
+        _nameplate.transform.SetPositionAndRotation(
+            _NameplateTransform.position, quaternion.identity);
+
+        var label = _nameplate.GetComponentInChildren<TMP_Text>(true);
+        if (label) label.text = photonView.Owner.NickName;
+
+        // 각 클라이언트에서 카메라를 찾게 함
+        var display = _nameplate.GetComponent<NameplateDisplay>();
+        if (display) display.SetTarget(_NameplateTransform);
+
+        // 자신 이름표 숨김
+        if (photonView.IsMine) _nameplate.SetActive(false);
+    }
+
+    void OnDestroy()
+    {
+        if (_nameplate)
+        {
+            Destroy(_nameplate);
+        }
+    }
+
+
+}

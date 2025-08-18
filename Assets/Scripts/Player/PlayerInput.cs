@@ -1,5 +1,5 @@
 using System;
-using Photon.Pun.Demo.Cockpit;
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -8,7 +8,7 @@ namespace Controller
     [RequireComponent(typeof(MoveHandler))]
     [RequireComponent(typeof(AttackHandler))]
     [RequireComponent(typeof(FocusHandler))]
-    public class PlayerInput : MonoBehaviour
+    public class PlayerInput : MonoBehaviourPun
     {
         [Header("Character")]
         [SerializeField] private string m_HorizontalAxis = "Horizontal";
@@ -91,7 +91,7 @@ namespace Controller
             _IsMovementBlocked = isBlocked; // 추가: UI가 활성화되면 움직임 차단
 
             // 움직임 0으로 
-            m_Axis = Vector3.zero;
+            m_Axis = Vector2.zero;
 
         }
 
@@ -114,7 +114,10 @@ namespace Controller
         private void Update()
         {
             if (_IsMovementBlocked || _IsStunnedBlocked) return; // 추가: 차단 상태 시 입력 방지
-
+            if(!photonView.IsMine)
+            {
+                return;
+            }
             GatherInput();
             SetInput();
         }

@@ -1,4 +1,5 @@
 using System.Collections;
+using Photon.Pun;
 using UnityEngine;
 
 /// <summary>
@@ -6,7 +7,7 @@ using UnityEngine;
 /// </summary>
 [RequireComponent(typeof(PlayerStat))]
 [RequireComponent(typeof(Animator))]
-public class HealthHandler : MonoBehaviour, IDamageable
+public class HealthHandler : MonoBehaviourPun, IDamageable
 {
     [Header("Animation")]
     [SerializeField] AnimationClip _HitClip;
@@ -31,9 +32,11 @@ public class HealthHandler : MonoBehaviour, IDamageable
     /// </summary>
     public void OnDamaged()
     {
-        // 예: 피격 이펙트, 애니메이션 트리거
-        Debug.Log($"{gameObject.name} took damage.");
-
+        // 피격 이펙트, 애니메이션 트리거
+        if (!photonView.IsMine)
+        {
+            return;
+        }
         _Animator.SetTrigger("HitTigger");
     }
     
