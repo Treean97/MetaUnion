@@ -6,27 +6,25 @@ public class NameplateDisplay : MonoBehaviour
     private Camera _Cam;
 
 
-    public void SetTarget(Transform target)
+    public void SetDisplay(Transform target)
     {
         _Target = target;
+        _Cam = Camera.main;
     }
 
-    void Update()
+    void LateUpdate()
     {
-        if (!_Cam)
+        if (!_Cam || !_Target)
         {
-            _Cam = Camera.main;
+            return;
         }
 
-        if (_Cam)
-        {
-            Vector3 dir = _Cam.transform.position - transform.position;
-            dir.y = 0;
+        Vector3 dir = _Cam.transform.position - transform.position;
+        dir.y = 0;
 
-            if (dir.sqrMagnitude > 0.001f)
-            {
-                transform.rotation = Quaternion.LookRotation(dir);
-            }
+        if (dir.sqrMagnitude > 0.001f)
+        {
+            transform.rotation = Quaternion.LookRotation(dir);
         }
     }
 }
