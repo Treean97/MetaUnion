@@ -18,14 +18,9 @@ public class NameplateDisplay : MonoBehaviour
             _Cam = Camera.main;
         }
 
-        if (_Target)
-        {
-            transform.position = _Target.position;
-        }
-
         if (_Cam)
         {
-            Vector3 dir = transform.position - _Cam.transform.position;
+            Vector3 dir = _Cam.transform.position - transform.position;
             dir.y = 0;
 
             if (dir.sqrMagnitude > 0.001f)

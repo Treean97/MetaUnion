@@ -14,9 +14,9 @@ public class NameplateSpawner : MonoBehaviour
     {
         var photonView = GetComponent<PhotonView>();
 
-        _nameplate = Instantiate(_NameplatePrefab);
-        _nameplate.transform.SetPositionAndRotation(
-            _NameplateTransform.position, quaternion.identity);
+        _nameplate = Instantiate(_NameplatePrefab, _NameplateTransform);
+        _nameplate.transform.localPosition = Vector3.zero;
+        _nameplate.transform.localRotation = Quaternion.identity;
 
         var label = _nameplate.GetComponentInChildren<TMP_Text>(true);
         if (label) label.text = photonView.Owner.NickName;
