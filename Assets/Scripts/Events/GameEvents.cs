@@ -229,7 +229,6 @@ public static class GameEvents
         }
 
         OnRequestCurrencyGain?.Invoke(currencyId, totalCost);
-
         OnRequestUpdateInventory?.Invoke();
 
         return true;

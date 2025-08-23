@@ -2220,6 +2220,7 @@ GameObject:
   - component: {fileID: 777119188}
   - component: {fileID: 777119187}
   - component: {fileID: 777119191}
+  - component: {fileID: 777119192}
   m_Layer: 5
   m_Name: GameStartBtn
   m_TagString: Untagged
@@ -2342,6 +2343,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _StartBtn: {fileID: 777119187}
+--- !u!114 &777119192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 777119185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a96d0bf4cf4cc18489779b5b5cadcb01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverSpin
+  _HoverScale: 1.08
+  _ScaleTime: 0.1
+  _RotateAngle: 22
+  _RotateTime: 0.25
+  _Shakes: 6
 --- !u!1 &785347626
 GameObject:
   m_ObjectHideFlags: 0
