@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 2335747461147888097}
   - component: {fileID: 2416856319498123126}
   - component: {fileID: 982840944295912053}
-  - component: {fileID: 848854943103563251}
   - component: {fileID: 6466970435988781919}
   m_Layer: 0
   m_Name: Tree
@@ -129,7 +128,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf9cb3c8678d3c6439fce33668ecba8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _HarvestableObjectData: {fileID: 11400000, guid: cb6f11fce8b662b4baf5560c02ea21ed, type: 2}
+  _PrefabName: Tree
+  _RespawnSeconds: 5
+  _RespawnAnchor: {fileID: 0}
+  _Data: {fileID: 11400000, guid: cb6f11fce8b662b4baf5560c02ea21ed, type: 2}
 --- !u!114 &982840944295912053
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -142,21 +144,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1848c5f8065be044b85b6aa9acd7de3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &848854943103563251
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8204189556500173130}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6efcec3361828ad43b4d08306896d166, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SpawnPoint
-  _PrefabName: 
-  _RespawnSeconds: 5
-  _ExistingRespawnable: {fileID: 0}
 --- !u!114 &6466970435988781919
 MonoBehaviour:
   m_ObjectHideFlags: 0

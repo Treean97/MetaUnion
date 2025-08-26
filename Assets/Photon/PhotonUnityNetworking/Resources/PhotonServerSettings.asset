@@ -50,6 +50,8 @@ MonoBehaviour:
   - RPC_HarvestMineableResource
   - RequestDestroyByMaster
   - RPCDamaged
+  - RPC_ApplyDamage
+  - RPC_DespawnSceneObject
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

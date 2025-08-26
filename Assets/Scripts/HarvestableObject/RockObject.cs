@@ -4,36 +4,39 @@ using UnityEngine;
 
 public class RockObject : MonoBehaviourPun, IMineable, IDestructible, IDropSource, IRespawnable
 {
-    [SerializeField] HarvestableDataSO _HarvestableObjectData;
+    [Header("Respawn/Prefab")]
+    [SerializeField] private string _PrefabName;
+    [SerializeField] private float  _RespawnSeconds = 30f;
+    [SerializeField] private Transform _RespawnAnchor;
 
-    public DropItemTableSO DropTable => _HarvestableObjectData.DropTable;
+    [Header("Stats")]
+    [SerializeField] HarvestableDataSO _Data;
 
-    private SpawnPoint _owner;    
-    private float _CurDurability;
+    public DropItemTableSO DropTable => _Data.DropTable;
+  
+    private float _CurHP;
     private bool _IsDead;
 
     public event Action OnDestroyed;
 
+    public string PrefabName => _PrefabName;
+    public float  RespawnDelay => _RespawnSeconds;
+    public Transform RespawnAnchor => _RespawnAnchor != null ? _RespawnAnchor : transform;
+    public void OnRegistered() { }
+    public void OnSpawned()    { }
+
     void Start()
     {
-        _CurDurability = _HarvestableObjectData.Durability;
+        RespawnManager._Inst?.Register(this);
+        _IsDead = false;
+        _CurHP = (_Data != null) ? _Data.Durability : 1f;
     }
 
-    public void Init(SpawnPoint owner)
-    {
-        _owner = owner;
-        _CurDurability = _HarvestableObjectData.Durability;
-    }
-
-    public float GetRespawnDelay()
-    {
-        return _owner != null ? _owner.GetRespawnDelayFor(this) : 5f;
-    }
     
-    public void OnSpawned() { /* 스폰 직후 초기화 */ }
-
     public void Mine(float power)
     {        
+        if (_IsDead) return;
+
         if (PhotonNetwork.IsMasterClient)
         {
             ApplyDamage(power);
@@ -48,9 +51,9 @@ public class RockObject : MonoBehaviourPun, IMineable, IDestructible, IDropSourc
     {
         if (_IsDead) return;
 
-        _CurDurability -= power;
+        _CurHP -= power;
 
-        if (_CurDurability <= 0f)
+        if (_CurHP <= 0f)
         {
             _IsDead = true;
             OnDestroyed?.Invoke();  // 마스터의 SpawnPoint가 파괴/리스폰

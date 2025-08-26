@@ -1,10 +1,13 @@
+using UnityEngine;
+
 public interface IRespawnable
 {
-    // 스폰포인트가 소유권 전달
-    void Init(SpawnPoint owner);
+    // 전역 매니저가 필요한 정보를 제공
+    string PrefabName { get; }        // PhotonNetwork.Instantiate용(Resources 프리팹 이름)
+    float RespawnDelay { get; }       // 리스폰 지연(초)
+    Transform RespawnAnchor { get; }  // 리스폰 위치/회전(보통 최초 자리)
 
-    // 이 개체가 파괴되면 몇 초 뒤 리스폰할지(개별 오브젝트가 결정하게도 가능)
-    float GetRespawnDelay();
-
+    // 선택 훅(필요시): 매니저에 등록/스폰 직후 초기화
+    void OnRegistered();
     void OnSpawned();
 }

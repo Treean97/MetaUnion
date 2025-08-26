@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 3511618260707124380}
   - component: {fileID: 1277507667872426992}
   - component: {fileID: 8879811170497182473}
-  - component: {fileID: 7931274493972605783}
   - component: {fileID: 2273129256796290857}
   m_Layer: 0
   m_Name: Rock
@@ -129,7 +128,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e099ffa222c9324180084d3d1a6a252, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _HarvestableObjectData: {fileID: 11400000, guid: 65affc06a6550754aad25f21967a85fe, type: 2}
+  _PrefabName: Rock
+  _RespawnSeconds: 5
+  _RespawnAnchor: {fileID: 0}
+  _Data: {fileID: 11400000, guid: 65affc06a6550754aad25f21967a85fe, type: 2}
 --- !u!114 &8879811170497182473
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -142,21 +144,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1848c5f8065be044b85b6aa9acd7de3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &7931274493972605783
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3022871592830690180}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6efcec3361828ad43b4d08306896d166, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SpawnPoint
-  _PrefabName: 
-  _RespawnSeconds: 5
-  _ExistingRespawnable: {fileID: 1277507667872426992}
 --- !u!114 &2273129256796290857
 MonoBehaviour:
   m_ObjectHideFlags: 0

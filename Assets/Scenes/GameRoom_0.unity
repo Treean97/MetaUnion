@@ -45309,6 +45309,7 @@ GameObject:
   - component: {fileID: 1442155661}
   - component: {fileID: 1442155660}
   - component: {fileID: 1442155662}
+  - component: {fileID: 1442155663}
   m_Layer: 0
   m_Name: InGameManager
   m_TagString: Untagged
@@ -45357,6 +45358,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3a3e60fba305c1418a3871b2b000f7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1442155663
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1442155659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 209619bce7ff28f4585ad21c138deb15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RespawnManager
 --- !u!1001 &1442810052
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -70426,7 +70439,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tree
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 848854943103563251, guid: b9da6a0378819264a8acc0e530af71f9, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

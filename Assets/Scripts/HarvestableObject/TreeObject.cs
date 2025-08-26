@@ -4,37 +4,41 @@ using UnityEngine;
 
 public class TreeObject : MonoBehaviourPun, IChoppable, IDestructible, IDropSource, IRespawnable
 {
-    [SerializeField] HarvestableDataSO _HarvestableObjectData;
-    public DropItemTableSO DropTable => _HarvestableObjectData.DropTable;
+    [Header("Respawn/Prefab")]
+    [SerializeField] private string _PrefabName;     // Resources 프리팁 이름
+    [SerializeField] private float  _RespawnSeconds = 30f;
+    [SerializeField] private Transform _RespawnAnchor; // 없으면 자기 Transform 사용
 
+    [Header("Stats")]
+    [SerializeField] HarvestableDataSO _Data;
+    public DropItemTableSO DropTable => _Data.DropTable;
 
-    private SpawnPoint _owner;
+    private float _CurHP;
     private bool _IsDead;
-    private float _CurDurability;
-
 
     public event Action OnDestroyed;
 
+    public string PrefabName    => _PrefabName;
+    public float  RespawnDelay  => _RespawnSeconds;
+    public Transform RespawnAnchor => _RespawnAnchor != null ? _RespawnAnchor : transform;
+
+    public void OnRegistered() { /* 필요 시 */ }
+    public void OnSpawned()    { /* 비주얼 초기화 등 */ }
+
     void Start()
     {
-        _CurDurability = _HarvestableObjectData.Durability;
-    }
+        // 전역 매니저에 자기 자신 등록
+        RespawnManager._Inst?.Register(this);
 
-    public void Init(SpawnPoint owner)
-    {
-        _owner = owner;
-        _CurDurability = _HarvestableObjectData.Durability;
+        // 초기화
+        _IsDead = false;
+        _CurHP = (_Data != null) ? _Data.Durability : 1f;
     }
-
-    public float GetRespawnDelay()
-    {
-        return _owner != null ? _owner.GetRespawnDelayFor(this) : 5f;
-    }
-
-    public void OnSpawned() { /* 스폰 직후 초기화 */ }
 
     public void Chop(float power)
     {
+        if (_IsDead) return;
+
         if (PhotonNetwork.IsMasterClient)
         {
             ApplyDamage(power);         // 마스터면 즉시 적용
@@ -49,8 +53,8 @@ public class TreeObject : MonoBehaviourPun, IChoppable, IDestructible, IDropSour
     {
         if (_IsDead) return;
 
-        _CurDurability -= power;
-        if (_CurDurability <= 0f)
+        _CurHP -= power;
+        if (_CurHP <= 0f)
         {
             _IsDead = true;
             OnDestroyed?.Invoke();  // 스폰포인트(마스터)에서 파괴/리스폰 처리
@@ -64,6 +68,7 @@ public class TreeObject : MonoBehaviourPun, IChoppable, IDestructible, IDropSour
         ApplyDamage(power);
     }
 
+    // 씬 배치 PV 파괴용
     [PunRPC]
     void RPC_DespawnSceneObject()
     {
