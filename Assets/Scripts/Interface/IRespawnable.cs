@@ -7,7 +7,4 @@ public interface IRespawnable
     float RespawnDelay { get; }       // 리스폰 지연(초)
     Transform RespawnAnchor { get; }  // 리스폰 위치/회전(보통 최초 자리)
 
-    // 선택 훅(필요시): 매니저에 등록/스폰 직후 초기화
-    void OnRegistered();
-    void OnSpawned();
 }

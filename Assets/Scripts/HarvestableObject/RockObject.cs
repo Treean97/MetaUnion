@@ -22,8 +22,7 @@ public class RockObject : MonoBehaviourPun, IMineable, IDestructible, IDropSourc
     public string PrefabName => _PrefabName;
     public float  RespawnDelay => _RespawnSeconds;
     public Transform RespawnAnchor => _RespawnAnchor != null ? _RespawnAnchor : transform;
-    public void OnRegistered() { }
-    public void OnSpawned()    { }
+
 
     void Start()
     {

@@ -50,7 +50,6 @@ public class RespawnManager : MonoBehaviour
             {
                 // 재바인딩
                 Bind(e, resp, pv, d);
-                resp.OnRegistered();
                 return e.Id;
             }
         }
@@ -69,7 +68,6 @@ public class RespawnManager : MonoBehaviour
         _entries[id] = entry;
         Bind(entry, resp, pv, d);
 
-        resp.OnRegistered();
         return id;
     }
 
@@ -140,7 +138,6 @@ public class RespawnManager : MonoBehaviour
         {
             // 재등록을 즉시 보장하고 싶다면:
             Register(resp);
-            resp.OnSpawned();
         }
     }
 

@@ -22,9 +22,6 @@ public class TreeObject : MonoBehaviourPun, IChoppable, IDestructible, IDropSour
     public float  RespawnDelay  => _RespawnSeconds;
     public Transform RespawnAnchor => _RespawnAnchor != null ? _RespawnAnchor : transform;
 
-    public void OnRegistered() { /* 필요 시 */ }
-    public void OnSpawned()    { /* 비주얼 초기화 등 */ }
-
     void Start()
     {
         // 전역 매니저에 자기 자신 등록
