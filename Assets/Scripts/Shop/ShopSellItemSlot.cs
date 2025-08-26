@@ -34,8 +34,6 @@ public class ShopSellItemSlot : MonoBehaviour
         _PriceText.text = _ItemData.Price.ToString();
     }
 
-    // 슬롯 누르면 수량 UI 표시(이벤트로 itemdata, amount 전달)
-    // 수량 UI 스크립트에서 판매 수량 입력하면 
     void OnClickSlotBtn()
     {
         GameEvents.RaiseRequestOpenSetAmountUI(QuantityMode.Sell, _ItemData);
