@@ -11,16 +11,16 @@ public class Dropper : MonoBehaviourPun
     {
         _Target = GetComponent<IDestructible>();
         _Sources = GetComponent<IDropSource>();
-        _Target.OnDestroyed += HandleDeath;
+        _Target.OnDestroyed += HandleDestroy;
     }
 
     void OnDestroy()
     {
         if (_Target != null)
-            _Target.OnDestroyed -= HandleDeath;
+            _Target.OnDestroyed -= HandleDestroy;
     }
 
-    private void HandleDeath()
+    private void HandleDestroy()
     {
         var _DropTable = _Sources.DropTable;
 

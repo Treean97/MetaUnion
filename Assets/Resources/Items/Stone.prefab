@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: -5832728598620746387}
   - component: {fileID: 1533564854152365828}
   - component: {fileID: 1073668658981235441}
+  - component: {fileID: -4629488462704458719}
   m_Layer: 7
   m_Name: Stone
   m_TagString: Untagged
@@ -65,6 +66,8 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -86,6 +89,7 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
@@ -127,6 +131,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ItemData: {fileID: 11400000, guid: be6019b41c373db468add64ca8fad75e, type: 2}
   _RotationSpeed: 30
+  _RB: {fileID: -4629488462704458719}
+  _MinHorizSpeed: 1
+  _MaxHorizSpeed: 2.5
+  _UpSpeed: 3
+  _MaxTorque: 6
   _Amount: 0
 --- !u!114 &1533564854152365828
 MonoBehaviour:
@@ -167,3 +176,30 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
+--- !u!54 &-4629488462704458719
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 128184381135264871}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0

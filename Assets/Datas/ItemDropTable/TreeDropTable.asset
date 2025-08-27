@@ -14,6 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _Entries:
   - ItemPrefab: {fileID: 128184381135264871, guid: 8119472e5a1632c40bd9f667c154d5bf, type: 3}
-    DropChance: 1
+    DropChance: 0.5
     MinAmount: 100
     MaxAmount: 200
+  - ItemPrefab: {fileID: 5647143088187330884, guid: 4d13d3ce0bf7445469ad7aecc52dc096, type: 3}
+    DropChance: 1
+    MinAmount: 10
+    MaxAmount: 20

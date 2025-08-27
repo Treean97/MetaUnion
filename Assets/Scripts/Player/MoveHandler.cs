@@ -243,7 +243,7 @@ namespace Controller
             private bool IsGrounded()
             {
                 if (m_IgnoreTimer > 0f) return false;
-                return Physics.CheckSphere(m_GroundCheck.position, m_CheckRadius, LayerMask.GetMask("Ground"));
+                return Physics.CheckSphere(m_GroundCheck.position, m_CheckRadius/*, LayerMask.GetMask("Ground")*/);
             }
 
             private void GenAnimationAxis(in Vector3 movement, out Vector2 animAxis)

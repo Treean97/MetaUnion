@@ -3572,7 +3572,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: PlayerName
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 048608fcbc454444c8dae1da78579749, type: 2}
   m_sharedMaterial: {fileID: -8815360285070348113, guid: 048608fcbc454444c8dae1da78579749, type: 2}
@@ -6322,7 +6322,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e64eda6d34f422d48bc0572147831cee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _InputField: {fileID: 1246343954}
+  _InputField: {fileID: 1724674986}
 --- !u!114 &1724674986
 MonoBehaviour:
   m_ObjectHideFlags: 0
