@@ -8,7 +8,7 @@ using UnityEngine;
 /// - 지면에 닿으면 호버 전환(월드 +Y로 일정 높이 유지)
 /// - 항상 회전, 호버 중 바운싱
 /// </summary>
-public class ItemMovement : MonoBehaviourPun
+public class ItemMovement : MonoBehaviourPun, IPunInstantiateMagicCallback
 {
     [Header("Drop Motion")]
     [SerializeField] private float _MinHorizSpeed = 1.0f;
@@ -19,15 +19,15 @@ public class ItemMovement : MonoBehaviourPun
     [Header("Collision / Hover")]
     [SerializeField] private LayerMask _IgnoreLayer;
     [SerializeField] private float _Radius = 0.15f;  // 아이템 반경(충돌 여유)
-    [SerializeField] private float _HoverHeight = 0.25f;  // 지면에서 띄울 높이(+Y)
+    [SerializeField] private float _HoverHeight = 0.5f;  // 지면에서 띄울 높이(+Y)
     [SerializeField] private float _Bounciness = 0.5f;   // 반사 감쇠(0~1)
     [SerializeField] private float _SleepSpeed = 0.15f;  // 너무 느리면 멈춤 보정
     [SerializeField] private float _GroundMinNormalY  = 0.6f;   // 지면 판정 임계치(≈ 53° 이하)
 
     [Header("Visual")]
     [SerializeField] private float _RotateSpeed = 30f;   // deg/sec
-    [SerializeField] private float _BobAmp      = 0.05f; // 호버 바운싱 크기
-    [SerializeField] private float _BobSpeed    = 2.0f;  // 호버 바운싱 속도
+    [SerializeField] private float _BobAmp = 0.05f; // 호버 바운싱 크기
+    [SerializeField] private float _BobSpeed = 2.0f;  // 호버 바운싱 속도
 
 
     private enum SimState { Idle, Dropping, Hover }
