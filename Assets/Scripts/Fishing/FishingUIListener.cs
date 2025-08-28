@@ -18,9 +18,6 @@ public class FishingUIListener : MonoBehaviour
 
     void HandleOpenUI()
     {   
-        // 인풋 차단
-        InputBlock.BlockInput();
-
         _FishingSequence.gameObject.SetActive(true);
         _FishingSequence.StartFishing();
 

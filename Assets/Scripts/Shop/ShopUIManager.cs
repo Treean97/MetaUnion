@@ -37,8 +37,6 @@ public class ShopUIManager : MonoBehaviour
 
     void OnEnable()
     {
-        // UI 켜짐(입력제한)
-        InputBlock.BlockInput();
         // 잠긴 아이템 리스트 요청
         GameEvents.OnProvideLockedItems += HandleProvideBuyItems;
         // 활성화될 때 현재 카테고리 요청
@@ -55,7 +53,6 @@ public class ShopUIManager : MonoBehaviour
 
     void OnDisable()
     {
-        InputBlock.UnblockInput();
         GameEvents.OnProvideLockedItems -= HandleProvideBuyItems;
         GameEvents.OnItemPurchaseSuccess -= HandlePurchaseSueecss;
         GameEvents.OnRequestUpdateInventory -= UpdateSellItems;

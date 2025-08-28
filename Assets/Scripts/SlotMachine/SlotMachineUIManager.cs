@@ -80,16 +80,6 @@ public class SlotMachineUIManager : MonoBehaviour
         }
     }
 
-    void OnEnable()
-    {        
-        InputBlock.BlockInput();
-    }
-
-    void OnDisable()
-    {
-        InputBlock.UnblockInput();   
-    }
-
     void OnClickRerollBtn()
     {
         Reroll();

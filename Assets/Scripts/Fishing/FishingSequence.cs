@@ -133,7 +133,6 @@ public class FishingSequence : MonoBehaviour
             _MinigameUI.FishingUIClose();
         }
 
-        InputBlock.UnblockInput();
     }
 
 

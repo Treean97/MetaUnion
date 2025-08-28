@@ -30,6 +30,7 @@ namespace Controller
         [SerializeField] private KeyCode m_Pickaxekey = KeyCode.Alpha3;
         [SerializeField] private KeyCode m_InventoryKey = KeyCode.Q;
         [SerializeField] private KeyCode m_PlayerListKey = KeyCode.Tab;
+        [SerializeField] private KeyCode m_CursorToggle = KeyCode.LeftAlt;
 
         private MoveHandler m_Mover;
 
@@ -56,6 +57,7 @@ namespace Controller
 
         // 무기 상태 변경 이벤트
         public event Action<IWeaponState> OnWeaponChange;
+                
 
         private void Awake()
         {
@@ -71,9 +73,9 @@ namespace Controller
             }
 
             // 키 입력 이벤트 구독
-            OnHandKeyPressed     += () => OnWeaponChange?.Invoke(new HandState());
-            OnAxeKeyPressed      += () => OnWeaponChange?.Invoke(new AxeState());
-            OnPickaxeKeyPressed  += () => OnWeaponChange?.Invoke(new PickaxeState());
+            OnHandKeyPressed += () => OnWeaponChange?.Invoke(new HandState());
+            OnAxeKeyPressed += () => OnWeaponChange?.Invoke(new AxeState());
+            OnPickaxeKeyPressed += () => OnWeaponChange?.Invoke(new PickaxeState());
         }
 
         private void OnDestroy()
@@ -165,8 +167,8 @@ namespace Controller
             if (Input.GetKeyDown(m_AttackKey))
             {
                 if (EventSystem.current.IsPointerOverGameObject())
-                return;
-                
+                    return;
+
                 OnAttack?.Invoke();
             }
 
@@ -198,6 +200,11 @@ namespace Controller
             if (Input.GetKeyUp(m_PlayerListKey))
             {
                 GameEvents.RaiseRequestClosePlayerListUI();
+            }
+
+            if (Input.GetKeyDown(m_CursorToggle))
+            {
+                CursorManager.Toggle();
             }
         }
 

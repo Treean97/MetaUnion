@@ -20,12 +20,6 @@ public class VendingMachineUIManager : MonoBehaviour
     void OnEnable()
     {
         _SetAmountUI.gameObject.SetActive(false);
-        InputBlock.BlockInput();
-    }
-
-    void OnDisable()
-    {
-        InputBlock.UnblockInput();        
     }
 
     void Start()

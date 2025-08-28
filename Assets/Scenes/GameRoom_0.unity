@@ -9653,6 +9653,8 @@ GameObject:
   - component: {fileID: 322785696}
   - component: {fileID: 322785695}
   - component: {fileID: 322785694}
+  - component: {fileID: 322785698}
+  - component: {fileID: 322785697}
   m_Layer: 5
   m_Name: ShopUIPanel
   m_TagString: Untagged
@@ -9750,6 +9752,30 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 322785692}
   m_CullTransparentMesh: 1
+--- !u!114 &322785697
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 322785692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2165e5d2fb8e1444ba2fa7de9f52300, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CursorGuard
+--- !u!114 &322785698
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 322785692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b61b2d90cff24674dbf44c5b954ea1ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InputBlockGuard
 --- !u!1 &323047536
 GameObject:
   m_ObjectHideFlags: 0
@@ -11867,6 +11893,8 @@ GameObject:
   - component: {fileID: 389548487}
   - component: {fileID: 389548486}
   - component: {fileID: 389548488}
+  - component: {fileID: 389548490}
+  - component: {fileID: 389548489}
   m_Layer: 5
   m_Name: VendingMachineUIPanel
   m_TagString: Untagged
@@ -11951,6 +11979,30 @@ MonoBehaviour:
   _SlotPrefab: {fileID: 6177885362925868584, guid: ba41678eb63e65c4e91e443ad1f8b9ea, type: 3}
   _SetAmountUI: {fileID: 202426065}
   _CloseBtn: {fileID: 941849167}
+--- !u!114 &389548489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 389548484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2165e5d2fb8e1444ba2fa7de9f52300, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CursorGuard
+--- !u!114 &389548490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 389548484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b61b2d90cff24674dbf44c5b954ea1ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InputBlockGuard
 --- !u!1001 &393869886
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21035,6 +21087,8 @@ GameObject:
   - component: {fileID: 681511354}
   - component: {fileID: 681511353}
   - component: {fileID: 681511355}
+  - component: {fileID: 681511357}
+  - component: {fileID: 681511356}
   m_Layer: 5
   m_Name: CustomizeUIPanel
   m_TagString: Untagged
@@ -21138,6 +21192,30 @@ MonoBehaviour:
   - {fileID: 1209801608}
   - {fileID: 889936901}
   _CloseBtn: {fileID: 1434871832}
+--- !u!114 &681511356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 681511351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2165e5d2fb8e1444ba2fa7de9f52300, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CursorGuard
+--- !u!114 &681511357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 681511351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b61b2d90cff24674dbf44c5b954ea1ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InputBlockGuard
 --- !u!1 &684020421
 GameObject:
   m_ObjectHideFlags: 0
@@ -43555,6 +43633,8 @@ GameObject:
   - component: {fileID: 1392145521}
   - component: {fileID: 1392145520}
   - component: {fileID: 1392145523}
+  - component: {fileID: 1392145525}
+  - component: {fileID: 1392145524}
   m_Layer: 5
   m_Name: SlotMachineUIPanel
   m_TagString: Untagged
@@ -43670,6 +43750,30 @@ MonoBehaviour:
   _CurrencyInputField: {fileID: 1241615320}
   _3MatchMul: 5
   _2MatchMul: 10
+--- !u!114 &1392145524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1392145518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2165e5d2fb8e1444ba2fa7de9f52300, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CursorGuard
+--- !u!114 &1392145525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1392145518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b61b2d90cff24674dbf44c5b954ea1ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InputBlockGuard
 --- !u!1001 &1398455946
 PrefabInstance:
   m_ObjectHideFlags: 0

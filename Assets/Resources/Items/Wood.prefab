@@ -272,7 +272,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   _Radius: 0.15
-  _HoverHeight: 0.25
+  _HoverHeight: 0.5
   _Bounciness: 0.5
   _SleepSpeed: 0.15
   _GroundMinNormalY: 0.6

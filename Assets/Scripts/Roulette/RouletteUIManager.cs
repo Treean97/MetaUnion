@@ -55,16 +55,6 @@ public class RouletteUIManager : MonoBehaviour
         }
     }
 
-    void OnEnable()
-    {
-        InputBlock.BlockInput();
-    }
-
-    void OnDisable()
-    {
-        InputBlock.UnblockInput();
-    }
-
     void ItemSet()
     {
         for (int i = 0; i < _Slots.Count; i++)
