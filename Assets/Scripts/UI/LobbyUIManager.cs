@@ -116,7 +116,8 @@ public class LobbyUIManager : MonoBehaviourPunCallbacks
 
         if (!string.IsNullOrEmpty(_SelectedRoomInfo.Name))
         {
-            GameEvents.RaiseRequestJoinRoom(_SelectedRoomInfo);
+            // GameEvents.RaiseRequestJoinRoom(_SelectedRoomInfo);
+            Launcher._Inst.RequestJoinRoom(_SelectedRoomInfo);
         }
 
     }

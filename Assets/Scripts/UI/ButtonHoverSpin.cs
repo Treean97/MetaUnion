@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(RectTransform))]
 public class ButtonHoverSpin : MonoBehaviour,
@@ -33,8 +34,21 @@ public class ButtonHoverSpin : MonoBehaviour,
         var e = _rt.localEulerAngles; e.z = _baseZ; _rt.localEulerAngles = e;
     }
 
-    public void OnPointerEnter(PointerEventData e) => StartScale(_baseScale * _HoverScale);
-    public void OnPointerExit (PointerEventData e) => StartScale(_baseScale);
+    public void OnPointerEnter(PointerEventData e)
+    {
+        var button = GetComponent<Button>();
+        if (!button.interactable) return;
+        
+        StartScale(_baseScale * _HoverScale);
+    }
+
+    public void OnPointerExit(PointerEventData e)
+    {
+        var button = GetComponent<Button>();
+        if (!button.interactable) return;
+        
+        StartScale(_baseScale);
+    }
 
     public IEnumerator ClickEffect()
     {

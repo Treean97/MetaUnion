@@ -41,12 +41,6 @@ public static class GameEvents
     // 방 생성 UI 열림
     public static void RaiseOpenCreateRoomUI() => OnOpenCreateRoomUI?.Invoke();
 
-    // 방 입장 요청
-    public static event Action<RoomInfo> OnRequestJoinRoom;
-    // 방 입장 요청
-    public static void RaiseRequestJoinRoom(RoomInfo info)
-    => OnRequestJoinRoom?.Invoke(info);
-
     // 방 입장 성공
     public static event Action OnJoinRoomSuccess;
     // 방 입장 성공

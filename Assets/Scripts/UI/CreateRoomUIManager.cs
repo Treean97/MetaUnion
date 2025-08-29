@@ -4,7 +4,6 @@ using TMPro;
 using Photon.Pun;
 using Photon.Realtime;
 using System.Collections;
-using Unity.VisualScripting;
 
 public class CreateRoomUIManager : MonoBehaviour
 {
@@ -13,7 +12,6 @@ public class CreateRoomUIManager : MonoBehaviour
     [SerializeField] private Button _CreateButton;
     [SerializeField] private Button _CancelButton;
 
-    private ButtonHoverSpin _Effect;
 
     private void OnEnable()
     {
