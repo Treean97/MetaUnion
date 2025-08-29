@@ -8,6 +8,7 @@ public class LoadingManager : MonoBehaviour
 {
     private static LoadingManager _Instance;
 
+    [SerializeField] private Canvas _Canvas;
     [SerializeField] private Slider _LoadingBar;
     [SerializeField] private TMP_Text _LoadingText;
     [SerializeField] private string[] _TextSample;
@@ -25,7 +26,7 @@ public class LoadingManager : MonoBehaviour
             return;
         }
 
-        gameObject.SetActive(false);
+        _Canvas.gameObject.SetActive(false);
     }
 
     public static LoadingManager _Inst => _Instance;
@@ -33,7 +34,7 @@ public class LoadingManager : MonoBehaviour
 
     public void Show()
     {
-        gameObject.SetActive(true);
+        _Canvas.gameObject.SetActive(true);
         if (_LoadingBar) _LoadingBar.value = 0f;
 
         if (_LoadingText)
@@ -52,14 +53,14 @@ public class LoadingManager : MonoBehaviour
 
     public void Hide()
     {
-        gameObject.SetActive(false);
+        _Canvas.gameObject.SetActive(false);
     }
 
 
     public void LoadScene(string sceneName)
     {
-        StopAllCoroutines();
         Show();
+        StopAllCoroutines();
         StartCoroutine(CoLoadScene(sceneName));
     }
 
