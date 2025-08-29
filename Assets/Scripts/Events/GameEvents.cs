@@ -32,23 +32,9 @@ public static class GameEvents
     public static event Action<bool> OnPlayerIDFieldIsNull;
     public static void RaisePlayerFieldIsNull(bool isNull) => OnPlayerIDFieldIsNull?.Invoke(isNull);
 
-    // 서버 연결
-    public static event Action OnConnect;
-    public static void RaiseConnect() => OnConnect?.Invoke();
-
-    // Lobby UI 요청
-    public static event Action OnRequestOpenLobbyUI;
-    public static void RaiseRequestOpenLobbyUI() => OnRequestOpenLobbyUI?.Invoke();
-
     // Lobby UI 열림
     public static event Action OnOpenLobbyUI;
     public static void RaiseOpenLobbyUI() => OnOpenLobbyUI?.Invoke();
-
-    // 방 생성 UI 요청
-    public static event Action OnRequestOpenCreateRoomUI;
-    // 방 생성 UI 요청
-    public static void RaiseRequestOpenCreateRoomUI()
-    => OnRequestOpenCreateRoomUI?.Invoke();
 
     // 방 생성 UI 열림
     public static event Action OnOpenCreateRoomUI;

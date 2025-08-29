@@ -5,15 +5,11 @@ using UnityEngine.UI;
 public class StartBtnManager : MonoBehaviour
 {
     [SerializeField] private Button _StartBtn;
-    private ButtonHoverSpin _Effect;
-
-    void Awake()
-    {
-        _Effect = gameObject.GetComponent<ButtonHoverSpin>();
-    }
+    [SerializeField] private GameObject _ControlUI;
 
     void OnEnable()
     {
+        _StartBtn.interactable = true;
         _StartBtn.onClick.AddListener(OnClickStart);
     }
 
@@ -22,25 +18,24 @@ public class StartBtnManager : MonoBehaviour
         // 씬 실행 시 active
         gameObject.SetActive(true);
     }
-    
+
     void OnClickStart()
     {
-        StartCoroutine(CoClickSequence());
+        StartCoroutine(StartButtonSequence());
     }
-
-    IEnumerator CoClickSequence()
+    
+    IEnumerator StartButtonSequence()
     {
         _StartBtn.interactable = false;
 
-        if (_Effect != null)
-            yield return StartCoroutine(_Effect.ClickEffect()); // 이펙트 완료까지 대기
+        // 버튼 이펙트 가져오기
+        var effect = _StartBtn.GetComponent<ButtonHoverSpin>();
 
-        // 이펙트 끝난 뒤에 전환
-        GameEvents.RaiseRequestOpenLobbyUI();
-        GameEvents.RaiseConnect();
+        if (effect != null)
+            yield return StartCoroutine(effect.ClickEffect());
 
+        _ControlUI.SetActive(true);
         gameObject.SetActive(false);
     }
-
 
 }

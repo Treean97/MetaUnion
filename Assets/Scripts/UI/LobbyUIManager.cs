@@ -10,10 +10,12 @@ public class LobbyUIManager : MonoBehaviourPunCallbacks
     [SerializeField] private Transform _RoomListContent;
     [SerializeField] private GameObject _RoomItemPrefab;
     [SerializeField] private Button _JoinRoomBtn;
+    [SerializeField] private GameObject _CreateRoomUI;
     [SerializeField] private Button _CreateRoomBtn;
-    [SerializeField] private Button _RefreshBtn;
+    [SerializeField] private Button _CloseBtn;
+    [SerializeField] private Button _StartBtn;
+    // [SerializeField] private Button _RefreshBtn;
 
-    private ButtonHoverSpin _Effect;
     private RoomInfo _SelectedRoomInfo;
 
     // OnEnable 오버라이드
@@ -40,6 +42,9 @@ public class LobbyUIManager : MonoBehaviourPunCallbacks
 
         // _RefreshBtn.onClick.RemoveAllListeners();
         // _RefreshBtn.onClick.AddListener(OnRefreshButtonClicked);
+
+        _CloseBtn.onClick.RemoveAllListeners();
+        _CloseBtn.onClick.AddListener(OnCloseButtonClicked);
     }
 
     // OnDisable 오버라이드
@@ -92,7 +97,7 @@ public class LobbyUIManager : MonoBehaviourPunCallbacks
             yield return StartCoroutine(effect.ClickEffect()); // 이펙트 완료까지 대기
         }
 
-        GameEvents.RaiseRequestOpenCreateRoomUI();
+        _CreateRoomUI.SetActive(true);
     }
 
     private void OnJoinRoomButtonClicked()
@@ -115,7 +120,7 @@ public class LobbyUIManager : MonoBehaviourPunCallbacks
         }
 
     }
-    
+
     // private void OnRefreshButtonClicked()
     // {
     //     foreach (Transform child in _RoomListContent)
@@ -127,4 +132,10 @@ public class LobbyUIManager : MonoBehaviourPunCallbacks
 
     //     PhotonNetwork.LeaveLobby();
     // }
+
+    private void OnCloseButtonClicked()
+    {
+        gameObject.SetActive(false);
+        _StartBtn.gameObject.SetActive(true);
+    }
 }

@@ -184,13 +184,11 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         base.OnEnable();
         GameEvents.OnRequestJoinRoom += RequestJoinRoom;
-        GameEvents.OnConnect += Connect;
     }
 
     public override void OnDisable()
     {
         GameEvents.OnRequestJoinRoom -= RequestJoinRoom;
-        GameEvents.OnConnect -= Connect;
     }
 
     void OnDestroy()

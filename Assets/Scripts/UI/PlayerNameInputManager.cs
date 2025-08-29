@@ -1,11 +1,13 @@
 using UnityEngine;
 using TMPro;
 using Photon.Pun;
+using UnityEngine.UI;
 
 
 public class PlayerNameInputManager : MonoBehaviour
 {
     [SerializeField] private TMP_InputField _InputField;
+    [SerializeField] private Button _LoginButton;
     private const string _PlayerNamePrefKey = "PlayerName";
 
     private void Start()
@@ -22,11 +24,8 @@ public class PlayerNameInputManager : MonoBehaviour
 
     private void EvaluateName(string tValue)
     {
-        string trimmed = tValue.Trim();
-        if (string.IsNullOrWhiteSpace(trimmed))
-            GameEvents.RaisePlayerFieldIsNull(true);
-        else
-            GameEvents.RaisePlayerFieldIsNull(false);
+        bool vaild = !string.IsNullOrWhiteSpace(tValue?.Trim());
+        if (_LoginButton) _LoginButton.interactable = vaild;
     }
 
     public void SetPlayerName(string tValue)
