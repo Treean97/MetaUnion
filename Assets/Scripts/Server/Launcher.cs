@@ -153,9 +153,9 @@
 
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using Photon.Pun;
 using Photon.Realtime;
+using System.Collections;
 
 public class Launcher : MonoBehaviourPunCallbacks
 {
@@ -168,6 +168,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     [SerializeField] private SceneListSO _GameSceneListSO;
     public SceneListSO GetGameSceneListSO => _GameSceneListSO;
     public object GameSceneListSO { get; internal set; }
+    private const string MAP_PROP = "map";
 
     // private Dictionary<string, RoomInfo> _CachedRoomList = new Dictionary<string, RoomInfo>();
 
@@ -178,6 +179,9 @@ public class Launcher : MonoBehaviourPunCallbacks
         if (_Inst != null) { Destroy(gameObject); return; }
         _Inst = this;
         DontDestroyOnLoad(gameObject);
+
+        // 동시 씬 전환 금지
+        PhotonNetwork.AutomaticallySyncScene = false;
     }
 
     public override void OnEnable()
@@ -189,8 +193,6 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         base.OnDisable();
     }
-
-
 
     #region 연결 흐름
 
@@ -247,20 +249,13 @@ public class Launcher : MonoBehaviourPunCallbacks
     // 입장 성공 호출
     public override void OnJoinedRoom()
     {
-        // SceneListSO에 맵이 하나도 없으면 에러
-        if (_GameSceneListSO == null || _GameSceneListSO._SceneList.Count == 0)
+        if (PhotonNetwork.CurrentRoom.CustomProperties != null &&
+            PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue(MAP_PROP, out object obj))
         {
-            Debug.LogError("씬 리스트가 비어 있습니다! SceneListSO를 확인하세요.");
-            return;
+            string mapName = (string)obj;
+            LoadingManager._Inst?.LoadScene(mapName); // 네 UI 오버레이 로더로 로컬 씬 로드
+            Debug.Log($"→ Load Scene: {mapName}");
         }
-
-        // 랜덤으로 맵 하나 선택
-        int idx = Random.Range(0, _GameSceneListSO._SceneList.Count);
-        string sceneToLoad = _GameSceneListSO._SceneList[idx].SceneName;
-        Debug.Log($"랜덤 맵 로드: {sceneToLoad}");
-
-        // 선택된 씬 로드
-        PhotonNetwork.LoadLevel(sceneToLoad);
 
         // 방 입장 이벤트
         GameEvents.RaiseJoinRoomSuccess();

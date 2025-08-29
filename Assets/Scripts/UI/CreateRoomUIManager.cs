@@ -4,6 +4,7 @@ using TMPro;
 using Photon.Pun;
 using Photon.Realtime;
 using System.Collections;
+using ExitGames.Client.Photon;
 
 public class CreateRoomUIManager : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class CreateRoomUIManager : MonoBehaviour
     [SerializeField] private Button _CreateButton;
     [SerializeField] private Button _CancelButton;
 
+    private const string MAP_PROP = "map";
 
     private void OnEnable()
     {
@@ -44,7 +46,7 @@ public class CreateRoomUIManager : MonoBehaviour
 
     private void OnConfirmClicked()
     {
-        StartCoroutine(CreateButtonSequence());     
+        StartCoroutine(CreateButtonSequence());
     }
 
     IEnumerator CreateButtonSequence()
@@ -64,18 +66,28 @@ public class CreateRoomUIManager : MonoBehaviour
         if (effect != null)
         {
             yield return StartCoroutine(effect.ClickEffect()); // 이펙트 완료까지 대기
-        }        
+        }
+
+        // 맵 선택
+        string mapName = ResolveMapName();
 
         RoomOptions options = new RoomOptions
         {
             MaxPlayers = maxPlayers,
             IsVisible = true,
-            IsOpen = true
+            IsOpen = true,
+
+            CustomRoomPropertiesForLobby = new[] { MAP_PROP },
+
+            CustomRoomProperties = new ExitGames.Client.Photon.Hashtable
+            {
+                {MAP_PROP, mapName}
+            }
         };
 
         PhotonNetwork.CreateRoom(roomName, options);
 
-        gameObject.SetActive(false);   
+        gameObject.SetActive(false);
     }
 
     private void OnCancelClicked()
@@ -87,4 +99,15 @@ public class CreateRoomUIManager : MonoBehaviour
     {
         _CreateButton.interactable = !string.IsNullOrWhiteSpace(input);
     }
+
+    string ResolveMapName()
+    {
+        // 드롭다운 인덱스 사용
+        // if (Launcher._Inst.GetGameSceneListSO != null && Launcher._Inst.GetGameSceneListSO.TryGetNameByIndex(_MapDropdown.value, out var name))
+        //     return name;
+
+        // 실패 시 랜덤/기본값
+        return Launcher._Inst.GetGameSceneListSO.GetRandomName();
+    }
+
 }

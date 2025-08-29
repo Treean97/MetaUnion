@@ -6,57 +6,101 @@ using UnityEngine.UI;
 
 public class LoadingManager : MonoBehaviour
 {
-    public static LoadingManager _Inst { get; private set; }
+    private static LoadingManager _Instance;
 
     [SerializeField] private Slider _LoadingBar;
     [SerializeField] private TMP_Text _LoadingText;
+    [SerializeField] private string[] _TextSample;
 
     void Awake()
     {
-        if (_Inst == null)
+        if (_Instance == null)
         {
-            _Inst = this;            
+            _Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
             Destroy(gameObject);
+            return;
         }
 
-        DontDestroyOnLoad(gameObject);
+        gameObject.SetActive(false);
+    }
+
+    public static LoadingManager _Inst => _Instance;
+
+
+    public void Show()
+    {
+        gameObject.SetActive(true);
+        if (_LoadingBar) _LoadingBar.value = 0f;
+
+        if (_LoadingText)
+        {
+            if (_TextSample != null && _TextSample.Length > 0)
+            {
+                _LoadingText.text = _TextSample[UnityEngine.Random.Range(0, _TextSample.Length)];
+            }
+            else
+            {
+                _LoadingText.text = "Text Error";
+            }
+
+        }
+    }
+
+    public void Hide()
+    {
+        gameObject.SetActive(false);
     }
 
 
     public void LoadScene(string sceneName)
     {
-        StartCoroutine(LoadingSceneAsync(sceneName));
+        StopAllCoroutines();
+        Show();
+        StartCoroutine(CoLoadScene(sceneName));
     }
 
-    IEnumerator LoadingSceneAsync(string sceneName)
+    IEnumerator CoLoadScene(string sceneName)
     {
-        AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(sceneName);
-        asyncOperation.allowSceneActivation = false;
+        var op = SceneManager.LoadSceneAsync(sceneName);
+        op.allowSceneActivation = false;
 
-        float progress = 0f;
-
-        while (!asyncOperation.isDone)
+        while (op.progress < 0.9f)
         {
+            float target = Mathf.Clamp01(op.progress / 0.9f); // 0~1
+            UpdateBar(target);
             yield return null;
-
-            if (asyncOperation.progress < 0.9f)
-            {
-                _LoadingBar.value = asyncOperation.progress;
-            }
-            else
-            {
-                progress += Time.deltaTime;
-                _LoadingBar.value = Mathf.Lerp(0.9f, 1f, progress);
-
-                if (_LoadingBar.value >= 1f)
-                {
-                    asyncOperation.allowSceneActivation = true;
-                    yield break;
-                }
-            }
         }
+
+        // 마지막 구간 채우기
+        yield return SmoothFillTo(1f, 5f);
+
+        // 씬 활성화
+        op.allowSceneActivation = true;
+        yield return null; // 활성화 프레임 보장
+
+        Hide();
     }
+
+     void UpdateBar(float target)
+    {
+        if (!_LoadingBar) return;
+        _LoadingBar.value = Mathf.Lerp(_LoadingBar.value, target, Time.deltaTime * 5f);
+    }
+
+    IEnumerator SmoothFillTo(float target, float speed)
+    {
+        if (!_LoadingBar) yield break;
+        while (_LoadingBar.value < target - 0.001f)
+        {
+            _LoadingBar.value = Mathf.Lerp(_LoadingBar.value, target, Time.deltaTime * speed);
+            yield return null;
+        }
+        _LoadingBar.value = target;
+    }
+
+
 }
