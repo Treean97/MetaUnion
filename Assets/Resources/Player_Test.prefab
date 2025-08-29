@@ -2233,7 +2233,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d75ab59f14a39c540a8a09fd8022f7ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CursorManager
-  _StartLocked: 1
 --- !u!114 &5568501472016897232
 MonoBehaviour:
   m_ObjectHideFlags: 0

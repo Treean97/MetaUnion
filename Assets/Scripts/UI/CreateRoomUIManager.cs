@@ -3,22 +3,21 @@ using UnityEngine.UI;
 using TMPro;
 using Photon.Pun;
 using Photon.Realtime;
+using System.Collections;
+using Unity.VisualScripting;
 
 public class CreateRoomUIManager : MonoBehaviour
 {
     [SerializeField] private TMP_InputField _RoomNameInput;
     [SerializeField] private TMP_Dropdown _MaxPlayerDropdown;
-    [SerializeField] private Button _ConfirmButton;
+    [SerializeField] private Button _CreateButton;
     [SerializeField] private Button _CancelButton;
 
-    private void Awake()
-    {
-
-    }
+    private ButtonHoverSpin _Effect;
 
     private void OnEnable()
     {
-        _ConfirmButton.onClick.AddListener(OnConfirmClicked);
+        _CreateButton.onClick.AddListener(OnConfirmClicked);
         _CancelButton.onClick.AddListener(OnCancelClicked);
         _RoomNameInput.onValueChanged.AddListener(CheckRoomNameInput);
 
@@ -47,6 +46,11 @@ public class CreateRoomUIManager : MonoBehaviour
 
     private void OnConfirmClicked()
     {
+        StartCoroutine(CreateButtonSequence());     
+    }
+
+    IEnumerator CreateButtonSequence()
+    {
         string roomName = _RoomNameInput.text.Trim();
         byte maxPlayers = (byte)(_MaxPlayerDropdown.value + 1);
 
@@ -54,8 +58,15 @@ public class CreateRoomUIManager : MonoBehaviour
         {
             Debug.LogWarning("방 이름을 입력하세요");
             GameEvents.RaiseShowWarning("Input the Room Name", 2f);
-            return;
+            yield break;
         }
+
+        var effect = _CreateButton.GetComponent<ButtonHoverSpin>();
+
+        if (effect != null)
+        {
+            yield return StartCoroutine(effect.ClickEffect()); // 이펙트 완료까지 대기
+        }        
 
         RoomOptions options = new RoomOptions
         {
@@ -66,7 +77,7 @@ public class CreateRoomUIManager : MonoBehaviour
 
         PhotonNetwork.CreateRoom(roomName, options);
 
-        gameObject.SetActive(false);        
+        gameObject.SetActive(false);   
     }
 
     private void OnCancelClicked()
@@ -76,6 +87,6 @@ public class CreateRoomUIManager : MonoBehaviour
 
     private void CheckRoomNameInput(string input)
     {
-        _ConfirmButton.interactable = !string.IsNullOrWhiteSpace(input);
+        _CreateButton.interactable = !string.IsNullOrWhiteSpace(input);
     }
 }

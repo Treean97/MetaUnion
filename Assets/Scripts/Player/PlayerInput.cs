@@ -80,7 +80,8 @@ namespace Controller
 
         private void OnDestroy()
         {
-            InputBlock.OnInputBlockStatus -= HandleUIRunningStateChanged; // 추가: 구독 해제
+            InputBlock.OnInputBlockStatus -= HandleUIRunningStateChanged;
+            
             if (_StatusEffectManager != null)
             {
                 _StatusEffectManager.OnEffectApplied -= HandleEffectApplied;
@@ -126,8 +127,8 @@ namespace Controller
 
         private void Update()
         {
-            // 차단 상태 시 입력 방지
-            // 이동 중이라면 정지
+            // 차단 상태 시 모든 입력 방지
+            // 이동 중이라면 정지 시키기
             if (_IsMovementBlocked || _IsStunnedBlocked)
             {
                 return;
@@ -158,6 +159,12 @@ namespace Controller
             m_Target = (m_Camera == null) ? Vector3.zero : m_Camera.Target;
             m_MouseDelta = new Vector2(Input.GetAxis(m_MouseX), Input.GetAxis(m_MouseY));
             m_Scroll = Input.GetAxis(m_MouseScroll);
+
+            // 커서 켜졌을 때는 회전 잠금
+            if (CursorManager._Inst._IsShown)
+            {
+                m_MouseDelta = Vector2.zero;
+            }                   
 
             if (Input.GetKeyDown(m_InteractKey))
             {

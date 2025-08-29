@@ -16,11 +16,6 @@ public class LobbyUIManager : MonoBehaviourPunCallbacks
     private ButtonHoverSpin _Effect;
     private RoomInfo _SelectedRoomInfo;
 
-    void Awake()
-    {
-        _Effect = gameObject.GetComponent<ButtonHoverSpin>();
-    }
-
     // OnEnable 오버라이드
     public override void OnEnable()
     {
@@ -85,14 +80,16 @@ public class LobbyUIManager : MonoBehaviourPunCallbacks
 
     private void OnCreateRoomButtonClicked()
     {
-        StartCoroutine(CreateRoomSequence());
+        StartCoroutine(CreateRoomButtonSequence());
     }
 
-    IEnumerator CreateRoomSequence()
+    IEnumerator CreateRoomButtonSequence()
     {
-        if (_Effect != null)
+        var effect = _CreateRoomBtn.GetComponent<ButtonHoverSpin>();
+
+        if (effect != null)
         {
-            yield return StartCoroutine(_Effect.ClickEffect()); // 이펙트 완료까지 대기
+            yield return StartCoroutine(effect.ClickEffect()); // 이펙트 완료까지 대기
         }
 
         GameEvents.RaiseRequestOpenCreateRoomUI();
@@ -100,14 +97,16 @@ public class LobbyUIManager : MonoBehaviourPunCallbacks
 
     private void OnJoinRoomButtonClicked()
     {
-        StartCoroutine(JoinRoomSequence());
+        StartCoroutine(JoinRoomButtonSequence());
     }
 
-    IEnumerator JoinRoomSequence()
+    IEnumerator JoinRoomButtonSequence()
     {
-        if (_Effect != null)
+        var effect = _JoinRoomBtn.GetComponent<ButtonHoverSpin>();
+
+        if (effect != null)
         {
-            yield return StartCoroutine(_Effect.ClickEffect()); // 이펙트 완료까지 대기
+            yield return StartCoroutine(effect.ClickEffect()); // 이펙트 완료까지 대기
         }
 
         if (!string.IsNullOrEmpty(_SelectedRoomInfo.Name))

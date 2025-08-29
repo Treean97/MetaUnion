@@ -3,8 +3,7 @@ using UnityEngine;
 public class CursorManager : MonoBehaviour
 {
     public static CursorManager _Inst { get; private set; } 
-
-    [SerializeField] bool _StartLocked = true;
+    public bool _IsShown { get; private set; }
 
     int _UICount;
     bool _Manual;
@@ -45,6 +44,12 @@ public class CursorManager : MonoBehaviour
     void Apply()
     {
         bool show = _Manual || _UICount > 0;
+
+        if (_IsShown != show)
+        {
+            _IsShown = show;
+        }
+        
         Cursor.visible   = show;
         Cursor.lockState = show ? CursorLockMode.None : CursorLockMode.Locked;
     }
