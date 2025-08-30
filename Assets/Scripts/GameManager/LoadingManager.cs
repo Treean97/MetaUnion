@@ -36,6 +36,7 @@ public class LoadingManager : MonoBehaviour
 
     public void Show()
     {
+        SetBackground(); 
         _Canvas.gameObject.SetActive(true);
         if (_LoadingBar) _LoadingBar.value = 0f;
 
