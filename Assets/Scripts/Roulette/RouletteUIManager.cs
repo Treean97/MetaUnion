@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RouletteUIManager : MonoBehaviour
-{
+public class RouletteUIManager : MonoBehaviour, IRouletteUI
+{    
     [SerializeField] ItemDataPoolSO _RouletteItemPool;
     [SerializeField] Transform _RoulettePointer;
     [SerializeField] GameObject _Spinner;
@@ -19,6 +19,9 @@ public class RouletteUIManager : MonoBehaviour
 
     [SerializeField] Button _SpinBtn;
     [SerializeField] Button _CloseBtn;
+
+
+    public bool IsOpen => gameObject.activeSelf;
 
     void Awake()
     {
@@ -45,6 +48,16 @@ public class RouletteUIManager : MonoBehaviour
 
             _Slots.Add(slot);        
         }
+    }
+
+    void OnEnable()
+    {
+        UIRouter._Inst?.RegisterAs<IRouletteUI>(this);
+    }
+
+    void OnDisable()
+    {
+        UIRouter._Inst?.UnregisterAs<IRouletteUI>(this);
     }
 
     void Update()
@@ -106,7 +119,7 @@ public class RouletteUIManager : MonoBehaviour
             return;
         }
 
-        gameObject.SetActive(false);
+        Hide();
     }
 
     IEnumerator RotateRoulette()
@@ -128,5 +141,15 @@ public class RouletteUIManager : MonoBehaviour
             reward.GetComponent<RouletteSlot>().ItemDataSO.ID,
             reward.GetComponent<RouletteSlot>().Amount);
         _IsSpin = false;
+    }
+
+    public void Show()
+    {
+        gameObject.SetActive(true);
+    }
+
+    public void Hide()
+    {
+        gameObject.SetActive(false);
     }
 }

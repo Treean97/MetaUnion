@@ -5,7 +5,6 @@ using UnityEngine.UI;
 public class ShopUIBtn : MonoBehaviour
 {
     [SerializeField] Button _ShopUIBtn;
-    [SerializeField] GameObject _ShopUI;
 
     void Awake()
     {
@@ -14,6 +13,6 @@ public class ShopUIBtn : MonoBehaviour
 
     void OnClickShopUIButton()
     {
-        _ShopUI.gameObject.SetActive(true);
+        UIRouter._Inst.Open<IShopUI>();
     }
 }

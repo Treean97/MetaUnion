@@ -44,6 +44,7 @@ public class SlotMachineUIManager : MonoBehaviour, ISlotMachineUI
     private List<ItemDataSO> _CurrencyList;
     private int _BettingCurrencyID;
     private int _BettingCurrencyAmount;
+    public bool IsOpen => gameObject.activeSelf;
 
     void Awake()
     {
@@ -54,6 +55,11 @@ public class SlotMachineUIManager : MonoBehaviour, ISlotMachineUI
     void OnEnable()
     {
         UIRouter._Inst?.RegisterAs<ISlotMachineUI>(this);
+    }
+
+    void OnDisable()
+    {
+        UIRouter._Inst?.UnregisterAs<ISlotMachineUI>(this);
     }
 
     void Start()

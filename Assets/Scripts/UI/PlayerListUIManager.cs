@@ -3,17 +3,23 @@ using Photon.Realtime;
 using TMPro;
 using UnityEngine;
 
-public class PlayerListUIManager : MonoBehaviour
+public class PlayerListUIManager : MonoBehaviour, IPlayerListUI
 {
     [SerializeField] GameObject _PlayerListSlot;
     [SerializeField] Transform _Content;
 
     private Player[] _Players;
+    public bool IsOpen => gameObject.activeSelf;
 
     void OnEnable()
     {
+        UIRouter._Inst?.RegisterAs<IPlayerListUI>(this);
         UpdatePlayerList();
+    }
 
+    void OnDisable()
+    {
+        UIRouter._Inst?.UnregisterAs<IPlayerListUI>(this);
     }
 
     void UpdatePlayerList()
@@ -36,5 +42,15 @@ public class PlayerListUIManager : MonoBehaviour
             GameObject child = _Content.GetChild(i).gameObject;
             Destroy(child);
         }
+    }
+
+    public void Show()
+    {
+        gameObject.SetActive(true);
+    }
+
+    public void Hide()
+    {
+        gameObject.SetActive(false);
     }
 }

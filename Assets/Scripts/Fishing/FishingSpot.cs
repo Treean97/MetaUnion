@@ -17,7 +17,7 @@ public class FishingSpot : MonoBehaviour, IInteractable
 
     public void OnInteract()
     {
-        GameEvents.RaiseRequestOpenFishingUI();
+        UIRouter._Inst.Open<IFishingUI>();
         OnDefocus();
         Debug.Log("Interact");
     }

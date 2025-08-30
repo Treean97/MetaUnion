@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ShopUIManager : MonoBehaviour
+public class ShopUIManager : MonoBehaviour, IShopUI
 {
     [Header("Buy Area")]
     [SerializeField] private CustomizeItemPoolSO _BuyItemPool;
@@ -19,6 +19,7 @@ public class ShopUIManager : MonoBehaviour
 
     [SerializeField] private GameObject _SetAmountUI;
 
+    public bool IsOpen => gameObject.activeSelf;
 
     void Awake()
     {
@@ -49,6 +50,8 @@ public class ShopUIManager : MonoBehaviour
 
         // 판매 시 리스트 갱신
         GameEvents.OnRequestUpdateInventory += UpdateSellItems;
+
+        UIRouter._Inst?.RegisterAs<IShopUI>(this);
     }
 
     void OnDisable()
@@ -56,6 +59,8 @@ public class ShopUIManager : MonoBehaviour
         GameEvents.OnProvideLockedItems -= HandleProvideBuyItems;
         GameEvents.OnItemPurchaseSuccess -= HandlePurchaseSueecss;
         GameEvents.OnRequestUpdateInventory -= UpdateSellItems;
+
+        UIRouter._Inst?.UnregisterAs<IShopUI>(this);
     }
 
     void ChangeCategory(ItemType type)
@@ -116,5 +121,15 @@ public class ShopUIManager : MonoBehaviour
             SetSlot(inventory[i].ID, inventory[i].Amount);
 
         }
+    }
+
+    public void Show()
+    {
+        gameObject.SetActive(true);
+    }
+
+    public void Hide()
+    {
+        gameObject.SetActive(false);
     }
 }

@@ -6398,7 +6398,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _CustomizeUIBtn: {fileID: 226719494}
-  _CustomizeUI: {fileID: 681511351}
 --- !u!1001 &226921887
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7493,7 +7492,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 256254165}
-  - component: {fileID: 256254166}
   m_Layer: 5
   m_Name: RouletteUI
   m_TagString: Untagged
@@ -7521,19 +7519,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 600, y: 900}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &256254166
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 256254164}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 043fad8a134a9f3488b5bc144ef4de31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _RouletteUIManager: {fileID: 816081138}
 --- !u!1001 &256729577
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15300,7 +15285,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ShopUIBtn: {fileID: 482845088}
-  _ShopUI: {fileID: 322785692}
 --- !u!1001 &485031255
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21570,7 +21554,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 684020422}
-  - component: {fileID: 684020423}
   m_Layer: 5
   m_Name: SlotMachineUI
   m_TagString: Untagged
@@ -21598,19 +21581,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 700, y: 900}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &684020423
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 684020421}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3e3838ffbf2e9e64a8462a0a3b9609b7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _SlotMachineUI: {fileID: 1392145523}
 --- !u!1001 &684803690
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -41068,7 +41038,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1253889714
 RectTransform:
   m_ObjectHideFlags: 0
@@ -47225,6 +47195,7 @@ GameObject:
   - component: {fileID: 1442155660}
   - component: {fileID: 1442155662}
   - component: {fileID: 1442155663}
+  - component: {fileID: 1442155664}
   m_Layer: 0
   m_Name: InGameManager
   m_TagString: Untagged
@@ -47285,6 +47256,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 209619bce7ff28f4585ad21c138deb15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RespawnManager
+--- !u!114 &1442155664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1442155659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af21981b597bedf408583c83dccb9ecd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIRouter
 --- !u!1001 &1442810052
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -57822,7 +57805,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1732515145}
-  - component: {fileID: 1732515146}
   m_Layer: 5
   m_Name: InventoryUI
   m_TagString: Untagged
@@ -57854,22 +57836,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -700}
   m_SizeDelta: {x: 1900, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1732515146
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1732515144}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a008ceb3f7a63745b3ddf6d52335047, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _InventoryUI: {fileID: 1732515145}
-  _OpenPosition: {x: 0, y: -380, z: 0}
-  _ClosePosition: {x: 0, y: -700, z: 0}
-  _Duration: 0.5
 --- !u!1001 &1737975207
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -58946,7 +58912,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1770198547}
-  - component: {fileID: 1770198548}
   m_Layer: 5
   m_Name: PlayerListUI
   m_TagString: Untagged
@@ -58974,19 +58939,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 400, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1770198548
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1770198546}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe731b31c68ce4f4c9f93759a81e6c51, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _PlayerListUI: {fileID: 690044624}
 --- !u!1001 &1770378031
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -65931,7 +65883,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1979024864}
-  - component: {fileID: 1979024865}
   m_Layer: 5
   m_Name: VendingMachineUI
   m_TagString: Untagged
@@ -65959,19 +65910,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 600, y: 900}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1979024865
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1979024863}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4cf47e11c89e6b147a160aff5ef8ec01, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _VendingMachineUIManager: {fileID: 389548488}
 --- !u!1 &1979404206
 GameObject:
   m_ObjectHideFlags: 0
@@ -72444,6 +72382,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5541c77efc835404da6d1285c007fa77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _InventoryUI: {fileID: 2144672115}
+  _OpenPosition: {x: 0, y: -380}
+  _ClosePosition: {x: 0, y: -700}
+  _Duration: 0.5
   _SlotPrefab: {fileID: 2376647799024410618, guid: 6e540f734229388439cd363f7d108ab3, type: 3}
   _InventoryUIPanel: {fileID: 2144672115}
   _DragImage: {fileID: 27540968}

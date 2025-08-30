@@ -17,6 +17,7 @@ public class ShopObject : MonoBehaviour
 
     public void OnInteract()
     {        
+        UIRouter._Inst.Open<IShopUI>();
         OnDefocus();
         Debug.Log("Interact");
     }

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class FishingUIListener : MonoBehaviour
 {
-    [SerializeField] private FishingSequence _FishingSequence;
+    [SerializeField] private FishingManager _FishingSequence;
 
 
     void OnEnable()

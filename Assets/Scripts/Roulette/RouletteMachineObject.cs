@@ -17,7 +17,7 @@ public class RouletteMachineObject : MonoBehaviour, IInteractable
 
     public void OnInteract()
     {
-        GameEvents.RaiseRequestOpenRolutteUI();
+        UIRouter._Inst.Open<IRouletteUI>();
         OnDefocus();
         Debug.Log("Interact");
     }

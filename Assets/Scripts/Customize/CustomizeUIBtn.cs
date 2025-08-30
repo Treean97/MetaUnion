@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class CustomizeUIBtn : MonoBehaviour
 {
     [SerializeField] Button _CustomizeUIBtn;
-    [SerializeField] GameObject _CustomizeUI;
+
 
     void Awake()
     {
@@ -13,6 +13,6 @@ public class CustomizeUIBtn : MonoBehaviour
 
     void OnClickCustomizeButton()
     {
-        _CustomizeUI.gameObject.SetActive(true);
+        UIRouter._Inst.Open<ICustomizeUI>();
     }
 }

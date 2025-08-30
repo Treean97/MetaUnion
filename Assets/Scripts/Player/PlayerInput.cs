@@ -196,17 +196,17 @@ namespace Controller
 
             if (Input.GetKeyDown(m_InventoryKey))
             {
-                GameEvents.RaiseRequestToggleInventoryUI();
+                UIRouter._Inst.Toggle<IInventoryUI>();
             }
 
             if (Input.GetKeyDown(m_PlayerListKey))
             {
-                GameEvents.RaiseRequestOpenPlayerListUI();
+                UIRouter._Inst.Open<IPlayerListUI>();
             }
 
             if (Input.GetKeyUp(m_PlayerListKey))
             {
-                GameEvents.RaiseRequestClosePlayerListUI();
+                UIRouter._Inst.Close<IPlayerListUI>();                    
             }
 
             if (Input.GetKeyDown(m_CursorToggle))

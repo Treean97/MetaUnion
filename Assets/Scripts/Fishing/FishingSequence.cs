@@ -1,9 +1,8 @@
 using System;
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 
-public class FishingSequence : MonoBehaviour
+public class FishingManager : MonoBehaviour, IFishingUI
 {
     [SerializeField] private FishingMinigame _MinigameUI;
     [SerializeField] private KeyCode _CatchKey = KeyCode.Mouse0;
@@ -20,6 +19,8 @@ public class FishingSequence : MonoBehaviour
     private Coroutine _Routine;
     private bool? _MinigameResult;
 
+    public bool IsOpen => gameObject.activeSelf;
+
     public static event Action OnCastStarted;
     public static event Action OnWaitLoopStarted;
     public static event Action OnFishingSucceeded;
@@ -30,12 +31,14 @@ public class FishingSequence : MonoBehaviour
     {
         FishingMinigame.OnFishingSuccess += HandleMinigameSuccess;
         FishingMinigame.OnFishingFail += HandleMinigameFail;
+        UIRouter._Inst?.RegisterAs<IFishingUI>(this);
     }
 
     void OnDisable()
     {
         FishingMinigame.OnFishingSuccess -= HandleMinigameSuccess;
         FishingMinigame.OnFishingFail -= HandleMinigameFail;
+        UIRouter._Inst?.UnregisterAs<IFishingUI>(this);
     }
 
     public bool StartFishing()
@@ -132,8 +135,17 @@ public class FishingSequence : MonoBehaviour
         {
             _MinigameUI.FishingUIClose();
         }
-
+        Hide();
     }
 
+    public void Show()
+    {
+        gameObject.SetActive(true);
+        StartFishing();
+    }
 
+    public void Hide()
+    {
+        gameObject.SetActive(false);
+    }
 }

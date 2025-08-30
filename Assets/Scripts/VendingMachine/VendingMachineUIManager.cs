@@ -10,6 +10,7 @@ public class VendingMachineUIManager : MonoBehaviour, IVendingMachineUI
     [SerializeField] SetAmountUIManager _SetAmountUI;
     [SerializeField] Button _CloseBtn;
 
+    public bool IsOpen => gameObject.activeSelf;
 
 
     void Awake()
@@ -20,7 +21,12 @@ public class VendingMachineUIManager : MonoBehaviour, IVendingMachineUI
     void OnEnable()
     {
         _SetAmountUI.gameObject.SetActive(false);
-        UIRouter._Inst.Open<IVendingMachineUI>();
+        UIRouter._Inst?.RegisterAs<IVendingMachineUI>(this);
+    }
+
+    void OnDisable()
+    {
+        UIRouter._Inst?.UnregisterAs<IVendingMachineUI>(this);
     }
 
     void Start()

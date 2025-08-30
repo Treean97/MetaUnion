@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CustomizeUIManager : MonoBehaviour
+public class CustomizeUIManager : MonoBehaviour, ICustomizeUI
 {
     [SerializeField] private CustomizeItemPoolSO _ItemPool;
     [SerializeField] private Transform _Contents;
@@ -11,6 +11,8 @@ public class CustomizeUIManager : MonoBehaviour
     [SerializeField] private Button _CloseBtn;
 
     private ItemType _CurType;
+
+    public bool IsOpen => gameObject.activeSelf;
 
     void Awake()
     {
@@ -33,12 +35,15 @@ public class CustomizeUIManager : MonoBehaviour
         // 해금된 아이템 리스트 받기
         GameEvents.OnProvideUnlockedItems += HandleProvideItems;
         // 장착 요청 받기
-        GameEvents.OnRequestEquipItem   += HandleEquipItem;
+        GameEvents.OnRequestEquipItem += HandleEquipItem;
         // 아이템 구매 성공 시 리스트 갱신
         GameEvents.OnItemPurchaseSuccess += HandlePurchaseSueecss;
 
         // 리스트 요청
         GameEvents.RaiseRequestUnlockedItems(_CurType);
+
+        // UI 라우터 연결
+        UIRouter._Inst?.RegisterAs<ICustomizeUI>(this);
     }
 
     void OnDisable()
@@ -46,6 +51,7 @@ public class CustomizeUIManager : MonoBehaviour
         GameEvents.OnProvideUnlockedItems -= HandleProvideItems;
         GameEvents.OnRequestEquipItem -= HandleEquipItem;
         GameEvents.OnItemPurchaseSuccess -= HandlePurchaseSueecss;
+        UIRouter._Inst?.UnregisterAs<ICustomizeUI>(this);
     }
 
     private void ChangeCategory(ItemType type)
@@ -87,5 +93,15 @@ public class CustomizeUIManager : MonoBehaviour
         Debug.Log("[CustomizeUI] HandleEquipItem: 실제 EquipItem 호출, ID=" + item.ID);
         var player = PlayerSetup._LocalPlayer.GetComponent<PlayerCustomization>();
         player?.EquipItem(item);
+    }
+
+    public void Show()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void Hide()
+    {
+        throw new System.NotImplementedException();
     }
 }

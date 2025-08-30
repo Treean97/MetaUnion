@@ -231,11 +231,6 @@ public static class GameEvents
         return success;
     }
 
-    // 인벤토리 UI 열고 닫기 요청
-    public static event Action OnRequestToggleInventoryUI;
-    public static void RaiseRequestToggleInventoryUI()
-    => OnRequestToggleInventoryUI?.Invoke();
-
     // 인벤토리 업데이트 요청
     public static event Action OnRequestUpdateInventory;
     public static void RaiseRequestUpdateInventory()
@@ -256,15 +251,6 @@ public static class GameEvents
     public static void RaiseRequestSwapSlot(int from, int to)
     => OnRequestSwapSlot?.Invoke(from, to);
 
-
-    // 플레이어 리스트 UI
-    public static event Action OnRequestOpenPlayerListUI;
-    public static void RaiseRequestOpenPlayerListUI()
-    => OnRequestOpenPlayerListUI?.Invoke();
-
-    public static event Action OnRequestClosePlayerListUI;
-    public static void RaiseRequestClosePlayerListUI()
-    => OnRequestClosePlayerListUI?.Invoke();
 
     // 낚시 미니 게임 UI
     public static event Action OnRequestOpenFishingUI;
