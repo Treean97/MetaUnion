@@ -36,6 +36,6 @@ public class ShopSellItemSlot : MonoBehaviour
 
     void OnClickSlotBtn()
     {
-        GameEvents.RaiseRequestOpenSetAmountUI(QuantityMode.Sell, _ItemData);
+        UIRouter._Inst.Open<ISetAmountUI>(ui => ui.SetUI(QuantityMode.Buy, _ItemData));
     }
 }

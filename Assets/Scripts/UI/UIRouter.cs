@@ -13,6 +13,10 @@ public interface IRouletteUI : IUI { }
 public interface IPlayerListUI : IUI { }
 public interface IInventoryUI : IUI { }
 public interface IFishingUI : IUI { }
+public interface ISetAmountUI : IUI
+{
+    void SetUI(QuantityMode mode, ItemDataSO item);
+}
 
 #endregion
 
@@ -47,6 +51,18 @@ public class UIRouter : MonoBehaviour
     {
         if (_UIs.TryGetValue(typeof(T), out var s)) { s.Show(); return true; }
         Debug.LogWarning($"[UIRouter] {typeof(T).Name} 화면이 등록되지 않았습니다.");
+        return false;
+    }
+    
+    public bool Open<T>(System.Action<T> init) where T : class, IUI
+    {
+        if (_UIs.TryGetValue(typeof(T), out var s))
+        {
+            init?.Invoke((T)s); // 여기서 SetUI 호출
+            s.Show();
+            return true;
+        }
+        Debug.LogWarning($"[UIRouter] {typeof(T).Name} not registered");
         return false;
     }
 

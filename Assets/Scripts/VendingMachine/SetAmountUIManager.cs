@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public enum QuantityMode { Buy, Sell }
 
-public class SetAmountUIManager : MonoBehaviour
+public class SetAmountUIManager : MonoBehaviour, ISetAmountUI
 {
     [SerializeField] private TMP_InputField _AmountInputField;
     [SerializeField] private Image _Icon;
@@ -13,6 +13,9 @@ public class SetAmountUIManager : MonoBehaviour
 
     private ItemDataSO _ItemData;
     private QuantityMode _Mode;
+
+    private bool _IsOpen;
+    public bool IsOpen => _IsOpen;
 
     void Awake()
     {
@@ -30,12 +33,13 @@ public class SetAmountUIManager : MonoBehaviour
         _Mode = mode;
 
         var btnText = _ConfirmBtn.GetComponentInChildren<TMP_Text>();
+
         // 테스트
         if (_Mode == QuantityMode.Buy)
         {
             btnText.text = "Buy";
         }
-        else
+        else if(_Mode == QuantityMode.Sell)
         {
             btnText.text = "Sell";
         }
@@ -86,12 +90,22 @@ public class SetAmountUIManager : MonoBehaviour
 
         if (success)
         {
-            gameObject.SetActive(false);    
+            Hide();
         }
         
     }
 
     void OnClickCloseBtn()
+    {
+        Hide();
+    }
+
+    public void Show()
+    {
+        gameObject.SetActive(true);
+    }
+
+    public void Hide()
     {
         gameObject.SetActive(false);
     }

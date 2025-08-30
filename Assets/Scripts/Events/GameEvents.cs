@@ -251,21 +251,6 @@ public static class GameEvents
     public static void RaiseRequestSwapSlot(int from, int to)
     => OnRequestSwapSlot?.Invoke(from, to);
 
-
-    // 낚시 미니 게임 UI
-    public static event Action OnRequestOpenFishingUI;
-    public static void RaiseRequestOpenFishingUI()
-    => OnRequestOpenFishingUI?.Invoke();
-
-    // 룰렛 UI
-    public static event Action OnRequestOpenRouletteUI;
-    public static void RaiseRequestOpenRolutteUI()
-    => OnRequestOpenRouletteUI?.Invoke();
-
-    public static event Action<QuantityMode, ItemDataSO> OnRequestOpenSetAmountUI;
-    public static void RaiseRequestOpenSetAmountUI(QuantityMode mode, ItemDataSO itemData)
-    => OnRequestOpenSetAmountUI?.Invoke(mode, itemData);
-
     // 버프
     public static event Action<BuffDataSO, GameObject> OnRequestApplyBuff;
     public static void RaiseRequestApplyBuff(BuffDataSO buff, GameObject user)
