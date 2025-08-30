@@ -1,9 +1,11 @@
+using System;
 using UnityEngine;
 
 public class SlotMatchineObject : MonoBehaviour, IInteractable
 {
     [SerializeField]
     ItemInfoSO _ObjInfo;
+  
 
     public void OnFocus()
     {
@@ -17,7 +19,7 @@ public class SlotMatchineObject : MonoBehaviour, IInteractable
 
     public void OnInteract()
     {
-        GameEvents.RaiseRequestOpenSlotMachineUI();
+        UIRouter._Inst.Open<ISlotMachineUI>();
         OnDefocus();
         Debug.Log("Interact");
     }

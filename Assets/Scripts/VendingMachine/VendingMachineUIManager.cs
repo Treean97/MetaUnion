@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class VendingMachineUIManager : MonoBehaviour
+public class VendingMachineUIManager : MonoBehaviour, IVendingMachineUI
 {
     [SerializeField] ItemDataPoolSO _VendingMachineItemDataPoolSO;
     [SerializeField] Transform _Contents;    
@@ -20,6 +20,7 @@ public class VendingMachineUIManager : MonoBehaviour
     void OnEnable()
     {
         _SetAmountUI.gameObject.SetActive(false);
+        UIRouter._Inst.Open<IVendingMachineUI>();
     }
 
     void Start()
@@ -35,6 +36,16 @@ public class VendingMachineUIManager : MonoBehaviour
     }
 
     void OnClickCloseBtn()
+    {
+        Hide();
+    }
+
+    public void Show()
+    {
+        gameObject.SetActive(true);
+    }
+
+    public void Hide()
     {
         gameObject.SetActive(false);
     }

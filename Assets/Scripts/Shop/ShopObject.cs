@@ -16,8 +16,7 @@ public class ShopObject : MonoBehaviour
     }
 
     public void OnInteract()
-    {
-        GameEvents.RaiseRequestOpenShopUI();
+    {        
         OnDefocus();
         Debug.Log("Interact");
     }

@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-public class SlotMachineUIManager : MonoBehaviour
+public class SlotMachineUIManager : MonoBehaviour, ISlotMachineUI
 {
     [SerializeField] GameObject[] _Lanes;
 
@@ -49,6 +49,11 @@ public class SlotMachineUIManager : MonoBehaviour
     {
         _RerollBtn.onClick.AddListener(OnClickRerollBtn);
         _CloseBtn.onClick.AddListener(OnClickCloseBtn);
+    }
+
+    void OnEnable()
+    {
+        UIRouter._Inst?.RegisterAs<ISlotMachineUI>(this);
     }
 
     void Start()
@@ -255,5 +260,15 @@ public class SlotMachineUIManager : MonoBehaviour
 
         _CurrencyInputField.interactable = true;
         _BetCurrencyDropdown.interactable = true;
+    }
+
+    public void Show()
+    {
+        gameObject.SetActive(true);
+    }
+
+    public void Hide()
+    {
+        gameObject.SetActive(false);
     }
 }

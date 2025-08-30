@@ -7331,9 +7331,9 @@ MonoBehaviour:
   - Rect: {fileID: 1267902966}
     Strength: 20
   - Rect: {fileID: 1605150213}
-    Strength: 40
+    Strength: 50
   - Rect: {fileID: 1011253916}
-    Strength: 60
+    Strength: 100
   _Smooth: 10
   _EnableParallax: 1
 --- !u!1 &1852677366
@@ -9008,6 +9008,42 @@ PrefabInstance:
       propertyPath: _Canvas
       value: 
       objectReference: {fileID: 1535910376}
+    - target: {fileID: 1065635157003398946, guid: 5d7faa5982e28624da3c6796fe3f934c, type: 3}
+      propertyPath: '_TextPool.Array.data[0]'
+      value: "\uB9C8\uC6B0\uC2A4 \uCEE4\uC11C \uD1A0\uAE00\uC740 Ctrl \uD0A4 \uC785\uB2C8\uB2E4."
+      objectReference: {fileID: 0}
+    - target: {fileID: 1065635157003398946, guid: 5d7faa5982e28624da3c6796fe3f934c, type: 3}
+      propertyPath: '_TextPool.Array.data[1]'
+      value: "\uB85C\uB529 \uD654\uBA74\uC5D0 \uD301\uC774 \uCD9C\uB825\uB429\uB2C8\uB2E4."
+      objectReference: {fileID: 0}
+    - target: {fileID: 1065635157003398946, guid: 5d7faa5982e28624da3c6796fe3f934c, type: 3}
+      propertyPath: '_TextSample.Array.data[0]'
+      value: "\uCEE4\uC11C\uC758 \uD1A0\uAE00\uC740 "
+      objectReference: {fileID: 0}
+    - target: {fileID: 1118307276004518676, guid: 5d7faa5982e28624da3c6796fe3f934c, type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1118307276004518676, guid: 5d7faa5982e28624da3c6796fe3f934c, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 75a04a498e907ab489b8ad10802e43a5, type: 2}
+    - target: {fileID: 1118307276004518676, guid: 5d7faa5982e28624da3c6796fe3f934c, type: 3}
+      propertyPath: m_fontStyle
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1118307276004518676, guid: 5d7faa5982e28624da3c6796fe3f934c, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 8111592431195995240, guid: 75a04a498e907ab489b8ad10802e43a5, type: 2}
+    - target: {fileID: 1118307276004518676, guid: 5d7faa5982e28624da3c6796fe3f934c, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 1118307276004518676, guid: 5d7faa5982e28624da3c6796fe3f934c, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1588068959531930966, guid: 5d7faa5982e28624da3c6796fe3f934c, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -9092,6 +9128,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6814352065680348045, guid: 5d7faa5982e28624da3c6796fe3f934c, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: e5bda10c2ef7dc74084155cae43bf71b, type: 3}
     - target: {fileID: 8735121738236907371, guid: 5d7faa5982e28624da3c6796fe3f934c, type: 3}
       propertyPath: m_Name
       value: LoadingManager

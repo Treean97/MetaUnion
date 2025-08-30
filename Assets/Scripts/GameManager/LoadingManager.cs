@@ -9,9 +9,11 @@ public class LoadingManager : MonoBehaviour
     private static LoadingManager _Instance;
 
     [SerializeField] private Canvas _Canvas;
+    [SerializeField] private Image _Background;
+    [SerializeField] private Sprite[] _BackgroundPool;
     [SerializeField] private Slider _LoadingBar;
     [SerializeField] private TMP_Text _LoadingText;
-    [SerializeField] private string[] _TextSample;
+    [SerializeField] private string[] _TextPool;
 
     void Awake()
     {
@@ -39,9 +41,9 @@ public class LoadingManager : MonoBehaviour
 
         if (_LoadingText)
         {
-            if (_TextSample != null && _TextSample.Length > 0)
+            if (_TextPool != null && _TextPool.Length > 0)
             {
-                _LoadingText.text = _TextSample[UnityEngine.Random.Range(0, _TextSample.Length)];
+                _LoadingText.text = _TextPool[UnityEngine.Random.Range(0, _TextPool.Length)];
             }
             else
             {
@@ -77,7 +79,7 @@ public class LoadingManager : MonoBehaviour
         }
 
         // 마지막 구간 채우기
-        yield return SmoothFillTo(1f, 5f);
+        yield return SmoothFillTo(1f, 1.5f);
 
         // 씬 활성화
         op.allowSceneActivation = true;
@@ -86,10 +88,13 @@ public class LoadingManager : MonoBehaviour
         Hide();
     }
 
-     void UpdateBar(float target)
+    void UpdateBar(float target)
     {
         if (!_LoadingBar) return;
-        _LoadingBar.value = Mathf.Lerp(_LoadingBar.value, target, Time.deltaTime * 5f);
+        _LoadingBar.value = Mathf.Lerp(
+            _LoadingBar.value, target,
+            Time.unscaledDeltaTime * 5f
+            );
     }
 
     IEnumerator SmoothFillTo(float target, float speed)
@@ -97,10 +102,25 @@ public class LoadingManager : MonoBehaviour
         if (!_LoadingBar) yield break;
         while (_LoadingBar.value < target - 0.001f)
         {
-            _LoadingBar.value = Mathf.Lerp(_LoadingBar.value, target, Time.deltaTime * speed);
+            _LoadingBar.value = Mathf.Lerp(
+                _LoadingBar.value,
+                target,
+                Time.unscaledDeltaTime * speed
+                );
             yield return null;
         }
         _LoadingBar.value = target;
+    }
+
+    void SetBackground()
+    {
+        if (_BackgroundPool == null || _BackgroundPool.Length == 0)
+        {
+            Debug.LogError("로딩 이미지풀 없음");
+            return;
+        }            
+        var ran = Random.Range(0, _BackgroundPool.Length);
+        _Background.sprite = _BackgroundPool[ran];
     }
 
 

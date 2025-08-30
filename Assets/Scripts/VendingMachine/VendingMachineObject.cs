@@ -17,7 +17,7 @@ public class VendingMachineObject : MonoBehaviour, IInteractable
 
     public void OnInteract()
     {
-        GameEvents.RaiseRequestOpenVendingMachineUI();
+        UIRouter._Inst.Open<IVendingMachineUI>();
         OnDefocus();
         Debug.Log("Interact");
     }

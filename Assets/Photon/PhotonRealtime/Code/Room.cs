@@ -1,4 +1,4 @@
-﻿// ----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
 // <copyright file="Room.cs" company="Exit Games GmbH">
 //   Loadbalancing Framework for Photon - Copyright (C) 2018 Exit Games GmbH
 // </copyright>
@@ -628,6 +628,11 @@ namespace Photon.Realtime
         public new string ToStringFull()
         {
             return string.Format("Room: '{0}' {1},{2} {4}/{3} players.\ncustomProps: {5}", this.name, this.isVisible ? "visible" : "hidden", this.isOpen ? "open" : "closed", this.maxPlayers, this.PlayerCount, this.CustomProperties.ToStringFull());
+        }
+
+        public void SetCustomProperties(System.Collections.Hashtable ht)
+        {
+            throw new NotImplementedException();
         }
     }
 }

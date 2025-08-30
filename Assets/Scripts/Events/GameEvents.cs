@@ -76,16 +76,6 @@ public static class GameEvents
     public static event Action OnDefocus;
     public static void RaiseDefocus() => OnDefocus?.Invoke();
 
-    // Customize UI 열기 요청
-    public static event Action OnRequestOpenCustomizeUI;
-    public static void RaiseRequestOpenCustomizeUI()
-    => OnRequestOpenCustomizeUI?.Invoke();
-
-    // Shop UI 열기 요청
-    public static event Action OnRequestOpenShopUI;
-    public static void RaiseRequestOpenShopUI()
-    => OnRequestOpenShopUI?.Invoke();
-
     // 잠긴(locked) 커스터마이즈 아이템 리스트 요청 (상점용)
     public static event Action<ItemType> OnRequestLockedItems;
     public static void RaiseRequestLockedItems(ItemType type)
@@ -241,11 +231,6 @@ public static class GameEvents
         return success;
     }
 
-    // 슬롯머신 UI 요청
-    public static event Action OnRequestOpenSlotMachineUI;
-    public static void RaiseRequestOpenSlotMachineUI()
-    => OnRequestOpenSlotMachineUI?.Invoke();
-
     // 인벤토리 UI 열고 닫기 요청
     public static event Action OnRequestToggleInventoryUI;
     public static void RaiseRequestToggleInventoryUI()
@@ -290,11 +275,6 @@ public static class GameEvents
     public static event Action OnRequestOpenRouletteUI;
     public static void RaiseRequestOpenRolutteUI()
     => OnRequestOpenRouletteUI?.Invoke();
-
-    // 자판기 UI
-    public static event Action OnRequestOpenVendingMachineUI;
-    public static void RaiseRequestOpenVendingMachineUI()
-    => OnRequestOpenVendingMachineUI?.Invoke();
 
     public static event Action<QuantityMode, ItemDataSO> OnRequestOpenSetAmountUI;
     public static void RaiseRequestOpenSetAmountUI(QuantityMode mode, ItemDataSO itemData)
