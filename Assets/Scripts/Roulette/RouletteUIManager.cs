@@ -32,7 +32,13 @@ public class RouletteUIManager : MonoBehaviour, IRouletteUI
 
     void Start()
     {
+        if (_Slots == null)
+        {
+            _Slots = new List<GameObject>();
+        }
+
         _Slots.Clear();
+
         float angleTerm = 360f / _RouletteSlotCount;
 
         // 룰렛 슬롯 배치
@@ -76,21 +82,18 @@ public class RouletteUIManager : MonoBehaviour, IRouletteUI
 
     GameObject SelectSlot()
     {
-        GameObject closestSlot = null;
-        float closestDis = float.MaxValue;
+        GameObject closest = null;
+        float min = float.MaxValue;
+        Vector2 pointerPos = _RoulettePointer.position;
 
         foreach (var slot in _Slots)
         {
-            float dis
-            = Vector3.Distance(slot.transform.position, _RoulettePointer.transform.position);
-            if (closestDis > dis)
-            {
-                closestSlot = slot;
-                closestDis = dis;
-            }
+            Vector2 slotPos = slot.transform.position;
+            float dis = (slotPos - pointerPos).sqrMagnitude; // 2D + sqrt 없음
+            if (dis < min) { min = dis; closest = slot; }
         }
 
-        return closestSlot;        
+        return closest;           
     }
 
     void OnClickSpinBtn()

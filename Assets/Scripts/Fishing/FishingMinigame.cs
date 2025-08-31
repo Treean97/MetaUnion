@@ -99,7 +99,7 @@ public class FishingMinigame : MonoBehaviour
 
     public void FishingUIClose()
     {
-        InputBlock.UnblockInput();
+        InputBlockManager.UnblockInput();
         gameObject.SetActive(false);
     }
 }

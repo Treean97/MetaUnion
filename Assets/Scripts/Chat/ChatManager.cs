@@ -15,8 +15,8 @@ public class ChatManager : MonoBehaviourPun
     private void Start()
     {
         // 인풋 필드 포커스/디포커스 이벤트
-        _ChatInputField.onSelect.AddListener((_) => InputBlock.BlockInput());
-        _ChatInputField.onDeselect.AddListener((_) => InputBlock.UnblockInput());
+        _ChatInputField.onSelect.AddListener((_) => InputBlockManager.BlockInput());
+        _ChatInputField.onDeselect.AddListener((_) => InputBlockManager.UnblockInput());
     }
 
     private void Update()

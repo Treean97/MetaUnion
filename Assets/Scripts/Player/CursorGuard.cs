@@ -7,14 +7,14 @@ public class CursorGuard : MonoBehaviour
     void OnEnable()
     {
         if (_Armed) return;
-        CursorManager.PushUI();
+        CursorManager.ShowCursor();
         _Armed = true;
     }
 
     void OnDisable()
     {
         if (!_Armed) return;
-        CursorManager.PopUI();
+        CursorManager.HideCursor();
         _Armed = false;
     }
 

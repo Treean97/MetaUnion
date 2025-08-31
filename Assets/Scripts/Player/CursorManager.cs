@@ -1,55 +1,46 @@
 using UnityEngine;
 
-public class CursorManager : MonoBehaviour
+public static class CursorManager
 {
-    public static CursorManager _Inst { get; private set; } 
-    public bool _IsShown { get; private set; }
+    // UI에 의해 표시되어야 하는 개수
+    private static int  _ShowCount = 0;
+    // 수동 토글 상태(Alt 등)
+    private static bool _Manual    = false;
+    // 마지막 적용된 상태(이벤트/OS 반영 중복 방지)
+    private static bool _LastShown = false;
 
-    int _UICount;
-    bool _Manual;
+    // 현재 표시 여부
+    public static bool _IsShown => (_ShowCount > 0) || _Manual;
 
-    void Awake()
+    // --- UI가 열릴 때/닫힐 때 ---
+    public static void ShowCursor()
     {
-        if (_Inst != null) { Destroy(gameObject); return; }
-        _Inst = this;
-        DontDestroyOnLoad(gameObject);
+        _ShowCount++;
+        Apply();
+    }
+
+    public static void HideCursor()
+    {
+        if (_ShowCount <= 0) return;
+        _ShowCount--;
         Apply();
     }
 
     public static void Toggle()
     {
-        // UI가 켜져있으면 무시
-        if (_Inst._UICount != 0)
-        {
-            return;
-        }
-
-        _Inst._Manual = ! _Inst._Manual;
-        _Inst.Apply();
+        // UI 활성 중엔 수동 토글 무시
+        if (_ShowCount != 0) return; 
+        _Manual = !_Manual;
+        Apply();
     }
 
-    public static void PushUI()
+    private static void Apply()
     {
-        if (_Inst == null) return;
-        _Inst._UICount++; _Inst.Apply();
-    }
+        bool show = _IsShown;
+        // UI 활성 중엔 수동 토글 무시
+        if (_LastShown == show) return;
+        _LastShown = show;
 
-    public static void PopUI()
-    {
-        if (_Inst == null) return;
-        if (_Inst._UICount > 0) _Inst._UICount--;
-        _Inst.Apply();
-    }
-
-    void Apply()
-    {
-        bool show = _Manual || _UICount > 0;
-
-        if (_IsShown != show)
-        {
-            _IsShown = show;
-        }
-        
         Cursor.visible   = show;
         Cursor.lockState = show ? CursorLockMode.None : CursorLockMode.Locked;
     }

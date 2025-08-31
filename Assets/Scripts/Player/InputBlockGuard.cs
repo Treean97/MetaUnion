@@ -7,14 +7,14 @@ public class InputBlockGuard : MonoBehaviour
     void OnEnable()
     {
         if (_Armed) return;
-        InputBlock.BlockInput();
+        InputBlockManager.BlockInput();
         _Armed = true;
     }
 
     void OnDisable()
     {
         if (!_Armed) return;
-        InputBlock.UnblockInput();
+        InputBlockManager.UnblockInput();
         _Armed = false;
     }
 

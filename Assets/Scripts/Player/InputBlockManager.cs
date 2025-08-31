@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public static class InputBlock
+public static class InputBlockManager
 {
     // 열려있는 Input을 막는 객체의 갯수
     private static int _BlockCount = 0;

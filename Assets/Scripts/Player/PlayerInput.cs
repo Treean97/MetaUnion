@@ -63,7 +63,7 @@ namespace Controller
         {
             m_Mover = GetComponent<MoveHandler>();
 
-            InputBlock.OnInputBlockStatus += HandleUIRunningStateChanged; // 추가: 구독
+            InputBlockManager.OnInputBlockStatus += HandleUIRunningStateChanged; // 추가: 구독
 
             _StatusEffectManager = GetComponent<StatusEffectManager>();
             if (_StatusEffectManager != null)
@@ -80,7 +80,7 @@ namespace Controller
 
         private void OnDestroy()
         {
-            InputBlock.OnInputBlockStatus -= HandleUIRunningStateChanged;
+            InputBlockManager.OnInputBlockStatus -= HandleUIRunningStateChanged;
             
             if (_StatusEffectManager != null)
             {
@@ -161,7 +161,7 @@ namespace Controller
             m_Scroll = Input.GetAxis(m_MouseScroll);
 
             // 커서 켜졌을 때는 회전 잠금
-            if (CursorManager._Inst._IsShown)
+            if (CursorManager._IsShown)
             {
                 m_MouseDelta = Vector2.zero;
             }                   
