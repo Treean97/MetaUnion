@@ -26,7 +26,7 @@ public class SetAmountUIManager : MonoBehaviour, ISetAmountUI
         _ConfirmBtn.onClick.AddListener(OnClickConfirmBtn);
         _CloseBtn.onClick.AddListener(OnClickCloseBtn);
     }
-    
+
 
     void SetMode(QuantityMode mode)
     {

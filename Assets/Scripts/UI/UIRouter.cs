@@ -30,19 +30,30 @@ public class UIRouter : MonoBehaviour
 
     void Awake()
     {
-        if (_Inst != null) { Destroy(gameObject); return; }
-        _Inst = this;
-        DontDestroyOnLoad(gameObject);
+        if (_Inst == null)
+        {
+            _Inst = this;
+            // 씬이 바뀌어도 파괴되지 않도록 설정
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            // 이미 인스턴스가 존재하면 현재 오브젝트를 파괴
+            Destroy(gameObject);
+        }
     }
 
     public void RegisterAs<T>(IUI ui) where T : class, IUI
-    => _UIs[typeof(T)] = ui;
+    {
+        _UIs[typeof(T)] = ui;
+    }
 
 
-    public void UnregisterAs<T>(IUI screen) where T : class, IUI
+
+    public void UnregisterAs<T>(IUI ui) where T : class, IUI
     {
         var key = typeof(T);
-        if (_UIs.TryGetValue(key, out var cur) && ReferenceEquals(cur, screen))
+        if (_UIs.TryGetValue(key, out var cur) && ReferenceEquals(cur, ui))
             _UIs.Remove(key);
     }
 
@@ -54,7 +65,7 @@ public class UIRouter : MonoBehaviour
         return false;
     }
     
-    public bool Open<T>(System.Action<T> init) where T : class, IUI
+    public bool Open<T>(Action<T> init) where T : class, IUI
     {
         if (_UIs.TryGetValue(typeof(T), out var s))
         {
@@ -86,6 +97,7 @@ public class UIRouter : MonoBehaviour
         }
 
         if (s.IsOpen) s.Hide(); else s.Show();
+        Debug.Log("토글 완료");
         return s.IsOpen;
     }
 }

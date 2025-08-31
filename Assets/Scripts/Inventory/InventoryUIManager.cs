@@ -25,16 +25,6 @@ public class InventoryUIManager : MonoBehaviour, IInventoryUI
         InventorySlot.OnEndDragSlot += HandleEndDragSlot;
     }
 
-    void OnEnable()
-    {
-        UIRouter._Inst?.RegisterAs<IInventoryUI>(this);
-    }
-
-    void OnDisable()
-    {
-        UIRouter._Inst?.UnregisterAs<IInventoryUI>(this);
-    }
-
     void Start()
     {
         _MaxSlotCount = GameEvents.RaiseRequestInventorySlotCount();

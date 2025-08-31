@@ -26,19 +26,18 @@ public class FishingManager : MonoBehaviour, IFishingUI
     public static event Action OnFishingSucceeded;
     public static event Action OnFishingFailed;
 
-
     void OnEnable()
     {
         FishingMinigame.OnFishingSuccess += HandleMinigameSuccess;
         FishingMinigame.OnFishingFail += HandleMinigameFail;
-        UIRouter._Inst?.RegisterAs<IFishingUI>(this);
+        
     }
 
     void OnDisable()
     {
         FishingMinigame.OnFishingSuccess -= HandleMinigameSuccess;
         FishingMinigame.OnFishingFail -= HandleMinigameFail;
-        UIRouter._Inst?.UnregisterAs<IFishingUI>(this);
+        
     }
 
     public bool StartFishing()

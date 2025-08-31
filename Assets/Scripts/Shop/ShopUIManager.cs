@@ -33,7 +33,7 @@ public class ShopUIManager : MonoBehaviour, IShopUI
             _CategoryBtns[i].onClick.AddListener(() => ChangeCategory((ItemType)idx));
         }
         // 닫기 버튼
-        _CloseBtn.onClick.AddListener(() => gameObject.SetActive(false));
+        _CloseBtn.onClick.AddListener(() => gameObject.SetActive(false));        
     }
 
     void OnEnable()
@@ -49,19 +49,17 @@ public class ShopUIManager : MonoBehaviour, IShopUI
         UpdateSellItems();
 
         // 판매 시 리스트 갱신
-        GameEvents.OnRequestUpdateInventory += UpdateSellItems;
-
-        UIRouter._Inst?.RegisterAs<IShopUI>(this);
+        GameEvents.OnRequestUpdateInventory += UpdateSellItems;        
     }
 
     void OnDisable()
     {
         GameEvents.OnProvideLockedItems -= HandleProvideBuyItems;
         GameEvents.OnItemPurchaseSuccess -= HandlePurchaseSueecss;
-        GameEvents.OnRequestUpdateInventory -= UpdateSellItems;
-
-        UIRouter._Inst?.UnregisterAs<IShopUI>(this);
+        GameEvents.OnRequestUpdateInventory -= UpdateSellItems;        
     }
+
+ 
 
     void ChangeCategory(ItemType type)
     {

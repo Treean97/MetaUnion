@@ -26,8 +26,8 @@ public class CustomizeUIManager : MonoBehaviour, ICustomizeUI
             _CategoryBtns[i].onClick.AddListener(() => ChangeCategory((ItemType)idx));
         }
 
-        // 닫기 버튼
-        _CloseBtn.onClick.AddListener(() => gameObject.SetActive(false));
+        // 버튼
+        _CloseBtn.onClick.AddListener(() => Hide());
     }
 
     void OnEnable()
@@ -40,10 +40,7 @@ public class CustomizeUIManager : MonoBehaviour, ICustomizeUI
         GameEvents.OnItemPurchaseSuccess += HandlePurchaseSueecss;
 
         // 리스트 요청
-        GameEvents.RaiseRequestUnlockedItems(_CurType);
-
-        // UI 라우터 연결
-        UIRouter._Inst?.RegisterAs<ICustomizeUI>(this);
+        GameEvents.RaiseRequestUnlockedItems(_CurType);        
     }
 
     void OnDisable()
@@ -51,7 +48,6 @@ public class CustomizeUIManager : MonoBehaviour, ICustomizeUI
         GameEvents.OnProvideUnlockedItems -= HandleProvideItems;
         GameEvents.OnRequestEquipItem -= HandleEquipItem;
         GameEvents.OnItemPurchaseSuccess -= HandlePurchaseSueecss;
-        UIRouter._Inst?.UnregisterAs<ICustomizeUI>(this);
     }
 
     private void ChangeCategory(ItemType type)
@@ -97,11 +93,11 @@ public class CustomizeUIManager : MonoBehaviour, ICustomizeUI
 
     public void Show()
     {
-        throw new System.NotImplementedException();
+        gameObject.SetActive(true);
     }
 
     public void Hide()
     {
-        throw new System.NotImplementedException();
+        gameObject.SetActive(false);
     }
 }

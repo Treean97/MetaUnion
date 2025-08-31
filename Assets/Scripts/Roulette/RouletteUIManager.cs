@@ -15,6 +15,7 @@ public class RouletteUIManager : MonoBehaviour, IRouletteUI
     [SerializeField] float _Duration;
     [SerializeField] float _MaxSpeed;
     [SerializeField] float _NormalSpeed;
+    float _WaitToNextSpin = 3f;
     bool _IsSpin = false;
 
     [SerializeField] Button _SpinBtn;
@@ -48,16 +49,6 @@ public class RouletteUIManager : MonoBehaviour, IRouletteUI
 
             _Slots.Add(slot);        
         }
-    }
-
-    void OnEnable()
-    {
-        UIRouter._Inst?.RegisterAs<IRouletteUI>(this);
-    }
-
-    void OnDisable()
-    {
-        UIRouter._Inst?.UnregisterAs<IRouletteUI>(this);
     }
 
     void Update()
@@ -140,6 +131,9 @@ public class RouletteUIManager : MonoBehaviour, IRouletteUI
         GameEvents.RaiseRequestItemGain(
             reward.GetComponent<RouletteSlot>().ItemDataSO.ID,
             reward.GetComponent<RouletteSlot>().Amount);
+
+        // 아이템 확인 시간 
+        yield return new WaitForSeconds(_WaitToNextSpin);
         _IsSpin = false;
     }
 

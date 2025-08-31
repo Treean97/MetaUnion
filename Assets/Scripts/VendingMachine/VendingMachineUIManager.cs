@@ -15,18 +15,12 @@ public class VendingMachineUIManager : MonoBehaviour, IVendingMachineUI
 
     void Awake()
     {
-        _CloseBtn.onClick.AddListener(OnClickCloseBtn);        
+        _CloseBtn.onClick.AddListener(OnClickCloseBtn);   
     }
 
     void OnEnable()
     {
-        _SetAmountUI.gameObject.SetActive(false);
-        UIRouter._Inst?.RegisterAs<IVendingMachineUI>(this);
-    }
-
-    void OnDisable()
-    {
-        UIRouter._Inst?.UnregisterAs<IVendingMachineUI>(this);
+        _SetAmountUI.gameObject.SetActive(false);        
     }
 
     void Start()
@@ -56,3 +50,4 @@ public class VendingMachineUIManager : MonoBehaviour, IVendingMachineUI
         gameObject.SetActive(false);
     }
 }
+

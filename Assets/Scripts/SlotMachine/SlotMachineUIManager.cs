@@ -52,16 +52,6 @@ public class SlotMachineUIManager : MonoBehaviour, ISlotMachineUI
         _CloseBtn.onClick.AddListener(OnClickCloseBtn);
     }
 
-    void OnEnable()
-    {
-        UIRouter._Inst?.RegisterAs<ISlotMachineUI>(this);
-    }
-
-    void OnDisable()
-    {
-        UIRouter._Inst?.UnregisterAs<ISlotMachineUI>(this);
-    }
-
     void Start()
     {
         _CurrencyList = _CurrencyDataPoolSO.GetAllCurrencies().ToList();
