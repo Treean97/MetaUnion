@@ -6047,6 +6047,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Stone
       objectReference: {fileID: 0}
+    - target: {fileID: 5519529750028900963, guid: f449574e51428f948b5e773c4186c8f8, type: 3}
+      propertyPath: _Amount
+      value: 999
+      objectReference: {fileID: 0}
     - target: {fileID: 8903697603121560504, guid: f449574e51428f948b5e773c4186c8f8, type: 3}
       propertyPath: sceneViewId
       value: 7
@@ -29861,6 +29865,67 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 937456988}
   m_CullTransparentMesh: 1
+--- !u!1001 &938319432
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1943078838682549206, guid: 19f66e00734183542a8380ba86152a29, type: 3}
+      propertyPath: m_Name
+      value: BGMManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 2907545475532651810, guid: 19f66e00734183542a8380ba86152a29, type: 3}
+      propertyPath: _Clip
+      value: 
+      objectReference: {fileID: 8300000, guid: bea93a38b71b64b598109b3a3b1a0048, type: 3}
+    - target: {fileID: 8351364227794118621, guid: 19f66e00734183542a8380ba86152a29, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 647.80927
+      objectReference: {fileID: 0}
+    - target: {fileID: 8351364227794118621, guid: 19f66e00734183542a8380ba86152a29, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8351364227794118621, guid: 19f66e00734183542a8380ba86152a29, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1977.7622
+      objectReference: {fileID: 0}
+    - target: {fileID: 8351364227794118621, guid: 19f66e00734183542a8380ba86152a29, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8351364227794118621, guid: 19f66e00734183542a8380ba86152a29, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8351364227794118621, guid: 19f66e00734183542a8380ba86152a29, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8351364227794118621, guid: 19f66e00734183542a8380ba86152a29, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8351364227794118621, guid: 19f66e00734183542a8380ba86152a29, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8351364227794118621, guid: 19f66e00734183542a8380ba86152a29, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8351364227794118621, guid: 19f66e00734183542a8380ba86152a29, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 19f66e00734183542a8380ba86152a29, type: 3}
 --- !u!1001 &938845873
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -70134,7 +70199,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5518135129271423736, guid: ca5581c25047dea45a270725b478b86d, type: 3}
       propertyPath: m_Name
-      value: vending_food
+      value: VendingMachine
+      objectReference: {fileID: 0}
+    - target: {fileID: 5518135129271423736, guid: ca5581c25047dea45a270725b478b86d, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -70456,3 +70525,4 @@ SceneRoots:
   - {fileID: 1198792499}
   - {fileID: 211775087}
   - {fileID: 1576073428}
+  - {fileID: 938319432}

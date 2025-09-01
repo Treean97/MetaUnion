@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6525522755476023357}
   - component: {fileID: 5691670180706031247}
   - component: {fileID: 254214844338673344}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: VendingMachine
   m_TagString: Untagged
   m_Icon: {fileID: 0}

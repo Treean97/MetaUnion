@@ -34,12 +34,11 @@ public class SoundManager : MonoBehaviour
         _SFXSource.outputAudioMixerGroup = _SFXGroup;
     }
 
-    public void PlayBGM(AudioClip clip, bool restartIfSame = false)
+    public void PlayBGM(AudioClip clip)
     {
         if (!clip) return;
 
-        if (!restartIfSame && _BGMSource.isPlaying && _BGMSource.clip == clip)
-            return;
+        if (_BGMSource.clip == clip) return;
 
         _BGMSource.clip = clip;
         _BGMSource.Play();
