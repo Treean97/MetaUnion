@@ -9,8 +9,8 @@ using UnityEngine.UI;
 public class SlotMachineUIManager : MonoBehaviour, ISlotMachineUI
 {
     [SerializeField] GameObject[] _Lanes;
-
-    [SerializeField] int _MaxValue;
+    [SerializeField] SlotDataSO[] _SlotDataSOs;
+    int _MaxValue;
 
     [SerializeField] int _RollTime;
     [SerializeField] float _RollTic;
@@ -66,6 +66,8 @@ public class SlotMachineUIManager : MonoBehaviour, ISlotMachineUI
         _BetCurrencyDropdown.onValueChanged.AddListener(
             idx => _BettingCurrencyID = _CurrencyList[idx].ID);
 
+        // 설정
+        _MaxValue = _SlotDataSOs.Length;
         _Destiny = new int[_Lanes.Length];
         _ItemCnt = _DisplayItemSlots[0].SlotObj.Count;
         _CurrencyInputField.characterValidation

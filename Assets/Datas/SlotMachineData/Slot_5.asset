@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77f574ed7200213439525af844128b35, type: 3}
   m_Name: Slot_5
   m_EditorClassIdentifier: Assembly-CSharp::SlotDataSO
-  _ID: 0
-  _Icon: {fileID: 0}
+  _ID: 5
+  _Icon: {fileID: -2105919112, guid: 7bb12e1a1363c514bb9ee72a9acafce2, type: 3}
