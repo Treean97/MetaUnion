@@ -1,0 +1,20 @@
+{
+    "asset": "c27144186062922498c93e74e5c0575f",
+    "fileName": "019904c7-f7ba-7799-a849-f492421fd429.jpg",
+    "prompt": "one square frame, baige color, pastel tone, low poly style",
+    "negativePrompt": "",
+    "model": "4dc55660-f3eb-42ba-93a4-6261d6b2b8ec",
+    "modelName": "Game UI",
+    "customSeed": -1,
+    "w3CTraceId": "d025d05e3f23891e26e6eeba4e2178e4",
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0
+}

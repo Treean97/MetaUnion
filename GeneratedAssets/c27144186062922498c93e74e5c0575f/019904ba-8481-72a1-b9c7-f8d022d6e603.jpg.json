@@ -1,0 +1,20 @@
+{
+    "asset": "c27144186062922498c93e74e5c0575f",
+    "fileName": "019904ba-8481-72a1-b9c7-f8d022d6e603.jpg",
+    "prompt": "slot machine UI , low poly style",
+    "negativePrompt": "",
+    "model": "81c7bc50-f1fa-4e43-96be-2baa3f6233b6",
+    "modelName": "UI Frame Generator",
+    "customSeed": -1,
+    "w3CTraceId": "d421262de0ffa4cfca6477c1eb2d9df8",
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0
+}

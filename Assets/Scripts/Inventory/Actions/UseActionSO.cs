@@ -1,7 +1,5 @@
 using UnityEngine;
 
-
-
 [CreateAssetMenu(fileName = "UseAction", menuName = "Item/Actions/UseAction")]
 public class UsePotionActionSO : ScriptableObject, IInventoryAction
 {
