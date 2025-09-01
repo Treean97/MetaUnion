@@ -8,23 +8,30 @@ using UnityEngine.UI;
 
 public class SlotMachineUIManager : MonoBehaviour, ISlotMachineUI
 {
-    [SerializeField] GameObject[] _Lanes;
-    [SerializeField] SlotDataSO[] _SlotDataSOs;
+    [SerializeField] RectTransform[] _LaneContents;
+    int _Lane0_MaxSlot = 30;
+    int _Lane1_MaxSlot = 40;
+    int _Lane2_MaxSlot = 50;
+
+    [SerializeField] GameObject _SlotPrefab;
+    [SerializeField] SlotMachineSlotDataSO[] _SlotDataSOs;
+
+    // 데이터 풀 갯수
     int _MaxValue;
 
-    [SerializeField] int _RollTime;
+    [SerializeField] float _DecelMultiplier = 6f;
     [SerializeField] float _RollTic;
 
-    int _ItemCnt = 0;
-
-    int GetRandom(int minIndex, int maxIndex) => Random.Range(minIndex, maxIndex);
-
     [System.Serializable]
-    public class DisplayItemSlot
+    private class LaneContext
     {
         public List<GameObject> SlotObj = new List<GameObject>();
+        public RectTransform Content;
+        public int MaxSlot;
+        public float SlotHeight;
     }
-    public DisplayItemSlot[] _DisplayItemSlots;
+    private LaneContext[] _LaneContext;
+
     [SerializeField] private int[] _Destiny;
 
     private bool _IsRolling = false;
@@ -36,7 +43,7 @@ public class SlotMachineUIManager : MonoBehaviour, ISlotMachineUI
     [Header("Betting")]
     [SerializeField] private TMP_Dropdown _BetCurrencyDropdown;
     [SerializeField] private CurrencyDataPoolSO _CurrencyDataPoolSO;
-    [SerializeField] private TMP_InputField _CurrencyInputField;    
+    [SerializeField] private TMP_InputField _CurrencyInputField;
     [SerializeField] private int _3MatchMul;
     [SerializeField] private int _2MatchMul;
 
@@ -54,9 +61,9 @@ public class SlotMachineUIManager : MonoBehaviour, ISlotMachineUI
 
     void Start()
     {
+        // 배팅 타입 드롭다운 설정
         _CurrencyList = _CurrencyDataPoolSO.GetAllCurrencies().ToList();
 
-        // 배팅 타입 드롭다운
         _BetCurrencyDropdown.options
         = _CurrencyList.Select(
             c => new TMP_Dropdown.OptionData(c.ItemInfo._DisplayName)).ToList();
@@ -66,33 +73,76 @@ public class SlotMachineUIManager : MonoBehaviour, ISlotMachineUI
         _BetCurrencyDropdown.onValueChanged.AddListener(
             idx => _BettingCurrencyID = _CurrencyList[idx].ID);
 
-        // 설정
-        _MaxValue = _SlotDataSOs.Length;
-        _Destiny = new int[_Lanes.Length];
-        _ItemCnt = _DisplayItemSlots[0].SlotObj.Count;
         _CurrencyInputField.characterValidation
         = TMP_InputField.CharacterValidation.Digit;
-    }
 
-    void Update()
-    {
-        // 평상 시 돌아가는 것 처럼 구현
-        if (!_IsRolling)
+        // 설정
+        _MaxValue = _SlotDataSOs.Length;
+        _Destiny = new int[_LaneContents.Length];
+
+
+        // 라인 상태 클래스 생성
+        _LaneContext = new LaneContext[_LaneContents.Length];
+
+        // 라인 상태 세팅
+        for (int i = 0; i < _LaneContents.Length; i++)
         {
-            return;
+            _LaneContext[i] = new LaneContext
+            {
+                Content = _LaneContents[i],
+                MaxSlot = GetLaneMaxSlot(i),
+                SlotHeight = _SlotPrefab.GetComponent<RectTransform>().rect.height
+            };
+
+            // 라인에 슬롯 생성
+            LaneAddSlot(i);
+            // 초기 이미지 배열
+            SetSlot(i);
         }
+        
+
     }
 
-    void OnClickRerollBtn()
+    int GetLaneMaxSlot(int laneIndex)
     {
-        Reroll();
+        return laneIndex switch
+        {
+            0 => _Lane0_MaxSlot,
+            1 => _Lane1_MaxSlot,
+            2 => _Lane2_MaxSlot,
+            _ => 30
+        };
     }
 
-    void OnClickCloseBtn()
+    void LaneAddSlot(int laneIndex)
     {
-        if (_IsRolling) return;
+        for (int i = 0; i < _LaneContext[laneIndex].MaxSlot; i++)
+        {
+            var go = Instantiate(_SlotPrefab, _LaneContext[laneIndex].Content);
+            _LaneContext[laneIndex].SlotObj.Add(go);
+        }        
+    }
 
-        gameObject.SetActive(false);
+    // 시작할때 1회 전체 세팅
+    void SetSlot(int laneIndex)
+    {       
+        for (int i = 0; i < _LaneContext[laneIndex].MaxSlot; i++)
+        {
+            _LaneContext[laneIndex].SlotObj[i].
+            GetComponent<SlotMachineSlotManager>().
+            SetSlot(_SlotDataSOs[GetRandom(0, _MaxValue)]);
+        }    
+    }
+    
+    // 리롤마다 전체 세팅 후 최종값 설정
+    void SetInit()
+    {
+        for (int i = 0; i < _LaneContents.Length; i++)
+        {
+            SetSlot(i);
+        }       
+
+        SetDestiny();
     }
 
 
@@ -101,48 +151,18 @@ public class SlotMachineUIManager : MonoBehaviour, ISlotMachineUI
     {
         for (int i = 0; i < _Destiny.Length; i++)
         {
-            _Destiny[i] = GetRandom(0, _MaxValue + 1);
+            _Destiny[i] = GetRandom(0, _MaxValue);
         }
-    }
-
-
-    void SetRandomInit()
-    {
-        for (int i = 0; i < _Lanes.Length; i++)
-        {
-            // 마지막 전 까지 랜덤
-            for (int j = 0; j < _ItemCnt - 1; j++)
-            {
-                _DisplayItemSlots[i].SlotObj[j].GetComponentInChildren<TMP_Text>().text
-                = GetRandom(0, _MaxValue + 1).ToString();
-            }
-            // 마지막은 첫번째와 같음
-            _DisplayItemSlots[i].SlotObj[_ItemCnt - 1].GetComponentInChildren<TMP_Text>().text
-            = _DisplayItemSlots[i].SlotObj[0].GetComponentInChildren<TMP_Text>().text;
-        }
-
-        SetDestiny();
     }
 
     void SetDestiny()
     {
-        for (int i = 0; i < _Destiny.Length; i++)
+        for (int i = 0; i < _LaneContents.Length; i++)
         {
-            _DisplayItemSlots[i].SlotObj[0].GetComponentInChildren<TMP_Text>().text
-            = _Destiny[i].ToString();
-        }
-    }
-
-    void SetRandom()
-    {
-        for (int i = 0; i < _Lanes.Length; i++)
-        {
-            // 1 ~ 마지막-1 까지 랜덤
-            for (int j = 1; j < _ItemCnt - 1; j++)
-            {
-                _DisplayItemSlots[i].SlotObj[j].GetComponentInChildren<TMP_Text>().text
-                = GetRandom(0, _MaxValue + 1).ToString();
-            }
+            // 각 라인의 마지막 슬롯에 최종값 할당
+            _LaneContext[i].SlotObj[_LaneContext[i].MaxSlot - 1].
+            GetComponent<SlotMachineSlotManager>().
+            SetSlot(_SlotDataSOs[_Destiny[i]]);
         }
     }
 
@@ -158,50 +178,64 @@ public class SlotMachineUIManager : MonoBehaviour, ISlotMachineUI
         }
         // 드롭다운 비활성
         _BetCurrencyDropdown.interactable = false;
-        
+
         // 결과 값 결정
         GetDestiny();
         // 룰렛 초기화
-        SetRandomInit();
+        SetInit();
 
-        for (int i = 0; i < _Lanes.Length; i++)
+        for (int i = 0; i < _LaneContents.Length; i++)
         {
             StartCoroutine(StartRoll(i));
         }
     }
 
-    IEnumerator StartRoll(int slotIndex)
+    IEnumerator StartRoll(int laneIndex)
     {
-        // 돌아가는 중 다시 돌리기 방지
         _IsRolling = true;
 
+        var context = _LaneContext[laneIndex];
+        float height = context.SlotHeight;     // 슬롯 1칸 높이
+        float quater = height * 0.25f;          // 1/4 칸(요구사항)
+        int slotsToTravel = context.MaxSlot - 1;   // 추가 루프 없이 "마지막 슬롯"까지
+        float targetY = slotsToTravel * height;
 
-        // 인덱스 별 바퀴 수
-        for (int i = 0; i < _RollTime * (slotIndex + 1); i++)
+        // 출발점 리셋
+        context.Content.anchoredPosition = Vector2.zero;
+
+        // 감속: 남은 거리 비율에 따라 대기시간을 점점 늘린다 (step 크기는 항상 1/4칸 유지)
+        // _RollTic는 최소 틱, _DecelMultiplier는 감속 강도(아래 직후 추가)
+        float decelK(float progress01)
+            => Mathf.Lerp(1f, _DecelMultiplier, Mathf.SmoothStep(0f, 1f, progress01));
+
+        while (context.Content.anchoredPosition.y + 0.0001f < targetY)
         {
-            // 2번 움직임에 1칸 이동이고, 처음과 마지막은 같으니 (_ItemCnt - 1) * 2
-            for (int j = 0; j < (_ItemCnt - 1) * 4; j++)
-            {
-                _Lanes[slotIndex].transform.localPosition -= new Vector3(0, 25f, 0);
-                if (_Lanes[slotIndex].transform.localPosition.y < 0)
-                {
-                    _Lanes[slotIndex].transform.localPosition
-                    += new Vector3(0, (_ItemCnt - 1) * 100f, 0);
-                }
-                yield return new WaitForSeconds(_RollTic);
+            float curY = context.Content.anchoredPosition.y;
+            float nextY = curY + quater;
+            if (nextY > targetY) nextY = targetY;    // 오버슈트 방지
 
-            }
+            // 이동(1/4칸 고정)
+            context.Content.anchoredPosition = new Vector2(context.Content.anchoredPosition.x, nextY);
 
-            SetRandom();
+            // 진행도 0~1
+            float p = targetY <= 0f ? 1f : (nextY / targetY);
+            float wait = _RollTic * decelK(p);       // 점점 느려지게
+
+            yield return new WaitForSeconds(wait);
         }
 
+        // 최종 스냅(혹시 모를 오차 제거)
+        context.Content.anchoredPosition = new Vector2(context.Content.anchoredPosition.x, targetY);
 
-        // 마지막 룰렛이 종료될 때만 실행
-        if (slotIndex == _Lanes.Length - 1)
+        // ★ 오탈자 수정: laneIndex 사용
+        if (laneIndex == _LaneContents.Length - 1)
         {
             GetReward();
             _IsRolling = false;
-        }        
+            _CurrencyInputField.interactable = true;
+            _BetCurrencyDropdown.interactable = true;
+        }
+    
     }
 
     bool SetBettingMoney()
@@ -225,9 +259,9 @@ public class SlotMachineUIManager : MonoBehaviour, ISlotMachineUI
         }
 
         if (!GameEvents.RaiseRequestCurrencySpend(_BettingCurrencyID, _BettingCurrencyAmount))
-            {
-                return false;
-            }
+        {
+            return false;
+        }
 
         // 넣은 돈 수정 불가
         _CurrencyInputField.interactable = false;
@@ -255,9 +289,18 @@ public class SlotMachineUIManager : MonoBehaviour, ISlotMachineUI
             default:
                 break;
         }
+    }
 
-        _CurrencyInputField.interactable = true;
-        _BetCurrencyDropdown.interactable = true;
+    void OnClickRerollBtn()
+    {
+        Reroll();
+    }
+
+    void OnClickCloseBtn()
+    {
+        if (_IsRolling) return;
+
+        gameObject.SetActive(false);
     }
 
     public void Show()
@@ -269,4 +312,6 @@ public class SlotMachineUIManager : MonoBehaviour, ISlotMachineUI
     {
         gameObject.SetActive(false);
     }
+    
+    int GetRandom(int minIndex, int maxIndex) => Random.Range(minIndex, maxIndex);
 }

@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "SlotDataSO")]
-public class SlotDataSO : ScriptableObject
+[CreateAssetMenu(menuName = "SlotMachineSlotDataSO")]
+public class SlotMachineSlotDataSO : ScriptableObject
 {
     [SerializeField] int _ID;
     public int ID => _ID;

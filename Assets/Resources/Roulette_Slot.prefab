@@ -86,7 +86,7 @@ GameObject:
   - component: {fileID: 8863124865417696554}
   - component: {fileID: -7181812192294994866}
   m_Layer: 5
-  m_Name: RouletteSlot
+  m_Name: Roulette_Slot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
