@@ -6,6 +6,7 @@ using UnityEngine;
 #region UI 인터페이스
 
 public interface ICustomizeUI : IUI { }
+public interface IChatUI : IUI { }
 public interface IShopUI : IUI { }
 public interface ISlotMachineUI : IUI { }
 public interface IVendingMachineUI : IUI { }
@@ -23,6 +24,7 @@ public interface ISetAmountUI : IUI
 
 #region UI 라우터
 
+[RequireComponent(typeof(UIRegistrar))]
 public class UIRouter : MonoBehaviour
 {
     public static UIRouter _Inst { get; private set; }
@@ -64,7 +66,7 @@ public class UIRouter : MonoBehaviour
         Debug.LogWarning($"[UIRouter] {typeof(T).Name} 화면이 등록되지 않았습니다.");
         return false;
     }
-    
+
     public bool Open<T>(Action<T> init) where T : class, IUI
     {
         if (_UIs.TryGetValue(typeof(T), out var s))

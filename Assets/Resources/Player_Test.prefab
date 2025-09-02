@@ -2245,6 +2245,7 @@ MonoBehaviour:
   m_Handkey: 49
   m_Axekey: 50
   m_Pickaxekey: 51
+  m_ChatKey: 116
   m_InventoryKey: 113
   m_PlayerListKey: 9
   m_CursorToggle: 306

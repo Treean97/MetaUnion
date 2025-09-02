@@ -28,6 +28,7 @@ namespace Controller
         [SerializeField] private KeyCode m_Handkey = KeyCode.Alpha1;
         [SerializeField] private KeyCode m_Axekey = KeyCode.Alpha2;
         [SerializeField] private KeyCode m_Pickaxekey = KeyCode.Alpha3;
+        [SerializeField] private KeyCode m_ChatKey = KeyCode.T;
         [SerializeField] private KeyCode m_InventoryKey = KeyCode.Q;
         [SerializeField] private KeyCode m_PlayerListKey = KeyCode.Tab;
         [SerializeField] private KeyCode m_CursorToggle = KeyCode.LeftAlt;
@@ -197,6 +198,11 @@ namespace Controller
             if (Input.GetKeyDown(m_InventoryKey))
             {
                 UIRouter._Inst.Toggle<IInventoryUI>();
+            }
+
+            if (Input.GetKeyDown(m_ChatKey))
+            {
+                UIRouter._Inst.Toggle<IChatUI>();
             }
 
             if (Input.GetKeyDown(m_PlayerListKey))

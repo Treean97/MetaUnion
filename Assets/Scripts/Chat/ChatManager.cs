@@ -4,19 +4,25 @@ using TMPro;
 using Photon.Pun;
 using System.Collections;
 
-public class ChatManager : MonoBehaviourPun
+public class ChatManager : MonoBehaviourPun, IChatUI
 {
-    [Header("UI References")]
+    [Header("UI Set")]
+    [SerializeField] private UISlider _UISlider;
     [SerializeField] private TMP_InputField _ChatInputField;
     [SerializeField] private Transform _ChatContent;
     [SerializeField] private GameObject _ChatMessagePrefab;
     [SerializeField] private ScrollRect _ScrollRect;
+    [SerializeField] private Image _NoticeUI;
+
+    public bool IsOpen => _UISlider != null && _UISlider.IsOpen;
 
     private void Start()
     {
         // 인풋 필드 포커스/디포커스 이벤트
         _ChatInputField.onSelect.AddListener((_) => InputBlockManager.BlockInput());
         _ChatInputField.onDeselect.AddListener((_) => InputBlockManager.UnblockInput());
+
+        
     }
 
     private void Update()
@@ -24,16 +30,7 @@ public class ChatManager : MonoBehaviourPun
         if ((Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) && !_ChatInputField.isFocused)
         {
             SendChatMessage(_ChatInputField.text);
-
-            //StartCoroutine(ActivateInputNextFrame());
-        }
-    }
-
-    IEnumerator ActivateInputNextFrame()
-    {
-        yield return null;
-        _ChatInputField.ActivateInputField();
-        _ChatInputField.MoveTextEnd(false);
+        }         
     }
 
     public void SendChatMessage(string message)
@@ -56,6 +53,12 @@ public class ChatManager : MonoBehaviourPun
         text.text = $"<b>{sender}</b> : {message}";
         
         StartCoroutine(ScrollUpdate());
+        
+        if (!IsOpen)
+        {
+            ShowNotice(); // 닫혀 있으면 알림 표시
+        }
+        
     }
 
     IEnumerator ScrollUpdate()
@@ -63,4 +66,27 @@ public class ChatManager : MonoBehaviourPun
         yield return null;
         _ScrollRect.verticalNormalizedPosition = 0f;
     }
+
+    void ShowNotice()
+    {
+        if (_NoticeUI) _NoticeUI.gameObject.SetActive(true);
+    }
+
+    void HideNotice()
+    {
+        if (_NoticeUI) _NoticeUI.gameObject.SetActive(false);
+    }
+
+    public void Show()
+    {
+        if (_UISlider) _UISlider.Show();
+        HideNotice();
+    }
+
+    public void Hide()
+    {
+        if (_UISlider) _UISlider.Hide();
+    }
+
+    public void Toggle() { if (_UISlider) _UISlider.Toggle(); }
 }

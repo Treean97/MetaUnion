@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Photon.Pun.Demo.Cockpit;
 using UnityEngine;
 
 public class InventoryItem
