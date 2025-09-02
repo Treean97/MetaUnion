@@ -19,7 +19,7 @@ public class NameplateDisplay : MonoBehaviour
             return;
         }
 
-        Vector3 dir = _Cam.transform.position - transform.position;
+        Vector3 dir = transform.position - _Cam.transform.position;
         dir.y = 0;
 
         if (dir.sqrMagnitude > 0.001f)

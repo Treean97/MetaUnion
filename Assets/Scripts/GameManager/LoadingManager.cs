@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Photon.Pun;
 
 public class LoadingManager : MonoBehaviour
 {
@@ -14,6 +15,8 @@ public class LoadingManager : MonoBehaviour
     [SerializeField] private Slider _LoadingBar;
     [SerializeField] private TMP_Text _LoadingText;
     [SerializeField] private string[] _TextPool;
+
+    bool _PausedPhotonQueue;
 
     void Awake()
     {
@@ -44,7 +47,7 @@ public class LoadingManager : MonoBehaviour
         {
             if (_TextPool != null && _TextPool.Length > 0)
             {
-                _LoadingText.text = _TextPool[UnityEngine.Random.Range(0, _TextPool.Length)];
+                _LoadingText.text = _TextPool[Random.Range(0, _TextPool.Length)];
             }
             else
             {
@@ -64,6 +67,13 @@ public class LoadingManager : MonoBehaviour
     {
         Show();
         StopAllCoroutines();
+
+        if (PhotonNetwork.IsConnected)
+        {
+            PhotonNetwork.IsMessageQueueRunning = false;
+            _PausedPhotonQueue = true;
+        }
+
         StartCoroutine(CoLoadScene(sceneName));
     }
 
@@ -110,6 +120,13 @@ public class LoadingManager : MonoBehaviour
                 );
             yield return null;
         }
+
+        if (_PausedPhotonQueue)
+        {
+            PhotonNetwork.IsMessageQueueRunning = true;
+            _PausedPhotonQueue = false;
+        }
+
         _LoadingBar.value = target;
     }
 
