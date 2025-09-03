@@ -2,7 +2,7 @@ using UnityEngine;
 
 public enum ItemType {Hair, Hat, Face, Accessory, Glasses, Outwear, Gloves, Pants, Shoes };
 
-[CreateAssetMenu(menuName = "ScriptableObject/CustomizeItem")]
+[CreateAssetMenu(menuName = "Customize/CustomizeItem")]
 public class CustomizeItemSO : ScriptableObject
 {
     [SerializeField] ItemType _Type;

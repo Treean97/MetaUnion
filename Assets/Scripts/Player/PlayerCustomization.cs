@@ -60,11 +60,11 @@ public class PlayerCustomization : MonoBehaviourPunCallbacks, IPunInstantiateMag
         var type   = itemSO.Type;
         var itemId = itemSO.ID;
 
-        // 1) 방 전체에 변경된 프로퍼티 전파
+        // 방 전체에 변경된 프로퍼티 전파
         var props = new Hashtable { { PropKeyPrefix + (int)type, itemId } };
         PhotonNetwork.LocalPlayer.SetCustomProperties(props);
 
-        // 2) 로컬 화면에 즉시 반영
+        // 로컬 화면에 즉시 반영
         ApplyMesh(type, itemId);
     }
 

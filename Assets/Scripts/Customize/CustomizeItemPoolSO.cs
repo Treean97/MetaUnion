@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "ScriptableObject/CustomizeItemPool")]
+[CreateAssetMenu(menuName = "Customize/CustomizeItemPool")]
 public class CustomizeItemPoolSO : ScriptableObject
 {
     // 인스펙터에 Type별로 접고 펼칠 수 있는 리스트
