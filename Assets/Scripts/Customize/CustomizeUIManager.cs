@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class CustomizeUIManager : MonoBehaviour, ICustomizeUI
 {
     [SerializeField] private CustomizeItemPoolSO _ItemPool;
+    [SerializeField] private CustomizePreivew _CustomizePreview;
     [SerializeField] private Transform _Contents;
     [SerializeField] private GameObject _SlotPrefab;
     [SerializeField] private List<Button> _CategoryBtns;
@@ -56,6 +57,9 @@ public class CustomizeUIManager : MonoBehaviour, ICustomizeUI
         _CurType = type;
         Debug.Log("[CustomizeUI] ChangeCategory: 새 카테고리 = " + _CurType);
         GameEvents.RaiseRequestUnlockedItems(_CurType);
+
+        // 프리뷰 카메라 타겟 변경
+        _CustomizePreview.ChangeTarget(_CurType);
     }
 
     void HandlePurchaseSueecss()

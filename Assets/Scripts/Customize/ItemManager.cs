@@ -6,7 +6,8 @@ using System.Linq;
 // 전역 접근용 싱글톤 매니저
 public class ItemManager : MonoBehaviour
 {
-    public static ItemManager _Inst { get; private set; }
+    public static ItemManager _Inst;
+
 
     [Header("커스터마이징 아이템")]
     [SerializeField] private CustomizeItemPoolSO _CustomizeItemPoolSO;
@@ -21,18 +22,28 @@ public class ItemManager : MonoBehaviour
 
     void Awake()
     {
-        if (_Inst != null && _Inst != this) 
+        if (_Inst == null)
         {
-            Destroy(gameObject);
-            return;
+            _Inst = this;
         }
-        _Inst = this;
 
         // SO에서 항목을 분류해 캐싱
-        _ItemsByType = _CustomizeItemPoolSO
+            _ItemsByType = _CustomizeItemPoolSO
             .GetAllItems()
             .GroupBy(item => item.Type)
             .ToDictionary(g => g.Key, g => g.ToList());
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Clear))
+        {
+            if (_Inst == null)
+            {
+                Debug.Log("ItemManager is null");
+            }
+            
+        }
     }
 
     /// <summary>

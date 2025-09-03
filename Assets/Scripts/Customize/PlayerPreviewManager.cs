@@ -41,16 +41,6 @@ public class PlayerPreviewManager : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    /// 외부에서 수동으로 전체 재적용하고 싶을 때 호출
-    /// </summary>
-    public void RefreshAll()
-    {
-        var lp = PhotonNetwork.LocalPlayer;
-        if (lp != null)
-            ApplyAllProperties(lp.CustomProperties);            
-    }
-
-    /// <summary>
     /// 로컬 플레이어의 커스텀 프로퍼티가 바뀔 때마다 호출되어 변경분만 적용
     /// </summary>
     public override void OnPlayerPropertiesUpdate(Player target, PhotonHashtable changedProps)
@@ -83,22 +73,25 @@ public class PlayerPreviewManager : MonoBehaviourPunCallbacks
 
     /// <summary>
     /// 메쉬만(sharedMesh) 교체. 머티리얼은 변경하지 않음.
-    /// </summary>
+    /// </summary>    
     private void ApplyMesh(ItemType type, string itemId)
     {
-        if (!_RendererSlots.TryGetValue(type, out var renderer) || renderer == null)
+        // 1) 렌더러 조회
+        if (!_RendererSlots.TryGetValue(type, out var renderer))
         {
-            Debug.LogWarning($"[Preview] Renderer가 없습니다: {type}");
+            Debug.LogError($"Renderer가 없습니다: {type}");
             return;
         }
 
-        var itemSO = ItemManager._Inst ? ItemManager._Inst.GetCustomizeItem(type, itemId) : null;
-        if (itemSO == null || !itemSO.ItemMesh)
+        // 2) ItemManager에서 아이템 정보 조회
+        var itemSO = ItemManager._Inst.GetCustomizeItem(type, itemId);
+        if (itemSO == null)
         {
-            Debug.LogWarning($"[Preview] 아이템/메쉬 없음: {type}/{itemId}");
+            Debug.LogWarning($"ID '{itemId}' 아이템을 찾을 수 없습니다.");
             return;
         }
 
-        renderer.sharedMesh = itemSO.ItemMesh; // ← 메쉬만 교체
+        // 3) Mesh 교체
+        renderer.sharedMesh = itemSO.ItemMesh;
     }
 }

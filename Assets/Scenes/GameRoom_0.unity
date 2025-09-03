@@ -20977,6 +20977,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ItemPool: {fileID: 11400000, guid: a1f021026cb15fe49b9a499123d09550, type: 2}
+  _CustomizePreview: {fileID: 1259277189}
   _Contents: {fileID: 1275833874}
   _SlotPrefab: {fileID: 8365039451784562699, guid: a00b5452f40d92f4e9d007216ce1c6a5, type: 3}
   _CategoryBtns:
@@ -21129,6 +21130,8 @@ GameObject:
   - component: {fileID: 690044623}
   - component: {fileID: 690044622}
   - component: {fileID: 690044624}
+  - component: {fileID: 690044626}
+  - component: {fileID: 690044625}
   m_Layer: 5
   m_Name: PlayerListUIPanel
   m_TagString: Untagged
@@ -21208,6 +21211,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _PlayerListSlot: {fileID: 3992075343501249773, guid: 54f186ed67240624495dd8e0044b5cd5, type: 3}
   _Content: {fileID: 2058926178}
+--- !u!114 &690044625
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 690044620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af21981b597bedf408583c83dccb9ecd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIRouter
+--- !u!114 &690044626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 690044620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbffdf188f54a7340a1b230e9d3cedc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIRegistrar
 --- !u!1001 &693748580
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -41554,7 +41581,6 @@ MonoBehaviour:
   _UseMip: 1
   _CustomizePreviewPrefab: {fileID: 1749055315928332539, guid: 3435b4df3dc9fac4aac8cd54c3db98d3, type: 3}
   _PreviewPos: {x: -100, y: -100, z: -100}
-  _TargetTransform: []
 --- !u!1001 &1260968764
 PrefabInstance:
   m_ObjectHideFlags: 0

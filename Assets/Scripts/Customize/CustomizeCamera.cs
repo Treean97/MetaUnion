@@ -36,6 +36,7 @@ public class CustomizeCamera : MonoBehaviour
             if (binding.Target && !_TargetDic.ContainsKey(binding.Type))
                 _TargetDic.Add(binding.Type, binding.Target);
         }
+        Debug.Log($"[CustomizeCamera] Target map built: {string.Join(", ", _TargetDic.Keys)}");
     }
 
     void Update()
@@ -72,7 +73,7 @@ public class CustomizeCamera : MonoBehaviour
     {
         if (!_TargetDic.TryGetValue(type, out Transform t) || !t)
         {
-            Debug.LogWarning($"타겟 없음: {type}");
+            Debug.LogWarning($"타겟 없음: {type}. Keys=[{string.Join(", ", _TargetDic.Keys)}]");
             return;
         }
 
