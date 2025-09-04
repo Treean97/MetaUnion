@@ -35,7 +35,12 @@ public class TreeObject : MonoBehaviourPun, IDamageable, IDestructible, IDropSou
     public void Damaged(DamageInfo damageInfo)
     {
         if (_IsDead) return;
-        if ( (_Data.AvailableTool & damageInfo.tool) == 0 ) return;
+
+        Debug.Log($"Tree.Damaged tool={damageInfo.tool} avail={_Data.AvailableTool} pass={((_Data.AvailableTool & damageInfo.tool)!=0)}");
+
+        if ((_Data.AvailableTool & damageInfo.tool) == 0) return;
+
+        Debug.Log($"Tree.Damaged tool={damageInfo.tool} avail={_Data.AvailableTool} pass={((_Data.AvailableTool & damageInfo.tool)!=0)}");
 
         if (PhotonNetwork.IsMasterClient)
         {
@@ -49,10 +54,10 @@ public class TreeObject : MonoBehaviourPun, IDamageable, IDestructible, IDropSou
 
     void ApplyDamage(float power)
     {
-        if (_IsDead) return;
+        if (_IsDead) return;       
 
         // 데미지 폰트 처리
-        DamagePopManager._Inst.Show(transform.position, (int)power);
+        photonView.RPC(nameof(RPC_ShowPopup), RpcTarget.All, transform.position, (int)power);
 
         _CurHP -= power;
         if (_CurHP <= 0f)
@@ -67,6 +72,13 @@ public class TreeObject : MonoBehaviourPun, IDamageable, IDestructible, IDropSou
     {
         if (!PhotonNetwork.IsMasterClient) return;
         ApplyDamage(power);
+    }
+
+        
+    [PunRPC]
+    void RPC_ShowPopup(Vector3 pos, int amount)
+    {
+        DamagePopManager._Inst?.Show(pos, amount);
     }
 
     // 씬 배치 PV 파괴용

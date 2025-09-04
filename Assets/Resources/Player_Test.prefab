@@ -2274,9 +2274,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee176d69100603b4ab48f904e7549762, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _AttackPoint: {fileID: 7074244965923215746}
-  _AttackRadius: 0.5
-  _AttackStunDuration: 1
+  HandCfg: {fileID: 11400000, guid: bafae11aeb3c6fd4b802773dfb041a0b, type: 2}
+  AxeCfg: {fileID: 11400000, guid: cdb3a5ce7d8901e44b38ab10efdc5dad, type: 2}
+  PickaxeCfg: {fileID: 11400000, guid: f4f7209f79c93c046bd1b9701680cd81, type: 2}
 --- !u!114 &8296784686235821923
 MonoBehaviour:
   m_ObjectHideFlags: 0

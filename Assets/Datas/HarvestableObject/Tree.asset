@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be55362f072a5bd42970e38eb2fca1ae, type: 3}
   m_Name: Tree
   m_EditorClassIdentifier: 
+  _AvailableTool: 2
   _Durability: 300
   _DropTable: {fileID: 11400000, guid: 3622b2c1147f51f4984fcb56177da613, type: 2}

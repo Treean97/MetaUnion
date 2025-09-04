@@ -34,6 +34,7 @@ namespace Controller
         [SerializeField] private KeyCode m_CursorToggle = KeyCode.LeftAlt;
 
         private MoveHandler m_Mover;
+        private AttackHandler m_Attacker;
 
         private Vector2 m_Axis;
         private bool m_IsRun;
@@ -63,6 +64,7 @@ namespace Controller
         private void Awake()
         {
             m_Mover = GetComponent<MoveHandler>();
+            m_Attacker = GetComponent<AttackHandler>();
 
             InputBlockManager.OnInputBlockStatus += HandleUIRunningStateChanged; // 추가: 구독
 
@@ -74,20 +76,25 @@ namespace Controller
             }
 
             // 키 입력 이벤트 구독
-            OnHandKeyPressed += () => OnWeaponChange?.Invoke(new HandState());
-            OnAxeKeyPressed += () => OnWeaponChange?.Invoke(new AxeState());
-            OnPickaxeKeyPressed += () => OnWeaponChange?.Invoke(new PickaxeState());
+            OnHandKeyPressed += () => m_Attacker.EquipHand();
+            OnAxeKeyPressed += () => m_Attacker.EquipAxe();
+            OnPickaxeKeyPressed += () => m_Attacker.EquipPickaxe();
         }
 
         private void OnDestroy()
         {
             InputBlockManager.OnInputBlockStatus -= HandleUIRunningStateChanged;
-            
+
             if (_StatusEffectManager != null)
             {
                 _StatusEffectManager.OnEffectApplied -= HandleEffectApplied;
                 _StatusEffectManager.OnEffectRemoved -= HandleEffectRemoved;
             }
+            
+                        // 키 입력 이벤트 구독
+            OnHandKeyPressed -= () => m_Attacker.EquipHand();
+            OnAxeKeyPressed -= () => m_Attacker.EquipAxe();
+            OnPickaxeKeyPressed -= () => m_Attacker.EquipPickaxe();
         }
 
         private void HandleUIRunningStateChanged(bool isBlocked)

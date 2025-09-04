@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be55362f072a5bd42970e38eb2fca1ae, type: 3}
   m_Name: Rock
   m_EditorClassIdentifier: 
+  _AvailableTool: 4
   _Durability: 500
   _DropTable: {fileID: 11400000, guid: 511c4496147036a4fb9163b87a5b0a42, type: 2}

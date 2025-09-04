@@ -52,16 +52,16 @@ public class RockObject : MonoBehaviourPun, IDamageable, IDestructible, IDropSou
         if (_IsDead) return;
 
         // 데미지 폰트 처리
-        DamagePopManager._Inst.Show(transform.position, (int)power);
+        photonView.RPC(nameof(RPC_ShowPopup), RpcTarget.All, transform.position, (int)power);
 
         _CurHP -= power;
-
         if (_CurHP <= 0f)
         {
             _IsDead = true;
-            OnDestroyed?.Invoke();  // 마스터의 SpawnPoint가 파괴/리스폰
+            OnDestroyed?.Invoke();  // 스폰포인트(마스터)에서 파괴/리스폰 처리
         }
-    }
+    }            
+
 
     [PunRPC]
     void RPC_ApplyDamage(float power)
@@ -69,6 +69,13 @@ public class RockObject : MonoBehaviourPun, IDamageable, IDestructible, IDropSou
         if (!PhotonNetwork.IsMasterClient) return;
         ApplyDamage(power);
     }
+
+    [PunRPC]
+    void RPC_ShowPopup(Vector3 pos, int amount)
+    {
+        DamagePopManager._Inst?.Show(pos, amount);
+    }
+
 
     [PunRPC]
     void RPC_DespawnSceneObject()

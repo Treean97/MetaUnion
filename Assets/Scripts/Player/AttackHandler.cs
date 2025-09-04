@@ -7,31 +7,31 @@ using System.Collections;
 [RequireComponent(typeof(PlayerStat), typeof(PhotonView))]
 [RequireComponent(typeof(Animator))]
 public class AttackHandler : MonoBehaviourPun
-{
-    [Header("Attack Point")]
-    [SerializeField] internal Transform _AttackPoint;
-    [SerializeField] internal float _AttackRadius = 1f;
-
-    [Header("Stun")]
-    [SerializeField] internal float _AttackStunDuration = 1f;
-        
+{        
     [Header("Animation")]
     internal Animator _Animator;    
     internal PlayerInput _Input;
     internal PlayerStat  _Stat;
 
+    [Header("WeaponState")]
+    public WeaponStateSO HandCfg;
+    public WeaponStateSO AxeCfg;
+    public WeaponStateSO PickaxeCfg;
+
+    IWeaponState _State;
     private bool _CanAttack = true;
-    private IWeaponState _CurrentState;
 
-    // 상태 전환 메서드
-    public void ChangeState(IWeaponState newState)
+    public void Equip(WeaponStateSO cfg)
     {
-        _CurrentState?.ExitState(this);
-        _CurrentState = newState;
-        _CurrentState.EnterState(this);
-
-        Debug.Log($"ChageState : {_CurrentState}");
+        _State?.ExitState(this);
+        _State = new MeleeToolState(cfg);
+        _State.EnterState(this);
     }
+
+    public void EquipHand() => Equip(HandCfg);
+    public void EquipAxe() => Equip(AxeCfg);   
+    public void EquipPickaxe() => Equip(PickaxeCfg);
+
     void Awake()
     {
         _Input = GetComponent<PlayerInput>();
@@ -41,30 +41,26 @@ public class AttackHandler : MonoBehaviourPun
 
     void Start()
     {
-        var handState = new HandState();
-        ChangeState(handState);
+        Equip(HandCfg);
     }
 
     void OnEnable()
     {
         _Input.OnAttack += HandleAttackEvent;
-        _Input.OnWeaponChange += ChangeState;
     }
     void OnDisable()
     {
         _Input.OnAttack -= HandleAttackEvent;
-        _Input.OnWeaponChange -= ChangeState;
     }
-
-
+    
      private void HandleAttackEvent()
     {
-        if (!_CanAttack) 
+        if (!_CanAttack)
             return;
 
         // 입력이 허용될 때만 실행
         _CanAttack = false;
-        _CurrentState?.ExecuteAttack(this);
+        _State?.ExecuteAttack(this);
     }
 
     internal IEnumerator ResetAttackFlag(float delay, System.Action onComplete)
@@ -79,15 +75,19 @@ public class AttackHandler : MonoBehaviourPun
         Debug.Log("Attack Finished");
         _CanAttack = true;
     }
-
+    
     [PunRPC]
-    internal void RPC_DealDamage(int viewID, float dmg)
+    public void RPC_TryDamage(int viewID, byte tool, float power, Vector3 hitPos)
     {
-        var pv = PhotonView.Find(viewID);
-        DamageInfo damageInfo = new DamageInfo();
-        damageInfo.tool = DamageTool.Hand;
-        damageInfo.damage = dmg;
-        pv?.GetComponent<IDamageable>()?.Damaged(damageInfo);
+        if (!PhotonNetwork.IsMasterClient) return;
+
+        var pv = PhotonNetwork.GetPhotonView(viewID);
+        if (!pv) return;
+
+        if (!pv.TryGetComponent<IDamageable>(out var target)) return;
+
+        var info = new DamageInfo { damage = power, tool = (DamageTool)tool };
+        target.Damaged(info);
     }
 
     

@@ -28,7 +28,6 @@ public class RespawnManager : MonoBehaviour
     {
         if (_Inst != null && _Inst != this) { Destroy(gameObject); return; }
         _Inst = this;
-        // 필요하면 DontDestroyOnLoad(gameObject);
     }
 
     /// <summary>리스폰 가능한 오브젝트가 스스로 호출(씬 배치/스폰 직후)</summary>

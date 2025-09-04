@@ -12,7 +12,7 @@ public class WeaponEntry
     public Transform InstantiateTransform;
 }
 
-public class WeaponEquip : MonoBehaviour
+public class WeaponEquip : MonoBehaviourPun
 {
     [Header("무기 리스트")]
     [SerializeField] private List<WeaponEntry> _Weapons;
@@ -29,11 +29,13 @@ public class WeaponEquip : MonoBehaviour
     [Header("입력")]
     [SerializeField] private PlayerInput _Input;
 
-    private GameObject _CurrentWeapon;
+    private GameObject _CurrentWeapon;    
     
+    void OnAxeKey()     => EquipWeapon("Axe");
+    void OnPickaxeKey() => EquipWeapon("Pickaxe");
 
     private void Awake()
-    {        
+    {
         // 리스트 → 딕셔너리
         _WeaponDict = new Dictionary<string, WeaponEntry>();
         foreach (var entry in _Weapons)
@@ -47,70 +49,62 @@ public class WeaponEquip : MonoBehaviour
                 _WeaponDict.Add(entry.Name, entry);
         }
 
-        _Input.OnHandKeyPressed += UnequipWeapon;
-        _Input.OnAxeKeyPressed += () => EquipWeapon("Axe");
-        _Input.OnPickaxeKeyPressed += () => EquipWeapon("Pickaxe");
+    _Input.OnHandKeyPressed += UnequipWeapon;
+    _Input.OnAxeKeyPressed += OnAxeKey;
+    _Input.OnPickaxeKeyPressed += OnPickaxeKey;
     }
 
-    public void EquipWeapon(string weaponName)
+    void OnDestroy()
     {
-        if (!_WeaponDict.TryGetValue(weaponName, out var weapon))
+        _Input.OnHandKeyPressed -= UnequipWeapon;
+        _Input.OnAxeKeyPressed -= OnAxeKey;
+        _Input.OnPickaxeKeyPressed -= OnPickaxeKey;
+    }
+
+        public void EquipWeapon(string name)
+    {
+        // 내 캐릭터면 전파, 모두가 동일하게 로컬 생성
+        if (photonView.IsMine)
+            photonView.RPC(nameof(RPC_EquipWeapon), RpcTarget.All, name);
+    }
+
+    public void UnequipWeapon()
+    {
+        if (photonView.IsMine)
+            photonView.RPC(nameof(RPC_UnequipWeapon), RpcTarget.All);
+    }
+
+    [PunRPC] void RPC_EquipWeapon(string name)
+    {
+        if (!_WeaponDict.TryGetValue(name, out var w))
         {
-            Debug.LogError($"WeaponEquip: '{weaponName}' 무기를 찾을 수 없습니다.");
+            Debug.LogWarning($"Weapon '{name}' not found");
             return;
         }
 
-        // 이전 무기 제거
-        if (_CurrentWeapon != null)
-            PhotonNetwork.Destroy(_CurrentWeapon);
+        // 기존 제거(로컬)
+        if (_CurrentWeapon) Destroy(_CurrentWeapon);
 
-        // 새 무기 인스턴스화 
-        var weaponInstance = PhotonNetwork.Instantiate(
-            weapon.Prefab.name,
-            Vector3.zero,
-            Quaternion.identity,
-            0
-        );
+        _CurrentWeapon = Instantiate(w.Prefab, _HandAnchor, false);
+        _CurrentWeapon.transform.localPosition = w.InstantiateTransform.localPosition;
+        _CurrentWeapon.transform.localRotation = w.InstantiateTransform.localRotation;
 
-        weaponInstance.transform.SetParent(_HandAnchor, false);
-        weaponInstance.transform.localPosition = weapon.InstantiateTransform.localPosition;
-        weaponInstance.transform.localRotation = weapon.InstantiateTransform.localRotation;
-        _CurrentWeapon = weaponInstance;
+        // IK 타깃
+        var leftGrip  = _CurrentWeapon.transform.Find("LeftGrip");
+        var rightGrip = _CurrentWeapon.transform.Find("RightGrip");
+        if (!leftGrip || !rightGrip) { Debug.LogWarning("LeftGrip/RightGrip 없음"); return; }
 
-        // Grip 찾기
-        var leftGrip  = weaponInstance.transform.Find("LeftGrip");
-        var rightGrip = weaponInstance.transform.Find("RightGrip");
-        if (leftGrip == null || rightGrip == null)
-        {
-            Debug.LogError("WeaponEquip: Prefab에 'LeftGrip' 또는 'RightGrip' Transform이 없습니다.");
-            return;
-        }
+        var L = _LeftArmIK.data; L.target = leftGrip;   _LeftArmIK.data = L;
+        var R = _RightArmIK.data; R.target = rightGrip; _RightArmIK.data = R;
 
-        // IK Constraint.data 수정 후 재할당
-        var leftData = _LeftArmIK.data;
-        leftData.target = leftGrip;
-        _LeftArmIK.data = leftData;
-
-        var rightData = _RightArmIK.data;
-        rightData.target = rightGrip;
-        _RightArmIK.data = rightData;
-
-        // IK & Rig 활성화
         _LeftArmIK.weight  = 1f;
         _RightArmIK.weight = 1f;
         _WeaponRig.weight  = 1f;
     }
 
-    public void UnequipWeapon()
+    [PunRPC] void RPC_UnequipWeapon()
     {
-        if (_CurrentWeapon != null)
-        {
-            Destroy(_CurrentWeapon);
-            _CurrentWeapon = null;
-        }
-
-        _LeftArmIK.weight  = 0f;
-        _RightArmIK.weight = 0f;
-        _WeaponRig.weight  = 0f;
+        if (_CurrentWeapon) { Destroy(_CurrentWeapon); _CurrentWeapon = null; }
+        _LeftArmIK.weight = _RightArmIK.weight = _WeaponRig.weight = 0f;
     }
 }
