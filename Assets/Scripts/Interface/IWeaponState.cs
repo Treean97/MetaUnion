@@ -42,10 +42,12 @@ public sealed class MeleeToolState : IWeaponState
             if (!col.TryGetComponent<PhotonView>(out var pv)) continue;
             if (!col.TryGetComponent<IDamageable>(out var _)) continue;            
 
+            // 데미지 계산
             float dmg = h._Stat.GetStat(_cfg.DamageStat);
-            var pos = col.bounds.center;
+            float virance = h._Stat.GetStat(StatType.DamageVariance);
+            dmg = Random.Range(dmg * ((100 - virance) / 100), dmg);
 
-            Debug.Log($"HIT {pv.name} viewID={pv.ViewID} tool={_cfg.Tool} dmg={dmg}");
+            var pos = col.bounds.center;
 
             // 서버 검증 + 적용 (툴을 함께 보냄)
             h.photonView.RPC(nameof(AttackHandler.RPC_TryDamage),

@@ -6,5 +6,6 @@ public enum StatType
     JumpPower,
     AttackPower,
     AxePower,
-    PickaxePower
+    PickaxePower,
+    DamageVariance, // %
 }

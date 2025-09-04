@@ -25,3 +25,5 @@ MonoBehaviour:
     BaseValue: 100
   - Type: 5
     BaseValue: 100
+  - Type: 6
+    BaseValue: 10
