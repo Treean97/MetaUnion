@@ -1,20 +1,17 @@
 using Photon.Pun;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class ItemDropManager : MonoBehaviour
 {
-    void OnEnable()
+    public static ItemDropManager _Inst { get; private set; }
+
+    void Awake()
     {
-        GameEvents.OnRequestItemDrop += HandleItemDrop;
+        if (_Inst != null && _Inst != this) { Destroy(this); return; }
+        _Inst = this;
     }
 
-    void OnDisable()
-    {
-        GameEvents.OnRequestItemDrop -= HandleItemDrop;
-    }
-
-    bool HandleItemDrop(int id, int amount, GameObject user)
+    public bool TryItemDrop(int id, int amount, GameObject user)
     {
         ItemManager._Inst.ItemDataPoolSO.TryGetItem(id, out var itemData);
 

@@ -12,6 +12,9 @@ GameObject:
   - component: {fileID: 6718996863731973077}
   - component: {fileID: 2977195707756383750}
   - component: {fileID: 1452965095438198344}
+  - component: {fileID: -8737493075506996659}
+  - component: {fileID: 4065197199983557677}
+  - component: {fileID: -4396803842954909236}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -74,3 +77,45 @@ MonoBehaviour:
   _Master: {fileID: 24300002, guid: 582c2ef3a357f5a4abfc2c71c7d73817, type: 2}
   _BGMGroup: {fileID: 7847132128881948458, guid: 582c2ef3a357f5a4abfc2c71c7d73817, type: 2}
   _SFXGroup: {fileID: -889364480738380157, guid: 582c2ef3a357f5a4abfc2c71c7d73817, type: 2}
+--- !u!114 &-8737493075506996659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1078885290729373513}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ce8223699c3c95479510de3b7fb3a54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _CustomizeItemPoolSO: {fileID: 11400000, guid: a1f021026cb15fe49b9a499123d09550, type: 2}
+  _ItemDataPoolSO: {fileID: 11400000, guid: 2fad16dc8fe453348a578a593573c394, type: 2}
+--- !u!114 &4065197199983557677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1078885290729373513}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e806358641983c640a34895c31ec1acd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObjectPoolManager
+  _Entries:
+  - Prefab: {fileID: 6641512020476146562, guid: 7f2b331fc1a782140b88dabe7b352e43, type: 3}
+    PreInstantiate: 20
+    Root: {fileID: 0}
+--- !u!114 &-4396803842954909236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1078885290729373513}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af21981b597bedf408583c83dccb9ecd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIRouter

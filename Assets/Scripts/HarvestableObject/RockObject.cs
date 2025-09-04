@@ -50,6 +50,9 @@ public class RockObject : MonoBehaviourPun, IMineable, IDestructible, IDropSourc
     {
         if (_IsDead) return;
 
+        // 데미지 폰트 처리
+        DamagePopManager._Inst.Show(this.transform.position, (int)power);
+
         _CurHP -= power;
 
         if (_CurHP <= 0f)

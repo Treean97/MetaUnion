@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: TreeDropTable
   m_EditorClassIdentifier: 
   _Entries:
-  - ItemPrefab: {fileID: 128184381135264871, guid: 8119472e5a1632c40bd9f667c154d5bf, type: 3}
+  - ItemPrefab: {fileID: 3467747983584936052, guid: bbfcd0c4ace896946badd516761e19df, type: 3}
     DropChance: 0.5
     MinAmount: 100
     MaxAmount: 200
