@@ -80,16 +80,16 @@ public class AxeState : IWeaponState
 
         foreach (var col in hits)
         {
-            if (col.TryGetComponent<IChoppable>(out var harvestable))
+            if (col.TryGetComponent<IDamageable>(out var harvestable))
             {
                 int viewID = col.GetComponent<PhotonView>().ViewID;
-                float power = handler._Stat.GetStat(StatType.AxePower);
+                float dmg = handler._Stat.GetStat(StatType.AxePower);
 
                 handler.photonView.RPC(
-                    nameof(handler.RPC_HarvestChoppableResource),
+                    nameof(handler.RPC_DealDamage),
                     RpcTarget.All,
                     viewID,
-                    power);
+                    dmg);
                 break;
             }
         }            
@@ -119,13 +119,13 @@ public class PickaxeState : IWeaponState
         Collider[] hits = Physics.OverlapSphere(handler._AttackPoint.position, handler._AttackRadius);
         foreach (var col in hits)
         {
-            if (col.TryGetComponent<IMineable>(out var harvestable))
+            if (col.TryGetComponent<IDamageable>(out var harvestable))
             {
                 int viewID = col.GetComponent<PhotonView>().ViewID;
                 float dmg = handler._Stat.GetStat(StatType.PickaxePower);
 
                 handler.photonView.RPC(
-                    nameof(handler.RPC_HarvestMineableResource),
+                    nameof(handler.RPC_DealDamage),
                     RpcTarget.All,
                     viewID,
                     dmg);

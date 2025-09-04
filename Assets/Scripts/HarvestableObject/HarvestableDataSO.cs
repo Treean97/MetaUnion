@@ -3,6 +3,9 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "HarvestableObject/HarvestableObject Data")]
 public class HarvestableDataSO : ScriptableObject
 {
+    [SerializeField] DamageTool _AvailableTool;
+    public DamageTool AvailableTool => _AvailableTool;
+
     [SerializeField] float _Durability;
     public float Durability => _Durability;
 

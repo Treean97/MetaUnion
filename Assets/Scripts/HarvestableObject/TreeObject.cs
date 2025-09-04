@@ -2,7 +2,7 @@ using System;
 using Photon.Pun;
 using UnityEngine;
 
-public class TreeObject : MonoBehaviourPun, IChoppable, IDestructible, IDropSource, IRespawnable
+public class TreeObject : MonoBehaviourPun, IDamageable, IDestructible, IDropSource, IRespawnable
 {
     [Header("Respawn/Prefab")]
     [SerializeField] private string _PrefabName;     // Resources 프리팁 이름
@@ -32,17 +32,18 @@ public class TreeObject : MonoBehaviourPun, IChoppable, IDestructible, IDropSour
         _CurHP = (_Data != null) ? _Data.Durability : 1f;
     }
 
-    public void Chop(float power)
+    public void Damaged(DamageInfo damageInfo)
     {
         if (_IsDead) return;
+        if ( (_Data.AvailableTool & damageInfo.tool) == 0 ) return;
 
         if (PhotonNetwork.IsMasterClient)
         {
-            ApplyDamage(power);         // 마스터면 즉시 적용
+            ApplyDamage(damageInfo.damage);         // 마스터면 즉시 적용
         }
         else
         {
-            photonView.RPC(nameof(RPC_ApplyDamage), RpcTarget.MasterClient, power); // 비마스터는 요청만
+            photonView.RPC(nameof(RPC_ApplyDamage), RpcTarget.MasterClient, damageInfo.damage); // 비마스터는 요청만
         }
     }
 

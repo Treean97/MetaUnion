@@ -2,7 +2,7 @@ using System;
 using Photon.Pun;
 using UnityEngine;
 
-public class RockObject : MonoBehaviourPun, IMineable, IDestructible, IDropSource, IRespawnable
+public class RockObject : MonoBehaviourPun, IDamageable, IDestructible, IDropSource, IRespawnable
 {
     [Header("Respawn/Prefab")]
     [SerializeField] private string _PrefabName;
@@ -32,17 +32,18 @@ public class RockObject : MonoBehaviourPun, IMineable, IDestructible, IDropSourc
     }
 
     
-    public void Mine(float power)
+    public void Damaged(DamageInfo damageInfo)
     {        
         if (_IsDead) return;
+        if ( (_Data.AvailableTool & damageInfo.tool) == 0 ) return;
 
         if (PhotonNetwork.IsMasterClient)
         {
-            ApplyDamage(power);
+            ApplyDamage(damageInfo.damage);         // 마스터면 즉시 적용
         }
         else
         {
-            photonView.RPC(nameof(RPC_ApplyDamage), RpcTarget.MasterClient, power);
+            photonView.RPC(nameof(RPC_ApplyDamage), RpcTarget.MasterClient, damageInfo.damage); // 비마스터는 요청만
         }
     }
     

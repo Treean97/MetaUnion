@@ -84,22 +84,12 @@ public class AttackHandler : MonoBehaviourPun
     internal void RPC_DealDamage(int viewID, float dmg)
     {
         var pv = PhotonView.Find(viewID);
-        pv?.GetComponent<IDamageable>()?.Damaged(dmg);
+        DamageInfo damageInfo = new DamageInfo();
+        damageInfo.tool = DamageTool.Hand;
+        damageInfo.damage = dmg;
+        pv?.GetComponent<IDamageable>()?.Damaged(damageInfo);
     }
 
-    [PunRPC]
-    internal void RPC_HarvestChoppableResource(int viewID, float power)
-    {
-        var pv = PhotonView.Find(viewID);
-        pv?.GetComponent<IChoppable>()?.Chop(power);
-    }
-
-    [PunRPC]
-    internal void RPC_HarvestMineableResource(int viewID, float power)
-    {
-        var pv = PhotonView.Find(viewID);
-        pv?.GetComponent<IMineable>()?.Mine(power);
-    }
     
     [PunRPC]
     internal void RPC_ApplyStatus(int viewID, int statusType, float duration)

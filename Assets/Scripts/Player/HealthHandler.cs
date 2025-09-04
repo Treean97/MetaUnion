@@ -22,7 +22,7 @@ public class HealthHandler : MonoBehaviourPun, IDamageable
     /// 대미지를 입을 때 호출
     /// </summary>
     /// <param name="amount">입힐 대미지</param>
-    public void Damaged(float amount)
+    public void Damaged(DamageInfo DamageInfo)
     {
         OnDamaged();
     }
