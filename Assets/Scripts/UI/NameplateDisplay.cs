@@ -19,12 +19,9 @@ public class NameplateDisplay : MonoBehaviour
             return;
         }
 
+        // 카메라 방향 주시
         Vector3 dir = transform.position - _Cam.transform.position;
         dir.y = 0;
-
-        if (dir.sqrMagnitude > 0.001f)
-        {
-            transform.rotation = Quaternion.LookRotation(dir);
-        }
+        transform.rotation = Quaternion.LookRotation(dir);
     }
 }

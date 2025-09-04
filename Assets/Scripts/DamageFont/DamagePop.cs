@@ -46,6 +46,8 @@ public class DamagePop : MonoBehaviour
 
         transform.position = worldPos;
 
+        var cam = GetCam();
+
         // 디버그
         Debug.Log($"Damage : {damage}");
 
@@ -54,22 +56,27 @@ public class DamagePop : MonoBehaviour
         _Color = RandomReadableColor();
         _Color.a = 1f;
         _DamageText.color = _Color;
+        
+        transform.rotation = Quaternion.LookRotation(_Cam.transform.forward, _Cam.transform.up);
 
-
-        if (!_Cam) _Cam = Camera.main;
-        var right = _Cam ? _Cam.transform.right : Vector3.right;
-        var up = _Cam ? _Cam.transform.up : Vector3.up;
-
-        // 카메라 평면 기준 약간의 랜덤 방향 + 위로 발사
-        var dir = (right * UnityEngine.Random.Range(-1f, 1f) + up * UnityEngine.Random.Range(0.2f, 0.8f)).normalized;
+        // 포물선 방향
         var _HorizRan = UnityEngine.Random.Range(_HorizSpeedRange[0], _HorizSpeedRange[1]);
         var _UpSpeedRan = UnityEngine.Random.Range(_UpSpeedRange[0], _UpSpeedRange[1]);
-        _Vel = dir * _HorizRan + Vector3.up * _UpSpeedRan;
+        _Vel = Vector3.right * _HorizRan + Vector3.up *  _UpSpeedRan;
 
         transform.localScale = _BaseScale * _ScaleCurve.Evaluate(0f);
 
         _Life = 0f;
         gameObject.SetActive(true);
+    }
+
+    private Camera GetCam()
+    {
+        if (_Cam != null) return _Cam; // 살아있으면 그대로
+
+        _Cam = Camera.main; // 메인 카메라 할당
+
+        return _Cam; // 없으면 null 반환
     }
 
 
@@ -87,12 +94,9 @@ public class DamagePop : MonoBehaviour
         _Vel += Vector3.down * _Gravity * Time.deltaTime;
         transform.position += _Vel * Time.deltaTime;
 
-        if (_Cam)
-        {
-            Vector3 toCam = _Cam.transform.position - transform.position;
-            if (toCam.sqrMagnitude > 1e-6f)
-                transform.rotation = Quaternion.LookRotation(toCam, _Cam.transform.up);
-        }
+        // 카메라 방향 주시
+        Vector3 toCam = transform.position - _Cam.transform.position;
+        transform.rotation = Quaternion.LookRotation(toCam, _Cam.transform.up);
 
         // 진행도 (0~1)
         float t = Mathf.Clamp01(_Life / _LifeTime);

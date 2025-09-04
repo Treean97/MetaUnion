@@ -10,7 +10,6 @@ public class DamagePopManager : MonoBehaviour
     {
         if (_Inst != null) { Destroy(this); return; }
         _Inst = this;
-        DontDestroyOnLoad(this);
     }
 
     public void Show(Vector3 worldPos, int damage)
