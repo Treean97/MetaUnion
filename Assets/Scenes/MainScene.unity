@@ -178,6 +178,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
+    - target: {fileID: 4065197199983557677, guid: 2bde3b1d9b7fb7c418b565c6d3571945, type: 3}
+      propertyPath: _Entries.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4065197199983557677, guid: 2bde3b1d9b7fb7c418b565c6d3571945, type: 3}
+      propertyPath: _Entries.Array.data[0].Prefab
+      value: 
+      objectReference: {fileID: 6641512020476146562, guid: 7f2b331fc1a782140b88dabe7b352e43, type: 3}
+    - target: {fileID: 4065197199983557677, guid: 2bde3b1d9b7fb7c418b565c6d3571945, type: 3}
+      propertyPath: _Entries.Array.data[0].PreInstantiate
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 8571317249142214057, guid: 2bde3b1d9b7fb7c418b565c6d3571945, type: 3}
       propertyPath: m_LocalPosition.x
       value: 466.0816

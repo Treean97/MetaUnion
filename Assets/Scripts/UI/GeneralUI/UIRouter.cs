@@ -23,8 +23,6 @@ public interface ISetAmountUI : IUI
 
 
 #region UI 라우터
-
-[RequireComponent(typeof(UIRegistrar))]
 public class UIRouter : MonoBehaviour
 {
     public static UIRouter _Inst { get; private set; }
@@ -36,12 +34,12 @@ public class UIRouter : MonoBehaviour
         {
             _Inst = this;
             // 씬이 바뀌어도 파괴되지 않도록 설정
-            DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(this);
         }
         else
         {
             // 이미 인스턴스가 존재하면 현재 오브젝트를 파괴
-            Destroy(gameObject);
+            Destroy(this);
         }
     }
 

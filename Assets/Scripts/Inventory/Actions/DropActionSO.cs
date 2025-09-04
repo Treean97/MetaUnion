@@ -12,7 +12,7 @@ public class DropActionSO : ScriptableObject, IInventoryAction
         Debug.Log(inventoryItem.ID);
         
         bool success =
-        GameEvents.RaiseRequestItemDrop(inventoryItem.ID, inventoryItem.Amount, user);       
+        ItemDropManager._Inst.TryItemDrop(inventoryItem.ID, inventoryItem.Amount, user);   
 
         if (!success)
         {

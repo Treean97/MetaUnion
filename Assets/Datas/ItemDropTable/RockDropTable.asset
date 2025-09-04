@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: RockDropTable
   m_EditorClassIdentifier: 
   _Entries:
-  - ItemPrefab: {fileID: 128184381135264871, guid: 160c6f64d6ffbb14aa81bf012209ff7b, type: 3}
+  - ItemPrefab: {fileID: 3276915121264919138, guid: 1396cb1c28eb3854aabbf26f572940ca, type: 3}
     DropChance: 1
     MinAmount: 200
     MaxAmount: 300
