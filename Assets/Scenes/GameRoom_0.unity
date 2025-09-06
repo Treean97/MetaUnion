@@ -70858,7 +70858,7 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 715c3269a66fe1e478587122f60d3de5, type: 3}
---- !u!1001 &4751319657851790708
+--- !u!1001 &5296459057771706615
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -70866,55 +70866,55 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2985835149641903331, guid: 1270aa8febda6884e8be67b8d4b9ceec, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
+    - target: {fileID: 4404023843639940933, guid: dba2992d457822c42a05492cb9dec559, type: 3}
+      propertyPath: m_Name
+      value: RouletteMachine
       objectReference: {fileID: 0}
-    - target: {fileID: 2985835149641903331, guid: 1270aa8febda6884e8be67b8d4b9ceec, type: 3}
+    - target: {fileID: 7000542928356410912, guid: dba2992d457822c42a05492cb9dec559, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -7.56
+      objectReference: {fileID: 0}
+    - target: {fileID: 7000542928356410912, guid: dba2992d457822c42a05492cb9dec559, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2985835149641903331, guid: 1270aa8febda6884e8be67b8d4b9ceec, type: 3}
+    - target: {fileID: 7000542928356410912, guid: dba2992d457822c42a05492cb9dec559, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 5
+      value: 3.87
       objectReference: {fileID: 0}
-    - target: {fileID: 2985835149641903331, guid: 1270aa8febda6884e8be67b8d4b9ceec, type: 3}
+    - target: {fileID: 7000542928356410912, guid: dba2992d457822c42a05492cb9dec559, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.7071068
       objectReference: {fileID: 0}
-    - target: {fileID: 2985835149641903331, guid: 1270aa8febda6884e8be67b8d4b9ceec, type: 3}
+    - target: {fileID: 7000542928356410912, guid: dba2992d457822c42a05492cb9dec559, type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2985835149641903331, guid: 1270aa8febda6884e8be67b8d4b9ceec, type: 3}
+    - target: {fileID: 7000542928356410912, guid: dba2992d457822c42a05492cb9dec559, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: 0.7071068
       objectReference: {fileID: 0}
-    - target: {fileID: 2985835149641903331, guid: 1270aa8febda6884e8be67b8d4b9ceec, type: 3}
+    - target: {fileID: 7000542928356410912, guid: dba2992d457822c42a05492cb9dec559, type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2985835149641903331, guid: 1270aa8febda6884e8be67b8d4b9ceec, type: 3}
+    - target: {fileID: 7000542928356410912, guid: dba2992d457822c42a05492cb9dec559, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2985835149641903331, guid: 1270aa8febda6884e8be67b8d4b9ceec, type: 3}
+    - target: {fileID: 7000542928356410912, guid: dba2992d457822c42a05492cb9dec559, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 90
       objectReference: {fileID: 0}
-    - target: {fileID: 2985835149641903331, guid: 1270aa8febda6884e8be67b8d4b9ceec, type: 3}
+    - target: {fileID: 7000542928356410912, guid: dba2992d457822c42a05492cb9dec559, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4779140234497423434, guid: 1270aa8febda6884e8be67b8d4b9ceec, type: 3}
-      propertyPath: m_Name
-      value: SlotMachine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 1270aa8febda6884e8be67b8d4b9ceec, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: dba2992d457822c42a05492cb9dec559, type: 3}
 --- !u!1001 &6273916969287239718
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -70977,63 +70977,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b9da6a0378819264a8acc0e530af71f9, type: 3}
---- !u!1001 &6645680559005687376
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 2269860288790971926, guid: 96a37d39423beb746bb9453fa8483ca8, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -3
-      objectReference: {fileID: 0}
-    - target: {fileID: 2269860288790971926, guid: 96a37d39423beb746bb9453fa8483ca8, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2269860288790971926, guid: 96a37d39423beb746bb9453fa8483ca8, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2269860288790971926, guid: 96a37d39423beb746bb9453fa8483ca8, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2269860288790971926, guid: 96a37d39423beb746bb9453fa8483ca8, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2269860288790971926, guid: 96a37d39423beb746bb9453fa8483ca8, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2269860288790971926, guid: 96a37d39423beb746bb9453fa8483ca8, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2269860288790971926, guid: 96a37d39423beb746bb9453fa8483ca8, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2269860288790971926, guid: 96a37d39423beb746bb9453fa8483ca8, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2269860288790971926, guid: 96a37d39423beb746bb9453fa8483ca8, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6925865233050085580, guid: 96a37d39423beb746bb9453fa8483ca8, type: 3}
-      propertyPath: m_Name
-      value: RouletteMachine
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 96a37d39423beb746bb9453fa8483ca8, type: 3}
 --- !u!1001 &6989679267263869699
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -71100,8 +71043,6 @@ SceneRoots:
   - {fileID: 2025425426}
   - {fileID: 905330249}
   - {fileID: 142430416}
-  - {fileID: 4751319657851790708}
-  - {fileID: 6645680559005687376}
   - {fileID: 2478354138171861779}
   - {fileID: 505587659549540247}
   - {fileID: 820089655}
@@ -71114,3 +71055,4 @@ SceneRoots:
   - {fileID: 1576073428}
   - {fileID: 938319432}
   - {fileID: 6989679267263869699}
+  - {fileID: 5296459057771706615}
