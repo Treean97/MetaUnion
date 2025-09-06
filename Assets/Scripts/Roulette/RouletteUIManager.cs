@@ -8,7 +8,7 @@ public class RouletteUIManager : MonoBehaviour, IRouletteUI
     [SerializeField] ItemDataPoolSO _RouletteItemPool;
     [SerializeField] Transform _RoulettePointer;
     [SerializeField] GameObject _Spinner;
-    [SerializeField] int _RouletteSlotCount;    
+    [SerializeField] int _RouletteSlotCount = 8;    
     [SerializeField] GameObject _RouletteSlotPrefab;
     [SerializeField] List<GameObject> _Slots;
     [SerializeField] float _Radius;
@@ -40,28 +40,52 @@ public class RouletteUIManager : MonoBehaviour, IRouletteUI
         _Slots.Clear();
 
         float angleTerm = 360f / _RouletteSlotCount;
+        float startAngleDeg = -90f + angleTerm * 0.5f;
 
-        // 룰렛 슬롯 배치
+        // 룰렛 슬롯 배치        
+        // for (int i = 0; i < _RouletteSlotCount; i++)
+        // {
+        //     GameObject slot = Instantiate(_RouletteSlotPrefab, _Spinner.transform);
+
+        //     float angle = i * angleTerm - 90f;
+        //     float rad = angle * Mathf.Deg2Rad;
+
+        //     Vector2 pos = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad)) * _Radius;
+
+        //     slot.transform.localPosition = pos;
+
+        //     _Slots.Add(slot);        
+        // }
+
+
         for (int i = 0; i < _RouletteSlotCount; i++)
         {
             GameObject slot = Instantiate(_RouletteSlotPrefab, _Spinner.transform);
 
-            float angle = i * angleTerm - 90f;
+            float angle = startAngleDeg + i * angleTerm;
             float rad = angle * Mathf.Deg2Rad;
 
             Vector2 pos = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad)) * _Radius;
 
-            slot.transform.localPosition = pos;
+            var rt = slot.GetComponent<RectTransform>();   // UI 전제
+            rt.anchorMin = rt.anchorMax = new Vector2(0.5f, 0.5f);
+            rt.pivot = new Vector2(0.5f, 0f);              // 하단 중앙
+            rt.anchoredPosition = pos;
 
-            _Slots.Add(slot);        
+            // 하단이 중앙을 가리키도록(슬롯의 위쪽이 바깥쪽 향하게)
+            rt.localEulerAngles = new Vector3(0f, 0f, angle - 90f);
+
+            _Slots.Add(slot);
         }
+
+        DefaultSet();        
     }
 
     void Update()
     {
         if (!_IsSpin)
         {
-            _Spinner.transform.Rotate(Vector3.forward, _NormalSpeed * Time.deltaTime);
+            _Spinner.transform.Rotate(Vector3.back, _NormalSpeed * Time.deltaTime);
         }
     }
 
@@ -124,9 +148,9 @@ public class RouletteUIManager : MonoBehaviour, IRouletteUI
         while (time <= _Duration)
         {
             float speed = Mathf.Lerp(_MaxSpeed, 0f, time / _Duration);
-            _Spinner.transform.Rotate(Vector3.forward, speed * Time.deltaTime);
+            _Spinner.transform.Rotate(Vector3.back, speed * Time.deltaTime);        // ← 반대방향
             time += Time.deltaTime;
-            yield return null;        
+            yield return null;
         }
 
         // 아이템 선택
@@ -138,6 +162,15 @@ public class RouletteUIManager : MonoBehaviour, IRouletteUI
         // 아이템 확인 시간 
         yield return new WaitForSeconds(_WaitToNextSpin);
         _IsSpin = false;
+        DefaultSet();
+    }
+
+    void DefaultSet()
+    {
+        foreach (var slot in _Slots)
+        {
+            slot.GetComponent<RouletteSlot>().DefaultSet();
+        }
     }
 
     public void Show()

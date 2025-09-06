@@ -1,0 +1,20 @@
+{
+    "asset": "05978730ec5a89c4085393db8b4529a5",
+    "fileName": "01991ea1-c527-7ff8-879b-9d0c62aeb919.jpg",
+    "prompt": "Roulette, spinner",
+    "negativePrompt": "",
+    "model": "4dc55660-f3eb-42ba-93a4-6261d6b2b8ec",
+    "modelName": "Game UI",
+    "customSeed": -1,
+    "w3CTraceId": "2fd6f4d6c403267ac74ffd182e91fcb7",
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0
+}
