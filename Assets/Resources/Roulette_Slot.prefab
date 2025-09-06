@@ -51,6 +51,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Icon: {fileID: 1858682860833227114}
+  _DefaultSprite: {fileID: 21300000, guid: 39c05b9d62619454eaab75ed10008f23, type: 3}
   _AmountText: {fileID: 2214438769932175287}
 --- !u!1 &3509783141089835391
 GameObject:
