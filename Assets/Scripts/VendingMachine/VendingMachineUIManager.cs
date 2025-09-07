@@ -7,7 +7,6 @@ public class VendingMachineUIManager : MonoBehaviour, IVendingMachineUI
     [SerializeField] ItemDataPoolSO _VendingMachineItemDataPoolSO;
     [SerializeField] Transform _Contents;    
     [SerializeField] GameObject _SlotPrefab;
-    [SerializeField] SetAmountUIManager _SetAmountUI;
     [SerializeField] Button _CloseBtn;
 
     public bool IsOpen => gameObject.activeSelf;
@@ -16,11 +15,6 @@ public class VendingMachineUIManager : MonoBehaviour, IVendingMachineUI
     void Awake()
     {
         _CloseBtn.onClick.AddListener(OnClickCloseBtn);   
-    }
-
-    void OnEnable()
-    {
-        _SetAmountUI.gameObject.SetActive(false);        
     }
 
     void Start()
