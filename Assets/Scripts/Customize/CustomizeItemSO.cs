@@ -11,6 +11,8 @@ public class CustomizeItemSO : ScriptableObject
     public string ID => _ID;
     [SerializeField] Mesh _ItemMesh;
     public Mesh ItemMesh => _ItemMesh;
+    [SerializeField] Sprite _Sprite;
+    public Sprite Sprite => _Sprite;
     [SerializeField] int _Price;
     public int Price => _Price;
 
