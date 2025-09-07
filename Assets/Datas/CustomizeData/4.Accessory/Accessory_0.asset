@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _Type: 3
   _ID: Accessory_0
-  _ItemMesh: {fileID: 7061910613977320673, guid: 9ca093b63b32bc6479e8706c849e1ee2, type: 3}
+  _ItemMesh: {fileID: 4300000, guid: 7c4b6ae018187e041b56de56d8fd6b74, type: 2}
+  _Sprite: {fileID: 0}
   _Price: 0
   _IsDefaultUnlocked: 1

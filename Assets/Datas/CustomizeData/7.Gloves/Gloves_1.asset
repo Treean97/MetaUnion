@@ -14,4 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _Type: 6
   _ID: Gloves_1
-  _ItemMesh: {fileID: -2628522999209309539, guid: 47ba93e4fb1b05e418fa1918bf34ed85, type: 3}
+  _ItemMesh: {fileID: 4300000, guid: 0d632381e29b2da438043758397ac6e3, type: 2}
+  _Sprite: {fileID: 0}
+  _Price: 0
+  _IsDefaultUnlocked: 0

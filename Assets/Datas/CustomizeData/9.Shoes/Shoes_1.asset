@@ -14,4 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _Type: 9
   _ID: Shoes_1
-  _ItemMesh: {fileID: -5648626978545720014, guid: bfab5a5ca14002a469bd5912e025f274, type: 3}
+  _ItemMesh: {fileID: 4300000, guid: 1c6825bcb96a8bb41af4c1d052fc3434, type: 2}
+  _Sprite: {fileID: 0}
+  _Price: 0
+  _IsDefaultUnlocked: 0

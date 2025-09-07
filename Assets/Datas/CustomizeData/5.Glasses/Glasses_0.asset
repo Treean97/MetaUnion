@@ -14,4 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _Type: 4
   _ID: Glasses_0
-  _ItemMesh: {fileID: 3231055992845446417, guid: 37ecfcaf8ce0c064d92bcec65eba3e31, type: 3}
+  _ItemMesh: {fileID: 4300000, guid: 1f098d0812c64ac44abe8aeaa0143f6d, type: 2}
+  _Sprite: {fileID: 0}
+  _Price: 0
+  _IsDefaultUnlocked: 0

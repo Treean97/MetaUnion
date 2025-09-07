@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _Type: 5
   _ID: Outwear_0
-  _ItemMesh: {fileID: 1617087265200637012, guid: e79b799a85000cd4ea6d2332153cbd7b, type: 3}
+  _ItemMesh: {fileID: 4300000, guid: bf8010a8b1a74d94fb80384e704b80b5, type: 2}
+  _Sprite: {fileID: 0}
   _Price: 0
   _IsDefaultUnlocked: 1
