@@ -7,7 +7,6 @@ using UnityEngine.UI;
 /// </summary>
 public class ShopBuyItemSlot : MonoBehaviour
 {
-    [SerializeField] private TMP_Text _NameText;
     [SerializeField] private TMP_Text _PriceText;
     [SerializeField] private Button _Btn;
 
@@ -26,7 +25,6 @@ public class ShopBuyItemSlot : MonoBehaviour
     public void Setup(CustomizeItemSO itemSO)
     {
         _ItemSO = itemSO;
-        _NameText.text  = itemSO.ID;
         _PriceText.text = itemSO.Price.ToString();
         _Btn.interactable = true; // 재화 부족 시 외부에서 조정 가능
     }
