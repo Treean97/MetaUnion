@@ -30,18 +30,15 @@ public class PlayerCustomization : MonoBehaviourPunCallbacks, IPunInstantiateMag
     {
         // Awake 시점에 슬롯 바인딩을 딕셔너리로 빌드
         _RendererSlots = new Dictionary<ItemType, SkinnedMeshRenderer>();
+
         foreach (var binding in _SlotBindings)
         {
-            if (!_RendererSlots.ContainsKey(binding.Type))
-            {
+            if (binding.MeshRenderer && !_RendererSlots.ContainsKey(binding.Type))
                 _RendererSlots.Add(binding.Type, binding.MeshRenderer);
-            }              
-                
-            // 기본 상태 캐싱
+
+            // 기본 메쉬 캐싱
             if (binding.MeshRenderer)
-            {
                 binding.BaseMesh = binding.MeshRenderer.sharedMesh;
-            }
         }
     }
 
@@ -134,7 +131,8 @@ public class PlayerCustomization : MonoBehaviourPunCallbacks, IPunInstantiateMag
             if (int.TryParse(key.Substring(PropKeyPrefix.Length), out int typeInt))
             {
                 var type   = (ItemType)typeInt;
-                var itemId = entry.Value as string;
+                var itemId = entry.Value?.ToString();
+
                 ApplyMesh(type, itemId);
             }
         }

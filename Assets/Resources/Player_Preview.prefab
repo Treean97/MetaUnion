@@ -2243,23 +2243,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerPreviewManager
   _SlotBindings:
   - Type: 0
-    Renderer: {fileID: 1481551644689648220}
+    MeshRenderer: {fileID: 1481551644689648220}
+    BaseMesh: {fileID: -2315652163027026327, guid: 23fd9c9d3c817704a986c6fb8a5cc120, type: 3}
   - Type: 1
-    Renderer: {fileID: 8563859967002161243}
+    MeshRenderer: {fileID: 8563859967002161243}
+    BaseMesh: {fileID: 6657998009922166292, guid: 23fd9c9d3c817704a986c6fb8a5cc120, type: 3}
   - Type: 2
-    Renderer: {fileID: 861259613992621737}
+    MeshRenderer: {fileID: 861259613992621737}
+    BaseMesh: {fileID: 7277813940581652077, guid: 23fd9c9d3c817704a986c6fb8a5cc120, type: 3}
   - Type: 3
-    Renderer: {fileID: 6593190355336508328}
+    MeshRenderer: {fileID: 6593190355336508328}
+    BaseMesh: {fileID: 4554999278103424840, guid: 23fd9c9d3c817704a986c6fb8a5cc120, type: 3}
   - Type: 4
-    Renderer: {fileID: 7480471464705634603}
+    MeshRenderer: {fileID: 7480471464705634603}
+    BaseMesh: {fileID: 8485970674117699935, guid: 23fd9c9d3c817704a986c6fb8a5cc120, type: 3}
   - Type: 5
-    Renderer: {fileID: 1530659579630627919}
+    MeshRenderer: {fileID: 3421539245923706381}
+    BaseMesh: {fileID: -5866934017332945184, guid: 23fd9c9d3c817704a986c6fb8a5cc120, type: 3}
   - Type: 6
-    Renderer: {fileID: 1846957280739144662}
+    MeshRenderer: {fileID: 1846957280739144662}
+    BaseMesh: {fileID: -9073019736851073122, guid: 23fd9c9d3c817704a986c6fb8a5cc120, type: 3}
   - Type: 7
-    Renderer: {fileID: 5681909699259854762}
+    MeshRenderer: {fileID: 5681909699259854762}
+    BaseMesh: {fileID: 7666266049737368757, guid: 23fd9c9d3c817704a986c6fb8a5cc120, type: 3}
   - Type: 8
-    Renderer: {fileID: 2694659718577078140}
+    MeshRenderer: {fileID: 2694659718577078140}
+    BaseMesh: {fileID: -278085929633702562, guid: 23fd9c9d3c817704a986c6fb8a5cc120, type: 3}
 --- !u!1 &5844002613393054969
 GameObject:
   m_ObjectHideFlags: 0

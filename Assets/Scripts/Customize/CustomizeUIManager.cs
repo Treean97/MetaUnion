@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
+using ExitGames.Client.Photon;
 using UnityEngine.UI;
 
 public class CustomizeUIManager : MonoBehaviour, ICustomizeUI
@@ -14,6 +16,8 @@ public class CustomizeUIManager : MonoBehaviour, ICustomizeUI
     private ItemType _CurType;
 
     public bool IsOpen => gameObject.activeSelf;
+
+    private const string _PropKeyPrefix = "Customize_";
 
     void Awake()
     {
@@ -60,11 +64,13 @@ public class CustomizeUIManager : MonoBehaviour, ICustomizeUI
 
         // 프리뷰 카메라 타겟 변경
         _CustomizePreview.ChangeTarget(_CurType);
+
+        RefreshStatesOfCurrentCategory();
     }
 
     void HandlePurchaseSueecss()
     {
-        GameEvents.RaiseRequestLockedItems(_CurType);
+        GameEvents.RaiseRequestUnlockedItems(_CurType);
     }
 
 
@@ -75,24 +81,55 @@ public class CustomizeUIManager : MonoBehaviour, ICustomizeUI
 
         foreach (var item in items)
         {
-            var slot = Instantiate(_SlotPrefab, _Contents);
-            slot.GetComponent<CustomizeItemSlot>().Setup(item);
+            var go = Instantiate(_SlotPrefab, _Contents);
+            var slot = go.GetComponent<CustomizeItemSlot>();
+            slot.Setup(item);
 
-            // 슬롯 클릭 시 장착 요청
-            var btn = slot.GetComponent<Button>();
-            btn.onClick.AddListener(() =>
-            {
-                Debug.Log("[CustomizeUI] Slot 클릭: " + item.ID);
-                GameEvents.RaiseRequestEquipItem(item);
-            });
+            bool equipped = IsEquippedByProps(item.Type, item.ID);
+            slot.SetState(equipped);
         }
     }
+
+    private bool IsEquippedByProps(ItemType type, string id)
+    {
+        var lp = PhotonNetwork.LocalPlayer;
+        if (lp == null) return false;
+
+        var props = lp.CustomProperties;
+        if (props == null) return false;
+
+        var key = _PropKeyPrefix + (int)type;
+        if (!props.ContainsKey(key)) return false;
+
+        // 값 타입이 int/str 섞여 올 수 있으니 문자열로 통일
+        var cur = props[key]?.ToString();
+        return cur == id;
+    }
+
 
     private void HandleEquipItem(CustomizeItemSO item)
     {
         Debug.Log("[CustomizeUI] HandleEquipItem: 실제 EquipItem 호출, ID=" + item.ID);
         var player = PlayerSetup._LocalPlayer.GetComponent<PlayerCustomization>();
-        player?.EquipItem(item);
+
+        // 현재 상태를 로컬 커스텀 프로퍼티로 판단해서 토글
+        if (IsEquippedByProps(item.Type, item.ID))
+            player.UnEquipItem(item.Type);   // 같은 거면 해제
+        else
+            player.EquipItem(item);          // 아니면 착용
+            
+        // 슬롯 UI 갱신
+        RefreshStatesOfCurrentCategory();
+    }
+
+    private void RefreshStatesOfCurrentCategory()
+    {
+        foreach (Transform c in _Contents)
+        {
+            var slot = c.GetComponent<CustomizeItemSlot>();
+            if (!slot) continue;
+            slot.SetState(IsEquippedByProps(slot.Type, slot.ID));
+        }
     }
 
     public void Show()

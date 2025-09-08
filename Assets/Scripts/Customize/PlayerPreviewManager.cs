@@ -4,6 +4,7 @@ using Photon.Pun;
 using UnityEngine;
 using Photon.Realtime;
 using PhotonHashtable = ExitGames.Client.Photon.Hashtable;
+using System.Linq;
 
 public class PlayerPreviewManager : MonoBehaviourPunCallbacks
 {
@@ -11,7 +12,8 @@ public class PlayerPreviewManager : MonoBehaviourPunCallbacks
     public class SlotBinding
     {
         public ItemType Type;
-        public SkinnedMeshRenderer Renderer; // 프리뷰 쪽 렌더러
+        public SkinnedMeshRenderer MeshRenderer; // 프리뷰 쪽 렌더러
+        public Mesh BaseMesh;
     }
 
     [SerializeField]
@@ -20,6 +22,7 @@ public class PlayerPreviewManager : MonoBehaviourPunCallbacks
     private Dictionary<ItemType, SkinnedMeshRenderer> _RendererSlots;
 
     private const string PropKeyPrefix = "Customize_";
+    private const string UnEquipToken  = "0";
 
     void Awake()
     {
@@ -27,8 +30,8 @@ public class PlayerPreviewManager : MonoBehaviourPunCallbacks
         _RendererSlots = new Dictionary<ItemType, SkinnedMeshRenderer>();
         foreach (var binding in _SlotBindings)
         {
-            if (binding.Renderer && !_RendererSlots.ContainsKey(binding.Type))
-                _RendererSlots.Add(binding.Type, binding.Renderer);
+            if (binding.MeshRenderer && !_RendererSlots.ContainsKey(binding.Type))
+                _RendererSlots.Add(binding.Type, binding.MeshRenderer);
         }
     }
 
@@ -76,14 +79,25 @@ public class PlayerPreviewManager : MonoBehaviourPunCallbacks
     /// </summary>    
     private void ApplyMesh(ItemType type, string itemId)
     {
-        // 1) 렌더러 조회
+        // 렌더러 조회
         if (!_RendererSlots.TryGetValue(type, out var renderer))
         {
             Debug.LogError($"Renderer가 없습니다: {type}");
             return;
         }
 
-        // 2) ItemManager에서 아이템 정보 조회
+        // 타입을 통해 객체 찾기
+        var binding = _SlotBindings.FirstOrDefault(b => b.Type == type);
+        if (binding == null) return;
+
+        // 해제 처리
+        if (string.IsNullOrEmpty(itemId) || itemId == UnEquipToken || itemId == "-1")
+        {
+            renderer.sharedMesh = binding.BaseMesh;
+            return;
+        }
+
+        // 적용 처리
         var itemSO = ItemManager._Inst.GetCustomizeItem(type, itemId);
         if (itemSO == null)
         {
@@ -91,7 +105,7 @@ public class PlayerPreviewManager : MonoBehaviourPunCallbacks
             return;
         }
 
-        // 3) Mesh 교체
+        // Mesh 교체
         renderer.sharedMesh = itemSO.ItemMesh;
     }
 }
