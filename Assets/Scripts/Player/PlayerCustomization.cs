@@ -12,7 +12,8 @@ public class PlayerCustomization : MonoBehaviourPunCallbacks, IPunInstantiateMag
     public class SlotBinding
     {
         public ItemType Type;
-        public SkinnedMeshRenderer Renderer;
+        public SkinnedMeshRenderer MeshRenderer;
+        public Mesh BaseMesh;
     }
 
     [SerializeField] 
@@ -23,6 +24,7 @@ public class PlayerCustomization : MonoBehaviourPunCallbacks, IPunInstantiateMag
 
     // 프로퍼티 키 접두사
     private const string PropKeyPrefix = "Customize_";
+    private const string UnEquipToken  = "0";
 
     void Awake()
     {
@@ -31,7 +33,15 @@ public class PlayerCustomization : MonoBehaviourPunCallbacks, IPunInstantiateMag
         foreach (var binding in _SlotBindings)
         {
             if (!_RendererSlots.ContainsKey(binding.Type))
-                _RendererSlots.Add(binding.Type, binding.Renderer);
+            {
+                _RendererSlots.Add(binding.Type, binding.MeshRenderer);
+            }              
+                
+            // 기본 상태 캐싱
+            if (binding.MeshRenderer)
+            {
+                binding.BaseMesh = binding.MeshRenderer.sharedMesh;
+            }
         }
     }
 
@@ -67,6 +77,20 @@ public class PlayerCustomization : MonoBehaviourPunCallbacks, IPunInstantiateMag
         // 로컬 화면에 즉시 반영
         ApplyMesh(type, itemId);
     }
+
+    public void UnEquipItem(ItemType type)
+    {
+        if (!photonView.IsMine) return;
+
+        // 방 전체에 변경된 프로퍼티 전파
+        var props = new Hashtable { { PropKeyPrefix + (int)type, UnEquipToken} };
+        PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+
+        // 로컬 화면에 즉시 반영
+        ApplyMesh(type, UnEquipToken);
+    }
+
+
 
     /// <summary>
     /// 로컬 클라이언트가 룸에 입장했을 때 호출
@@ -121,14 +145,25 @@ public class PlayerCustomization : MonoBehaviourPunCallbacks, IPunInstantiateMag
     /// </summary>
     private void ApplyMesh(ItemType type, string itemId)
     {
-        // 1) 렌더러 조회
+        // 렌더러 조회
         if (!_RendererSlots.TryGetValue(type, out var renderer))
         {
             Debug.LogError($"Renderer가 없습니다: {type}");
             return;
         }
 
-        // 2) ItemManager에서 아이템 정보 조회
+        // 타입을 통해 객체 찾기
+        var binding = _SlotBindings.FirstOrDefault(b => b.Type == type);
+        if (binding == null) return;
+
+        // 해제 처리
+        if (string.IsNullOrEmpty(itemId) || itemId == UnEquipToken || itemId == "-1")
+        {
+            renderer.sharedMesh = binding.BaseMesh;
+            return;
+        }
+
+        // 적용 처리
         var itemSO = ItemManager._Inst.GetCustomizeItem(type, itemId);
         if (itemSO == null)
         {
@@ -136,7 +171,7 @@ public class PlayerCustomization : MonoBehaviourPunCallbacks, IPunInstantiateMag
             return;
         }
 
-        // 3) Mesh 교체
+        // Mesh 교체
         renderer.sharedMesh = itemSO.ItemMesh;
     }
 
