@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7f0ae721c1612d4e808179af0542ad9, type: 3}
   m_Name: Shoes_0
   m_EditorClassIdentifier: 
-  _Type: 9
+  _Type: 8
   _ID: Shoes_0
   _ItemMesh: {fileID: 4300000, guid: f1752cc23d4462943aaae7ef57aa0744, type: 2}
-  _Sprite: {fileID: 0}
+  _Sprite: {fileID: 21300000, guid: 53094eac116bf2d4ba216aecc4b42177, type: 3}
   _Price: 0
-  _IsDefaultUnlocked: 0
+  _IsDefaultUnlocked: 1

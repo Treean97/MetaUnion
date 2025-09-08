@@ -15,6 +15,6 @@ MonoBehaviour:
   _Type: 3
   _ID: Accessory_2
   _ItemMesh: {fileID: 4300000, guid: 02d4194e8697ff246a8bb6def9f572c4, type: 2}
-  _Sprite: {fileID: 0}
-  _Price: 0
+  _Sprite: {fileID: 21300000, guid: 11b5836bc480ed14496adf92a697a8d5, type: 3}
+  _Price: 500
   _IsDefaultUnlocked: 0

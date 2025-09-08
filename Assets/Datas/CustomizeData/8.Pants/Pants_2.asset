@@ -15,6 +15,6 @@ MonoBehaviour:
   _Type: 7
   _ID: Pants_2
   _ItemMesh: {fileID: 4300000, guid: ee79c2eff6bff38449d17e13494f6a97, type: 2}
-  _Sprite: {fileID: 0}
-  _Price: 0
+  _Sprite: {fileID: 21300000, guid: 906438b1e5145cd43bae395836b93de2, type: 3}
+  _Price: 1000
   _IsDefaultUnlocked: 0

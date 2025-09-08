@@ -15,5 +15,6 @@ MonoBehaviour:
   _Type: 1
   _ID: Hat_1
   _ItemMesh: {fileID: 4300000, guid: 8f611463ad6905c40b9ccf4af9b41d88, type: 2}
-  _Price: 100
+  _Sprite: {fileID: 21300000, guid: ac2eae979ec31b047b6da330b7ba895d, type: 3}
+  _Price: 500
   _IsDefaultUnlocked: 0
