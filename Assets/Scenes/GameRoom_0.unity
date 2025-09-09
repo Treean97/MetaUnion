@@ -12013,9 +12013,9 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2123420433}
+  - {fileID: 642206955}
   - {fileID: 1573520618}
   - {fileID: 358034133}
-  - {fileID: 642206955}
   m_Father: {fileID: 1979024864}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -28617,6 +28617,30 @@ PrefabInstance:
     - target: {fileID: 3143526148511657137, guid: 33e6b0ae90f06e845a47141de7df95d5, type: 3}
       propertyPath: sceneViewId
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3909106679452729567, guid: 33e6b0ae90f06e845a47141de7df95d5, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 92b389af5f125fa479898dee126c4b56, type: 3}
+    - target: {fileID: 3909106679452729567, guid: 33e6b0ae90f06e845a47141de7df95d5, type: 3}
+      propertyPath: m_Color.a
+      value: 0.8235294
+      objectReference: {fileID: 0}
+    - target: {fileID: 3909106679452729567, guid: 33e6b0ae90f06e845a47141de7df95d5, type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3909106679452729567, guid: 33e6b0ae90f06e845a47141de7df95d5, type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3909106679452729567, guid: 33e6b0ae90f06e845a47141de7df95d5, type: 3}
+      propertyPath: m_Color.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3909106679452729567, guid: 33e6b0ae90f06e845a47141de7df95d5, type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4524870493285047497, guid: 33e6b0ae90f06e845a47141de7df95d5, type: 3}
       propertyPath: m_IsActive
