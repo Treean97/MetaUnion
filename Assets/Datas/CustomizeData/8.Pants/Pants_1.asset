@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Pants_1
   m_EditorClassIdentifier: 
   _Type: 7
+  _Name: "\uB179\uC0C9 \uCE74\uACE0\uBC14\uC9C0"
   _ID: Pants_1
   _ItemMesh: {fileID: 4300000, guid: 4c2bb202da0323845844f1e5dc1b3a3a, type: 2}
   _Sprite: {fileID: 21300000, guid: c8ccaf3a17544314babab0963a6be678, type: 3}
