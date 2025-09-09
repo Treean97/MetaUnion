@@ -7,6 +7,8 @@ public class CustomizeItemSO : ScriptableObject
 {
     [SerializeField] ItemType _Type;
     public ItemType Type => _Type;
+    [SerializeField] string _Name;
+    public string Name => _Name;
     [SerializeField] string _ID;
     public string ID => _ID;
     [SerializeField] Mesh _ItemMesh;

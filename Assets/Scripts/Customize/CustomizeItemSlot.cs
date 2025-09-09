@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class CustomizeItemSlot : MonoBehaviour
 {
     [SerializeField] TMP_Text _Name;
+    [SerializeField] Image _Icon;
     [SerializeField] Button _Button;
     private TMP_Text _ButtonText;
     private CustomizeItemSO _ItemSO;
@@ -26,7 +27,8 @@ public class CustomizeItemSlot : MonoBehaviour
     public void Setup(CustomizeItemSO itemSO)
     {
         _ItemSO = itemSO;
-        _Name.text = itemSO.ID;
+        _Icon.sprite = itemSO.Sprite;
+        _Name.text = itemSO.Name;
     }
 
     private void OnClickButton()
