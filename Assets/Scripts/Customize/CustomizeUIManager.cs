@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
-using ExitGames.Client.Photon;
 using UnityEngine.UI;
 
 public class CustomizeUIManager : MonoBehaviour, ICustomizeUI
@@ -112,14 +111,33 @@ public class CustomizeUIManager : MonoBehaviour, ICustomizeUI
         Debug.Log("[CustomizeUI] HandleEquipItem: 실제 EquipItem 호출, ID=" + item.ID);
         var player = PlayerSetup._LocalPlayer.GetComponent<PlayerCustomization>();
 
-        // 현재 상태를 로컬 커스텀 프로퍼티로 판단해서 토글
-        if (IsEquippedByProps(item.Type, item.ID))
-            player.UnEquipItem(item.Type);   // 같은 거면 해제
-        else
-            player.EquipItem(item);          // 아니면 착용
-            
-        // 슬롯 UI 갱신
-        RefreshStatesOfCurrentCategory();
+
+        // 현재 상태를 기준으로 이번 클릭의 '의도 상태'를 계산
+        bool willEquip = !IsEquippedByProps(item.Type, item.ID);
+
+        // 실제 적용
+        if (willEquip) player.EquipItem(item);
+        else player.UnEquipItem(item.Type);
+
+        // ✅ 낙관적 UI 업데이트: 같은 타입 슬롯만 즉시 반영
+        foreach (Transform c in _Contents)
+        {
+            var slot = c.GetComponent<CustomizeItemSlot>();
+            if (!slot || slot.Type != item.Type) continue;
+
+            // 방금 누른 아이템만 '해제'로, 나머지는 '착용'으로
+            bool equipped = willEquip && slot.ID == item.ID;
+            slot.SetState(equipped);
+        }
+    
+        // // 현재 상태를 로컬 커스텀 프로퍼티로 판단해서 토글
+        // if (IsEquippedByProps(item.Type, item.ID))
+        //     player.UnEquipItem(item.Type);   // 같은 거면 해제
+        // else
+        //     player.EquipItem(item);          // 아니면 착용
+
+        // // 슬롯 UI 갱신
+        // RefreshStatesOfCurrentCategory();
     }
 
     private void RefreshStatesOfCurrentCategory()
