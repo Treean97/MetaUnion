@@ -51,7 +51,6 @@ public class PlayerStat : MonoBehaviour
 
     private void HandleApplyBuff(BuffDataSO buff, GameObject user)
     {
-
         var playerStat = user.GetComponent<PlayerStat>();
         buff.Effect.Apply(playerStat, buff);
     }
@@ -98,46 +97,41 @@ public class PlayerStat : MonoBehaviour
         return 0f;
     }
 
-    #region Potion Effect
+    // private void HandleMoveSpeedBuff(BuffValueType type, float value, float duration)
+    // {       
+    //     var mod1 = new StatModifier
+    //     {
+    //         Type = StatType.MoveSpeed,
+    //         AddValue = type == BuffValueType.Add ? value : 0,    
+    //         MulFactor = type == BuffValueType.Multiple ? value : 1,
+    //         Duration = duration
+    //     };
+    //     AddModifier(mod1);
 
-    private void HandleMoveSpeedBuff(BuffValueType type, float value, float duration)
-    {
-        
+    //     var mod2 = new StatModifier
+    //     {
+    //         Type = StatType.RunSpeed,
+    //         AddValue = type == BuffValueType.Add ? value : 0,    
+    //         MulFactor = type == BuffValueType.Multiple ? value : 1,
+    //         Duration = duration
+    //     };
+    //     AddModifier(mod2);
 
-        var mod1 = new StatModifier
-        {
-            Type = StatType.MoveSpeed,
-            AddValue = type == BuffValueType.Add ? value : 0,    
-            MulFactor = type == BuffValueType.Multiple ? value : 1,
-            Duration = duration
-        };
-        AddModifier(mod1);
+    //     Debug.Log($"Speed Up / {GetStat(StatType.MoveSpeed)}, {GetStat(StatType.RunSpeed)}");
+    // }
 
-        var mod2 = new StatModifier
-        {
-            Type = StatType.RunSpeed,
-            AddValue = type == BuffValueType.Add ? value : 0,    
-            MulFactor = type == BuffValueType.Multiple ? value : 1,
-            Duration = duration
-        };
-        AddModifier(mod2);
+    // private void HandleJumpBoostBuff(BuffValueType type, float value, float duration)
+    // {
+    //     var mod = new StatModifier
+    //     {
+    //         Type = StatType.JumpPower,
+    //         AddValue = type == BuffValueType.Add ? value : 0,    
+    //         MulFactor = type == BuffValueType.Multiple ? value : 1,
+    //         Duration = duration
+    //     };
+    //     AddModifier(mod);
 
-        Debug.Log($"Speed Up / {GetStat(StatType.MoveSpeed)}, {GetStat(StatType.RunSpeed)}");
-    }
-
-    private void HandleJumpBoostBuff(BuffValueType type, float value, float duration)
-    {
-        var mod = new StatModifier
-        {
-            Type = StatType.JumpPower,
-            AddValue = type == BuffValueType.Add ? value : 0,    
-            MulFactor = type == BuffValueType.Multiple ? value : 1,
-            Duration = duration
-        };
-        AddModifier(mod);
-
-        Debug.Log($"Jump Boost / {GetStat(StatType.JumpPower)}");
-    }
+    //     Debug.Log($"Jump Boost / {GetStat(StatType.JumpPower)}");
+    // }
     
-    #endregion
 }

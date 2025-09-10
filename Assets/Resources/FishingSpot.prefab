@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2719660440013812847}
   - component: {fileID: 8795031155993772738}
   - component: {fileID: 6128385395550500622}
-  m_Layer: 4
+  m_Layer: 0
   m_Name: 'Water '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -171,7 +171,6 @@ GameObject:
   - component: {fileID: 3524892465200338842}
   - component: {fileID: 5871963350567841700}
   - component: {fileID: 846738235153214037}
-  - component: {fileID: 8572379021390163064}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -564,26 +563,4 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8974955629163545760}
-  m_Mesh: {fileID: 0}
---- !u!64 &8572379021390163064
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8974955629163545760}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
   m_Mesh: {fileID: 0}

@@ -37,8 +37,6 @@ public static class CursorManager
     private static void Apply()
     {
         bool show = _IsShown;
-        // UI 활성 중엔 수동 토글 무시
-        if (_LastShown == show) return;
         _LastShown = show;
 
         Cursor.visible   = show;

@@ -100,6 +100,8 @@ namespace Controller
         {
             if (!_PhotonView.IsMine) return;
 
+            Debug.Log($"Isjump : {m_IsJump}");
+
             m_Movement.Move(Time.deltaTime, in m_Axis, in m_Target, m_IsRun, m_IsJump, m_IsMoving, out var animAxis, out var isAir);
             m_Animation.Animate(in animAxis, m_IsRun ? 1f : 0f, isAir, Time.deltaTime);
         }
@@ -155,8 +157,9 @@ namespace Controller
             private float m_jumpTimer;
             private readonly Transform m_GroundCheck;
             private readonly float m_CheckRadius;
-            private readonly float m_IgnoreGroundTime = 0.1f;
+            private readonly float m_IgnoreGroundTime = 0.2f;
             private float m_IgnoreTimer;
+            // private Vector3 m_Velocity;
 
             public MovementHandler(CharacterController controller, Transform transform, float walkSpeed, float runSpeed, float rotateSpeed, float jumpHeight, Space space, Transform groundCheck, float checkRadius)
             {
@@ -214,30 +217,41 @@ namespace Controller
             {
                 m_jumpTimer = Mathf.Max(m_jumpTimer - deltaTime, 0f);
                 if (m_IgnoreTimer > 0f) m_IgnoreTimer -= deltaTime;
+                // m_Velocity += Physics.gravity * deltaTime;
+
+                var g = Physics.gravity;  
+                var up = -g.normalized;  
 
                 if (IsGrounded())
                 {
                     if (isJump && m_jumpTimer <= 0f)
                     {
-                        var gravity = Physics.gravity;
-                        var mag = gravity.magnitude;
-                        m_GravityAcceleration += -(gravity / mag) * Mathf.Sqrt(m_JumpHeight * 6f * mag);
-                        m_jumpTimer = m_JumpReload;
-                        m_IgnoreTimer = m_IgnoreGroundTime;
+                        // v0 = sqrt(2 * g * h)
+                        float v0   = Mathf.Sqrt(2f * g.magnitude * m_JumpHeight);
+
+                        // 현재 세로속도를 v0로 '설정'(덮어쓰기)
+                        float curVy = Vector3.Dot(m_GravityAcceleration, up);
+                        m_GravityAcceleration += (v0 - curVy) * up;
+
+                        m_jumpTimer   = m_JumpReload;      // 중복 점프 방지(원하면 더 낮춰도 됨)
+                        m_IgnoreTimer = m_IgnoreGroundTime; // 이 시간 동안은 접지 무시
                         isAir = true;
                         return;
                     }
+
                     if (m_IgnoreTimer > 0f)
                     {
                         isAir = true;
                         return;
                     }
-                    m_GravityAcceleration = Physics.gravity;
+
+                    m_GravityAcceleration = g;
                     isAir = false;
                     return;
                 }
+
                 isAir = true;
-                m_GravityAcceleration += Physics.gravity * deltaTime;
+                m_GravityAcceleration += g * deltaTime;
             }
 
             private bool IsGrounded()

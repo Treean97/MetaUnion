@@ -27,20 +27,24 @@ public class FocusHandler : MonoBehaviourPun
     {
         if (!photonView.IsMine) return;
 
-        Vector3 boxCenter = transform.position + transform.forward * _Distance * 0.5f + transform.up * _YOffset;
-        Quaternion orientation = transform.rotation;
+        Vector3 boxCenter = transform.position 
+                    + transform.forward * (_Distance * 0.5f) 
+                    + transform.up * _YOffset;
 
-        Collider[] hits = Physics.OverlapBox(boxCenter, _BoxHalfExtents, orientation, _LayerMask);
+        Quaternion orientation = transform.rotation;
+        Vector3 half = new Vector3(_BoxHalfExtents.x, _BoxHalfExtents.y, Mathf.Max(_BoxHalfExtents.z, _Distance * 0.5f));
+
+        Collider[] hits = Physics.OverlapBox(boxCenter, half, orientation, _LayerMask);
 
         IFocusable closestFocusable = null;
-        float closestDistance = _Distance;
+        float closestDistance = float.PositiveInfinity;
 
         foreach (var collider in hits)
         {
             var focusable = collider.GetComponent<IFocusable>();
             if (focusable != null)
             {
-                float dist = Vector3.Distance(transform.position, collider.transform.position);
+                float dist = Vector3.Distance(transform.position, collider.ClosestPoint(transform.position));
                 if (dist < closestDistance)
                 {
                     closestFocusable = focusable;
@@ -73,10 +77,15 @@ public class FocusHandler : MonoBehaviourPun
 
     private void OnDrawGizmosSelected()
     {
-        // 사각형 시야 시각화
         Gizmos.color = Color.cyan;
-        Vector3 boxCenter = transform.position + transform.forward * _Distance * 0.5f + transform.up * _YOffset;
-        Gizmos.matrix = Matrix4x4.TRS(boxCenter, transform.rotation, Vector3.one);
-        Gizmos.DrawWireCube(Vector3.zero, _BoxHalfExtents * 2f);
+        Vector3 boxCenter = transform.position
+                        + transform.forward * (_Distance * 0.5f)
+                        + transform.up * _YOffset;
+        Quaternion orientation = transform.rotation;
+        Vector3 half = new Vector3(_BoxHalfExtents.x, _BoxHalfExtents.y,
+                                Mathf.Max(_BoxHalfExtents.z, _Distance * 0.5f));
+
+        Gizmos.matrix = Matrix4x4.TRS(boxCenter, orientation, Vector3.one);
+        Gizmos.DrawWireCube(Vector3.zero, half * 2f);
     }
 }

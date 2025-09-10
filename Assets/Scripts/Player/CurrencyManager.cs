@@ -73,12 +73,6 @@ public class CurrencyManager : MonoBehaviour
             return false;
         }
 
-        if (_Currencies[id] < amount)
-        {
-            GameEvents.RaiseShowWarning($"{id}가 부족합니다!");
-            return false;
-        }
-
         _Currencies[id] -= amount;
         GameEvents.RaiseRequestUpdateCurrency(id, _Currencies[id]);
         Debug.Log($"Spend : {_Currencies[id]}");

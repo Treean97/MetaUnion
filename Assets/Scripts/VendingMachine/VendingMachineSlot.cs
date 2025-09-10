@@ -34,6 +34,6 @@ IPointerEnterHandler, IPointerExitHandler
 
     void OnClickSlot()
     {
-        UIRouter._Inst.Open<ISetAmountUI>(ui => ui.SetUI(QuantityMode.Sell, _ItemDataSO));
+        UIRouter._Inst.Open<ISetAmountUI>(ui => ui.SetUI(QuantityMode.Buy, _ItemDataSO));
     }
 }
