@@ -96,15 +96,39 @@ namespace Controller
         }
 
 
+        private bool m_IsJumpingAnim; // 점프 애니메이션 상태를 위한 변수
+
         private void Update()
         {
             if (!_PhotonView.IsMine) return;
 
-            Debug.Log($"Isjump : {m_IsJump}");
+            bool jumpInput = m_IsJump;
+            m_IsJump = false; // 매 프레임 초기화
 
-            m_Movement.Move(Time.deltaTime, in m_Axis, in m_Target, m_IsRun, m_IsJump, m_IsMoving, out var animAxis, out var isAir);
-            m_Animation.Animate(in animAxis, m_IsRun ? 1f : 0f, isAir, Time.deltaTime);
+            // MovementHandler.Move 호출
+            m_Movement.Move(Time.deltaTime, in m_Axis, in m_Target, m_IsRun, jumpInput, m_IsMoving, out var animAxis);
+
+            // 점프 애니메이션 상태 관리
+            // 땅에 있을 때 점프 입력이 들어오면 점프 애니메이션 상태를 true로 설정
+            if (m_Controller.isGrounded && jumpInput)
+            {
+                m_IsJumpingAnim = true;
+            }
+            // 공중에 있을 때 점프 애니메이션 상태 유지
+            else if (!m_Controller.isGrounded)
+            {
+                m_IsJumpingAnim = true;
+            }
+            // 땅에 착지했을 때 점프 애니메이션 상태를 false로 리셋
+            else if (m_Controller.isGrounded)
+            {
+                m_IsJumpingAnim = false;
+            }
+
+            // AnimationHandler에 애니메이션 상태 전달
+            m_Animation.Animate(in animAxis, m_IsRun ? 1f : 0f, m_IsJumpingAnim, Time.deltaTime);
         }
+
 
         private void OnAnimatorIK()
         {
@@ -116,10 +140,13 @@ namespace Controller
             m_Axis = axis;
             m_Target = target;
             m_IsRun = isRun;
-            m_IsJump = isJump;
             m_IsMoving = m_Axis.sqrMagnitude >= Mathf.Epsilon;
             if (!m_IsMoving) m_Axis = Vector2.zero;
             else m_Axis = Vector2.ClampMagnitude(m_Axis, 1f);
+            
+            // 점프 입력이 들어왔을 때만 m_IsJump를 true로 설정
+            if (isJump)
+                m_IsJump = true;
         }
 
         private void OnControllerColliderHit(ControllerColliderHit hit)
@@ -149,17 +176,12 @@ namespace Controller
             private float m_WalkSpeed, m_RunSpeed, m_RotateSpeed, m_JumpHeight;
             private Space m_Space;
             private readonly float m_Luft = 75f;
-            private readonly float m_JumpReload = 1f;
             private float m_TargetAngle;
             private bool m_IsRotating;
             private Vector3 m_Normal;
-            private Vector3 m_GravityAcceleration = Physics.gravity;
-            private float m_jumpTimer;
-            private readonly Transform m_GroundCheck;
-            private readonly float m_CheckRadius;
-            private readonly float m_IgnoreGroundTime = 0.2f;
-            private float m_IgnoreTimer;
-            // private Vector3 m_Velocity;
+            
+            // 중력 적용에 사용할 수직 속도 변수 추가
+            private Vector3 m_VerticalVelocity;
 
             public MovementHandler(CharacterController controller, Transform transform, float walkSpeed, float runSpeed, float rotateSpeed, float jumpHeight, Space space, Transform groundCheck, float checkRadius)
             {
@@ -170,8 +192,6 @@ namespace Controller
                 m_RotateSpeed = rotateSpeed;
                 m_JumpHeight = jumpHeight;
                 m_Space = space;
-                m_GroundCheck = groundCheck;
-                m_CheckRadius = checkRadius;
             }
 
             public void SetStats(float walkSpeed, float runSpeed, float rotateSpeed, float jumpHeight, Space space)
@@ -185,15 +205,23 @@ namespace Controller
 
             public void SetSurface(in Vector3 normal) => m_Normal = normal;
 
-            public void Move(float deltaTime, in Vector2 axis, in Vector3 target, bool isRun, bool isJump, bool isMoving, out Vector2 animAxis, out bool isAir)
+            // MovementHandler 클래스
+            public void Move(float deltaTime, in Vector2 axis, in Vector3 target, bool isRun, bool isJump, bool isMoving, out Vector2 animAxis)
             {
+                CaculateGravity(isJump, deltaTime); // isAir 파라미터 제거
+
+                // 수평 이동 속도 계산...
                 var targetForward = (target - m_Transform.position).normalized;
-                ConvertMovement(in axis, in targetForward, out var movement);
-                CaculateGravity(isJump, deltaTime, out isAir);
-                Displace(deltaTime, in movement, isRun);
+                ConvertMovement(in axis, in targetForward, out var horizontalMovement);
+
+                // 수평 및 수직 속도 합산
+                var displacement = (isRun ? m_RunSpeed : m_WalkSpeed) * horizontalMovement + m_VerticalVelocity;
+                Displace(deltaTime, in displacement);
+
+                // 회전 및 애니메이션...
                 Turn(in targetForward, isMoving);
                 UpdateRotation(deltaTime);
-                GenAnimationAxis(in movement, out animAxis);
+                GenAnimationAxis(in horizontalMovement, out animAxis);
             }
 
             private void ConvertMovement(in Vector2 axis, in Vector3 targetForward, out Vector3 movement)
@@ -207,58 +235,34 @@ namespace Controller
                 movement = Vector3.ProjectOnPlane(axis.x * right + axis.y * forward, m_Normal);
             }
 
-            private void Displace(float deltaTime, in Vector3 movement, bool isRun)
+            private void Displace(float deltaTime, in Vector3 displacement)
             {
-                var displacement = (isRun ? m_RunSpeed : m_WalkSpeed) * movement + m_GravityAcceleration;
                 m_Controller.Move(displacement * deltaTime);
             }
 
-            private void CaculateGravity(bool isJump, float deltaTime, out bool isAir)
+            private void CaculateGravity(bool isJump, float deltaTime)
             {
-                m_jumpTimer = Mathf.Max(m_jumpTimer - deltaTime, 0f);
-                if (m_IgnoreTimer > 0f) m_IgnoreTimer -= deltaTime;
-                // m_Velocity += Physics.gravity * deltaTime;
-
-                var g = Physics.gravity;  
-                var up = -g.normalized;  
-
-                if (IsGrounded())
+                if (m_Controller.isGrounded)
                 {
-                    if (isJump && m_jumpTimer <= 0f)
+                    if (isJump)
                     {
-                        // v0 = sqrt(2 * g * h)
-                        float v0   = Mathf.Sqrt(2f * g.magnitude * m_JumpHeight);
-
-                        // 현재 세로속도를 v0로 '설정'(덮어쓰기)
-                        float curVy = Vector3.Dot(m_GravityAcceleration, up);
-                        m_GravityAcceleration += (v0 - curVy) * up;
-
-                        m_jumpTimer   = m_JumpReload;      // 중복 점프 방지(원하면 더 낮춰도 됨)
-                        m_IgnoreTimer = m_IgnoreGroundTime; // 이 시간 동안은 접지 무시
-                        isAir = true;
-                        return;
+                        float v0 = Mathf.Sqrt(2f * Physics.gravity.magnitude * m_JumpHeight);
+                        m_VerticalVelocity.y = v0;
                     }
-
-                    if (m_IgnoreTimer > 0f)
+                    else
                     {
-                        isAir = true;
-                        return;
+                        m_VerticalVelocity.y = -2f;
                     }
-
-                    m_GravityAcceleration = g;
-                    isAir = false;
-                    return;
                 }
-
-                isAir = true;
-                m_GravityAcceleration += g * deltaTime;
+                else
+                {
+                    m_VerticalVelocity.y += Physics.gravity.y * deltaTime;
+                }
             }
 
-            private bool IsGrounded()
-            {
-                if (m_IgnoreTimer > 0f) return false;
-                return Physics.CheckSphere(m_GroundCheck.position, m_CheckRadius/*, LayerMask.GetMask("Ground")*/);
-            }
+            
+            // 기존 IsGrounded() 메서드는 삭제 또는 비활성화
+            // CharacterController의 isGrounded 속성을 사용하도록 변경
 
             private void GenAnimationAxis(in Vector3 movement, out Vector2 animAxis)
             {
@@ -328,15 +332,19 @@ namespace Controller
                 m_JumpID = jumpID;
             }
 
-            public void Animate(in Vector2 axis, float state, bool isJump, float deltaTime)
+            public void Animate(in Vector2 axis, float state, bool isJumping, float deltaTime)
             {
                 m_Animator.SetFloat(m_HorizontalID, m_FlowAxis.x);
                 m_Animator.SetFloat(m_VerticalID, m_FlowAxis.y);
                 m_Animator.SetFloat(m_StateID, Mathf.Clamp01(m_FlowState));
-                m_Animator.SetBool(m_JumpID, isJump);
+
+                // isAir 대신 isJumping 변수를 사용
+                m_Animator.SetBool(m_JumpID, isJumping);
+
                 m_FlowAxis = Vector2.ClampMagnitude(m_FlowAxis + k_InputFlow * deltaTime * (axis - m_FlowAxis).normalized, 1f);
                 m_FlowState = Mathf.Clamp01(m_FlowState + k_InputFlow * deltaTime * Math.Sign(state - m_FlowState));
             }
+
 
             public void AnimateIK(in Vector3 target, in LookWeight lookWeight)
             {
