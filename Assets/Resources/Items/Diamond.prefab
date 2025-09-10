@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 6569965968364332562}
   - component: {fileID: 4709068455716555622}
   - component: {fileID: -7561832654959144257}
+  - component: {fileID: 449478768320480530}
   m_Layer: 0
   m_Name: Diamond
   m_TagString: Untagged
@@ -152,7 +153,8 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: -7561832654959144257}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -172,3 +174,24 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
+--- !u!65 &449478768320480530
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3276915121264919138}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.65, y: 0.65, z: 0.65}
+  m_Center: {x: 0, y: -0.046428576, z: 0}
