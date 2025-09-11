@@ -22,7 +22,8 @@ namespace Controller
         [SerializeField] private string m_HorizontalID = "Hor";
         [SerializeField] private string m_VerticalID = "Vert";
         [SerializeField] private string m_StateID = "State";
-        [SerializeField] private string m_JumpID = "IsJump";
+        [SerializeField] private string m_JumpTriggerID = "JumpTrigger";
+        [SerializeField] private string m_IsGroundedID = "IsGrounded";
         [SerializeField] private LookWeight m_LookWeight = new LookWeight(1f, 0.3f, 0.7f, 1f);
 
         [SerializeField] private Transform m_GroundCheck;
@@ -62,8 +63,8 @@ namespace Controller
             _PhotonView = GetComponent<PhotonView>();
 
             // 핸들러 초기화
-            m_Movement = new MovementHandler(m_Controller, m_Transform, m_WalkSpeed, m_RunSpeed, m_RotateSpeed, m_JumpHeight, m_Space, m_GroundCheck, m_CheckRadius);
-            m_Animation = new AnimationHandler(m_Animator, m_HorizontalID, m_VerticalID, m_StateID, m_JumpID);
+            m_Movement = new MovementHandler(m_Controller, m_Transform, m_WalkSpeed, m_RunSpeed, m_RotateSpeed, m_JumpHeight, m_Space);
+            m_Animation = new AnimationHandler(m_Animator, m_HorizontalID, m_VerticalID, m_StateID, m_JumpTriggerID, m_IsGroundedID);
 
             PlayerStat.OnStatChanged += HandleStatChanged;
         }
@@ -96,39 +97,22 @@ namespace Controller
         }
 
 
-        private bool m_IsJumpingAnim; // 점프 애니메이션 상태를 위한 변수
-
         private void Update()
         {
             if (!_PhotonView.IsMine) return;
 
             bool jumpInput = m_IsJump;
-            m_IsJump = false; // 매 프레임 초기화
+            m_IsJump = false; // 점프 입력 초기화            
 
-            // MovementHandler.Move 호출
-            m_Movement.Move(Time.deltaTime, in m_Axis, in m_Target, m_IsRun, jumpInput, m_IsMoving, out var animAxis);
-
-            // 점프 애니메이션 상태 관리
-            // 땅에 있을 때 점프 입력이 들어오면 점프 애니메이션 상태를 true로 설정
+            // 변경된 애니메이션 로직
             if (m_Controller.isGrounded && jumpInput)
             {
-                m_IsJumpingAnim = true;
+                m_Animation.SetJumpTrigger();
             }
-            // 공중에 있을 때 점프 애니메이션 상태 유지
-            else if (!m_Controller.isGrounded)
-            {
-                m_IsJumpingAnim = true;
-            }
-            // 땅에 착지했을 때 점프 애니메이션 상태를 false로 리셋
-            else if (m_Controller.isGrounded)
-            {
-                m_IsJumpingAnim = false;
-            }
-
-            // AnimationHandler에 애니메이션 상태 전달
-            m_Animation.Animate(in animAxis, m_IsRun ? 1f : 0f, m_IsJumpingAnim, Time.deltaTime);
+            
+            m_Movement.Move(Time.deltaTime, in m_Axis, in m_Target, m_IsRun, jumpInput, m_IsMoving, out var animAxis);
+            m_Animation.Animate(in animAxis, m_IsRun ? 1f : 0f, Time.deltaTime, m_Controller.isGrounded);
         }
-
 
         private void OnAnimatorIK()
         {
@@ -183,7 +167,7 @@ namespace Controller
             // 중력 적용에 사용할 수직 속도 변수 추가
             private Vector3 m_VerticalVelocity;
 
-            public MovementHandler(CharacterController controller, Transform transform, float walkSpeed, float runSpeed, float rotateSpeed, float jumpHeight, Space space, Transform groundCheck, float checkRadius)
+            public MovementHandler(CharacterController controller, Transform transform, float walkSpeed, float runSpeed, float rotateSpeed, float jumpHeight, Space space)
             {
                 m_Controller = controller;
                 m_Transform = transform;
@@ -260,10 +244,6 @@ namespace Controller
                 }
             }
 
-            
-            // 기존 IsGrounded() 메서드는 삭제 또는 비활성화
-            // CharacterController의 isGrounded 속성을 사용하도록 변경
-
             private void GenAnimationAxis(in Vector3 movement, out Vector2 animAxis)
             {
                 if (m_Space == Space.Self)
@@ -318,33 +298,42 @@ namespace Controller
             private readonly string m_HorizontalID;
             private readonly string m_VerticalID;
             private readonly string m_StateID;
-            private readonly string m_JumpID;
+            private readonly string m_JumpTriggerID;
+            private readonly string m_IsGroundedID;
             private readonly float k_InputFlow = 4.5f;
             private float m_FlowState;
             private Vector2 m_FlowAxis;
 
-            public AnimationHandler(Animator animator, string horizontalID, string verticalID, string stateID, string jumpID)
+            public AnimationHandler(Animator animator, string horizontalID, string verticalID, string stateID, string jumpTriggerID, string isGroundedID)
             {
                 m_Animator = animator;
                 m_HorizontalID = horizontalID;
                 m_VerticalID = verticalID;
                 m_StateID = stateID;
-                m_JumpID = jumpID;
+                m_JumpTriggerID = jumpTriggerID;
+                m_IsGroundedID = isGroundedID;
             }
 
-            public void Animate(in Vector2 axis, float state, bool isJumping, float deltaTime)
+            public void Animate(in Vector2 axis, float state, float deltaTime, bool isGrounded)
             {
                 m_Animator.SetFloat(m_HorizontalID, m_FlowAxis.x);
                 m_Animator.SetFloat(m_VerticalID, m_FlowAxis.y);
                 m_Animator.SetFloat(m_StateID, Mathf.Clamp01(m_FlowState));
 
-                // isAir 대신 isJumping 변수를 사용
-                m_Animator.SetBool(m_JumpID, isJumping);
+                m_Animator.SetBool(m_IsGroundedID, isGrounded);
 
                 m_FlowAxis = Vector2.ClampMagnitude(m_FlowAxis + k_InputFlow * deltaTime * (axis - m_FlowAxis).normalized, 1f);
                 m_FlowState = Mathf.Clamp01(m_FlowState + k_InputFlow * deltaTime * Math.Sign(state - m_FlowState));
             }
 
+            // 추가: JumpTrigger를 호출하는 메서드
+            public void SetJumpTrigger()
+            {
+                if (m_Animator.gameObject.GetComponent<PhotonView>().IsMine)
+                {
+                    m_Animator.SetTrigger(m_JumpTriggerID);
+                }
+            }
 
             public void AnimateIK(in Vector3 target, in LookWeight lookWeight)
             {

@@ -2104,7 +2104,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: fac54571ff27f2b46b28cd6d82cd3c4c, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_AnimatePhysics: 0
@@ -2212,7 +2212,8 @@ MonoBehaviour:
   m_HorizontalID: Hor
   m_VerticalID: Vert
   m_StateID: State
-  m_JumpID: IsJump
+  m_JumpTriggerID: JumpTrigger
+  m_IsGroundedID: IsGrounded
   m_LookWeight:
     weight: 1
     body: 0.3
@@ -2514,6 +2515,12 @@ MonoBehaviour:
   - Type: 9
     SynchronizeType: 1
     Name: ItemPickUp
+  - Type: 9
+    SynchronizeType: 1
+    Name: JumpTrigger
+  - Type: 4
+    SynchronizeType: 1
+    Name: IsGrounded
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0
