@@ -16,7 +16,7 @@ namespace Controller
         [SerializeField, Range(0f, 360f)] private float m_RotateSpeed = 90f;
         [SerializeField] private Space m_Space = Space.Self;
         [SerializeField] private float m_JumpHeight;
-        [SerializeField] PlayerStat _PlayerStat;
+        [SerializeField] private PlayerStat _PlayerStat;
 
         [Header("Animator")]
         [SerializeField] private string m_HorizontalID = "Hor";
@@ -26,8 +26,10 @@ namespace Controller
         [SerializeField] private string m_IsGroundedID = "IsGrounded";
         [SerializeField] private LookWeight m_LookWeight = new LookWeight(1f, 0.3f, 0.7f, 1f);
 
-        [SerializeField] private Transform m_GroundCheck;
-        [SerializeField] private float m_CheckRadius = 0.2f;
+        // Raycast를 위한 변수
+        [Header("Ground Check")]
+        [SerializeField] private Transform m_FootTransform;
+        [SerializeField] private float m_LandingCheckDistance = 0.5f;
 
         private Transform m_Transform;
         private CharacterController m_Controller;
@@ -43,6 +45,9 @@ namespace Controller
         private bool m_IsJump;
         private bool m_IsMoving;
 
+        private bool m_IsFalling;
+        private bool m_LandingTriggered = false;
+
         public Vector2 Axis => m_Axis;
         public Vector3 Target => m_Target;
         public bool IsRun => m_IsRun;
@@ -56,13 +61,11 @@ namespace Controller
 
         private void Awake()
         {
-            // 컴포넌트 초기화
             m_Transform = transform;
             m_Controller = GetComponent<CharacterController>();
             m_Animator = GetComponent<Animator>();
             _PhotonView = GetComponent<PhotonView>();
 
-            // 핸들러 초기화
             m_Movement = new MovementHandler(m_Controller, m_Transform, m_WalkSpeed, m_RunSpeed, m_RotateSpeed, m_JumpHeight, m_Space);
             m_Animation = new AnimationHandler(m_Animator, m_HorizontalID, m_VerticalID, m_StateID, m_JumpTriggerID, m_IsGroundedID);
 
@@ -81,11 +84,9 @@ namespace Controller
 
         private void HandleStatChanged(StatType type, float newValue)
         {
-            // MoveSpeed, RunSpeed, JumpPower가 바뀌었을 때만 재세팅
             if (type == StatType.MoveSpeed || type == StatType.RunSpeed || type == StatType.JumpPower)
                 UpdateMovementStats();
         }
-    
 
         private void UpdateMovementStats()
         {
@@ -96,23 +97,56 @@ namespace Controller
             m_Movement.SetStats(walk, run, m_RotateSpeed, jump, m_Space);
         }
 
-
         private void Update()
         {
             if (!_PhotonView.IsMine) return;
 
             bool jumpInput = m_IsJump;
-            m_IsJump = false; // 점프 입력 초기화            
+            m_IsJump = false;
 
-            // 변경된 애니메이션 로직
-            if (m_Controller.isGrounded && jumpInput)
+            // IsGrounded 상태와 애니메이션 컨트롤은 계속해서 동기화
+            m_Animation.Animate(in m_Axis, m_IsRun ? 1f : 0f, Time.deltaTime, m_Controller.isGrounded);
+
+            // 수정: 점프 로직은 CharacterController.isGrounded에 의존
+            if (m_Controller.isGrounded)
             {
-                m_Animation.SetJumpTrigger();
+                Debug.Log("땅에 닿았음");
+                m_IsFalling = false;
+                m_LandingTriggered = false; // 착지 후 트리거 상태 초기화
+                m_Animation.SetJumpEnd(false);
+
+                if (jumpInput)
+                {
+                    m_Animation.SetJumpTrigger();
+                }
             }
-            
-            m_Movement.Move(Time.deltaTime, in m_Axis, in m_Target, m_IsRun, jumpInput, m_IsMoving, out var animAxis);
-            m_Animation.Animate(in animAxis, m_IsRun ? 1f : 0f, Time.deltaTime, m_Controller.isGrounded);
+            else // 공중에 있을 때
+            {
+                // Y축 속도가 음수일 때 낙하 시작으로 판단
+                if (m_Movement.VerticalVelocity.y < 0)
+                {
+                    Debug.Log("낙하 중");
+                    m_IsFalling = true;
+                }
+
+                // 낙하 중이며, 착지 애니메이션이 아직 발동되지 않았을 때
+                if (m_IsFalling && !m_LandingTriggered)
+                {
+                    RaycastHit hit;
+
+                    // 수정: 레이어 마스크를 제거한 Raycast
+                    if (Physics.Raycast(m_FootTransform.position, Vector3.down, out hit, m_LandingCheckDistance))
+                    {
+                        Debug.Log("착지 애니메이션 시작 IsJumpEnd: true");
+                        m_Animation.SetJumpEnd(true);
+                        m_LandingTriggered = true;
+                    }
+                }
+            }
+
+            m_Movement.Move(Time.deltaTime, in m_Axis, in m_Target, m_IsRun, jumpInput, m_IsMoving, m_Controller.isGrounded, out var animAxis);
         }
+
 
         private void OnAnimatorIK()
         {
@@ -128,7 +162,6 @@ namespace Controller
             if (!m_IsMoving) m_Axis = Vector2.zero;
             else m_Axis = Vector2.ClampMagnitude(m_Axis, 1f);
             
-            // 점프 입력이 들어왔을 때만 m_IsJump를 true로 설정
             if (isJump)
                 m_IsJump = true;
         }
@@ -164,8 +197,9 @@ namespace Controller
             private bool m_IsRotating;
             private Vector3 m_Normal;
             
-            // 중력 적용에 사용할 수직 속도 변수 추가
             private Vector3 m_VerticalVelocity;
+
+            public Vector3 VerticalVelocity => m_VerticalVelocity;
 
             public MovementHandler(CharacterController controller, Transform transform, float walkSpeed, float runSpeed, float rotateSpeed, float jumpHeight, Space space)
             {
@@ -189,20 +223,16 @@ namespace Controller
 
             public void SetSurface(in Vector3 normal) => m_Normal = normal;
 
-            // MovementHandler 클래스
-            public void Move(float deltaTime, in Vector2 axis, in Vector3 target, bool isRun, bool isJump, bool isMoving, out Vector2 animAxis)
+            public void Move(float deltaTime, in Vector2 axis, in Vector3 target, bool isRun, bool isJump, bool isMoving, bool isGrounded, out Vector2 animAxis)
             {
-                CaculateGravity(isJump, deltaTime); // isAir 파라미터 제거
+                CalculateGravity(isGrounded, isJump, deltaTime);
 
-                // 수평 이동 속도 계산...
                 var targetForward = (target - m_Transform.position).normalized;
                 ConvertMovement(in axis, in targetForward, out var horizontalMovement);
 
-                // 수평 및 수직 속도 합산
                 var displacement = (isRun ? m_RunSpeed : m_WalkSpeed) * horizontalMovement + m_VerticalVelocity;
                 Displace(deltaTime, in displacement);
 
-                // 회전 및 애니메이션...
                 Turn(in targetForward, isMoving);
                 UpdateRotation(deltaTime);
                 GenAnimationAxis(in horizontalMovement, out animAxis);
@@ -224,9 +254,9 @@ namespace Controller
                 m_Controller.Move(displacement * deltaTime);
             }
 
-            private void CaculateGravity(bool isJump, float deltaTime)
+            private void CalculateGravity(bool isGrounded, bool isJump, float deltaTime)
             {
-                if (m_Controller.isGrounded)
+                if (isGrounded)
                 {
                     if (isJump)
                     {
@@ -303,6 +333,8 @@ namespace Controller
             private readonly float k_InputFlow = 4.5f;
             private float m_FlowState;
             private Vector2 m_FlowAxis;
+            
+            private string m_IsJumpEndID = "IsJumpEnd";
 
             public AnimationHandler(Animator animator, string horizontalID, string verticalID, string stateID, string jumpTriggerID, string isGroundedID)
             {
@@ -326,12 +358,19 @@ namespace Controller
                 m_FlowState = Mathf.Clamp01(m_FlowState + k_InputFlow * deltaTime * Math.Sign(state - m_FlowState));
             }
 
-            // 추가: JumpTrigger를 호출하는 메서드
             public void SetJumpTrigger()
             {
                 if (m_Animator.gameObject.GetComponent<PhotonView>().IsMine)
                 {
                     m_Animator.SetTrigger(m_JumpTriggerID);
+                }
+            }
+
+            public void SetJumpEnd(bool value)
+            {
+                if (m_Animator.gameObject.GetComponent<PhotonView>().IsMine)
+                {
+                    m_Animator.SetBool(m_IsJumpEndID, value);
                 }
             }
 

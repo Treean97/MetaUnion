@@ -2219,8 +2219,8 @@ MonoBehaviour:
     body: 0.3
     head: 0.7
     eyes: 1
-  m_GroundCheck: {fileID: 5386546022030283373}
-  m_CheckRadius: 0.2
+  m_FootTransform: {fileID: 5386546022030283373}
+  m_LandingCheckDistance: 0.5
 --- !u!114 &5568501472016897232
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2521,6 +2521,9 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 1
     Name: IsGrounded
+  - Type: 4
+    SynchronizeType: 0
+    Name: IsJumpEnd
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0
