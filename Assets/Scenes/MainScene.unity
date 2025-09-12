@@ -1643,7 +1643,7 @@ GameObject:
   - component: {fileID: 520027588}
   - component: {fileID: 520027591}
   m_Layer: 5
-  m_Name: RefreshBtn
+  m_Name: RefreshButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3538,9 +3538,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _RoomListContent: {fileID: 1751237088}
   _RoomItemPrefab: {fileID: 1703021038477366072, guid: 34bb9be67ee592f43b1971a7e36768db, type: 3}
-  _JoinRoomBtn: {fileID: 1187352996}
+  _JoinRoomButton: {fileID: 1187352996}
   _CreateRoomUI: {fileID: 2103205357}
-  _CreateRoomBtn: {fileID: 2117915620}
+  _CreateRoomButton: {fileID: 2117915620}
   _CloseBtn: {fileID: 1750895564}
   _StartBtn: {fileID: 777119187}
 --- !u!1 &1055510342
@@ -3636,7 +3636,7 @@ GameObject:
   - component: {fileID: 1187353000}
   - component: {fileID: 1187353001}
   m_Layer: 5
-  m_Name: JoinRoomBtn
+  m_Name: JoinRoomButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8209,7 +8209,7 @@ GameObject:
   - component: {fileID: 2117915625}
   - component: {fileID: 2117915624}
   m_Layer: 5
-  m_Name: CreateRoomBtn
+  m_Name: CreateRoomButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

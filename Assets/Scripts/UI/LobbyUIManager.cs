@@ -9,9 +9,9 @@ public class LobbyUIManager : MonoBehaviourPunCallbacks
 {
     [SerializeField] private Transform _RoomListContent;
     [SerializeField] private GameObject _RoomItemPrefab;
-    [SerializeField] private Button _JoinRoomBtn;
+    [SerializeField] private Button _JoinRoomButton;
     [SerializeField] private GameObject _CreateRoomUI;
-    [SerializeField] private Button _CreateRoomBtn;
+    [SerializeField] private Button _CreateRoomButton;
     [SerializeField] private Button _CloseBtn;
     [SerializeField] private Button _StartBtn;
     // [SerializeField] private Button _RefreshBtn;
@@ -31,14 +31,14 @@ public class LobbyUIManager : MonoBehaviourPunCallbacks
         if (currentRoomList != null)
             HandleUpdateRoomList(currentRoomList);
 
-        _JoinRoomBtn.interactable = false;
+        _JoinRoomButton.interactable = false;
         _SelectedRoomInfo = null;
 
-        _JoinRoomBtn.onClick.RemoveAllListeners();
-        _JoinRoomBtn.onClick.AddListener(OnJoinRoomButtonClicked);
+        _JoinRoomButton.onClick.RemoveAllListeners();
+        _JoinRoomButton.onClick.AddListener(OnJoinRoomButtonClicked);
 
-        _CreateRoomBtn.onClick.RemoveAllListeners();
-        _CreateRoomBtn.onClick.AddListener(OnCreateRoomButtonClicked);
+        _CreateRoomButton.onClick.RemoveAllListeners();
+        _CreateRoomButton.onClick.AddListener(OnCreateRoomButtonClicked);
 
         // _RefreshBtn.onClick.RemoveAllListeners();
         // _RefreshBtn.onClick.AddListener(OnRefreshButtonClicked);
@@ -56,6 +56,15 @@ public class LobbyUIManager : MonoBehaviourPunCallbacks
         GameEvents.OnRoomListUpdated -= HandleUpdateRoomList;
     }
 
+    IEnumerator WaitSequence(Button button)
+    {
+        var sequence = button.GetComponent<ButtonSequence>();
+        if (sequence)
+        {
+            yield return sequence.RunSequence();
+        }
+    }
+
     public override void OnLeftLobby()
     {
         PhotonNetwork.JoinLobby();
@@ -64,7 +73,7 @@ public class LobbyUIManager : MonoBehaviourPunCallbacks
     private void HandleSelectRoom(RoomInfo info)
     {
         _SelectedRoomInfo = info;
-        _JoinRoomBtn.interactable = true;
+        _JoinRoomButton.interactable = true;
     }
 
     private void HandleUpdateRoomList(List<RoomInfo> roomList)
@@ -90,12 +99,7 @@ public class LobbyUIManager : MonoBehaviourPunCallbacks
 
     IEnumerator CreateRoomButtonSequence()
     {
-        var effect = _CreateRoomBtn.GetComponent<ButtonSpinEffect>();
-
-        if (effect != null)
-        {
-            yield return StartCoroutine(effect.PlayRoutine()); // 이펙트 완료까지 대기
-        }
+        yield return WaitSequence(_CreateRoomButton);
 
         _CreateRoomUI.SetActive(true);
     }
@@ -107,19 +111,13 @@ public class LobbyUIManager : MonoBehaviourPunCallbacks
 
     IEnumerator JoinRoomButtonSequence()
     {
-        var effect = _JoinRoomBtn.GetComponent<ButtonSpinEffect>();
-
-        if (effect != null)
-        {
-            yield return StartCoroutine(effect.PlayRoutine()); // 이펙트 완료까지 대기
-        }
+        yield return WaitSequence(_JoinRoomButton);
 
         if (!string.IsNullOrEmpty(_SelectedRoomInfo.Name))
         {
             // GameEvents.RaiseRequestJoinRoom(_SelectedRoomInfo);
             Launcher._Inst.RequestJoinRoom(_SelectedRoomInfo);
         }
-
     }
 
     // private void OnRefreshButtonClicked()

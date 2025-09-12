@@ -4,7 +4,6 @@ using TMPro;
 using Photon.Pun;
 using Photon.Realtime;
 using System.Collections;
-using ExitGames.Client.Photon;
 
 public class CreateRoomUIManager : MonoBehaviour
 {
@@ -49,6 +48,15 @@ public class CreateRoomUIManager : MonoBehaviour
         StartCoroutine(CreateButtonSequence());
     }
 
+    IEnumerator WaitSequence(Button button)
+    {
+        var sequence = button.GetComponent<ButtonSequence>();
+        if (sequence)
+        {
+            yield return sequence.RunSequence();
+        }
+    }
+
     IEnumerator CreateButtonSequence()
     {
         string roomName = _RoomNameInput.text.Trim();
@@ -61,12 +69,7 @@ public class CreateRoomUIManager : MonoBehaviour
             yield break;
         }
 
-        var effect = _CreateButton.GetComponent<ButtonSpinEffect>();
-
-        if (effect != null)
-        {
-            yield return StartCoroutine(effect.PlayRoutine()); // 이펙트 완료까지 대기
-        }
+        yield return WaitSequence(_CreateButton);
 
         // 맵 선택
         string mapName = ResolveMapName();

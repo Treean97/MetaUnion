@@ -625,7 +625,9 @@ GameObject:
   - component: {fileID: 20210574}
   - component: {fileID: 20210573}
   - component: {fileID: 20210572}
+  - component: {fileID: 20210577}
   - component: {fileID: 20210575}
+  - component: {fileID: 20210576}
   m_Layer: 5
   m_Name: GlassesCategoryBtn
   m_TagString: Untagged
@@ -749,6 +751,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonPressedEffect
   _PressOffsetRatio: 0.05
+--- !u!114 &20210576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 20210570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
+  _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
+  _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
+--- !u!114 &20210577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 20210570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a96d0bf4cf4cc18489779b5b5cadcb01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
+  _HoverScale: 1.08
+  _ScaleTime: 0.1
 --- !u!1001 &24225426
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3208,7 +3238,9 @@ GameObject:
   - component: {fileID: 130579343}
   - component: {fileID: 130579342}
   - component: {fileID: 130579341}
+  - component: {fileID: 130579346}
   - component: {fileID: 130579344}
+  - component: {fileID: 130579345}
   m_Layer: 5
   m_Name: HairCategoryBtn
   m_TagString: Untagged
@@ -3332,6 +3364,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonPressedEffect
   _PressOffsetRatio: 0.05
+--- !u!114 &130579345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 130579339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
+  _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
+  _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
+--- !u!114 &130579346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 130579339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a96d0bf4cf4cc18489779b5b5cadcb01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
+  _HoverScale: 1.08
+  _ScaleTime: 0.1
 --- !u!1001 &131161272
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4268,6 +4328,8 @@ GameObject:
   - component: {fileID: 162291296}
   - component: {fileID: 162291294}
   - component: {fileID: 162291297}
+  - component: {fileID: 162291300}
+  - component: {fileID: 162291299}
   - component: {fileID: 162291298}
   m_Layer: 5
   m_Name: AccessoryCategoryBtn
@@ -4392,6 +4454,34 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &162291299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 162291292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
+  _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
+  _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
+--- !u!114 &162291300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 162291292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a96d0bf4cf4cc18489779b5b5cadcb01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
+  _HoverScale: 1.08
+  _ScaleTime: 0.1
 --- !u!1001 &162398876
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6251,7 +6341,9 @@ GameObject:
   - component: {fileID: 226719494}
   - component: {fileID: 226719498}
   - component: {fileID: 226719499}
+  - component: {fileID: 226719501}
   - component: {fileID: 226719497}
+  - component: {fileID: 226719500}
   m_Layer: 5
   m_Name: CustomizeUIBtn
   m_TagString: Untagged
@@ -6387,9 +6479,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverSpin
   _HoverScale: 1.08
   _ScaleTime: 0.1
-  _RotateAngle: 22
-  _RotateTime: 0.25
-  _Shakes: 6
 --- !u!114 &226719499
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6404,6 +6493,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
   _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
   _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
+--- !u!114 &226719500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 226719492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1df095b9eab98e548a93b28c2e9e70a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSequence
+--- !u!114 &226719501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 226719492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6ea2555c6a74c64b9ba20763715bc11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSpinEffect
+  _RotateAngle: 22
+  _RotateTime: 0.25
+  _Shakes: 6
 --- !u!1001 &226921887
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9240,6 +9356,8 @@ GameObject:
   - component: {fileID: 308333708}
   - component: {fileID: 308333707}
   - component: {fileID: 308333706}
+  - component: {fileID: 308333710}
+  - component: {fileID: 308333709}
   m_Layer: 5
   m_Name: Button - close
   m_TagString: Untagged
@@ -9348,6 +9466,34 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 308333704}
   m_CullTransparentMesh: 0
+--- !u!114 &308333709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 308333704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
+  _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
+  _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
+--- !u!114 &308333710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 308333704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a96d0bf4cf4cc18489779b5b5cadcb01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
+  _HoverScale: 1.08
+  _ScaleTime: 0.1
 --- !u!1 &311202431
 GameObject:
   m_ObjectHideFlags: 0
@@ -10038,7 +10184,9 @@ GameObject:
   - component: {fileID: 334424614}
   - component: {fileID: 334424613}
   - component: {fileID: 334424612}
+  - component: {fileID: 334424617}
   - component: {fileID: 334424615}
+  - component: {fileID: 334424616}
   m_Layer: 5
   m_Name: OutwearCategoryBtn
   m_TagString: Untagged
@@ -10162,6 +10310,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonPressedEffect
   _PressOffsetRatio: 0.05
+--- !u!114 &334424616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 334424610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
+  _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
+  _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
+--- !u!114 &334424617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 334424610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a96d0bf4cf4cc18489779b5b5cadcb01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
+  _HoverScale: 1.08
+  _ScaleTime: 0.1
 --- !u!1001 &334606967
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14784,7 +14960,9 @@ GameObject:
   - component: {fileID: 482845088}
   - component: {fileID: 482845092}
   - component: {fileID: 482845093}
+  - component: {fileID: 482845095}
   - component: {fileID: 482845091}
+  - component: {fileID: 482845094}
   m_Layer: 5
   m_Name: ShopUIBtn
   m_TagString: Untagged
@@ -14920,9 +15098,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverSpin
   _HoverScale: 1.08
   _ScaleTime: 0.1
-  _RotateAngle: 22
-  _RotateTime: 0.25
-  _Shakes: 6
 --- !u!114 &482845093
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14937,6 +15112,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
   _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
   _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
+--- !u!114 &482845094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 482845085}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1df095b9eab98e548a93b28c2e9e70a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSequence
+--- !u!114 &482845095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 482845085}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6ea2555c6a74c64b9ba20763715bc11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSpinEffect
+  _RotateAngle: 22
+  _RotateTime: 0.25
+  _Shakes: 6
 --- !u!1001 &485031255
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18143,9 +18345,11 @@ GameObject:
   - component: {fileID: 575630913}
   - component: {fileID: 575630912}
   - component: {fileID: 575630911}
+  - component: {fileID: 575630915}
   - component: {fileID: 575630910}
+  - component: {fileID: 575630914}
   m_Layer: 5
-  m_Name: Button
+  m_Name: ConfirmButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18266,6 +18470,34 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 575630908}
   m_CullTransparentMesh: 1
+--- !u!114 &575630914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 575630908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
+  _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
+  _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
+--- !u!114 &575630915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 575630908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a96d0bf4cf4cc18489779b5b5cadcb01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
+  _HoverScale: 1.08
+  _ScaleTime: 0.1
 --- !u!1 &575851858
 GameObject:
   m_ObjectHideFlags: 0
@@ -21914,6 +22146,8 @@ GameObject:
   - component: {fileID: 694423953}
   - component: {fileID: 694423952}
   - component: {fileID: 694423951}
+  - component: {fileID: 694423955}
+  - component: {fileID: 694423954}
   m_Layer: 5
   m_Name: Button - close
   m_TagString: Untagged
@@ -22022,6 +22256,34 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 694423949}
   m_CullTransparentMesh: 0
+--- !u!114 &694423954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 694423949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
+  _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
+  _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
+--- !u!114 &694423955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 694423949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a96d0bf4cf4cc18489779b5b5cadcb01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
+  _HoverScale: 1.08
+  _ScaleTime: 0.1
 --- !u!1001 &698334117
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22436,6 +22698,8 @@ GameObject:
   - component: {fileID: 710973277}
   - component: {fileID: 710973276}
   - component: {fileID: 710973275}
+  - component: {fileID: 710973280}
+  - component: {fileID: 710973279}
   - component: {fileID: 710973278}
   m_Layer: 5
   m_Name: RightButton
@@ -22590,6 +22854,34 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!114 &710973279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 710973273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
+  _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
+  _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
+--- !u!114 &710973280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 710973273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a96d0bf4cf4cc18489779b5b5cadcb01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
+  _HoverScale: 1.08
+  _ScaleTime: 0.1
 --- !u!1 &711633574
 GameObject:
   m_ObjectHideFlags: 0
@@ -23471,6 +23763,8 @@ GameObject:
   - component: {fileID: 735738572}
   - component: {fileID: 735738571}
   - component: {fileID: 735738570}
+  - component: {fileID: 735738575}
+  - component: {fileID: 735738574}
   - component: {fileID: 735738573}
   m_Layer: 5
   m_Name: LeftButton
@@ -23625,6 +23919,34 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!114 &735738574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 735738568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
+  _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
+  _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
+--- !u!114 &735738575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 735738568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a96d0bf4cf4cc18489779b5b5cadcb01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
+  _HoverScale: 1.08
+  _ScaleTime: 0.1
 --- !u!1 &737468502
 GameObject:
   m_ObjectHideFlags: 0
@@ -23637,6 +23959,8 @@ GameObject:
   - component: {fileID: 737468506}
   - component: {fileID: 737468505}
   - component: {fileID: 737468504}
+  - component: {fileID: 737468508}
+  - component: {fileID: 737468507}
   m_Layer: 5
   m_Name: Button - close
   m_TagString: Untagged
@@ -23745,6 +24069,34 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 737468502}
   m_CullTransparentMesh: 0
+--- !u!114 &737468507
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 737468502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
+  _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
+  _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
+--- !u!114 &737468508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 737468502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a96d0bf4cf4cc18489779b5b5cadcb01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
+  _HoverScale: 1.08
+  _ScaleTime: 0.1
 --- !u!1001 &743395277
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -26536,7 +26888,9 @@ GameObject:
   - component: {fileID: 828868565}
   - component: {fileID: 828868564}
   - component: {fileID: 828868563}
+  - component: {fileID: 828868568}
   - component: {fileID: 828868566}
+  - component: {fileID: 828868567}
   m_Layer: 5
   m_Name: HatCategoryBtn
   m_TagString: Untagged
@@ -26660,6 +27014,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonPressedEffect
   _PressOffsetRatio: 0.05
+--- !u!114 &828868567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 828868561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
+  _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
+  _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
+--- !u!114 &828868568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 828868561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a96d0bf4cf4cc18489779b5b5cadcb01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
+  _HoverScale: 1.08
+  _ScaleTime: 0.1
 --- !u!1001 &830695874
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -27504,6 +27886,8 @@ GameObject:
   - component: {fileID: 864434505}
   - component: {fileID: 864434503}
   - component: {fileID: 864434506}
+  - component: {fileID: 864434509}
+  - component: {fileID: 864434508}
   - component: {fileID: 864434507}
   m_Layer: 5
   m_Name: HatCategoryBtn
@@ -27628,6 +28012,34 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &864434508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 864434501}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
+  _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
+  _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
+--- !u!114 &864434509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 864434501}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a96d0bf4cf4cc18489779b5b5cadcb01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
+  _HoverScale: 1.08
+  _ScaleTime: 0.1
 --- !u!1001 &864626106
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28505,6 +28917,8 @@ GameObject:
   - component: {fileID: 889936903}
   - component: {fileID: 889936901}
   - component: {fileID: 889936904}
+  - component: {fileID: 889936907}
+  - component: {fileID: 889936906}
   - component: {fileID: 889936905}
   m_Layer: 5
   m_Name: ShoesCategoryBtn
@@ -28629,6 +29043,34 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &889936906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 889936899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
+  _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
+  _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
+--- !u!114 &889936907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 889936899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a96d0bf4cf4cc18489779b5b5cadcb01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
+  _HoverScale: 1.08
+  _ScaleTime: 0.1
 --- !u!1001 &890105726
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -29651,6 +30093,8 @@ GameObject:
   - component: {fileID: 912252003}
   - component: {fileID: 912252002}
   - component: {fileID: 912252001}
+  - component: {fileID: 912252005}
+  - component: {fileID: 912252004}
   m_Layer: 5
   m_Name: Button - close
   m_TagString: Untagged
@@ -29759,6 +30203,34 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 912251999}
   m_CullTransparentMesh: 0
+--- !u!114 &912252004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 912251999}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
+  _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
+  _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
+--- !u!114 &912252005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 912251999}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a96d0bf4cf4cc18489779b5b5cadcb01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
+  _HoverScale: 1.08
+  _ScaleTime: 0.1
 --- !u!1 &913588837
 GameObject:
   m_ObjectHideFlags: 0
@@ -34098,6 +34570,8 @@ GameObject:
   - component: {fileID: 1055095107}
   - component: {fileID: 1055095105}
   - component: {fileID: 1055095108}
+  - component: {fileID: 1055095111}
+  - component: {fileID: 1055095110}
   - component: {fileID: 1055095109}
   m_Layer: 5
   m_Name: OutwearCategoryBtn
@@ -34222,6 +34696,34 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1055095110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1055095103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
+  _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
+  _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
+--- !u!114 &1055095111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1055095103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a96d0bf4cf4cc18489779b5b5cadcb01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
+  _HoverScale: 1.08
+  _ScaleTime: 0.1
 --- !u!1001 &1056387130
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -44011,7 +44513,9 @@ GameObject:
   - component: {fileID: 1348994755}
   - component: {fileID: 1348994754}
   - component: {fileID: 1348994753}
+  - component: {fileID: 1348994758}
   - component: {fileID: 1348994756}
+  - component: {fileID: 1348994757}
   m_Layer: 5
   m_Name: ShoesCategoryBtn
   m_TagString: Untagged
@@ -44135,6 +44639,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonPressedEffect
   _PressOffsetRatio: 0.05
+--- !u!114 &1348994757
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1348994751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
+  _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
+  _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
+--- !u!114 &1348994758
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1348994751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a96d0bf4cf4cc18489779b5b5cadcb01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
+  _HoverScale: 1.08
+  _ScaleTime: 0.1
 --- !u!1001 &1349371819
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -44413,6 +44945,8 @@ GameObject:
   - component: {fileID: 1365620306}
   - component: {fileID: 1365620304}
   - component: {fileID: 1365620307}
+  - component: {fileID: 1365620310}
+  - component: {fileID: 1365620309}
   - component: {fileID: 1365620308}
   m_Layer: 5
   m_Name: GlassesCategoryBtn
@@ -44537,6 +45071,34 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1365620309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1365620302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
+  _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
+  _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
+--- !u!114 &1365620310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1365620302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a96d0bf4cf4cc18489779b5b5cadcb01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
+  _HoverScale: 1.08
+  _ScaleTime: 0.1
 --- !u!1001 &1367632394
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -45460,6 +46022,8 @@ GameObject:
   - component: {fileID: 1401417789}
   - component: {fileID: 1401417787}
   - component: {fileID: 1401417790}
+  - component: {fileID: 1401417793}
+  - component: {fileID: 1401417792}
   - component: {fileID: 1401417791}
   m_Layer: 5
   m_Name: HairCategoryBtn
@@ -45584,6 +46148,34 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1401417792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1401417785}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
+  _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
+  _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
+--- !u!114 &1401417793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1401417785}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a96d0bf4cf4cc18489779b5b5cadcb01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
+  _HoverScale: 1.08
+  _ScaleTime: 0.1
 --- !u!1001 &1403008557
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -46443,6 +47035,8 @@ GameObject:
   - component: {fileID: 1421618145}
   - component: {fileID: 1421618143}
   - component: {fileID: 1421618146}
+  - component: {fileID: 1421618149}
+  - component: {fileID: 1421618148}
   - component: {fileID: 1421618147}
   m_Layer: 5
   m_Name: FaceCategoryBtn
@@ -46567,6 +47161,34 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1421618148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1421618141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
+  _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
+  _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
+--- !u!114 &1421618149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1421618141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a96d0bf4cf4cc18489779b5b5cadcb01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
+  _HoverScale: 1.08
+  _ScaleTime: 0.1
 --- !u!1001 &1423436103
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -46931,7 +47553,9 @@ GameObject:
   - component: {fileID: 1428473729}
   - component: {fileID: 1428473728}
   - component: {fileID: 1428473727}
+  - component: {fileID: 1428473732}
   - component: {fileID: 1428473730}
+  - component: {fileID: 1428473731}
   m_Layer: 5
   m_Name: FaceCategoryBtn
   m_TagString: Untagged
@@ -47055,6 +47679,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonPressedEffect
   _PressOffsetRatio: 0.05
+--- !u!114 &1428473731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1428473725}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
+  _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
+  _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
+--- !u!114 &1428473732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1428473725}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a96d0bf4cf4cc18489779b5b5cadcb01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
+  _HoverScale: 1.08
+  _ScaleTime: 0.1
 --- !u!1001 &1433204588
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -47723,7 +48375,9 @@ GameObject:
   - component: {fileID: 1461630544}
   - component: {fileID: 1461630543}
   - component: {fileID: 1461630542}
+  - component: {fileID: 1461630547}
   - component: {fileID: 1461630545}
+  - component: {fileID: 1461630546}
   m_Layer: 5
   m_Name: GlovesCategoryBtn
   m_TagString: Untagged
@@ -47847,6 +48501,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonPressedEffect
   _PressOffsetRatio: 0.05
+--- !u!114 &1461630546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1461630540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
+  _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
+  _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
+--- !u!114 &1461630547
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1461630540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a96d0bf4cf4cc18489779b5b5cadcb01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
+  _HoverScale: 1.08
+  _ScaleTime: 0.1
 --- !u!1001 &1463493064
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -48683,7 +49365,9 @@ GameObject:
   - component: {fileID: 1480901082}
   - component: {fileID: 1480901081}
   - component: {fileID: 1480901080}
+  - component: {fileID: 1480901085}
   - component: {fileID: 1480901083}
+  - component: {fileID: 1480901084}
   m_Layer: 5
   m_Name: AccessoryCategoryBtn
   m_TagString: Untagged
@@ -48807,6 +49491,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonPressedEffect
   _PressOffsetRatio: 0.05
+--- !u!114 &1480901084
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1480901078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
+  _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
+  _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
+--- !u!114 &1480901085
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1480901078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a96d0bf4cf4cc18489779b5b5cadcb01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
+  _HoverScale: 1.08
+  _ScaleTime: 0.1
 --- !u!1001 &1484597329
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -51952,6 +52664,8 @@ GameObject:
   - component: {fileID: 1573497147}
   - component: {fileID: 1573497146}
   - component: {fileID: 1573497145}
+  - component: {fileID: 1573497149}
+  - component: {fileID: 1573497148}
   m_Layer: 5
   m_Name: Button - close
   m_TagString: Untagged
@@ -52060,6 +52774,34 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1573497143}
   m_CullTransparentMesh: 0
+--- !u!114 &1573497148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1573497143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
+  _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
+  _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
+--- !u!114 &1573497149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1573497143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a96d0bf4cf4cc18489779b5b5cadcb01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
+  _HoverScale: 1.08
+  _ScaleTime: 0.1
 --- !u!1 &1573520617
 GameObject:
   m_ObjectHideFlags: 0
@@ -53408,7 +54150,9 @@ GameObject:
   - component: {fileID: 1594047648}
   - component: {fileID: 1594047647}
   - component: {fileID: 1594047646}
+  - component: {fileID: 1594047651}
   - component: {fileID: 1594047649}
+  - component: {fileID: 1594047650}
   m_Layer: 5
   m_Name: RerollButton
   m_TagString: Untagged
@@ -53531,6 +54275,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonPressedEffect
   _PressOffsetRatio: 0.05
+--- !u!114 &1594047650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1594047644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
+  _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
+  _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
+--- !u!114 &1594047651
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1594047644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a96d0bf4cf4cc18489779b5b5cadcb01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
+  _HoverScale: 1.08
+  _ScaleTime: 0.1
 --- !u!1001 &1594395057
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -56290,55 +57062,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5364892210998025218, guid: 4a1382aed99aa334c9922951cc0fdb8b, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1667204966}
-    - targetCorrespondingSourceObject: {fileID: 5364892210998025218, guid: 4a1382aed99aa334c9922951cc0fdb8b, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1667204967}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4a1382aed99aa334c9922951cc0fdb8b, type: 3}
 --- !u!224 &1667204964 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4076252178623364345, guid: 4a1382aed99aa334c9922951cc0fdb8b, type: 3}
   m_PrefabInstance: {fileID: 1667204963}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1667204965 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5364892210998025218, guid: 4a1382aed99aa334c9922951cc0fdb8b, type: 3}
-  m_PrefabInstance: {fileID: 1667204963}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1667204966
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1667204965}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a96d0bf4cf4cc18489779b5b5cadcb01, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverSpin
-  _HoverScale: 1.08
-  _ScaleTime: 0.1
-  _RotateAngle: 22
-  _RotateTime: 0.25
-  _Shakes: 6
---- !u!114 &1667204967
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1667204965}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
-  _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
-  _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
 --- !u!1001 &1670235570
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -57351,6 +58081,8 @@ GameObject:
   - component: {fileID: 1704210030}
   - component: {fileID: 1704210028}
   - component: {fileID: 1704210031}
+  - component: {fileID: 1704210034}
+  - component: {fileID: 1704210033}
   - component: {fileID: 1704210032}
   m_Layer: 5
   m_Name: PantsCategoryBtn
@@ -57475,6 +58207,34 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1704210033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1704210026}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
+  _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
+  _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
+--- !u!114 &1704210034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1704210026}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a96d0bf4cf4cc18489779b5b5cadcb01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
+  _HoverScale: 1.08
+  _ScaleTime: 0.1
 --- !u!1001 &1706522626
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -64741,6 +65501,8 @@ GameObject:
   - component: {fileID: 1952258675}
   - component: {fileID: 1952258673}
   - component: {fileID: 1952258676}
+  - component: {fileID: 1952258679}
+  - component: {fileID: 1952258678}
   - component: {fileID: 1952258677}
   m_Layer: 5
   m_Name: GlovesCategoryBtn
@@ -64865,6 +65627,34 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1952258678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1952258671}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
+  _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
+  _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
+--- !u!114 &1952258679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1952258671}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a96d0bf4cf4cc18489779b5b5cadcb01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
+  _HoverScale: 1.08
+  _ScaleTime: 0.1
 --- !u!1 &1952300542
 GameObject:
   m_ObjectHideFlags: 0
@@ -68534,7 +69324,9 @@ GameObject:
   - component: {fileID: 2043530833}
   - component: {fileID: 2043530832}
   - component: {fileID: 2043530831}
+  - component: {fileID: 2043530836}
   - component: {fileID: 2043530834}
+  - component: {fileID: 2043530835}
   m_Layer: 5
   m_Name: PantsCategoryBtn
   m_TagString: Untagged
@@ -68658,6 +69450,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonPressedEffect
   _PressOffsetRatio: 0.05
+--- !u!114 &2043530835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2043530829}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
+  _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
+  _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
+--- !u!114 &2043530836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2043530829}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a96d0bf4cf4cc18489779b5b5cadcb01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
+  _HoverScale: 1.08
+  _ScaleTime: 0.1
 --- !u!1001 &2045520215
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -69678,7 +70498,9 @@ GameObject:
   - component: {fileID: 2077623458}
   - component: {fileID: 2077623457}
   - component: {fileID: 2077623456}
+  - component: {fileID: 2077623461}
   - component: {fileID: 2077623459}
+  - component: {fileID: 2077623460}
   m_Layer: 5
   m_Name: SpinButton
   m_TagString: Untagged
@@ -69801,6 +70623,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonPressedEffect
   _PressOffsetRatio: 0.05
+--- !u!114 &2077623460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2077623454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
+  _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
+  _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
+--- !u!114 &2077623461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2077623454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a96d0bf4cf4cc18489779b5b5cadcb01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
+  _HoverScale: 1.08
+  _ScaleTime: 0.1
 --- !u!1 &2080072076
 GameObject:
   m_ObjectHideFlags: 0
