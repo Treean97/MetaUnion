@@ -11,7 +11,6 @@ public class ButtonSpinEffect : MonoBehaviour, IButtonEffect
     [SerializeField] float _RotateTime = 0.25f;
     [SerializeField] int _Shakes = 6;
 
-    private Button _Button;
     private RectTransform _Rt;
     private float _BaseZ;
     Coroutine _ShakeCo;
@@ -20,7 +19,6 @@ public class ButtonSpinEffect : MonoBehaviour, IButtonEffect
     {
         _Rt = (RectTransform)transform;
         _BaseZ = _Rt.localEulerAngles.z;
-        _Button = GetComponent<Button>();
     }
 
     void OnDisable()

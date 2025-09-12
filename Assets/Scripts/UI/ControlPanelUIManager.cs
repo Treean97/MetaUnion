@@ -27,6 +27,15 @@ public class ControlPanelUIManager : MonoBehaviour
         _PlayerIDInput.onValueChanged.RemoveListener(HandlePlayerIDChanged);
     }
 
+    IEnumerator WaitSequence(Button button)
+    {
+        var sequence = button.GetComponent<ButtonSequence>();
+        if (sequence)
+        {
+            yield return sequence.RunSequence();
+        }
+    }
+
     void OnClickLoginButton()
     {
         StartCoroutine(LoginButtonSequence());
@@ -36,12 +45,7 @@ public class ControlPanelUIManager : MonoBehaviour
     {
         _LoginBtn.interactable = false;
 
-        var effect = _LoginBtn.GetComponent<ButtonSpinEffect>();
-
-        if (effect != null)
-        {
-            yield return StartCoroutine(effect.PlayRoutine()); // 이펙트 완료까지 대기
-        }            
+        yield return WaitSequence(_LoginBtn);
 
         // 이펙트 끝난 뒤에 전환
         _LobbyUI.SetActive(true);

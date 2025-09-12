@@ -646,6 +646,8 @@ GameObject:
   - component: {fileID: 214943881}
   - component: {fileID: 214943880}
   - component: {fileID: 214943879}
+  - component: {fileID: 214943883}
+  - component: {fileID: 214943882}
   m_Layer: 5
   m_Name: Button - close
   m_TagString: Untagged
@@ -754,6 +756,34 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 214943877}
   m_CullTransparentMesh: 0
+--- !u!114 &214943882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 214943877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a96d0bf4cf4cc18489779b5b5cadcb01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
+  _HoverScale: 1.08
+  _ScaleTime: 0.1
+--- !u!114 &214943883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 214943877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
+  _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
+  _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
 --- !u!1 &214995986
 GameObject:
   m_ObjectHideFlags: 0
@@ -1735,9 +1765,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverSpin
   _HoverScale: 1.08
   _ScaleTime: 0.1
-  _RotateAngle: 22
-  _RotateTime: 0.25
-  _Shakes: 6
 --- !u!1 &529762018
 GameObject:
   m_ObjectHideFlags: 0
@@ -1975,6 +2002,7 @@ GameObject:
   - component: {fileID: 777119192}
   - component: {fileID: 777119194}
   - component: {fileID: 777119193}
+  - component: {fileID: 777119195}
   m_Layer: 5
   m_Name: GameStartButton
   m_TagString: Untagged
@@ -2112,9 +2140,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverSpin
   _HoverScale: 1.08
   _ScaleTime: 0.1
-  _RotateAngle: 22
-  _RotateTime: 0.25
-  _Shakes: 6
 --- !u!114 &777119193
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2144,6 +2169,18 @@ MonoBehaviour:
   _RotateAngle: 22
   _RotateTime: 0.25
   _Shakes: 6
+--- !u!114 &777119195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 777119185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1df095b9eab98e548a93b28c2e9e70a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSequence
 --- !u!1 &785347626
 GameObject:
   m_ObjectHideFlags: 0
@@ -3594,7 +3631,10 @@ GameObject:
   - component: {fileID: 1187352997}
   - component: {fileID: 1187352996}
   - component: {fileID: 1187352999}
+  - component: {fileID: 1187353003}
+  - component: {fileID: 1187353002}
   - component: {fileID: 1187353000}
+  - component: {fileID: 1187353001}
   m_Layer: 5
   m_Name: JoinRoomBtn
   m_TagString: Untagged
@@ -3718,9 +3758,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverSpin
   _HoverScale: 1.08
   _ScaleTime: 0.1
-  _RotateAngle: 22
-  _RotateTime: 0.25
-  _Shakes: 6
 --- !u!114 &1187353000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3735,6 +3772,45 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
   _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
   _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
+--- !u!114 &1187353001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1187352994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1df095b9eab98e548a93b28c2e9e70a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSequence
+--- !u!114 &1187353002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1187352994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1df095b9eab98e548a93b28c2e9e70a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSequence
+--- !u!114 &1187353003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1187352994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6ea2555c6a74c64b9ba20763715bc11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSpinEffect
+  _RotateAngle: 22
+  _RotateTime: 0.25
+  _Shakes: 6
 --- !u!1 &1232784855
 GameObject:
   m_ObjectHideFlags: 0
@@ -4133,9 +4209,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverSpin
   _HoverScale: 1.08
   _ScaleTime: 0.1
-  _RotateAngle: 22
-  _RotateTime: 0.25
-  _Shakes: 6
 --- !u!1 &1267902965
 GameObject:
   m_ObjectHideFlags: 0
@@ -4887,8 +4960,10 @@ GameObject:
   - component: {fileID: 1473381462}
   - component: {fileID: 1473381461}
   - component: {fileID: 1473381466}
-  - component: {fileID: 1473381465}
+  - component: {fileID: 1473381468}
+  - component: {fileID: 1473381467}
   - component: {fileID: 1473381464}
+  - component: {fileID: 1473381465}
   m_Layer: 5
   m_Name: Button - login
   m_TagString: Untagged
@@ -5124,6 +5199,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverSpin
   _HoverScale: 1.08
   _ScaleTime: 0.1
+--- !u!114 &1473381467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1473381459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1df095b9eab98e548a93b28c2e9e70a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSequence
+--- !u!114 &1473381468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1473381459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6ea2555c6a74c64b9ba20763715bc11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSpinEffect
   _RotateAngle: 22
   _RotateTime: 0.25
   _Shakes: 6
@@ -6026,9 +6125,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverSpin
   _HoverScale: 1.08
   _ScaleTime: 0.1
-  _RotateAngle: 22
-  _RotateTime: 0.25
-  _Shakes: 6
 --- !u!114 &1704507102
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8109,6 +8205,8 @@ GameObject:
   - component: {fileID: 2117915621}
   - component: {fileID: 2117915620}
   - component: {fileID: 2117915623}
+  - component: {fileID: 2117915626}
+  - component: {fileID: 2117915625}
   - component: {fileID: 2117915624}
   m_Layer: 5
   m_Name: CreateRoomBtn
@@ -8233,9 +8331,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverSpin
   _HoverScale: 1.08
   _ScaleTime: 0.1
-  _RotateAngle: 22
-  _RotateTime: 0.25
-  _Shakes: 6
 --- !u!114 &2117915624
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8250,6 +8345,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
   _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
   _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
+--- !u!114 &2117915625
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2117915618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1df095b9eab98e548a93b28c2e9e70a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSequence
+--- !u!114 &2117915626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2117915618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6ea2555c6a74c64b9ba20763715bc11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSpinEffect
+  _RotateAngle: 22
+  _RotateTime: 0.25
+  _Shakes: 6
 --- !u!1001 &2765039259859299329
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -26,13 +26,11 @@ public class StartBtnManager : MonoBehaviour
     
     IEnumerator StartButtonSequence()
     {
-        _StartBtn.interactable = false;
-
-        // 버튼 이펙트 가져오기
-        var effect = _StartBtn.GetComponent<ButtonSpinEffect>();
-
-        if (effect != null)
-            yield return StartCoroutine(effect.PlayRoutine());
+        var sequence = _StartBtn.GetComponent<ButtonSequence>();
+        if (sequence)
+        {
+            yield return sequence.RunSequence();
+        }
 
         _ControlUI.SetActive(true);
         gameObject.SetActive(false);

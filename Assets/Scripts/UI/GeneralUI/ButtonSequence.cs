@@ -5,14 +5,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Button))]
 public class ButtonSequence : MonoBehaviour
 {
-    private Button _Button;
     bool _IsRunning;
-
-    void Awake()
-    {
-        _Button = GetComponent<Button>();
-        _Button.onClick.AddListener(OnClick);
-    }
     
     void OnDisable()
     {
@@ -20,12 +13,8 @@ public class ButtonSequence : MonoBehaviour
         _IsRunning = false;
     }
 
-    void OnClick()
-    {
-        if (!_IsRunning) StartCoroutine(RunSequence());
-    }
 
-    IEnumerator RunSequence()
+    public IEnumerator RunSequence()
     {
         _IsRunning = true;
 
