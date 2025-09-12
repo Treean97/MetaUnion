@@ -61,11 +61,11 @@ public class CreateRoomUIManager : MonoBehaviour
             yield break;
         }
 
-        var effect = _CreateButton.GetComponent<ButtonHoverSpin>();
+        var effect = _CreateButton.GetComponent<ButtonSpinEffect>();
 
         if (effect != null)
         {
-            yield return StartCoroutine(effect.ClickEffect()); // 이펙트 완료까지 대기
+            yield return StartCoroutine(effect.PlayRoutine()); // 이펙트 완료까지 대기
         }
 
         // 맵 선택

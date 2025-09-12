@@ -36,11 +36,11 @@ public class ControlPanelUIManager : MonoBehaviour
     {
         _LoginBtn.interactable = false;
 
-        var effect = _LoginBtn.GetComponent<ButtonHoverSpin>();
+        var effect = _LoginBtn.GetComponent<ButtonSpinEffect>();
 
         if (effect != null)
         {
-            yield return StartCoroutine(effect.ClickEffect()); // 이펙트 완료까지 대기
+            yield return StartCoroutine(effect.PlayRoutine()); // 이펙트 완료까지 대기
         }            
 
         // 이펙트 끝난 뒤에 전환

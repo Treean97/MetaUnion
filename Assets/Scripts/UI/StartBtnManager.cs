@@ -29,10 +29,10 @@ public class StartBtnManager : MonoBehaviour
         _StartBtn.interactable = false;
 
         // 버튼 이펙트 가져오기
-        var effect = _StartBtn.GetComponent<ButtonHoverSpin>();
+        var effect = _StartBtn.GetComponent<ButtonSpinEffect>();
 
         if (effect != null)
-            yield return StartCoroutine(effect.ClickEffect());
+            yield return StartCoroutine(effect.PlayRoutine());
 
         _ControlUI.SetActive(true);
         gameObject.SetActive(false);

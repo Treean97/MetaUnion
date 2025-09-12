@@ -6249,6 +6249,8 @@ GameObject:
   - component: {fileID: 226719496}
   - component: {fileID: 226719495}
   - component: {fileID: 226719494}
+  - component: {fileID: 226719498}
+  - component: {fileID: 226719499}
   - component: {fileID: 226719497}
   m_Layer: 5
   m_Name: CustomizeUIBtn
@@ -6371,6 +6373,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9724dd0a5eac7104984720dfa5c0abde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CustomizeUIButton
+--- !u!114 &226719498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 226719492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a96d0bf4cf4cc18489779b5b5cadcb01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverSpin
+  _HoverScale: 1.08
+  _ScaleTime: 0.1
+  _RotateAngle: 22
+  _RotateTime: 0.25
+  _Shakes: 6
+--- !u!114 &226719499
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 226719492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
+  _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
+  _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
 --- !u!1001 &226921887
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14749,6 +14782,8 @@ GameObject:
   - component: {fileID: 482845090}
   - component: {fileID: 482845089}
   - component: {fileID: 482845088}
+  - component: {fileID: 482845092}
+  - component: {fileID: 482845093}
   - component: {fileID: 482845091}
   m_Layer: 5
   m_Name: ShopUIBtn
@@ -14871,6 +14906,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f705a95e94ed5f94583357e48aed7c60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShopUIButton
+--- !u!114 &482845092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 482845085}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a96d0bf4cf4cc18489779b5b5cadcb01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverSpin
+  _HoverScale: 1.08
+  _ScaleTime: 0.1
+  _RotateAngle: 22
+  _RotateTime: 0.25
+  _Shakes: 6
+--- !u!114 &482845093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 482845085}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
+  _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
+  _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
 --- !u!1001 &485031255
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -56224,13 +56290,55 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5364892210998025218, guid: 4a1382aed99aa334c9922951cc0fdb8b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1667204966}
+    - targetCorrespondingSourceObject: {fileID: 5364892210998025218, guid: 4a1382aed99aa334c9922951cc0fdb8b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1667204967}
   m_SourcePrefab: {fileID: 100100000, guid: 4a1382aed99aa334c9922951cc0fdb8b, type: 3}
 --- !u!224 &1667204964 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4076252178623364345, guid: 4a1382aed99aa334c9922951cc0fdb8b, type: 3}
   m_PrefabInstance: {fileID: 1667204963}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1667204965 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5364892210998025218, guid: 4a1382aed99aa334c9922951cc0fdb8b, type: 3}
+  m_PrefabInstance: {fileID: 1667204963}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1667204966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1667204965}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a96d0bf4cf4cc18489779b5b5cadcb01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverSpin
+  _HoverScale: 1.08
+  _ScaleTime: 0.1
+  _RotateAngle: 22
+  _RotateTime: 0.25
+  _Shakes: 6
+--- !u!114 &1667204967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1667204965}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
+  _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
+  _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
 --- !u!1001 &1670235570
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1973,6 +1973,7 @@ GameObject:
   - component: {fileID: 777119187}
   - component: {fileID: 777119191}
   - component: {fileID: 777119192}
+  - component: {fileID: 777119194}
   - component: {fileID: 777119193}
   m_Layer: 5
   m_Name: GameStartButton
@@ -2128,6 +2129,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
   _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
   _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
+--- !u!114 &777119194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 777119185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6ea2555c6a74c64b9ba20763715bc11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSpinEffect
+  _RotateAngle: 22
+  _RotateTime: 0.25
+  _Shakes: 6
 --- !u!1 &785347626
 GameObject:
   m_ObjectHideFlags: 0

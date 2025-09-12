@@ -90,11 +90,11 @@ public class LobbyUIManager : MonoBehaviourPunCallbacks
 
     IEnumerator CreateRoomButtonSequence()
     {
-        var effect = _CreateRoomBtn.GetComponent<ButtonHoverSpin>();
+        var effect = _CreateRoomBtn.GetComponent<ButtonSpinEffect>();
 
         if (effect != null)
         {
-            yield return StartCoroutine(effect.ClickEffect()); // 이펙트 완료까지 대기
+            yield return StartCoroutine(effect.PlayRoutine()); // 이펙트 완료까지 대기
         }
 
         _CreateRoomUI.SetActive(true);
@@ -107,11 +107,11 @@ public class LobbyUIManager : MonoBehaviourPunCallbacks
 
     IEnumerator JoinRoomButtonSequence()
     {
-        var effect = _JoinRoomBtn.GetComponent<ButtonHoverSpin>();
+        var effect = _JoinRoomBtn.GetComponent<ButtonSpinEffect>();
 
         if (effect != null)
         {
-            yield return StartCoroutine(effect.ClickEffect()); // 이펙트 완료까지 대기
+            yield return StartCoroutine(effect.PlayRoutine()); // 이펙트 완료까지 대기
         }
 
         if (!string.IsNullOrEmpty(_SelectedRoomInfo.Name))
