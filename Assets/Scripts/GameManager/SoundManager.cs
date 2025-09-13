@@ -8,8 +8,9 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioMixerGroup _Master;
     [SerializeField] private AudioMixerGroup _BGMGroup;
     [SerializeField] private AudioMixerGroup _SFXGroup;
+    [SerializeField] private UISoundSO _UISound;
 
-    
+
     private AudioSource _BGMSource;   // BGM 전용(루프)
     private AudioSource _SFXSource;   // SFX 전용(PlayOneShot)
 
@@ -48,6 +49,32 @@ public class SoundManager : MonoBehaviour
     {
         if (!clip) return;
         _SFXSource.PlayOneShot(clip);
+    }
+
+    public void PlayUIClick()
+    {
+        if (!_UISound || _UISound.ClickPool == null || _UISound.ClickPool.Length == 0) return;
+        var pool = _UISound.ClickPool;
+        var clip = pool[Random.Range(0, pool.Length)];
+        PlaySFX(clip);
+    }
+
+    public void PlayUIHover()
+    {
+        if (!_UISound || !_UISound.Hover) return;
+        PlaySFX(_UISound.Hover);
+    }
+
+    public void PlayUIPop()
+    {
+        if (!_UISound || !_UISound.UIPop) return;
+        PlaySFX(_UISound.UIPop);
+    }
+
+    public void PlayUIClose()
+    {
+        if (!_UISound || !_UISound.UIClose) return;
+        PlaySFX(_UISound.UIClose);
     }
 
 }
