@@ -763,8 +763,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
-  _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
-  _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
 --- !u!114 &20210577
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3376,8 +3374,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
-  _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
-  _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
 --- !u!114 &130579346
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4466,8 +4462,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
-  _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
-  _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
 --- !u!114 &162291300
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6339,10 +6333,11 @@ GameObject:
   - component: {fileID: 226719496}
   - component: {fileID: 226719495}
   - component: {fileID: 226719494}
+  - component: {fileID: 226719503}
+  - component: {fileID: 226719502}
   - component: {fileID: 226719498}
   - component: {fileID: 226719499}
   - component: {fileID: 226719501}
-  - component: {fileID: 226719497}
   - component: {fileID: 226719500}
   m_Layer: 5
   m_Name: CustomizeUIBtn
@@ -6453,18 +6448,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 226719492}
   m_CullTransparentMesh: 1
---- !u!114 &226719497
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 226719492}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9724dd0a5eac7104984720dfa5c0abde, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CustomizeUIButton
 --- !u!114 &226719498
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6491,8 +6474,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
-  _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
-  _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
 --- !u!114 &226719500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6520,6 +6501,31 @@ MonoBehaviour:
   _RotateAngle: 22
   _RotateTime: 0.25
   _Shakes: 6
+--- !u!114 &226719502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 226719492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdfd07d62658ad949b2f2d18996fd0c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OpenUIAction
+  _Target: {fileID: 681511351}
+--- !u!114 &226719503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 226719492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c53191a580c7a9a4d93175f66ba0e739, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonActionRunner
 --- !u!1001 &226921887
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9478,8 +9484,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
-  _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
-  _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
 --- !u!114 &308333710
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10322,8 +10326,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
-  _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
-  _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
 --- !u!114 &334424617
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14958,10 +14960,11 @@ GameObject:
   - component: {fileID: 482845090}
   - component: {fileID: 482845089}
   - component: {fileID: 482845088}
+  - component: {fileID: 482845097}
+  - component: {fileID: 482845096}
   - component: {fileID: 482845092}
   - component: {fileID: 482845093}
   - component: {fileID: 482845095}
-  - component: {fileID: 482845091}
   - component: {fileID: 482845094}
   m_Layer: 5
   m_Name: ShopUIBtn
@@ -15072,18 +15075,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 482845085}
   m_CullTransparentMesh: 1
---- !u!114 &482845091
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 482845085}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f705a95e94ed5f94583357e48aed7c60, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ShopUIButton
 --- !u!114 &482845092
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15110,8 +15101,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
-  _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
-  _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
 --- !u!114 &482845094
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15139,6 +15128,31 @@ MonoBehaviour:
   _RotateAngle: 22
   _RotateTime: 0.25
   _Shakes: 6
+--- !u!114 &482845096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 482845085}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdfd07d62658ad949b2f2d18996fd0c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OpenUIAction
+  _Target: {fileID: 322785692}
+--- !u!114 &482845097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 482845085}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c53191a580c7a9a4d93175f66ba0e739, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonActionRunner
 --- !u!1001 &485031255
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18482,8 +18496,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
-  _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
-  _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
 --- !u!114 &575630915
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22268,8 +22280,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
-  _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
-  _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
 --- !u!114 &694423955
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22866,8 +22876,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
-  _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
-  _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
 --- !u!114 &710973280
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23931,8 +23939,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
-  _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
-  _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
 --- !u!114 &735738575
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24081,8 +24087,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
-  _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
-  _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
 --- !u!114 &737468508
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26479,79 +26483,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 444314, guid: 7f9ea44d759da6b4e995d9fa92373629, type: 3}
   m_PrefabInstance: {fileID: 819099711}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &820089655
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 2416056857058889422, guid: f8a17c18406a5f14da64ccbbf64fb00c, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 67bc36b25aad8364ab3fdb401d8e4d54, type: 2}
-    - target: {fileID: 2985835149641903331, guid: f8a17c18406a5f14da64ccbbf64fb00c, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 2985835149641903331, guid: f8a17c18406a5f14da64ccbbf64fb00c, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 2985835149641903331, guid: f8a17c18406a5f14da64ccbbf64fb00c, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 2985835149641903331, guid: f8a17c18406a5f14da64ccbbf64fb00c, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 9.425
-      objectReference: {fileID: 0}
-    - target: {fileID: 2985835149641903331, guid: f8a17c18406a5f14da64ccbbf64fb00c, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.429
-      objectReference: {fileID: 0}
-    - target: {fileID: 2985835149641903331, guid: f8a17c18406a5f14da64ccbbf64fb00c, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -5.241
-      objectReference: {fileID: 0}
-    - target: {fileID: 2985835149641903331, guid: f8a17c18406a5f14da64ccbbf64fb00c, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.97480696
-      objectReference: {fileID: 0}
-    - target: {fileID: 2985835149641903331, guid: f8a17c18406a5f14da64ccbbf64fb00c, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2985835149641903331, guid: f8a17c18406a5f14da64ccbbf64fb00c, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.22305022
-      objectReference: {fileID: 0}
-    - target: {fileID: 2985835149641903331, guid: f8a17c18406a5f14da64ccbbf64fb00c, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2985835149641903331, guid: f8a17c18406a5f14da64ccbbf64fb00c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2985835149641903331, guid: f8a17c18406a5f14da64ccbbf64fb00c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 25.776
-      objectReference: {fileID: 0}
-    - target: {fileID: 2985835149641903331, guid: f8a17c18406a5f14da64ccbbf64fb00c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4779140234497423434, guid: f8a17c18406a5f14da64ccbbf64fb00c, type: 3}
-      propertyPath: m_Name
-      value: Store
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: f8a17c18406a5f14da64ccbbf64fb00c, type: 3}
 --- !u!1001 &821684753
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -27026,8 +26957,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
-  _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
-  _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
 --- !u!114 &828868568
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28024,8 +27953,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
-  _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
-  _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
 --- !u!114 &864434509
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29055,8 +28982,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
-  _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
-  _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
 --- !u!114 &889936907
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30215,8 +30140,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
-  _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
-  _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
 --- !u!114 &912252005
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34708,8 +34631,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
-  _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
-  _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
 --- !u!114 &1055095111
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44651,8 +44572,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
-  _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
-  _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
 --- !u!114 &1348994758
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45083,8 +45002,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
-  _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
-  _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
 --- !u!114 &1365620310
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46160,8 +46077,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
-  _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
-  _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
 --- !u!114 &1401417793
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47173,8 +47088,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
-  _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
-  _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
 --- !u!114 &1421618149
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47691,8 +47604,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
-  _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
-  _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
 --- !u!114 &1428473732
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48513,8 +48424,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
-  _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
-  _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
 --- !u!114 &1461630547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49503,8 +49412,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
-  _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
-  _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
 --- !u!114 &1480901085
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52786,8 +52693,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
-  _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
-  _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
 --- !u!114 &1573497149
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -54287,8 +54192,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
-  _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
-  _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
 --- !u!114 &1594047651
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58219,8 +58122,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
-  _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
-  _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
 --- !u!114 &1704210034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65639,8 +65540,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
-  _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
-  _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
 --- !u!114 &1952258679
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69462,8 +69361,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
-  _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
-  _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
 --- !u!114 &2043530836
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69778,7 +69675,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2054875719}
-  - component: {fileID: 2054875720}
   m_Layer: 5
   m_Name: CustomizeUI
   m_TagString: Untagged
@@ -69806,18 +69702,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1600, y: 900}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2054875720
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2054875718}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cbffdf188f54a7340a1b230e9d3cedc1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UIRegistrar
 --- !u!1001 &2057871440
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -70635,8 +70519,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
-  _HoverClip: {fileID: 8300000, guid: e26b12344a8fdd2439361d014323be33, type: 3}
-  _ClickClip: {fileID: 8300000, guid: 4e002e449fed29440b6a89814af2e231, type: 3}
 --- !u!114 &2077623461
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73306,6 +73188,67 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0c07bd10c7d74da47ac6745c097a8d7e, type: 3}
+--- !u!1001 &3482130060621126053
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3325092695298283581, guid: f8a17c18406a5f14da64ccbbf64fb00c, type: 3}
+      propertyPath: m_Name
+      value: Shop
+      objectReference: {fileID: 0}
+    - target: {fileID: 3487554137473957658, guid: f8a17c18406a5f14da64ccbbf64fb00c, type: 3}
+      propertyPath: _ObjInfo
+      value: 
+      objectReference: {fileID: 11400000, guid: 34a40bcfd75cc0b4fa179e39e9cdd7fd, type: 2}
+    - target: {fileID: 6660236438311077593, guid: f8a17c18406a5f14da64ccbbf64fb00c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 9.425
+      objectReference: {fileID: 0}
+    - target: {fileID: 6660236438311077593, guid: f8a17c18406a5f14da64ccbbf64fb00c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.429
+      objectReference: {fileID: 0}
+    - target: {fileID: 6660236438311077593, guid: f8a17c18406a5f14da64ccbbf64fb00c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -5.241
+      objectReference: {fileID: 0}
+    - target: {fileID: 6660236438311077593, guid: f8a17c18406a5f14da64ccbbf64fb00c, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.97480696
+      objectReference: {fileID: 0}
+    - target: {fileID: 6660236438311077593, guid: f8a17c18406a5f14da64ccbbf64fb00c, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6660236438311077593, guid: f8a17c18406a5f14da64ccbbf64fb00c, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.22305022
+      objectReference: {fileID: 0}
+    - target: {fileID: 6660236438311077593, guid: f8a17c18406a5f14da64ccbbf64fb00c, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6660236438311077593, guid: f8a17c18406a5f14da64ccbbf64fb00c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6660236438311077593, guid: f8a17c18406a5f14da64ccbbf64fb00c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 25.776
+      objectReference: {fileID: 0}
+    - target: {fileID: 6660236438311077593, guid: f8a17c18406a5f14da64ccbbf64fb00c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f8a17c18406a5f14da64ccbbf64fb00c, type: 3}
 --- !u!1001 &4493857625513826237
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -73817,7 +73760,7 @@ SceneRoots:
   - {fileID: 2025425426}
   - {fileID: 905330249}
   - {fileID: 505587659549540247}
-  - {fileID: 820089655}
+  - {fileID: 3482130060621126053}
   - {fileID: 1919740514}
   - {fileID: 4493857625513826237}
   - {fileID: 6273916969287239718}
