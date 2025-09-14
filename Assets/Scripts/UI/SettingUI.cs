@@ -118,7 +118,7 @@ public class SettingUI : MonoBehaviour
         for (int i = 0; i < FPS_PRESET.Length; i++)
         {
             int f = FPS_PRESET[i];
-            fpsOptions.Add(new TMP_Dropdown.OptionData(f < 0 ? "Unlimited" : $"{f} FPS"));
+            fpsOptions.Add(new TMP_Dropdown.OptionData(f < 0 ? "제한 없음" : $"{f} FPS"));
             if (f == graphic.CurrentTargetFps) selectedFpsIndex = i;
         }
         _FrameRateDD.ClearOptions();
