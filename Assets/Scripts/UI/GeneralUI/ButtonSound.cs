@@ -9,7 +9,7 @@ public class ButtonSound : MonoBehaviour, IPointerEnterHandler, IPointerDownHand
         var button = gameObject.GetComponent<Button>();
         if (!button.interactable) return;
 
-        SoundManager._Inst.PlayUIHover();
+        AudioManager._Inst.PlayUIHover();
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -17,7 +17,7 @@ public class ButtonSound : MonoBehaviour, IPointerEnterHandler, IPointerDownHand
         var button = gameObject.GetComponent<Button>();
         if (!button.interactable) return;
 
-        SoundManager._Inst.PlayUIClick();
+        AudioManager._Inst.PlayUIClick();
     }
 
     

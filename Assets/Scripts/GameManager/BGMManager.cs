@@ -6,7 +6,7 @@ public class BGMManager : MonoBehaviour
 
     void Start()
     {
-        if (SoundManager._Inst && _Clip)
-            SoundManager._Inst.PlayBGM(_Clip);
+        if (AudioManager._Inst && _Clip)
+            AudioManager._Inst.PlayBGM(_Clip);
     }
 }
