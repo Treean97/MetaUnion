@@ -16,6 +16,8 @@ public class SettingUI : MonoBehaviour
     [SerializeField] GameObject _GraphicTab;
     [SerializeField] TMP_Dropdown _ResolutionDD;
     [SerializeField] TMP_Dropdown _FrameRateDD;
+    [SerializeField] Toggle _VSync;
+    [SerializeField] Toggle _FullScreen;
 
     private GameObject _DefaultTab;
 
@@ -55,7 +57,6 @@ public class SettingUI : MonoBehaviour
     {
         _SoundTab.SetActive(false);
         _GraphicTab.SetActive(false);
-
 
         _DefaultTab.SetActive(true);
     }
