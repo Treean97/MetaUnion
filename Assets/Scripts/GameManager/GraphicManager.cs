@@ -14,9 +14,9 @@ public class GraphicManager : MonoBehaviour, ISaveSection
     public static GraphicManager _Inst { get; private set; }
     public string Key => "graphic";
 
-    [SerializeField] int _DefaultWidth;
-    [SerializeField] int _DefaultHeight;
-    [SerializeField] int _DefaultTargetFPS;
+    [SerializeField] int _DefaultWidth = 1920;
+    [SerializeField] int _DefaultHeight = 1080;
+    [SerializeField] int _DefaultTargetFPS = -1;
 
     int _W, _H, _TargetFps;
     FullScreenMode _Mode;
@@ -48,8 +48,8 @@ public class GraphicManager : MonoBehaviour, ISaveSection
         _W = _DefaultWidth;
         _H = _DefaultHeight;
         _Mode = FullScreenMode.Windowed;
-        _TargetFps = -1;
-        _VSync = QualitySettings.vSyncCount > 0;
+        _TargetFps = _DefaultTargetFPS;
+        _VSync = false;
     }
 
     // static RefreshRate ToRR(int frameRate)
@@ -131,7 +131,7 @@ public class GraphicManager : MonoBehaviour, ISaveSection
         _W = dto.Width; _H= dto.Height;
         _Mode = dto.Mode;
         _TargetFps = dto.TargetFps;
-        _VSync = dto.VSync;           // 추가
+        _VSync = dto.VSync; // 추가
 
         ApplyDisplay();
         ApplyFrameCap();

@@ -269,6 +269,18 @@ PrefabInstance:
       propertyPath: _Entries.Array.data[0].PreInstantiate
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 4142811719395402855, guid: 2bde3b1d9b7fb7c418b565c6d3571945, type: 3}
+      propertyPath: _DefaultWidth
+      value: 1920
+      objectReference: {fileID: 0}
+    - target: {fileID: 4142811719395402855, guid: 2bde3b1d9b7fb7c418b565c6d3571945, type: 3}
+      propertyPath: _DefaultHeight
+      value: 1080
+      objectReference: {fileID: 0}
+    - target: {fileID: 4142811719395402855, guid: 2bde3b1d9b7fb7c418b565c6d3571945, type: 3}
+      propertyPath: _DefaultTargetFPS
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 8571317249142214057, guid: 2bde3b1d9b7fb7c418b565c6d3571945, type: 3}
       propertyPath: m_LocalPosition.x
       value: 466.0816
