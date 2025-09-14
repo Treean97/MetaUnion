@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: -8737493075506996659}
   - component: {fileID: 4065197199983557677}
   - component: {fileID: -4396803842954909236}
+  - component: {fileID: 296225262186636917}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -91,6 +92,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4765987654d46a41827351f371c0628, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GraphicManager
+  _DefaultWidth: 0
+  _DefaultHeight: 0
+  _DefaultTargetFPS: 0
 --- !u!114 &-8737493075506996659
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -133,3 +137,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af21981b597bedf408583c83dccb9ecd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIRouter
+--- !u!114 &296225262186636917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1078885290729373513}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68243c6343b421b45a7484d7821601ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SaveLoadManager
