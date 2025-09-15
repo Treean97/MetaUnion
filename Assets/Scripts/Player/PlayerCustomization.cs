@@ -6,7 +6,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
 
-public class PlayerCustomization : MonoBehaviourPunCallbacks, IPunInstantiateMagicCallback
+public class PlayerCustomization : MonoBehaviourPunCallbacks, IPunInstantiateMagicCallback, ISaveSection
 {
     [Serializable]
     public class SlotBinding
@@ -25,6 +25,18 @@ public class PlayerCustomization : MonoBehaviourPunCallbacks, IPunInstantiateMag
     // 프로퍼티 키 접두사
     private const string PropKeyPrefix = "Customize_";
     private const string UnEquipToken  = "0";
+
+    public string Key => "custimize";
+    private Dictionary<ItemType, string> _Equipped = new();
+
+    // 저장용 DTO
+    public class CustomizeSettingsDTO
+    {
+        [Serializable]
+        public class Entry { public int Type; public string Id; }
+        public List<Entry> Items = new();
+    }
+
 
     void Awake()
     {
@@ -47,6 +59,9 @@ public class PlayerCustomization : MonoBehaviourPunCallbacks, IPunInstantiateMag
         // 이 오브젝트가 활성화된 직후, 이미 세팅된 CustomProperties가 있으면 바로 적용
         if (photonView.Owner != null)
             ApplyAllProperties(photonView.Owner.CustomProperties);
+
+        if (photonView.IsMine)
+            SaveLoadManager._Inst?.Register(this);
     }
 
     // Photon이 이 프리팹을 인스턴스화할 때 호출 (Instantiate 시점)
@@ -64,7 +79,7 @@ public class PlayerCustomization : MonoBehaviourPunCallbacks, IPunInstantiateMag
     {
         if (!photonView.IsMine) return;
 
-        var type   = itemSO.Type;
+        var type = itemSO.Type;
         var itemId = itemSO.ID;
 
         // 방 전체에 변경된 프로퍼티 전파
@@ -73,6 +88,9 @@ public class PlayerCustomization : MonoBehaviourPunCallbacks, IPunInstantiateMag
 
         // 로컬 화면에 즉시 반영
         ApplyMesh(type, itemId);
+        
+        // 저장
+        SaveLoadManager._Inst?.RequestSaveSection(Key);
     }
 
     public void UnEquipItem(ItemType type)
@@ -80,11 +98,14 @@ public class PlayerCustomization : MonoBehaviourPunCallbacks, IPunInstantiateMag
         if (!photonView.IsMine) return;
 
         // 방 전체에 변경된 프로퍼티 전파
-        var props = new Hashtable { { PropKeyPrefix + (int)type, UnEquipToken} };
+        var props = new Hashtable { { PropKeyPrefix + (int)type, UnEquipToken } };
         PhotonNetwork.LocalPlayer.SetCustomProperties(props);
 
         // 로컬 화면에 즉시 반영
         ApplyMesh(type, UnEquipToken);
+        
+        // 저장
+        SaveLoadManager._Inst?.RequestSaveSection(Key);
     }
 
 
@@ -158,6 +179,7 @@ public class PlayerCustomization : MonoBehaviourPunCallbacks, IPunInstantiateMag
         if (string.IsNullOrEmpty(itemId) || itemId == UnEquipToken || itemId == "-1")
         {
             renderer.sharedMesh = binding.BaseMesh;
+            if (photonView.IsMine) _Equipped[type] = UnEquipToken;
             return;
         }
 
@@ -166,11 +188,68 @@ public class PlayerCustomization : MonoBehaviourPunCallbacks, IPunInstantiateMag
         if (itemSO == null)
         {
             Debug.LogWarning($"ID '{itemId}' 아이템을 찾을 수 없습니다.");
+            renderer.sharedMesh = binding.BaseMesh;
+            if (photonView.IsMine) _Equipped[type] = UnEquipToken;
             return;
         }
 
         // Mesh 교체
         renderer.sharedMesh = itemSO.ItemMesh;
+        _Equipped[type] = itemId;
     }
 
+    public string CaptureJson()
+    {
+        // 로컬 소유자만 의미 있음
+        var dto = new CustomizeSettingsDTO();
+
+        // 슬롯 목록을 기준으로 직렬화(빈 슬롯은 "0")
+        foreach (var b in _SlotBindings)
+        {
+            var id = UnEquipToken;
+            if (_Equipped.TryGetValue(b.Type, out var cur)) id = string.IsNullOrEmpty(cur) ? UnEquipToken : cur;
+            else
+            {
+                // 혹시 초기화 직후라면 커스텀 프로퍼티에서 보정
+                if (PhotonNetwork.LocalPlayer != null)
+                {
+                    var key = PropKeyPrefix + (int)b.Type;
+                    if (PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue(key, out var v) && v != null)
+                        id = v.ToString();
+                }
+            }
+
+            dto.Items.Add(new CustomizeSettingsDTO.Entry { Type = (int)b.Type, Id = id });
+        }
+
+        return JsonUtility.ToJson(dto);
+    
+    }
+
+    public void ApplyJson(string s)
+    {
+        if (!photonView.IsMine) return;      // 로컬 소유자만 적용
+        if (string.IsNullOrEmpty(s)) return;
+
+        CustomizeSettingsDTO dto = null;
+        try { dto = JsonUtility.FromJson<CustomizeSettingsDTO>(s); }
+        catch { }
+
+        if (dto == null || dto.Items == null) return;
+
+        foreach (var e in dto.Items)
+        {
+            var type = (ItemType)e.Type;
+            var id = string.IsNullOrEmpty(e.Id) ? UnEquipToken : e.Id;
+
+            if (id == UnEquipToken || id == "-1") UnEquipItem(type);
+            else
+            {
+                // 기존 EquipItem은 SO를 요구하므로 찾아서 전달
+                var so = ItemManager._Inst.GetCustomizeItem(type, id);
+                if (so != null) EquipItem(so);
+                else UnEquipItem(type); // 유실된 아이템은 안전하게 해제
+            }
+        }            
+    }
 }
