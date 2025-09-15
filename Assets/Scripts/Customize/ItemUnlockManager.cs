@@ -5,41 +5,47 @@ using UnityEngine;
 using Photon.Pun;
 using ExitGames.Client.Photon;
 
-public class ItemUnlockManager : MonoBehaviourPunCallbacks
+public class ItemUnlockManager : MonoBehaviourPunCallbacks, ISaveSection
 {
     [Header("사용 가능 재화")]
     [SerializeField] private ItemDataSO _UseableCurrency;
 
     private readonly HashSet<string> _Unlocked = new();
 
+    [Serializable]
+    private class UnlockDTO
+    {
+        public List<string> ids = new();
+    }
+
+
+    public string Key => "unlock";
+
     public static event Action<CustomizeItemSO> OnItemUnlocked;
 
     void Start()
     {
-        // 1) 이전 저장여부 확인
-        bool hadSaved = PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("Unlocked");
+        SaveLoadManager._Inst?.Register(this);
 
-        // 2) 네트워크/로컬에 남은 해금 정보 로드
-        LoadUnlockedFromProperties();
-
-        // 3) SO에 설정된 기본 해금 아이템만큼 루프
-        
+        // SO에 설정된 기본 해금 아이템만큼 루프        
         if (ItemManager._Inst.CustomizeItemPoolSO == null)
         {
             Debug.LogError("[ItemUnlockManager] _ItemPool이 할당되지 않았습니다!");
         }
         else
         {
+            bool changed = false;
             foreach (var item in ItemManager._Inst.CustomizeItemPoolSO.GetDefaultUnlockedItems())
             {
                 if (_Unlocked.Add(item.ID))
+                {
                     OnItemUnlocked?.Invoke(item);
+                    changed = true;
+                }
             }
+            if (changed) SaveLoadManager._Inst?.RequestSaveSection(Key);
         }
 
-        // 4) 처음 실행이면 네트워크에 기본 해금 플래그 저장
-        if (!hadSaved)
-            SaveUnlockedToPhoton();
     }
 
     public override void OnEnable()
@@ -87,29 +93,36 @@ public class ItemUnlockManager : MonoBehaviourPunCallbacks
 
         _Unlocked.Add(item.ID);
         OnItemUnlocked?.Invoke(item);
-        SaveUnlockedToPhoton();
+        // 저장
+        SaveLoadManager._Inst?.RequestSaveSection(Key);
         GameEvents.RaiseItemPurchaseSuccess();
     }
 
-    void SaveUnlockedToPhoton()
+
+    public string CaptureJson()
     {
-        var csv = string.Join(",", _Unlocked);
-        PhotonNetwork.LocalPlayer.SetCustomProperties(
-            new Hashtable { { "Unlocked", csv } }
-        );
+        var dto = new UnlockDTO { ids = _Unlocked.OrderBy(x => x).ToList() };
+        return JsonUtility.ToJson(dto);
+    
     }
 
-    void LoadUnlockedFromProperties()
+    public void ApplyJson(string s)
     {
-        if (PhotonNetwork.LocalPlayer.CustomProperties
-            .TryGetValue("Unlocked", out var raw))
+        if (string.IsNullOrEmpty(s)) return;
+
+        UnlockDTO dto = null;
+        try { dto = JsonUtility.FromJson<UnlockDTO>(s); } catch { }
+        if (dto == null || dto.ids == null) return;
+
+        _Unlocked.Clear();
+        foreach (var id in dto.ids)
         {
-            foreach (var id in raw.ToString()
-                                 .Split(',')
-                                 .Where(s => !string.IsNullOrEmpty(s)))
-            {
-                _Unlocked.Add(id);
-            }
-        }
+            if (string.IsNullOrEmpty(id)) continue;
+            _Unlocked.Add(id);
+
+            // UI 즉시 갱신이 필요하다면 이벤트도 쏴줌
+            var so = ItemManager._Inst?.GetCustomizeItem(id); // 없으면 null 허용
+            if (so != null) OnItemUnlocked?.Invoke(so);
+        }    
     }
 }

@@ -19,17 +19,37 @@ public class ItemManager : MonoBehaviour
 
     // 런타임에 빠르게 조회할 딕셔너리
     private Dictionary<ItemType, List<CustomizeItemSO>> _ItemsByType;
+    private Dictionary<string, CustomizeItemSO> _ItemsById;
+
 
     void Awake()
     {
         if (_Inst != null && _Inst != this) { Destroy(this); return; }
         _Inst = this;
 
-        // SO에서 항목을 분류해 캐싱
-            _ItemsByType = _CustomizeItemPoolSO
-            .GetAllItems()
+        var allItem = _CustomizeItemPoolSO.GetAllItems();
+
+        // 타입 캐시 (카테고리 UI용)
+        _ItemsByType = allItem
             .GroupBy(item => item.Type)
             .ToDictionary(g => g.Key, g => g.ToList());
+
+        // ID 단일 캐시
+        _ItemsById = new Dictionary<string, CustomizeItemSO>(StringComparer.Ordinal);
+        foreach (var it in allItem)
+        {
+            if (string.IsNullOrEmpty(it.ID))
+            {
+                Debug.LogWarning("[ItemManager] 빈 ID 아이템이 있습니다.");
+                continue;
+            }
+            if (_ItemsById.ContainsKey(it.ID))
+            {
+                Debug.LogError($"[ItemManager] 중복 ID 발견: {it.ID} — 마지막 항목은 무시됩니다.");
+                continue;
+            }
+            _ItemsById[it.ID] = it;
+        }
     }
 
     /// <summary>
@@ -42,11 +62,10 @@ public class ItemManager : MonoBehaviour
             : Array.Empty<CustomizeItemSO>();
     }
 
-    /// <summary>
-    /// ID로 단일 아이템 조회
-    /// </summary>
-    public CustomizeItemSO GetCustomizeItem(ItemType type, string id)
+
+    // ID로 아이템 조회
+    public CustomizeItemSO GetCustomizeItem(string id)
     {
-        return GetCustomizeItems(type).FirstOrDefault(i => i.ID == id);
+        return id != null && _ItemsById.TryGetValue(id, out var so) ? so : null;
     }
 }

@@ -184,7 +184,7 @@ public class PlayerCustomization : MonoBehaviourPunCallbacks, IPunInstantiateMag
         }
 
         // 적용 처리
-        var itemSO = ItemManager._Inst.GetCustomizeItem(type, itemId);
+        var itemSO = ItemManager._Inst.GetCustomizeItem(itemId);
         if (itemSO == null)
         {
             Debug.LogWarning($"ID '{itemId}' 아이템을 찾을 수 없습니다.");
@@ -246,7 +246,7 @@ public class PlayerCustomization : MonoBehaviourPunCallbacks, IPunInstantiateMag
             else
             {
                 // 기존 EquipItem은 SO를 요구하므로 찾아서 전달
-                var so = ItemManager._Inst.GetCustomizeItem(type, id);
+                var so = ItemManager._Inst.GetCustomizeItem(id);
                 if (so != null) EquipItem(so);
                 else UnEquipItem(type); // 유실된 아이템은 안전하게 해제
             }
