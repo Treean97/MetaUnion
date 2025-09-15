@@ -90,6 +90,7 @@ public class InputManager : MonoBehaviour, ISaveSection
 
         // 저장 반영 시에는 requestSave=false (재저장 루프 방지)
         SetSensitivity(Mathf.Clamp01(dto.Sens), false);
+        SetZoomSpeed(Mathf.Clamp01(dto.ZoomSpeed), false);
         SetInvertY(dto.InvertY, false);
     }
 

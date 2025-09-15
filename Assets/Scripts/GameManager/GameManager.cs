@@ -24,8 +24,6 @@ namespace Com.MyCompany.MyGame
                 Destroy(this);
                 return;
             }
-
-            // 최초 인스턴스로 등록
             _Inst = this;
             DontDestroyOnLoad(gameObject);
 
