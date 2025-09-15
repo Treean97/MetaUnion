@@ -98,7 +98,7 @@ public class PlayerPreviewManager : MonoBehaviourPunCallbacks
         }
 
         // 적용 처리
-        var itemSO = ItemManager._Inst.GetCustomizeItem(type, itemId);
+        var itemSO = ItemManager._Inst.GetCustomizeItem(itemId);
         if (itemSO == null)
         {
             Debug.LogWarning($"ID '{itemId}' 아이템을 찾을 수 없습니다.");

@@ -79,6 +79,8 @@ public class LoadingManager : MonoBehaviour
 
     IEnumerator CoLoadScene(string sceneName)
     {
+        AudioManager._Inst?.SFXBlock();
+
         var op = SceneManager.LoadSceneAsync(sceneName);
         op.allowSceneActivation = false;
 
@@ -95,6 +97,8 @@ public class LoadingManager : MonoBehaviour
         // 씬 활성화
         op.allowSceneActivation = true;
         yield return null; // 활성화 프레임 보장
+
+        AudioManager._Inst?.SFXUnBlock();
 
         Hide();
     }

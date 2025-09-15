@@ -33,6 +33,9 @@ public class AudioManager : MonoBehaviour, ISaveSection
 
     private AudioSource _BGMSource;   // BGM 전용(루프)
     private AudioSource _SFXSource;   // SFX 전용(PlayOneShot)
+    private bool _SFXBlock;
+    public void SFXBlock() => _SFXBlock = true;
+    public void SFXUnBlock() => _SFXBlock = false;
 
     float _MasterValue = 1f, _BGMValue = 1f, _SFXValue = 1f;
 
@@ -100,6 +103,7 @@ public class AudioManager : MonoBehaviour, ISaveSection
     public void PlaySFX(AudioClip clip)
     {
         if (!clip) return;
+        if (_SFXBlock) return;
         _SFXSource.PlayOneShot(clip);
     }
 
