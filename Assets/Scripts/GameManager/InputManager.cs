@@ -4,8 +4,9 @@ using UnityEngine;
 [Serializable]
 public struct InputSettingsDTO
 {
-    public float Sens;        // 마우스 시점 감도(0~1 or 임의범위)
-    public bool InvertY;     // Y축 반전
+    public float Sens; // 마우스 시점 감도(0~1 or 임의범위)
+    public float ZoomSpeed; // 줌 속도
+    public bool InvertY; // Y축 반전    
 }
 
 public class InputManager : MonoBehaviour, ISaveSection
@@ -18,12 +19,16 @@ public class InputManager : MonoBehaviour, ISaveSection
     [Header("Default Set")]
     [Range(0f, 1f)]
     [SerializeField] private float _DefaultSens = 0.5f;
+    [Range(0f, 1f)]
+    [SerializeField] private float _DefaultZoomSpeed = 0.5f;
     [SerializeField] private bool _DefaultInvertY = false;
 
     float _Sens;
+    float _ZoomSpeed;
     bool  _InvertY;
 
-    public float GetLookSensitivity() => _Sens;
+    public float GetSensitivity() => _Sens;
+    public float GetZoomSpeed() => _ZoomSpeed;
     public bool IsInvertY() => _InvertY;
 
     void Awake()
@@ -47,10 +52,11 @@ public class InputManager : MonoBehaviour, ISaveSection
     void DefaultSet()
     {
         _Sens = _DefaultSens;
+        _ZoomSpeed = _DefaultZoomSpeed;
         _InvertY = _DefaultInvertY;
     }
 
-    public void SetLookSensitivity(float v, bool requestSave = true)
+    public void SetSensitivity(float v, bool requestSave = true)
     {
         var clamped = Mathf.Clamp01(v);
         if (Mathf.Approximately(_Sens, clamped)) return; // 불필요 저장 방지
@@ -63,8 +69,15 @@ public class InputManager : MonoBehaviour, ISaveSection
     {
         if (_InvertY == on) return;
         _InvertY = on;
+        if (requestSave) SaveLoadManager._Inst?.RequestSaveSection(Key);        
+    }
+
+    public void SetZoomSpeed(float v, bool requestSave = true)
+    {
+        var c = Mathf.Clamp01(v);
+        if (Mathf.Approximately(_ZoomSpeed, c)) return;
+        _ZoomSpeed = c;
         if (requestSave) SaveLoadManager._Inst?.RequestSaveSection(Key);
-        
     }
 
 
@@ -76,8 +89,8 @@ public class InputManager : MonoBehaviour, ISaveSection
         catch { return; }
 
         // 저장 반영 시에는 requestSave=false (재저장 루프 방지)
-        SetLookSensitivity(Mathf.Clamp01(dto.Sens), false);
-        SetInvertY(dto.InvertY, false);    
+        SetSensitivity(Mathf.Clamp01(dto.Sens), false);
+        SetInvertY(dto.InvertY, false);
     }
 
     public string CaptureJson()
@@ -85,7 +98,8 @@ public class InputManager : MonoBehaviour, ISaveSection
         var dto = new InputSettingsDTO
         {
             Sens = _Sens,
-            InvertY = _InvertY
+            InvertY = _InvertY,
+            ZoomSpeed = _ZoomSpeed
         };
         
         return JsonUtility.ToJson(dto);

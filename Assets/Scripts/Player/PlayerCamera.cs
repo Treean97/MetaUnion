@@ -52,13 +52,16 @@ namespace Controller
 
         public virtual void SetInput(in Vector2 delta, float scroll)
         {
+            // 회전
             m_Angles += new Vector2(delta.y * m_SensitivityY, delta.x * m_SensitivityX) * 360f;
             m_Angles.x = Mathf.Clamp(m_Angles.x, m_MinAngle, m_MaxAngle);
 
-            m_Zoom += scroll * m_SensetivityZoom;
+            // ★ 줌: 카메라 기본값(m_SensetivityZoom) × 옵션(InputManager.ZoomSens)
+            float zoomSensGlobal = InputManager._Inst ? Mathf.Max(0.01f, InputManager._Inst.GetZoomSpeed()) : 1f;
+            m_Zoom += scroll * m_SensetivityZoom * zoomSensGlobal;
             m_Zoom = Mathf.Clamp01(m_Zoom);
 
-            m_Distance = (1f - m_Zoom) * (MAX_DISTANCE - MIN_DISTANCE) + MIN_DISTANCE;
+            m_Distance = (1f - m_Zoom) * (MAX_DISTANCE - MIN_DISTANCE) + MIN_DISTANCE;    
         }
     }
 }

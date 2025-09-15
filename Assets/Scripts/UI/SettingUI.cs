@@ -23,6 +23,7 @@ public class SettingUI : MonoBehaviour
     [Header("Input Setting")]
     [SerializeField] GameObject _InputTab;
     [SerializeField] Slider _SensSlider;
+    [SerializeField] Slider _ZoomSpeedSlider;
     [SerializeField] Toggle _InvertYToggle;
 
 
@@ -71,6 +72,7 @@ public class SettingUI : MonoBehaviour
 
         // Input
         _SensSlider.onValueChanged.RemoveAllListeners();
+        _ZoomSpeedSlider.onValueChanged.RemoveAllListeners();
         _InvertYToggle.onValueChanged.RemoveAllListeners();
     }
 
@@ -166,10 +168,12 @@ public class SettingUI : MonoBehaviour
         var input = InputManager._Inst;
         if (!input) return;
 
-        _SensSlider.SetValueWithoutNotify(input.GetLookSensitivity());
+        _SensSlider.SetValueWithoutNotify(input.GetSensitivity());
+        _ZoomSpeedSlider.SetValueWithoutNotify(input.GetZoomSpeed());
         _InvertYToggle.SetIsOnWithoutNotify(input.IsInvertY());
 
-        _SensSlider.onValueChanged.AddListener(v => InputManager._Inst?.SetLookSensitivity(v));
+        _SensSlider.onValueChanged.AddListener(v => InputManager._Inst?.SetSensitivity(v));
+        _ZoomSpeedSlider.onValueChanged.AddListener(v => InputManager._Inst?.SetZoomSpeed(v));
         _InvertYToggle.onValueChanged.AddListener(on => InputManager._Inst?.SetInvertY(on));
     } 
     
