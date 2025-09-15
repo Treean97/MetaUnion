@@ -19,10 +19,9 @@ namespace Com.MyCompany.MyGame
         
         private void Awake()
         {
-            // 이미 인스턴스가 존재하고, 이 인스턴스가 아니라면 자기 자신을 파괴
             if (_Inst != null && _Inst != this)
             {
-                Destroy(gameObject);
+                Destroy(this);
                 return;
             }
 

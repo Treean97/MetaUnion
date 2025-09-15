@@ -9,6 +9,7 @@ public struct GraphicsSettingsDTO
     public bool VSync;
     public FullScreenMode Mode;        // FullScreenWindow / Windowed 등
 }
+
 public class GraphicManager : MonoBehaviour, ISaveSection
 {
     public static GraphicManager _Inst { get; private set; }
@@ -31,7 +32,11 @@ public class GraphicManager : MonoBehaviour, ISaveSection
 
     void Awake()
     {
-        if (_Inst != null) { Destroy(gameObject); return; }
+        if (_Inst != null && _Inst != this)
+        {
+            Destroy(this);
+            return;
+        }
         _Inst = this;
         DontDestroyOnLoad(gameObject);
 

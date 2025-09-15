@@ -20,9 +20,15 @@ public class SettingUI : MonoBehaviour
     [SerializeField] Toggle _VSync;
     [SerializeField] Toggle _FullScreen;
 
+    [Header("Input Setting")]
+    [SerializeField] GameObject _InputTab;
+    [SerializeField] Slider _SensSlider;
+    [SerializeField] Toggle _InvertYToggle;
+
+
     private GameObject _DefaultTab;
 
-    // ---- 프리셋(원하는대로 수정) ----
+    // 드롭다운 프리셋
     static readonly Vector2Int[] RES_PRESET =
     {
         new Vector2Int(1280, 720),
@@ -47,24 +53,32 @@ public class SettingUI : MonoBehaviour
         // 바인딩
         BindAudio();
         BindGraphics();
+        BindInput();
     }
 
     void OnDisable()
     {
+        // Audio
         _MasterVolSlider.onValueChanged.RemoveAllListeners();
         _BGMVolSlider.onValueChanged.RemoveAllListeners();
         _SFXVolSlider.onValueChanged.RemoveAllListeners();
 
+        // Graphic
         _ResolutionDD.onValueChanged.RemoveAllListeners();
         _FrameRateDD.onValueChanged.RemoveAllListeners();
         _VSync.onValueChanged.RemoveAllListeners();
         _FullScreen.onValueChanged.RemoveAllListeners();
+
+        // Input
+        _SensSlider.onValueChanged.RemoveAllListeners();
+        _InvertYToggle.onValueChanged.RemoveAllListeners();
     }
 
     void DefaultSet()
     {
         _SoundTab.SetActive(false);
         _GraphicTab.SetActive(false);
+        _InputTab.SetActive(false);
 
         _DefaultTab.SetActive(true);
     }
@@ -146,5 +160,17 @@ public class SettingUI : MonoBehaviour
             GraphicManager._Inst?.SetFullscreen(on);
         });
     }
+    
+    void BindInput()
+    {
+        var input = InputManager._Inst;
+        if (!input) return;
+
+        _SensSlider.SetValueWithoutNotify(input.GetLookSensitivity());
+        _InvertYToggle.SetIsOnWithoutNotify(input.IsInvertY());
+
+        _SensSlider.onValueChanged.AddListener(v => InputManager._Inst?.SetLookSensitivity(v));
+        _InvertYToggle.onValueChanged.AddListener(on => InputManager._Inst?.SetInvertY(on));
+    } 
     
 }

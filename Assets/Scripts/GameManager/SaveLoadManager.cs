@@ -18,8 +18,14 @@ public class SaveLoadManager : MonoBehaviour
 
     void Awake()
     {
-        if (_Inst != null) { Destroy(gameObject); return; }
-        _Inst = this; DontDestroyOnLoad(gameObject);
+        if (_Inst != null && _Inst != this)
+        {
+            Destroy(this);
+            return;
+        }
+        _Inst = this;
+        DontDestroyOnLoad(gameObject);
+        
         LoadAll();
     }
 

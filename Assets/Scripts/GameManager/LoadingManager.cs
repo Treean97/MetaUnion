@@ -7,7 +7,7 @@ using Photon.Pun;
 
 public class LoadingManager : MonoBehaviour
 {
-    private static LoadingManager _Instance;
+    public static LoadingManager _Inst { get; private set; }
 
     [SerializeField] private Canvas _Canvas;
     [SerializeField] private Image _Background;
@@ -20,21 +20,16 @@ public class LoadingManager : MonoBehaviour
 
     void Awake()
     {
-        if (_Instance == null)
+        if (_Inst != null && _Inst != this)
         {
-            _Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
+            Destroy(this);
             return;
         }
+        _Inst = this;
+        DontDestroyOnLoad(gameObject);
 
         _Canvas.gameObject.SetActive(false);
     }
-
-    public static LoadingManager _Inst => _Instance;
 
 
     public void Show()

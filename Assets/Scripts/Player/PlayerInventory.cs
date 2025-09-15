@@ -9,6 +9,8 @@ public class InventoryItem
 
 
 
+
+
 public class PlayerInventory : MonoBehaviour, ISaveSection
 {
     // id, count
@@ -16,7 +18,7 @@ public class PlayerInventory : MonoBehaviour, ISaveSection
     [SerializeField] private int _MaxInventorySlot;
 
     public string Key => "inventory";
-
+    
     [System.Serializable]
     private class InventoryDTO
     {
@@ -174,7 +176,7 @@ public class PlayerInventory : MonoBehaviour, ISaveSection
             dto.items.Add(new InventoryDTO.Entry { id = id, amount = amt });
         }
 
-        return JsonUtility.ToJson(dto);    
+        return JsonUtility.ToJson(dto);
     }
 
     public void ApplyJson(string s)
@@ -215,6 +217,6 @@ public class PlayerInventory : MonoBehaviour, ISaveSection
         }
 
         // UI 갱신 필요 시
-        GameEvents.RaiseRequestUpdateInventory();    
+        GameEvents.RaiseRequestUpdateInventory();
     }
 }

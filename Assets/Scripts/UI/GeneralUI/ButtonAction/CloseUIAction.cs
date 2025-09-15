@@ -3,6 +3,16 @@ using UnityEngine;
 
 public class CloseUIAction : MonoBehaviour, IButtonAction
 {
-    [SerializeField] GameObject _Target;
-    public void Execute() { if (_Target) _Target.SetActive(false); }
+    [SerializeField] GameObject[] _Targets;
+    public void Execute()
+    {
+        if (_Targets == null || _Targets.Length == 0) return;
+
+        foreach (var target in _Targets)
+        {
+            target.SetActive(false);
+        }
+        
+
+    }
 }

@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class BGMManager : MonoBehaviour
 {
+
     [SerializeField] private AudioClip _Clip;
 
     void Start()

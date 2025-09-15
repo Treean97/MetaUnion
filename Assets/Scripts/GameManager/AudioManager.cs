@@ -44,7 +44,11 @@ public class AudioManager : MonoBehaviour, ISaveSection
 
     void Awake()
     {
-        if (_Inst != null) { Destroy(gameObject); return; }
+        if (_Inst != null && _Inst != this)
+        {
+            Destroy(this);
+            return;
+        }
         _Inst = this;
         DontDestroyOnLoad(gameObject);
 
