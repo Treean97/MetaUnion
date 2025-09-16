@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8571317249142214057}
   - component: {fileID: 6718996863731973077}
-  - component: {fileID: 2977195707756383750}
   - component: {fileID: 1452965095438198344}
+  - component: {fileID: 4325577648786806735}
   - component: {fileID: 4142811719395402855}
   - component: {fileID: -8737493075506996659}
   - component: {fileID: 4065197199983557677}
@@ -52,18 +52,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _PlayerPrefab: {fileID: 5832607453936394915, guid: e14d41c3efe0d1f4899bebbdbb4b5772, type: 3}
---- !u!114 &2977195707756383750
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1078885290729373513}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 46e1d097cf43b7641915057f43d93e50, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1452965095438198344
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80,6 +68,21 @@ MonoBehaviour:
   _BGMGroup: {fileID: 7847132128881948458, guid: 582c2ef3a357f5a4abfc2c71c7d73817, type: 2}
   _SFXGroup: {fileID: -889364480738380157, guid: 582c2ef3a357f5a4abfc2c71c7d73817, type: 2}
   _UISound: {fileID: 0}
+--- !u!114 &4325577648786806735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1078885290729373513}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2ebe22aade57034d8a69ce70a064325, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InputManager
+  _DefaultSens: 0.5
+  _DefaultZoomSpeed: 0.5
+  _DefaultInvertY: 0
 --- !u!114 &4142811719395402855
 MonoBehaviour:
   m_ObjectHideFlags: 0

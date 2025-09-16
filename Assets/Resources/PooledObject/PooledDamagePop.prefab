@@ -190,7 +190,7 @@ GameObject:
   - component: {fileID: 554811178057000696}
   - component: {fileID: 3941590467290499410}
   m_Layer: 5
-  m_Name: DamagePop
+  m_Name: PooledDamagePop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
