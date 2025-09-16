@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Sound/UISoundData")]
-public class UISoundSO : ScriptableObject
+[CreateAssetMenu(menuName = "Sound/SoundData")]
+public class SoundSO : ScriptableObject
 {
     [Header("UI Button")]
     public AudioClip[] ClickPool;   // 클릭은 여기서 랜덤

@@ -24,7 +24,7 @@ public class AudioManager : MonoBehaviour, ISaveSection
     [SerializeField] private AudioMixerGroup _Master;
     [SerializeField] private AudioMixerGroup _BGMGroup;
     [SerializeField] private AudioMixerGroup _SFXGroup;
-    [SerializeField] private UISoundSO _UISound;
+    [SerializeField] private SoundSO _UISound;
 
     AudioMixer Mixer => _Master ? _Master.audioMixer :
                         _BGMGroup ? _BGMGroup.audioMixer :
