@@ -25,6 +25,7 @@ public class SoundSO : ScriptableObject
         public float MaxDistance = 18f;
         public AudioRolloffMode Rolloff = AudioRolloffMode.Linear;
 
+        // 랜덤 클립 추출
         public AudioClip PickClip()
             => (Clips != null && Clips.Length > 0) ? Clips[Random.Range(0, Clips.Length)] : null;
     }
