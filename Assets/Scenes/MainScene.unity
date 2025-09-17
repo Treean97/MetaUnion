@@ -241,135 +241,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 30462945}
   m_CullTransparentMesh: 1
---- !u!1 &40017796
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 40017797}
-  - component: {fileID: 40017798}
-  m_Layer: 0
-  m_Name: PooledAudioPlayer
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &40017797
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 40017796}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!82 &40017798
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 40017796}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!1001 &56964171
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -386,16 +257,48 @@ PrefabInstance:
       propertyPath: _UISound
       value: 
       objectReference: {fileID: 11400000, guid: 870e473ec56d73d4583d87b66ceb7eef, type: 2}
+    - target: {fileID: 1452965095438198344, guid: 2bde3b1d9b7fb7c418b565c6d3571945, type: 3}
+      propertyPath: _SFX2DPlayerPrefab
+      value: 
+      objectReference: {fileID: -3685470146019359796, guid: 3c14884d30f711e48845d18e646af63f, type: 3}
+    - target: {fileID: 1452965095438198344, guid: 2bde3b1d9b7fb7c418b565c6d3571945, type: 3}
+      propertyPath: _SFX3DPlayerPrefab
+      value: 
+      objectReference: {fileID: -1982724277463680301, guid: 0c34698a632ef8f4fbd013bb1a6f4cd4, type: 3}
+    - target: {fileID: 1452965095438198344, guid: 2bde3b1d9b7fb7c418b565c6d3571945, type: 3}
+      propertyPath: _SoundDatas.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1452965095438198344, guid: 2bde3b1d9b7fb7c418b565c6d3571945, type: 3}
+      propertyPath: '_SoundDatas.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 7cdfcccde73e4654887e4a1ecd824ada, type: 2}
     - target: {fileID: 4065197199983557677, guid: 2bde3b1d9b7fb7c418b565c6d3571945, type: 3}
       propertyPath: _Entries.Array.size
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4065197199983557677, guid: 2bde3b1d9b7fb7c418b565c6d3571945, type: 3}
       propertyPath: _Entries.Array.data[0].Prefab
       value: 
       objectReference: {fileID: 6641512020476146562, guid: 7f2b331fc1a782140b88dabe7b352e43, type: 3}
     - target: {fileID: 4065197199983557677, guid: 2bde3b1d9b7fb7c418b565c6d3571945, type: 3}
+      propertyPath: _Entries.Array.data[1].Prefab
+      value: 
+      objectReference: {fileID: 6182686763287247152, guid: 3c14884d30f711e48845d18e646af63f, type: 3}
+    - target: {fileID: 4065197199983557677, guid: 2bde3b1d9b7fb7c418b565c6d3571945, type: 3}
+      propertyPath: _Entries.Array.data[2].Prefab
+      value: 
+      objectReference: {fileID: 9095161919421637261, guid: 0c34698a632ef8f4fbd013bb1a6f4cd4, type: 3}
+    - target: {fileID: 4065197199983557677, guid: 2bde3b1d9b7fb7c418b565c6d3571945, type: 3}
       propertyPath: _Entries.Array.data[0].PreInstantiate
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4065197199983557677, guid: 2bde3b1d9b7fb7c418b565c6d3571945, type: 3}
+      propertyPath: _Entries.Array.data[1].PreInstantiate
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4065197199983557677, guid: 2bde3b1d9b7fb7c418b565c6d3571945, type: 3}
+      propertyPath: _Entries.Array.data[2].PreInstantiate
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4142811719395402855, guid: 2bde3b1d9b7fb7c418b565c6d3571945, type: 3}
@@ -1338,6 +1241,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
+  uiSet: {fileID: 11400000, guid: 7cdfcccde73e4654887e4a1ecd824ada, type: 2}
+  _ClickSound: 1
+  _HoverSound: 1
+  _OpenSound: 0
+  _CloseSound: 0
 --- !u!1 &214995986
 GameObject:
   m_ObjectHideFlags: 0
@@ -1785,6 +1693,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
+  uiSet: {fileID: 11400000, guid: 7cdfcccde73e4654887e4a1ecd824ada, type: 2}
+  _ClickSound: 1
+  _HoverSound: 1
+  _OpenSound: 0
+  _CloseSound: 0
 --- !u!114 &278161049
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4859,6 +4772,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
+  uiSet: {fileID: 11400000, guid: 7cdfcccde73e4654887e4a1ecd824ada, type: 2}
+  _ClickSound: 1
+  _HoverSound: 1
+  _OpenSound: 0
+  _CloseSound: 0
 --- !u!114 &777119194
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5760,6 +5678,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
+  uiSet: {fileID: 11400000, guid: 7cdfcccde73e4654887e4a1ecd824ada, type: 2}
+  _ClickSound: 1
+  _HoverSound: 1
+  _OpenSound: 0
+  _CloseSound: 0
 --- !u!114 &919432011
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6957,9 +6880,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1037249314}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26aed3d3cc66673458efa57f3abc8715, type: 3}
+  m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UISoundOnOpenClose
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
+  uiSet: {fileID: 11400000, guid: 7cdfcccde73e4654887e4a1ecd824ada, type: 2}
+  _ClickSound: 0
+  _HoverSound: 0
+  _OpenSound: 1
+  _CloseSound: 1
 --- !u!1 &1037743670
 GameObject:
   m_ObjectHideFlags: 0
@@ -7607,6 +7535,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
+  uiSet: {fileID: 11400000, guid: 7cdfcccde73e4654887e4a1ecd824ada, type: 2}
+  _ClickSound: 1
+  _HoverSound: 1
+  _OpenSound: 0
+  _CloseSound: 0
 --- !u!114 &1187353001
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8030,6 +7963,7 @@ GameObject:
   - component: {fileID: 1267723656}
   - component: {fileID: 1267723655}
   - component: {fileID: 1267723658}
+  - component: {fileID: 1267723659}
   m_Layer: 5
   m_Name: Button - close
   m_TagString: Untagged
@@ -8152,6 +8086,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverSpin
   _HoverScale: 1.08
   _ScaleTime: 0.1
+--- !u!114 &1267723659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1267723653}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
+  uiSet: {fileID: 11400000, guid: 7cdfcccde73e4654887e4a1ecd824ada, type: 2}
+  _ClickSound: 1
+  _HoverSound: 1
+  _OpenSound: 0
+  _CloseSound: 0
 --- !u!1 &1267902965
 GameObject:
   m_ObjectHideFlags: 0
@@ -8817,6 +8768,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
+  uiSet: {fileID: 11400000, guid: 7cdfcccde73e4654887e4a1ecd824ada, type: 2}
+  _ClickSound: 1
+  _HoverSound: 1
+  _OpenSound: 0
+  _CloseSound: 0
 --- !u!114 &1343703140
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9509,6 +9465,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
+  uiSet: {fileID: 11400000, guid: 7cdfcccde73e4654887e4a1ecd824ada, type: 2}
+  _ClickSound: 1
+  _HoverSound: 1
+  _OpenSound: 0
+  _CloseSound: 0
 --- !u!114 &1423810518
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9664,9 +9625,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1426405791}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26aed3d3cc66673458efa57f3abc8715, type: 3}
+  m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UISoundOnOpenClose
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
+  uiSet: {fileID: 11400000, guid: 7cdfcccde73e4654887e4a1ecd824ada, type: 2}
+  _ClickSound: 0
+  _HoverSound: 0
+  _OpenSound: 1
+  _CloseSound: 1
 --- !u!1 &1442082947
 GameObject:
   m_ObjectHideFlags: 0
@@ -9969,7 +9935,6 @@ GameObject:
   - component: {fileID: 1473381468}
   - component: {fileID: 1473381467}
   - component: {fileID: 1473381464}
-  - component: {fileID: 1473381465}
   m_Layer: 5
   m_Name: Button - login
   m_TagString: Untagged
@@ -10092,103 +10057,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
---- !u!82 &1473381465
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1473381459}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
+  uiSet: {fileID: 11400000, guid: 7cdfcccde73e4654887e4a1ecd824ada, type: 2}
+  _ClickSound: 1
+  _HoverSound: 1
+  _OpenSound: 0
+  _CloseSound: 0
 --- !u!114 &1473381466
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12103,6 +11976,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
+  uiSet: {fileID: 11400000, guid: 7cdfcccde73e4654887e4a1ecd824ada, type: 2}
+  _ClickSound: 1
+  _HoverSound: 1
+  _OpenSound: 0
+  _CloseSound: 0
 --- !u!114 &1678332533
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12561,6 +12439,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
+  uiSet: {fileID: 11400000, guid: 7cdfcccde73e4654887e4a1ecd824ada, type: 2}
+  _ClickSound: 1
+  _HoverSound: 1
+  _OpenSound: 0
+  _CloseSound: 0
 --- !u!1 &1724674983
 GameObject:
   m_ObjectHideFlags: 0
@@ -12938,6 +12821,8 @@ GameObject:
   - component: {fileID: 1750895566}
   - component: {fileID: 1750895565}
   - component: {fileID: 1750895564}
+  - component: {fileID: 1750895568}
+  - component: {fileID: 1750895567}
   m_Layer: 5
   m_Name: Button - close
   m_TagString: Untagged
@@ -13046,6 +12931,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1750895562}
   m_CullTransparentMesh: 0
+--- !u!114 &1750895567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1750895562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
+  uiSet: {fileID: 11400000, guid: 7cdfcccde73e4654887e4a1ecd824ada, type: 2}
+  _ClickSound: 1
+  _HoverSound: 1
+  _OpenSound: 0
+  _CloseSound: 0
+--- !u!114 &1750895568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1750895562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a96d0bf4cf4cc18489779b5b5cadcb01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
+  _HoverScale: 1.08
+  _ScaleTime: 0.1
 --- !u!1 &1751237087
 GameObject:
   m_ObjectHideFlags: 0
@@ -13350,9 +13266,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1756312553}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26aed3d3cc66673458efa57f3abc8715, type: 3}
+  m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UISoundOnOpenClose
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
+  uiSet: {fileID: 11400000, guid: 7cdfcccde73e4654887e4a1ecd824ada, type: 2}
+  _ClickSound: 0
+  _HoverSound: 0
+  _OpenSound: 1
+  _CloseSound: 1
 --- !u!1 &1758407195
 GameObject:
   m_ObjectHideFlags: 0
@@ -16377,9 +16298,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 2103205357}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26aed3d3cc66673458efa57f3abc8715, type: 3}
+  m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UISoundOnOpenClose
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
+  uiSet: {fileID: 11400000, guid: 7cdfcccde73e4654887e4a1ecd824ada, type: 2}
+  _ClickSound: 0
+  _HoverSound: 0
+  _OpenSound: 1
+  _CloseSound: 1
 --- !u!1 &2104859067
 GameObject:
   m_ObjectHideFlags: 0
@@ -16667,6 +16593,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
+  uiSet: {fileID: 11400000, guid: 7cdfcccde73e4654887e4a1ecd824ada, type: 2}
+  _ClickSound: 1
+  _HoverSound: 1
+  _OpenSound: 0
+  _CloseSound: 0
 --- !u!114 &2117915625
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17227,4 +17158,3 @@ SceneRoots:
   - {fileID: 56964171}
   - {fileID: 4703147384250069337}
   - {fileID: 2765039259859299329}
-  - {fileID: 40017797}

@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -18,26 +20,35 @@ public class AudioManager : MonoBehaviour, ISaveSection
 
     public string Key => "audio";
     const string P_Master = "Master";
-    const string P_BGM    = "BGM";
-    const string P_SFX    = "SFX";
+    const string P_BGM = "BGM";
+    const string P_SFX = "SFX";
 
+    [Header("Mixer Groups")]
     [SerializeField] private AudioMixerGroup _Master;
     [SerializeField] private AudioMixerGroup _BGMGroup;
     [SerializeField] private AudioMixerGroup _SFXGroup;
-    [SerializeField] private SoundSO _UISound;
+
+    [Header("Pooled Players (Prefabs)")]
+    [SerializeField] private Pooled2DAudioPlayer _SFX2DPlayerPrefab; // spatialBlend=0
+    [SerializeField] private Pooled3DAudioPlayer _SFX3DPlayerPrefab; // spatialBlend=1
+
+
+    [SerializeField] private SoundSO[] _SoundDatas;
 
     AudioMixer Mixer => _Master ? _Master.audioMixer :
                         _BGMGroup ? _BGMGroup.audioMixer :
                         _SFXGroup ? _SFXGroup.audioMixer : null;
 
-
     private AudioSource _BGMSource;   // BGM 전용(루프)
-    private AudioSource _SFXSource;   // SFX 전용(PlayOneShot)
+
     private bool _SFXBlock;
     public void SFXBlock() => _SFXBlock = true;
     public void SFXUnBlock() => _SFXBlock = false;
 
     float _MasterValue = 1f, _BGMValue = 1f, _SFXValue = 1f;
+
+    PhotonView _PV;
+    readonly Dictionary<int, SoundSO> _Map = new();
 
     // DB로 변환
     static float ToDB(float v) => v <= 0.0001f ? -80f : Mathf.Log10(v) * 20f;
@@ -52,6 +63,9 @@ public class AudioManager : MonoBehaviour, ISaveSection
         _Inst = this;
         DontDestroyOnLoad(gameObject);
 
+        _PV = GetComponent<PhotonView>();
+
+
         // BGM 소스
         _BGMSource = gameObject.AddComponent<AudioSource>();
         _BGMSource.playOnAwake = false;
@@ -59,19 +73,12 @@ public class AudioManager : MonoBehaviour, ISaveSection
         _BGMSource.spatialBlend = 0f; // 2D
         _BGMSource.outputAudioMixerGroup = _BGMGroup;
 
-        // SFX 소스
-        _SFXSource = gameObject.AddComponent<AudioSource>();
-        _SFXSource.playOnAwake = false;
-        _SFXSource.loop = false;
-        _SFXSource.spatialBlend = 0f; // 2D
-        _SFXSource.outputAudioMixerGroup = _SFXGroup;
-
         SaveLoadManager._Inst?.Register(this);
     }
 
     public float GetMasterValue() => _MasterValue;
-    public float GetBGMValue()    => _BGMValue;
-    public float GetSFXValue()    => _SFXValue;
+    public float GetBGMValue() => _BGMValue;
+    public float GetSFXValue() => _SFXValue;
 
     public void SetMasterValue(float v, bool requestSave = true)
     {
@@ -97,59 +104,103 @@ public class AudioManager : MonoBehaviour, ISaveSection
     public void PlayBGM(AudioClip clip)
     {
         if (!clip) return;
-
         if (_BGMSource.clip == clip) return;
-
         _BGMSource.clip = clip;
         _BGMSource.Play();
     }
 
-    public void PlaySFX(AudioClip clip)
+    // ===== 로컬 재생: SO + Key =====
+    // 3D: pos(원샷) 또는 attach(부착) 중 하나 사용
+    public Pooled3DAudioPlayer PlayLocalFromSO(SoundSO soundData, string key, Vector3? pos = null, Transform attach = null)
     {
-        if (!clip) return;
+        if (_SFXBlock || !soundData || !soundData.TryGet(key, out var e)) return null;
+        var clip = e.PickClip(); if (!clip) return null;
+
+        if (e.Space == SoundSpace.S2D)
+        {
+            var p2d = ObjectPoolManager._Inst?.Rent(_SFX2DPlayerPrefab);
+            if (!p2d) { Debug.LogWarning("[Audio] 2D pool not ready"); return null; }
+            p2d.ConfigureMixer(_SFXGroup);
+            p2d.Play(clip, e.Volume, e.Loop);
+            return null; // 2D는 핸들 불필요
+        }
+        else
+        {
+            var p3d = ObjectPoolManager._Inst?.Rent(_SFX3DPlayerPrefab);
+            if (!p3d) { Debug.LogWarning("[Audio] 3D pool not ready"); return null; }
+            p3d.ConfigureMixer(_SFXGroup);
+
+            if (attach)
+                p3d.PlayAttached(attach, clip, e.Volume, e.MinDistance, e.MaxDistance, e.Rolloff, e.Loop);
+            else
+                p3d.PlayAt(pos ?? Vector3.zero, clip, e.Volume, e.MinDistance, e.MaxDistance, e.Rolloff, e.Loop);
+
+            return p3d; // 루프/부착이면 나중에 StopAndReturn() 호출용
+        }
+    }
+
+    // ===== 전역 재생: RPC (key만 전파) =====
+    // set은 로컬 유효성 체크용(옵션). 전파에는 key만 사용.
+    public void PlayGlobalFromSO_RPC(SoundSO set, string key, Vector3 worldPos)
+    {
+        if (!set || !set.TryGet(key, out _))
+        {
+            Debug.LogWarning($"[Audio] 전송 전 키 확인 실패: {key}");
+            return;
+        }
+        _PV.RPC(nameof(RPC_PlayByKey), RpcTarget.All, key, worldPos);
+    }
+
+    // 전역 2D 편의 오버로드(위치 불필요)
+    public void PlayGlobal2DByKey_RPC(string key)
+    {
+        _PV.RPC(nameof(RPC_PlayByKey), RpcTarget.All, key, Vector3.zero);
+    }
+
+    [PunRPC]
+    void RPC_PlayByKey(string key, Vector3 worldPos)
+    {
         if (_SFXBlock) return;
-        _SFXSource.PlayOneShot(clip);
-    }
 
-    public void PlayUIClick()
-    {
-        if (!_UISound || _UISound.ClickPool == null || _UISound.ClickPool.Length == 0) return;
-        var pool = _UISound.ClickPool;
-        var clip = pool[Random.Range(0, pool.Length)];
-        PlaySFX(clip);
-    }
+        // 등록된 모든 SoundSO에서 키 검색 (전역 유일 키 전제)
+        SoundSO.Entry e = null;
+        if (_SoundDatas != null)
+        {
+            for (int i = 0; i < _SoundDatas.Length; i++)
+            {
+                var so = _SoundDatas[i];
+                if (so != null && so.TryGet(key, out e)) break;
+            }
+        }
 
-    public void PlayUIHover()
-    {
-        if (!_UISound || !_UISound.Hover) return;
-        PlaySFX(_UISound.Hover);
-    }
+        if (e == null) { Debug.LogWarning($"[Audio] 키를 찾지 못함: {key}"); return; }
+        var clip = e.PickClip(); if (!clip) return;
 
-    public void PlayUIPop()
-    {
-        if (!_UISound || !_UISound.UIPop) return;
-        PlaySFX(_UISound.UIPop);
-    }
-
-    public void PlayUIClose()
-    {
-        if (!_UISound || !_UISound.UIClose) return;
-        PlaySFX(_UISound.UIClose);
+        if (e.Space == SoundSpace.S2D)
+        {
+            var p2d = ObjectPoolManager._Inst?.Rent(_SFX2DPlayerPrefab);
+            if (!p2d) return;
+            p2d.ConfigureMixer(_SFXGroup);
+            p2d.Play(clip, e.Volume, e.Loop);
+        }
+        else
+        {
+            var p3d = ObjectPoolManager._Inst?.Rent(_SFX3DPlayerPrefab);
+            if (!p3d) return;
+            p3d.ConfigureMixer(_SFXGroup);
+            p3d.PlayAt(worldPos, clip, e.Volume, e.MinDistance, e.MaxDistance, e.Rolloff, e.Loop);
+        }
     }
 
     public string CaptureJson()
     {
-        var dto = new AudioSettingsDTO
-        {
-            Master = _MasterValue,
-            BGM = _BGMValue,
-            SFX = _SFXValue,
-        };
+        var dto = new AudioSettingsDTO { Master = _MasterValue, BGM = _BGMValue, SFX = _SFXValue };
         return JsonUtility.ToJson(dto);
     }
 
     public void ApplyJson(string s)
     {
+        if (string.IsNullOrEmpty(s)) return;
         var dto = JsonUtility.FromJson<AudioSettingsDTO>(s);
 
         _MasterValue = Mathf.Clamp01(dto.Master);
@@ -163,4 +214,6 @@ public class AudioManager : MonoBehaviour, ISaveSection
             Mixer.SetFloat(P_SFX, ToDB(_SFXValue));
         }
     }
+    
+
 }

@@ -56,6 +56,8 @@ MonoBehaviour:
   - RPC_EquipWeapon
   - RPC_UnequipWeapon
   - RPC_ShowPopup
+  - RPC_PlayFromSet
+  - RPC_PlayByKey
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0
