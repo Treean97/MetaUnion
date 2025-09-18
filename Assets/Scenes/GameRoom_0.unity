@@ -18531,9 +18531,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
-  _SoundData: {fileID: 0}
-  _ClickSound: 0
-  _HoverSound: 0
+  _SoundData: {fileID: 11400000, guid: 7cdfcccde73e4654887e4a1ecd824ada, type: 2}
+  _ClickSound: 1
+  _HoverSound: 1
   _OpenSound: 0
   _CloseSound: 0
 --- !u!114 &575630915

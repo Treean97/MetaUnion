@@ -603,6 +603,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 7326643668330111642}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1461111294340008473
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6887647136085234501}
+  m_Layer: 0
+  m_Name: FootStepPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6887647136085234501
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1461111294340008473}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7326643668330111642}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1479933562801497173
 GameObject:
   m_ObjectHideFlags: 0
@@ -2031,6 +2062,7 @@ GameObject:
   - component: {fileID: 7326643668330111642}
   - component: {fileID: 4805114103450155677}
   - component: {fileID: 559015421560556864}
+  - component: {fileID: -1816853052009607568}
   - component: {fileID: 7600146672090614015}
   - component: {fileID: 239484582011537738}
   - component: {fileID: 5841054823660800388}
@@ -2089,6 +2121,7 @@ Transform:
   - {fileID: 7074244965923215746}
   - {fileID: 5348592490771198984}
   - {fileID: 4689672359089868313}
+  - {fileID: 6887647136085234501}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &4805114103450155677
@@ -2138,6 +2171,21 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &-1816853052009607568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5832607453936394915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eaa7b8bfaa12dbb4f8c5aefec1c4d064, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerSound
+  _SoundData: {fileID: 11400000, guid: 5bf16d2e1a583aa46800ab18526e149f, type: 2}
+  _FootStepTransform: {fileID: 6887647136085234501}
+  _FootStepKey: FootStep
 --- !u!114 &7600146672090614015
 MonoBehaviour:
   m_ObjectHideFlags: 0
