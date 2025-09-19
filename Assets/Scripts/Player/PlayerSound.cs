@@ -3,12 +3,6 @@ using UnityEngine;
 
 public class PlayerSound : MonoBehaviourPunCallbacks
 {
-    [SerializeField] SoundSO _SoundData;
-
-    [Header("Setting")]
-    [SerializeField] Transform _FootStepTransform;
-    [SerializeField] string _FootStepKey;
-
     private PhotonView _PV;
 
     void Awake()
@@ -16,20 +10,22 @@ public class PlayerSound : MonoBehaviourPunCallbacks
         _PV = GetComponent<PhotonView>();
     }
 
-    public void FootStep_Global()
+    public void PlaySound(string key)
     {
-        if (!_PV.IsMine) return;
+        if (string.IsNullOrEmpty(key)) return;
 
-        if (!_SoundData || string.IsNullOrEmpty(_FootStepKey)) return;
-        
-        var pos = _FootStepTransform ? _FootStepTransform.position : transform.position;
+        Vector3 pos = this.transform.position;
 
-        _PV.RPC(nameof(RPC_PlayFootstep), RpcTarget.All, _FootStepKey, pos);
+        // 로컬 즉시 재생
+        AudioManager._Inst?.PlayLocalByKey(key, pos);
+
+        // 원격 전파(내 오브젝트일 때만, All 금지)
+        if (_PV && _PV.IsMine)
+            _PV.RPC(nameof(RPC_PlaySoundGlobal), RpcTarget.Others, key, pos);
     }
 
-
     [PunRPC]
-    void RPC_PlayFootstep(string key, Vector3 worldPos)
+    void RPC_PlaySoundGlobal(string key, Vector3 worldPos)
     {
         // ✅ 원격에서도 동일하게 들리도록, 전달받은 값만 사용
         AudioManager._Inst?.PlayLocalByKey(key, worldPos);

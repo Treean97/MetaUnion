@@ -26,3 +26,23 @@ MonoBehaviour:
     MinDistance: 1
     MaxDistance: 100
     Rolloff: 0
+  - Key: Swing
+    Clips:
+    - {fileID: 8300000, guid: 6b12ce1665c746444adfd46955b7d0b0, type: 3}
+    - {fileID: 8300000, guid: 96be32b8fbc61574a804859792bb4f9e, type: 3}
+    - {fileID: 8300000, guid: f935ffe1d76caa047a9ab6f98cf32e5b, type: 3}
+    Space: 1
+    Volume: 1
+    Loop: 0
+    MinDistance: 1
+    MaxDistance: 100
+    Rolloff: 0
+  - Key: Hit
+    Clips:
+    - {fileID: 8300000, guid: 0b36529a6034c414696e7522cee88a16, type: 3}
+    Space: 1
+    Volume: 1
+    Loop: 0
+    MinDistance: 1
+    MaxDistance: 100
+    Rolloff: 0
