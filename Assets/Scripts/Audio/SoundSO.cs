@@ -21,8 +21,8 @@ public class SoundSO : ScriptableObject
         public bool Loop = false;
 
         [Header("3D Only")]
-        public float MinDistance = 1.5f;
-        public float MaxDistance = 18f;
+        public float MinDistance = 1f;
+        public float MaxDistance = 100f;
         public AudioRolloffMode Rolloff = AudioRolloffMode.Linear;
 
         // 랜덤 클립 추출
