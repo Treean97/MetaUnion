@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DefaultStats:
   - Type: 0
-    BaseValue: 1
+    BaseValue: 2
   - Type: 1
     BaseValue: 4
   - Type: 2

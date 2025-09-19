@@ -13,6 +13,7 @@ public class Pooled3DAudioPlayer : MonoBehaviour
         _AudioSource.playOnAwake = false;
         _AudioSource.loop = false;
         _AudioSource.spatialBlend = 1f;
+        _AudioSource.spatialBlend = 0f;
         _AudioSource.dopplerLevel = 0f;
         _AudioSource.rolloffMode = AudioRolloffMode.Linear;
         _AudioSource.minDistance = 1.5f;

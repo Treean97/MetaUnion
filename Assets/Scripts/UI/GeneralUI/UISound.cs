@@ -12,14 +12,14 @@ public class UISound : MonoBehaviour, IPointerEnterHandler
 
     private Button _Button;
 
-    void PlayClick() => AudioManager._Inst.PlayLocalFromSO(_SoundData, "UIClick");
-    void PlayHover() => AudioManager._Inst.PlayLocalFromSO(_SoundData, "UIHover");
-    void PlayOpen() => AudioManager._Inst.PlayLocalFromSO(_SoundData, "UIPop");
-    void PlayClose() => AudioManager._Inst.PlayLocalFromSO(_SoundData, "UIClose");
+    void PlayClick() => AudioManager._Inst.PlayLocalBySO(_SoundData, "UIClick");
+    void PlayHover() => AudioManager._Inst.PlayLocalBySO(_SoundData, "UIHover");
+    void PlayOpen() => AudioManager._Inst.PlayLocalBySO(_SoundData, "UIPop");
+    void PlayClose() => AudioManager._Inst.PlayLocalBySO(_SoundData, "UIClose");
 
     void Awake()
     {
-        TryGetComponent(out _Button); // 버튼이 없을 수도 있음(패널, 이미지 등)
+        _Button = GetComponent<Button>(); // 버튼이 없을 수도 있음(패널, 이미지 등)
         if (_Button) _Button.onClick.AddListener(OnClick);               
     }
 

@@ -21,8 +21,8 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 01fc8d4fe8daac14788186b454fd5330, type: 3}
     - {fileID: 8300000, guid: 666dd43c32cbbfa49a9bf0bd519027e4, type: 3}
     Space: 1
-    Volume: 1
+    Volume: 2
     Loop: 0
-    MinDistance: 0
-    MaxDistance: 20
+    MinDistance: 1
+    MaxDistance: 100
     Rolloff: 0

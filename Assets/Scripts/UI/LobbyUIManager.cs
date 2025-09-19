@@ -34,16 +34,13 @@ public class LobbyUIManager : MonoBehaviourPunCallbacks
         _JoinRoomButton.interactable = false;
         _SelectedRoomInfo = null;
 
-        _JoinRoomButton.onClick.RemoveAllListeners();
+        _JoinRoomButton.onClick.RemoveListener(OnJoinRoomButtonClicked);
         _JoinRoomButton.onClick.AddListener(OnJoinRoomButtonClicked);
 
-        _CreateRoomButton.onClick.RemoveAllListeners();
+        _CreateRoomButton.onClick.RemoveListener(OnCreateRoomButtonClicked);
         _CreateRoomButton.onClick.AddListener(OnCreateRoomButtonClicked);
 
-        // _RefreshBtn.onClick.RemoveAllListeners();
-        // _RefreshBtn.onClick.AddListener(OnRefreshButtonClicked);
-
-        _CloseBtn.onClick.RemoveAllListeners();
+        _CloseBtn.onClick.RemoveListener(OnCloseButtonClicked);
         _CloseBtn.onClick.AddListener(OnCloseButtonClicked);
     }
 

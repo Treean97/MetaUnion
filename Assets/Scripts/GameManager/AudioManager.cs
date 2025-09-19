@@ -32,14 +32,13 @@ public class AudioManager : MonoBehaviour, ISaveSection
     [SerializeField] private Pooled2DAudioPlayer _SFX2DPlayerPrefab; // spatialBlend=0
     [SerializeField] private Pooled3DAudioPlayer _SFX3DPlayerPrefab; // spatialBlend=1
 
-
     [SerializeField] private SoundSO[] _SoundDatas;
 
     AudioMixer Mixer => _Master ? _Master.audioMixer :
                         _BGMGroup ? _BGMGroup.audioMixer :
                         _SFXGroup ? _SFXGroup.audioMixer : null;
 
-    private AudioSource _BGMSource;   // BGM 전용(루프)
+    private AudioSource _BGMSource;   // BGM 전용
 
     private bool _SFXBlock;
     public void SFXBlock() => _SFXBlock = true;
@@ -47,7 +46,6 @@ public class AudioManager : MonoBehaviour, ISaveSection
 
     float _MasterValue = 1f, _BGMValue = 1f, _SFXValue = 1f;
 
-    PhotonView _PV;
     readonly Dictionary<int, SoundSO> _Map = new();
 
     // DB로 변환
@@ -62,9 +60,6 @@ public class AudioManager : MonoBehaviour, ISaveSection
         }
         _Inst = this;
         DontDestroyOnLoad(gameObject);
-
-        _PV = GetComponent<PhotonView>();
-
 
         // BGM 소스
         _BGMSource = gameObject.AddComponent<AudioSource>();
@@ -111,7 +106,7 @@ public class AudioManager : MonoBehaviour, ISaveSection
 
     // ===== 로컬 재생: SO + Key =====
     // 3D: pos(원샷) 또는 attach(부착) 중 하나 사용
-    public Pooled3DAudioPlayer PlayLocalFromSO(SoundSO soundData, string key, Vector3? pos = null, Transform attach = null)
+    public Pooled3DAudioPlayer PlayLocalBySO(SoundSO soundData, string key, Vector3? pos = null, Transform attach = null)
     {
         if (_SFXBlock || !soundData || !soundData.TryGet(key, out var e)) return null;
         var clip = e.PickClip(); if (!clip) return null;
@@ -141,28 +136,10 @@ public class AudioManager : MonoBehaviour, ISaveSection
 
     // ===== 전역 재생: RPC (key만 전파) =====
     // set은 로컬 유효성 체크용(옵션). 전파에는 key만 사용.
-    public void PlayGlobalFromSO_RPC(SoundSO set, string key, Vector3 worldPos)
+    public void PlayLocalByKey(string key, Vector3 worldPos)
     {
-        if (!set || !set.TryGet(key, out _))
-        {
-            Debug.LogWarning($"[Audio] 전송 전 키 확인 실패: {key}");
-            return;
-        }
-        _PV.RPC(nameof(RPC_PlayByKey), RpcTarget.All, key, worldPos);
-    }
+        if (_SFXBlock || string.IsNullOrEmpty(key)) return;
 
-    // 전역 2D 편의 오버로드(위치 불필요)
-    public void PlayGlobal2DByKey_RPC(string key)
-    {
-        _PV.RPC(nameof(RPC_PlayByKey), RpcTarget.All, key, Vector3.zero);
-    }
-
-    [PunRPC]
-    void RPC_PlayByKey(string key, Vector3 worldPos)
-    {
-        if (_SFXBlock) return;
-
-        // 등록된 모든 SoundSO에서 키 검색 (전역 유일 키 전제)
         SoundSO.Entry e = null;
         if (_SoundDatas != null)
         {
@@ -172,8 +149,8 @@ public class AudioManager : MonoBehaviour, ISaveSection
                 if (so != null && so.TryGet(key, out e)) break;
             }
         }
+        if (e == null) { Debug.LogWarning($"[Audio] key not found: {key}"); return; }
 
-        if (e == null) { Debug.LogWarning($"[Audio] 키를 찾지 못함: {key}"); return; }
         var clip = e.PickClip(); if (!clip) return;
 
         if (e.Space == SoundSpace.S2D)
@@ -191,6 +168,7 @@ public class AudioManager : MonoBehaviour, ISaveSection
             p3d.PlayAt(worldPos, clip, e.Volume, e.MinDistance, e.MaxDistance, e.Rolloff, e.Loop);
         }
     }
+
 
     public string CaptureJson()
     {

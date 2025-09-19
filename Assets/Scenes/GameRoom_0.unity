@@ -31067,6 +31067,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BGMManager
       objectReference: {fileID: 0}
+    - target: {fileID: 1943078838682549206, guid: 19f66e00734183542a8380ba86152a29, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2907545475532651810, guid: 19f66e00734183542a8380ba86152a29, type: 3}
       propertyPath: _Clip
       value: 
