@@ -110,7 +110,6 @@ namespace Controller
             // 수정: 점프 로직은 CharacterController.isGrounded에 의존
             if (m_Controller.isGrounded)
             {
-                Debug.Log("땅에 닿았음");
                 m_IsFalling = false;
                 m_LandingTriggered = false; // 착지 후 트리거 상태 초기화
                 m_Animation.SetJumpEnd(false);
@@ -125,7 +124,6 @@ namespace Controller
                 // Y축 속도가 음수일 때 낙하 시작으로 판단
                 if (m_Movement.VerticalVelocity.y < 0)
                 {
-                    Debug.Log("낙하 중");
                     m_IsFalling = true;
                 }
 

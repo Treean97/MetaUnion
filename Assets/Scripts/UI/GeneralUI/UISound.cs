@@ -19,7 +19,7 @@ public class UISound : MonoBehaviour, IPointerEnterHandler
 
     void Awake()
     {
-        TryGetComponent(out _Button);                 // 버튼이 없을 수도 있음(패널, 이미지 등)
+        TryGetComponent(out _Button); // 버튼이 없을 수도 있음(패널, 이미지 등)
         if (_Button) _Button.onClick.AddListener(OnClick);               
     }
 

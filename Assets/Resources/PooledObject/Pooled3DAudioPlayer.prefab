@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 9006462205377232424}
   - component: {fileID: 7562557444462760820}
   - component: {fileID: -1982724277463680301}
+  - component: {fileID: 4229271910029224426}
   m_Layer: 0
   m_Name: Pooled3DAudioPlayer
   m_TagString: Untagged
@@ -143,3 +144,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Pooled3DAudioPlayer
   _AudioSource: {fileID: 7562557444462760820}
+--- !u!114 &4229271910029224426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9095161919421637261}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: PhotonUnityNetworking::Photon.Pun.PhotonView
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
