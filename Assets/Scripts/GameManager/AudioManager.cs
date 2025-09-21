@@ -104,35 +104,8 @@ public class AudioManager : MonoBehaviour, ISaveSection
         _BGMSource.Play();
     }
 
-    // ===== 로컬 재생: SO + Key =====
-    // 3D: pos(원샷) 또는 attach(부착) 중 하나 사용
-    public Pooled3DAudioPlayer PlayLocalBySO(SoundSO soundData, string key, Vector3? pos = null, Transform attach = null)
-    {
-        if (_SFXBlock || !soundData || !soundData.TryGet(key, out var e)) return null;
-        var clip = e.PickClip(); if (!clip) return null;
-
-        if (e.Space == SoundSpace.S2D)
-        {
-            var p2d = ObjectPoolManager._Inst?.Rent(_SFX2DPlayerPrefab);
-            if (!p2d) { Debug.LogWarning("[Audio] 2D pool not ready"); return null; }
-            p2d.ConfigureMixer(_SFXGroup);
-            p2d.Play(clip, e.Volume, e.Loop);
-            return null; // 2D는 핸들 불필요
-        }
-        else
-        {
-            var p3d = ObjectPoolManager._Inst?.Rent(_SFX3DPlayerPrefab);
-            if (!p3d) { Debug.LogWarning("[Audio] 3D pool not ready"); return null; }
-            p3d.ConfigureMixer(_SFXGroup);
-
-            if (attach)
-                p3d.PlayAttached(attach, clip, e.Volume, e.MinDistance, e.MaxDistance, e.Rolloff, e.Loop);
-            else
-                p3d.PlayAt(pos ?? Vector3.zero, clip, e.Volume, e.MinDistance, e.MaxDistance, e.Rolloff, e.Loop);
-
-            return p3d; // 루프/부착이면 나중에 StopAndReturn() 호출용
-        }
-    }
+    public void PlayLocalByKey(string key)
+        => PlayLocalByKey(key, Vector3.zero);
 
     // ===== 전역 재생: RPC (key만 전파) =====
     // set은 로컬 유효성 체크용(옵션). 전파에는 key만 사용.

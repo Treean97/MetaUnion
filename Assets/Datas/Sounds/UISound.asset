@@ -41,9 +41,18 @@ MonoBehaviour:
     MinDistance: 0
     MaxDistance: 0
     Rolloff: 0
-  - Key: UIPop
+  - Key: UIClose
     Clips:
     - {fileID: 8300000, guid: e759c65f76c80834abc572593f946008, type: 3}
+    Space: 0
+    Volume: 1
+    Loop: 0
+    MinDistance: 0
+    MaxDistance: 0
+    Rolloff: 0
+  - Key: ChatNotice
+    Clips:
+    - {fileID: 8300000, guid: f38b275d8456fec4185e2545e0bd8750, type: 3}
     Space: 0
     Volume: 1
     Loop: 0

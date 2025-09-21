@@ -4,7 +4,6 @@ using UnityEngine.UI;
 
 public class UISound : MonoBehaviour, IPointerEnterHandler
 {
-    [SerializeField] SoundSO _SoundData; // Entries: "UIClick", "UIHover", "UIPop", "UIClose"
     [SerializeField] bool _ClickSound;
     [SerializeField] bool _HoverSound;
     [SerializeField] bool _OpenSound;
@@ -12,10 +11,10 @@ public class UISound : MonoBehaviour, IPointerEnterHandler
 
     private Button _Button;
 
-    void PlayClick() => AudioManager._Inst.PlayLocalBySO(_SoundData, "UIClick");
-    void PlayHover() => AudioManager._Inst.PlayLocalBySO(_SoundData, "UIHover");
-    void PlayOpen() => AudioManager._Inst.PlayLocalBySO(_SoundData, "UIPop");
-    void PlayClose() => AudioManager._Inst.PlayLocalBySO(_SoundData, "UIClose");
+    void PlayClick() => AudioManager._Inst.PlayLocalByKey("UIClick");
+    void PlayHover() => AudioManager._Inst.PlayLocalByKey("UIHover");
+    void PlayOpen() => AudioManager._Inst.PlayLocalByKey("UIOpen");
+    void PlayClose() => AudioManager._Inst.PlayLocalByKey("UIClose");
 
     void Awake()
     {

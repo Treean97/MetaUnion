@@ -13,6 +13,7 @@ public class ChatManager : MonoBehaviourPun, IChatUI
     [SerializeField] private GameObject _ChatMessagePrefab;
     [SerializeField] private ScrollRect _ScrollRect;
     [SerializeField] private Image _NoticeUI;
+    [SerializeField] private string _NoticeKey;
 
     public bool IsOpen => _UISlider != null && _UISlider.IsOpen;
 
@@ -70,6 +71,7 @@ public class ChatManager : MonoBehaviourPun, IChatUI
     void ShowNotice()
     {
         if (_NoticeUI) _NoticeUI.gameObject.SetActive(true);
+        AudioManager._Inst.PlayLocalByKey(_NoticeKey);
     }
 
     void HideNotice()
