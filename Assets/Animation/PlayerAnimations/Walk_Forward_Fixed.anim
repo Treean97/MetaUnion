@@ -45223,15 +45223,15 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0.33333334
-    functionName: FootStep_Global
-    data: 
+    functionName: PlaySound
+    data: FootStep
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 0.8
-    functionName: FootStep_Global
-    data: 
+    functionName: PlaySound
+    data: FootStep
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0

@@ -47,6 +47,12 @@ public class SlotMachineUIManager : MonoBehaviour, ISlotMachineUI
     [SerializeField] private int _3MatchMul;
     [SerializeField] private int _2MatchMul;
 
+    [Header("SoundKey")]
+    [SerializeField] private string _SlotPickKey;
+    [SerializeField] private string _RewardSuccessKey;
+    [SerializeField] private string _RewardFailKey;
+    [SerializeField] private string _SlotSpinKey;
+
 
     private List<ItemDataSO> _CurrencyList;
     private int _BettingCurrencyID;
@@ -101,6 +107,12 @@ public class SlotMachineUIManager : MonoBehaviour, ISlotMachineUI
         }
         
 
+    }
+
+    void PlayKey(string key)
+    {
+        if (!string.IsNullOrEmpty(key))
+            AudioManager._Inst?.PlayLocalByKey(key);
     }
 
     int GetLaneMaxSlot(int laneIndex)
@@ -203,6 +215,9 @@ public class SlotMachineUIManager : MonoBehaviour, ISlotMachineUI
         // 출발점 리셋
         context.Content.anchoredPosition = Vector2.zero;
 
+        // 스핀 사운드를 위한 변수
+        int lastWholeStep = 0;
+
         // 감속: 남은 거리 비율에 따라 대기시간을 점점 늘린다 (step 크기는 항상 1/4칸 유지)
         // _RollTic는 최소 틱, _DecelMultiplier는 감속 강도(아래 직후 추가)
         float decelK(float progress01)
@@ -217,6 +232,14 @@ public class SlotMachineUIManager : MonoBehaviour, ISlotMachineUI
             // 이동(1/4칸 고정)
             context.Content.anchoredPosition = new Vector2(context.Content.anchoredPosition.x, nextY);
 
+            // 스핀 사운드
+            int curWholeStep = Mathf.FloorToInt(nextY / context.SlotHeight);
+            if (curWholeStep > lastWholeStep)
+            {
+                PlayKey(_SlotSpinKey);
+                lastWholeStep = curWholeStep;
+            }
+
             // 진행도 0~1
             float p = targetY <= 0f ? 1f : (nextY / targetY);
             float wait = _RollTic * decelK(p);       // 점점 느려지게
@@ -226,6 +249,9 @@ public class SlotMachineUIManager : MonoBehaviour, ISlotMachineUI
 
         // 최종 스냅(혹시 모를 오차 제거)
         context.Content.anchoredPosition = new Vector2(context.Content.anchoredPosition.x, targetY);
+
+        // 슬롯 픽 사운드
+        PlayKey(_SlotPickKey);
 
         // ★ 오탈자 수정: laneIndex 사용
         if (laneIndex == _LaneContents.Length - 1)
@@ -276,19 +302,28 @@ public class SlotMachineUIManager : MonoBehaviour, ISlotMachineUI
         var groups = _Destiny.GroupBy(x => x);
         var maxCount = groups.Max(g => g.Count());
 
+        bool isSuccess = false;
         switch (maxCount)
         {
             case 3:
                 GameEvents.RaiseRequestCurrencyGain(
                     _BettingCurrencyID, _BettingCurrencyAmount * _3MatchMul);
+                isSuccess = true;
                 break;
             case 2:
                 GameEvents.RaiseRequestCurrencyGain(
                     _BettingCurrencyID, _BettingCurrencyAmount * _2MatchMul);
+                isSuccess = true;
                 break;
             default:
+                isSuccess = false;
                 break;
         }
+
+        // 보상/실패 사운드 (최종 판정 1회만)
+        if (isSuccess) PlayKey(_RewardSuccessKey);
+        else PlayKey(_RewardFailKey);
+    
     }
 
     void OnClickRerollBtn()

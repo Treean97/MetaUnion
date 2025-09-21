@@ -1218,7 +1218,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
-  _SoundData: {fileID: 11400000, guid: 7cdfcccde73e4654887e4a1ecd824ada, type: 2}
   _ClickSound: 1
   _HoverSound: 1
   _OpenSound: 0
@@ -1670,7 +1669,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
-  _SoundData: {fileID: 11400000, guid: 7cdfcccde73e4654887e4a1ecd824ada, type: 2}
   _ClickSound: 1
   _HoverSound: 1
   _OpenSound: 0
@@ -4678,7 +4676,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
-  _SoundData: {fileID: 11400000, guid: 7cdfcccde73e4654887e4a1ecd824ada, type: 2}
   _ClickSound: 1
   _HoverSound: 1
   _OpenSound: 0
@@ -5584,7 +5581,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
-  _SoundData: {fileID: 11400000, guid: 7cdfcccde73e4654887e4a1ecd824ada, type: 2}
   _ClickSound: 1
   _HoverSound: 1
   _OpenSound: 0
@@ -6652,7 +6648,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
-  _SoundData: {fileID: 11400000, guid: 7cdfcccde73e4654887e4a1ecd824ada, type: 2}
   _ClickSound: 0
   _HoverSound: 0
   _OpenSound: 1
@@ -7168,7 +7163,6 @@ GameObject:
   - component: {fileID: 1187353003}
   - component: {fileID: 1187353002}
   - component: {fileID: 1187353000}
-  - component: {fileID: 1187353001}
   m_Layer: 5
   m_Name: JoinRoomButton
   m_TagString: Untagged
@@ -7304,23 +7298,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
-  _SoundData: {fileID: 11400000, guid: 7cdfcccde73e4654887e4a1ecd824ada, type: 2}
   _ClickSound: 1
   _HoverSound: 1
   _OpenSound: 0
   _CloseSound: 0
---- !u!114 &1187353001
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1187352994}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1df095b9eab98e548a93b28c2e9e70a2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ButtonSequence
 --- !u!114 &1187353002
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7867,7 +7848,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
-  _SoundData: {fileID: 11400000, guid: 7cdfcccde73e4654887e4a1ecd824ada, type: 2}
   _ClickSound: 1
   _HoverSound: 1
   _OpenSound: 0
@@ -8537,7 +8517,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
-  _SoundData: {fileID: 11400000, guid: 7cdfcccde73e4654887e4a1ecd824ada, type: 2}
   _ClickSound: 1
   _HoverSound: 1
   _OpenSound: 0
@@ -9234,7 +9213,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
-  _SoundData: {fileID: 11400000, guid: 7cdfcccde73e4654887e4a1ecd824ada, type: 2}
   _ClickSound: 1
   _HoverSound: 1
   _OpenSound: 0
@@ -9397,7 +9375,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
-  _SoundData: {fileID: 11400000, guid: 7cdfcccde73e4654887e4a1ecd824ada, type: 2}
   _ClickSound: 0
   _HoverSound: 0
   _OpenSound: 1
@@ -9826,7 +9803,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
-  _SoundData: {fileID: 11400000, guid: 7cdfcccde73e4654887e4a1ecd824ada, type: 2}
   _ClickSound: 1
   _HoverSound: 1
   _OpenSound: 0
@@ -11745,7 +11721,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
-  _SoundData: {fileID: 11400000, guid: 7cdfcccde73e4654887e4a1ecd824ada, type: 2}
   _ClickSound: 1
   _HoverSound: 1
   _OpenSound: 0
@@ -12072,6 +12047,8 @@ GameObject:
   - component: {fileID: 1704507098}
   - component: {fileID: 1704507101}
   - component: {fileID: 1704507102}
+  - component: {fileID: 1704507104}
+  - component: {fileID: 1704507103}
   m_Layer: 5
   m_Name: CreateBtn
   m_TagString: Untagged
@@ -12208,11 +12185,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
-  _SoundData: {fileID: 11400000, guid: 7cdfcccde73e4654887e4a1ecd824ada, type: 2}
   _ClickSound: 1
   _HoverSound: 1
   _OpenSound: 0
   _CloseSound: 0
+--- !u!114 &1704507103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1704507096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1df095b9eab98e548a93b28c2e9e70a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSequence
+--- !u!114 &1704507104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1704507096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6ea2555c6a74c64b9ba20763715bc11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSpinEffect
+  _RotateAngle: 22
+  _RotateTime: 0.25
+  _Shakes: 6
 --- !u!1 &1724674983
 GameObject:
   m_ObjectHideFlags: 0
@@ -12712,7 +12715,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
-  _SoundData: {fileID: 11400000, guid: 7cdfcccde73e4654887e4a1ecd824ada, type: 2}
   _ClickSound: 1
   _HoverSound: 1
   _OpenSound: 0
@@ -13038,7 +13040,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
-  _SoundData: {fileID: 11400000, guid: 7cdfcccde73e4654887e4a1ecd824ada, type: 2}
   _ClickSound: 0
   _HoverSound: 0
   _OpenSound: 1
@@ -16070,7 +16071,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
-  _SoundData: {fileID: 11400000, guid: 7cdfcccde73e4654887e4a1ecd824ada, type: 2}
   _ClickSound: 0
   _HoverSound: 0
   _OpenSound: 1
@@ -16362,7 +16362,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
-  _SoundData: {fileID: 11400000, guid: 7cdfcccde73e4654887e4a1ecd824ada, type: 2}
   _ClickSound: 1
   _HoverSound: 1
   _OpenSound: 0

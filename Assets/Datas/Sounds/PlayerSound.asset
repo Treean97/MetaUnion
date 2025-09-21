@@ -46,3 +46,21 @@ MonoBehaviour:
     MinDistance: 1
     MaxDistance: 100
     Rolloff: 0
+  - Key: ItemPickUp
+    Clips:
+    - {fileID: 8300000, guid: 3c392e6befcab436bae9c198f4ea422c, type: 3}
+    Space: 1
+    Volume: 1
+    Loop: 0
+    MinDistance: 1
+    MaxDistance: 100
+    Rolloff: 0
+  - Key: Jump
+    Clips:
+    - {fileID: 8300000, guid: df369f00174da0343b0f09485c30887f, type: 3}
+    Space: 1
+    Volume: 1
+    Loop: 0
+    MinDistance: 1
+    MaxDistance: 100
+    Rolloff: 0

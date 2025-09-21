@@ -11,15 +11,9 @@ public class ButtonActionRunner : MonoBehaviour
     void Awake()
     {
         _Button = GetComponent<Button>();
-        _Button.onClick.AddListener(Run);
     }
 
-    void OnDestroy()
-    {
-        if (_Button) _Button.onClick.RemoveListener(Run);
-    }
-
-    void Run()
+    public void Run()
     {
         var actions = GetComponents<IButtonAction>();
         for (int i = 0; i < actions.Length; i++) actions[i].Execute();

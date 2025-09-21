@@ -71,6 +71,7 @@ MonoBehaviour:
   _SoundDatas:
   - {fileID: 11400000, guid: 5bf16d2e1a583aa46800ab18526e149f, type: 2}
   - {fileID: 11400000, guid: 7cdfcccde73e4654887e4a1ecd824ada, type: 2}
+  - {fileID: 11400000, guid: afbd042576b3e8e429d0721cee7556cc, type: 2}
 --- !u!114 &4325577648786806735
 MonoBehaviour:
   m_ObjectHideFlags: 0

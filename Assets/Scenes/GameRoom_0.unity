@@ -45841,6 +45841,9 @@ MonoBehaviour:
   _CurrencyInputField: {fileID: 1241615320}
   _3MatchMul: 5
   _2MatchMul: 10
+  _SlotPickKey: SlotPick
+  _RewardSuccessKey: RewardSuccess
+  _RewardFailKey: RewardFail
 --- !u!114 &1392145524
 MonoBehaviour:
   m_ObjectHideFlags: 0
