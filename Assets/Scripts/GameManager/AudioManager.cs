@@ -104,8 +104,44 @@ public class AudioManager : MonoBehaviour, ISaveSection
         _BGMSource.Play();
     }
 
+    public Pooled2DAudioPlayer Play2DLoopLocalPlayByKey(string key)
+    {
+        if (_SFXBlock || string.IsNullOrEmpty(key)) return null;
+
+        SoundSO.Entry e = null;
+
+        if (_SoundDatas != null)
+        {
+            for (int i = 0; i < _SoundDatas.Length; i++)
+            {
+                var so = _SoundDatas[i];
+                if (so != null && so.TryGet(key, out e)) break;
+            }
+        }
+        if (e == null) { Debug.LogWarning($"[Audio] key not found: {key}"); return null; }
+
+        // 반드시 2D로만 루프
+        if (e.Space != SoundSpace.S2D)
+        {
+            Debug.LogWarning($"[Audio] '{key}' is not S2D. Use PlayAttachedByKey for 3D loops.");
+            return null;
+        }
+
+        var clip = e.PickClip(); if (!clip) return null;
+
+        var p2d = ObjectPoolManager._Inst?.Rent(_SFX2DPlayerPrefab);
+        if (!p2d) { Debug.LogWarning("[Audio] 2D pool not ready"); return null; }
+
+        p2d.ConfigureMixer(_SFXGroup);
+        // 루프 강제: e.Loop와 무관하게 루프 돌립니다.
+        p2d.Play(clip, e.Volume, true);
+
+        return p2d; // p2d.StopAndReturn() 으로 중단    
+    }
+
     public void PlayLocalByKey(string key)
         => PlayLocalByKey(key, Vector3.zero);
+
 
     // ===== 전역 재생: RPC (key만 전파) =====
     // set은 로컬 유효성 체크용(옵션). 전파에는 key만 사용.

@@ -64,3 +64,30 @@ MonoBehaviour:
     MinDistance: 1
     MaxDistance: 100
     Rolloff: 0
+  - Key: FishingStart
+    Clips:
+    - {fileID: 8300000, guid: 99d9030ebaa3bb34db72921e36f755cd, type: 3}
+    Space: 1
+    Volume: 1
+    Loop: 0
+    MinDistance: 1
+    MaxDistance: 100
+    Rolloff: 0
+  - Key: FishingSuccess
+    Clips:
+    - {fileID: 8300000, guid: 973cbfce50fc9634b8c2729624d4cc4d, type: 3}
+    Space: 1
+    Volume: 1
+    Loop: 0
+    MinDistance: 1
+    MaxDistance: 100
+    Rolloff: 0
+  - Key: FishingFail
+    Clips:
+    - {fileID: 8300000, guid: 30b7ac2ebb0728b48a26ca1fb54697c7, type: 3}
+    Space: 1
+    Volume: 1
+    Loop: 0
+    MinDistance: 1
+    MaxDistance: 100
+    Rolloff: 0

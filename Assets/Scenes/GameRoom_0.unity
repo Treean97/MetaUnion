@@ -45844,6 +45844,7 @@ MonoBehaviour:
   _SlotPickKey: SlotPick
   _RewardSuccessKey: RewardSuccess
   _RewardFailKey: RewardFail
+  _SlotSpinKey: 
 --- !u!114 &1392145524
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63552,6 +63553,7 @@ MonoBehaviour:
   - 5
   _CatchableSeconds: 1
   _Cooldown: 1
+  _ReelKey: FishingReel
 --- !u!114 &1877876917
 MonoBehaviour:
   m_ObjectHideFlags: 0

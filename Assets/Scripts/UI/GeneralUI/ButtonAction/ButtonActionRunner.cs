@@ -4,6 +4,7 @@ using UnityEngine.UI;
 public interface IButtonAction { void Execute(); }
 
 
+[RequireComponent(typeof(ButtonSequence))]
 public class ButtonActionRunner : MonoBehaviour
 {
     Button _Button;

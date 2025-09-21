@@ -1222,6 +1222,7 @@ MonoBehaviour:
   _HoverSound: 1
   _OpenSound: 0
   _CloseSound: 0
+  _IsToggle: 0
 --- !u!1 &214995986
 GameObject:
   m_ObjectHideFlags: 0
@@ -1673,6 +1674,7 @@ MonoBehaviour:
   _HoverSound: 1
   _OpenSound: 0
   _CloseSound: 0
+  _IsToggle: 0
 --- !u!114 &278161049
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4680,6 +4682,7 @@ MonoBehaviour:
   _HoverSound: 1
   _OpenSound: 0
   _CloseSound: 0
+  _IsToggle: 0
 --- !u!114 &777119194
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5460,6 +5463,7 @@ GameObject:
   - component: {fileID: 919432012}
   - component: {fileID: 919432011}
   - component: {fileID: 919432010}
+  - component: {fileID: 919432015}
   m_Layer: 5
   m_Name: GraphicTabButton
   m_TagString: Untagged
@@ -5585,6 +5589,7 @@ MonoBehaviour:
   _HoverSound: 1
   _OpenSound: 0
   _CloseSound: 0
+  _IsToggle: 0
 --- !u!114 &919432011
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5639,6 +5644,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c53191a580c7a9a4d93175f66ba0e739, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonActionRunner
+--- !u!114 &919432015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919432005}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1df095b9eab98e548a93b28c2e9e70a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSequence
 --- !u!1 &932175542
 GameObject:
   m_ObjectHideFlags: 0
@@ -6652,6 +6669,7 @@ MonoBehaviour:
   _HoverSound: 0
   _OpenSound: 1
   _CloseSound: 1
+  _IsToggle: 0
 --- !u!1 &1037743670
 GameObject:
   m_ObjectHideFlags: 0
@@ -6812,6 +6830,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1068222521}
   - component: {fileID: 1068222522}
+  - component: {fileID: 1068222523}
   m_Layer: 5
   m_Name: InvertYToggle
   m_TagString: Untagged
@@ -6888,6 +6907,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_IsOn: 1
+--- !u!114 &1068222523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1068222520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UISound
+  _ClickSound: 0
+  _HoverSound: 0
+  _OpenSound: 0
+  _CloseSound: 0
+  _IsToggle: 1
 --- !u!1 &1075438700
 GameObject:
   m_ObjectHideFlags: 0
@@ -7302,6 +7338,7 @@ MonoBehaviour:
   _HoverSound: 1
   _OpenSound: 0
   _CloseSound: 0
+  _IsToggle: 0
 --- !u!114 &1187353002
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7852,6 +7889,7 @@ MonoBehaviour:
   _HoverSound: 1
   _OpenSound: 0
   _CloseSound: 0
+  _IsToggle: 0
 --- !u!1 &1267902965
 GameObject:
   m_ObjectHideFlags: 0
@@ -8303,6 +8341,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1320944522}
   - component: {fileID: 1320944523}
+  - component: {fileID: 1320944524}
   m_Layer: 5
   m_Name: FullScreenToggle
   m_TagString: Untagged
@@ -8379,6 +8418,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_IsOn: 1
+--- !u!114 &1320944524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1320944521}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UISound
+  _ClickSound: 0
+  _HoverSound: 0
+  _OpenSound: 0
+  _CloseSound: 0
+  _IsToggle: 1
 --- !u!1 &1343703134
 GameObject:
   m_ObjectHideFlags: 0
@@ -8396,6 +8452,7 @@ GameObject:
   - component: {fileID: 1343703141}
   - component: {fileID: 1343703140}
   - component: {fileID: 1343703139}
+  - component: {fileID: 1343703144}
   m_Layer: 5
   m_Name: SoundTabButton
   m_TagString: Untagged
@@ -8521,6 +8578,7 @@ MonoBehaviour:
   _HoverSound: 1
   _OpenSound: 0
   _CloseSound: 0
+  _IsToggle: 0
 --- !u!114 &1343703140
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8549,7 +8607,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CloseUIAction
   _Targets:
   - {fileID: 2123787093}
-  - {fileID: 1678332530}
+  - {fileID: 217089148}
 --- !u!114 &1343703142
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8575,6 +8633,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c53191a580c7a9a4d93175f66ba0e739, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonActionRunner
+--- !u!114 &1343703144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1343703134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1df095b9eab98e548a93b28c2e9e70a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSequence
 --- !u!1 &1343880269
 GameObject:
   m_ObjectHideFlags: 0
@@ -9217,6 +9287,7 @@ MonoBehaviour:
   _HoverSound: 1
   _OpenSound: 0
   _CloseSound: 0
+  _IsToggle: 0
 --- !u!114 &1423810518
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9379,6 +9450,7 @@ MonoBehaviour:
   _HoverSound: 0
   _OpenSound: 1
   _CloseSound: 1
+  _IsToggle: 0
 --- !u!1 &1442082947
 GameObject:
   m_ObjectHideFlags: 0
@@ -9807,6 +9879,7 @@ MonoBehaviour:
   _HoverSound: 1
   _OpenSound: 0
   _CloseSound: 0
+  _IsToggle: 0
 --- !u!114 &1473381466
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10150,6 +10223,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1537027953}
   - component: {fileID: 1537027954}
+  - component: {fileID: 1537027955}
   m_Layer: 5
   m_Name: VSyncToggle
   m_TagString: Untagged
@@ -10226,6 +10300,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_IsOn: 1
+--- !u!114 &1537027955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1537027952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UISound
+  _ClickSound: 0
+  _HoverSound: 0
+  _OpenSound: 0
+  _CloseSound: 0
+  _IsToggle: 1
 --- !u!1 &1545319698
 GameObject:
   m_ObjectHideFlags: 0
@@ -11682,6 +11773,7 @@ GameObject:
   - component: {fileID: 1678332534}
   - component: {fileID: 1678332533}
   - component: {fileID: 1678332532}
+  - component: {fileID: 1678332540}
   m_Layer: 5
   m_Name: InputTabButton
   m_TagString: Untagged
@@ -11725,6 +11817,7 @@ MonoBehaviour:
   _HoverSound: 1
   _OpenSound: 0
   _CloseSound: 0
+  _IsToggle: 0
 --- !u!114 &1678332533
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11861,6 +11954,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1678332530}
   m_CullTransparentMesh: 1
+--- !u!114 &1678332540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1678332530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1df095b9eab98e548a93b28c2e9e70a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSequence
 --- !u!1 &1686374552
 GameObject:
   m_ObjectHideFlags: 0
@@ -12189,6 +12294,7 @@ MonoBehaviour:
   _HoverSound: 1
   _OpenSound: 0
   _CloseSound: 0
+  _IsToggle: 0
 --- !u!114 &1704507103
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12719,6 +12825,7 @@ MonoBehaviour:
   _HoverSound: 1
   _OpenSound: 0
   _CloseSound: 0
+  _IsToggle: 0
 --- !u!114 &1750895568
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13044,6 +13151,7 @@ MonoBehaviour:
   _HoverSound: 0
   _OpenSound: 1
   _CloseSound: 1
+  _IsToggle: 0
 --- !u!1 &1758407195
 GameObject:
   m_ObjectHideFlags: 0
@@ -16075,6 +16183,7 @@ MonoBehaviour:
   _HoverSound: 0
   _OpenSound: 1
   _CloseSound: 1
+  _IsToggle: 0
 --- !u!1 &2104859067
 GameObject:
   m_ObjectHideFlags: 0
@@ -16366,6 +16475,7 @@ MonoBehaviour:
   _HoverSound: 1
   _OpenSound: 0
   _CloseSound: 0
+  _IsToggle: 0
 --- !u!114 &2117915625
 MonoBehaviour:
   m_ObjectHideFlags: 0

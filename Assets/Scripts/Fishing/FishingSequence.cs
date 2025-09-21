@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class FishingManager : MonoBehaviour, IFishingUI
 {
+    
     [SerializeField] private FishingMinigame _MinigameUI;
     [SerializeField] private KeyCode _CatchKey = KeyCode.Mouse0;
 
@@ -13,6 +14,9 @@ public class FishingManager : MonoBehaviour, IFishingUI
     [SerializeField] private float[] _BiteDelay = new float[] { 1f, 5f };
     [SerializeField] private float _CatchableSeconds = 1f;
     [SerializeField] private float _Cooldown = 1f;
+
+    [Header("Sound")]
+    [SerializeField] private string _ReelKey;
 
     private enum FishingState { Idle, Casting, WaitingBite, Catchable, Minigame, Resolve }
     private FishingState _State = FishingState.Idle;
@@ -88,6 +92,10 @@ public class FishingManager : MonoBehaviour, IFishingUI
 
         // 미니게임
         _State = FishingState.Minigame;
+
+        // 릴 사운드
+        var reelSound = AudioManager._Inst.Play2DLoopLocalPlayByKey(_ReelKey);
+
         _MinigameResult = null;
         _MinigameUI.OpenMinigame();
 
@@ -96,9 +104,12 @@ public class FishingManager : MonoBehaviour, IFishingUI
         // 보상
         _State = FishingState.Resolve;
 
+        // 릴 사운드 중단
+        reelSound.StopAndReturn();
+
         if (_MinigameResult == true)
         {
-            OnFishingSucceeded?.Invoke(); 
+            OnFishingSucceeded?.Invoke();
 
             int idx = UnityEngine.Random.Range(0, _RewardItemPool.GetItemCount());
             ItemDataSO randomItem = _RewardItemPool.GetItemAt(idx);

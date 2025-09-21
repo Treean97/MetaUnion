@@ -33,7 +33,7 @@ MonoBehaviour:
     Rolloff: 0
   - Key: RewardFail
     Clips:
-    - {fileID: 8300000, guid: 25b0fc2de80b98f4eb1cce6b36f1564e, type: 3}
+    - {fileID: 8300000, guid: 30b7ac2ebb0728b48a26ca1fb54697c7, type: 3}
     Space: 0
     Volume: 1
     Loop: 0

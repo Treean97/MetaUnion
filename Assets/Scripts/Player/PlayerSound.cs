@@ -10,7 +10,15 @@ public class PlayerSound : MonoBehaviourPunCallbacks
         _PV = GetComponent<PhotonView>();
     }
 
-    public void PlaySound(string key)
+    public void PlayLocal(string key)
+    {
+        if (string.IsNullOrEmpty(key)) return;
+
+        // 로컬 즉시 재생
+        AudioManager._Inst?.PlayLocalByKey(key);
+    }
+
+    public void PlayGlobal(string key)
     {
         if (string.IsNullOrEmpty(key)) return;
 
