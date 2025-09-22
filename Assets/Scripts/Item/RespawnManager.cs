@@ -7,7 +7,7 @@ public class RespawnManager : MonoBehaviour
 {
     public static RespawnManager _Inst{ get; private set; }
 
-// 오브젝트별 등록 정보
+    // 오브젝트별 등록 정보
     private class Entry
     {
         public int Id;
@@ -19,6 +19,8 @@ public class RespawnManager : MonoBehaviour
         public PhotonView PV;
         public IRespawnable Respawnable;
         public IDestructible Destructible;
+        
+        public System.Action DestroyedHandler;
     }
 
     private int _Seq = 1;
@@ -73,15 +75,18 @@ public class RespawnManager : MonoBehaviour
     private void Bind(Entry e, IRespawnable resp, PhotonView pv, IDestructible d)
     {
         // 기존 구독 해제
-        if (e.Destructible != null)
-            e.Destructible.OnDestroyed -= () => HandleDestroyed(e.Id);
+        if (e.Destructible != null && e.DestroyedHandler != null)
+            e.Destructible.OnDestroyed -= e.DestroyedHandler;
 
         e.Respawnable = resp;
         e.PV = pv;
         e.Destructible = d;
 
         if (e.Destructible != null)
-            e.Destructible.OnDestroyed += () => HandleDestroyed(e.Id);
+        {
+            e.DestroyedHandler = () => HandleDestroyed(e.Id);
+            e.Destructible.OnDestroyed += e.DestroyedHandler;
+        }
     }
 
     private void HandleDestroyed(int id)
@@ -89,8 +94,8 @@ public class RespawnManager : MonoBehaviour
         // 먼저 구독 해제(중복 방지)
         if (_entries.TryGetValue(id, out var e))
         {
-            if (e.Destructible != null)
-                e.Destructible.OnDestroyed -= () => HandleDestroyed(id);
+            if (e.Destructible != null && e.DestroyedHandler != null)
+                e.Destructible.OnDestroyed -= e.DestroyedHandler;
         }
 
         // 마스터만 파괴/리스폰 스케줄
@@ -116,6 +121,7 @@ public class RespawnManager : MonoBehaviour
         e.PV = null;
         e.Respawnable = null;
         e.Destructible = null;
+        e.DestroyedHandler = null;
 
         // 리스폰 예약
         StartCoroutine(RespawnRoutine(id, e.PrefabName, e.Pos, e.Rot, e.Delay));
@@ -128,10 +134,10 @@ public class RespawnManager : MonoBehaviour
         if (!PhotonNetwork.IsMasterClient) yield break;
         if (string.IsNullOrEmpty(prefabName)) yield break;
 
-        var go = PhotonNetwork.Instantiate(prefabName, pos, rot);
 
         // 새 개체가 Start에서 Register(this)를 호출해 다시 Entry에 바인딩됨.
         // (혹시 자동 등록을 쓰지 않는다면, 여기서 직접 Register 호출해도 됨)
+        var go = PhotonNetwork.Instantiate(prefabName, pos, rot);
         var resp = go.GetComponent<IRespawnable>();
         if (resp != null)
         {

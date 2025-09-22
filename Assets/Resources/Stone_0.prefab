@@ -12,11 +12,12 @@ GameObject:
   - component: {fileID: 3398486}
   - component: {fileID: 2393140}
   - component: {fileID: 6477592}
-  - component: {fileID: 7958502270389478068}
+  - component: {fileID: 338793649791669678}
+  - component: {fileID: -2796244347132170074}
   - component: {fileID: -2758395585881874864}
   - component: {fileID: -7450974344073826984}
   m_Layer: 0
-  m_Name: sptp_stone_01
+  m_Name: Stone_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -115,7 +116,7 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 7a00075224fdb4041b450968bd83cbe0, type: 3}
---- !u!114 &7958502270389478068
+--- !u!114 &338793649791669678
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -124,13 +125,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 143578}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e099ffa222c9324180084d3d1a6a252, type: 3}
+  m_Script: {fileID: 11500000, guid: ecb333cf01fb4a448be7e489ce8c10e7, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
-  _PrefabName: Rock
-  _RespawnSeconds: 5
-  _RespawnAnchor: {fileID: 0}
+  m_EditorClassIdentifier: Assembly-CSharp::HarvestableObject
   _Data: {fileID: 11400000, guid: 65affc06a6550754aad25f21967a85fe, type: 2}
+--- !u!114 &-2796244347132170074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 143578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4a42b1958c51e844b449929877a5e40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Respawnable
+  _PrefabName: 
+  _RespawnSeconds: 30
+  _RespawnAnchor: {fileID: 0}
 --- !u!114 &-2758395585881874864
 MonoBehaviour:
   m_ObjectHideFlags: 0
