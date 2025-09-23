@@ -1,14 +1,78 @@
 using Photon.Pun;
 using UnityEngine;
 
+[RequireComponent(typeof(PhotonView))]
+[RequireComponent(typeof(CharacterController))]
 public class PlayerSound : MonoBehaviourPunCallbacks
 {
+    [Header("Keys")]
+    [SerializeField] string _FootKey = "Footstep";
+    [SerializeField] string _JumpKey = "Jump";
+    [SerializeField] string _HitKey = "Hit";
+    [SerializeField] string _SwingKey = "Swing";
+    [SerializeField] string _FishingStartKey = "FishingStart";
+    [SerializeField] string _FishingSuccessKey = "FishingSuccess";
+    [SerializeField] string _FishingFailKey = "FishingFail";
+    [SerializeField] string _ItemPickUpKey = "ItemPickUp";
+
+
+    [Header("Setting")]
+    [SerializeField] float _MinSpeedForStep = 0.15f;
+
     private PhotonView _PV;
+    private CharacterController _CC;
 
     void Awake()
     {
         _PV = GetComponent<PhotonView>();
+        _CC = GetComponent<CharacterController>();
     }
+
+    public void FootStep() // 애니메이션 이벤트에서 이거 호출
+    {
+        if (!_CC || !_CC.isGrounded) return;
+
+        Vector3 v = _CC.velocity; v.y = 0f;
+        if (v.magnitude < _MinSpeedForStep) return;
+
+        PlayGlobal(_FootKey);
+    }
+
+    public void JumpSound() // 점프 시작 시 애니메이션 이벤트
+    {
+        PlayGlobal(_JumpKey);
+    }
+
+    public void HitSound()
+    {
+        PlayGlobal(_HitKey);
+    }
+
+    public void SwingSound()
+    {
+        PlayGlobal(_SwingKey);
+    }
+
+    public void FishingStart()
+    {
+        PlayGlobal(_FishingStartKey);
+    }
+
+    public void FishingSuccess()
+    {
+        PlayGlobal(_FishingSuccessKey);
+    }
+
+    public void FishingFail()
+    {
+        PlayGlobal(_FishingFailKey);
+    }
+
+    public void ItemPickUpSound()
+    {
+        PlayGlobal(_ItemPickUpKey);
+    }
+
 
     public void PlayLocal(string key)
     {

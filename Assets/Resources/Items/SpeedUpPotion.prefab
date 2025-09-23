@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 849734816420600335}
   - component: {fileID: 5062796595845770}
   - component: {fileID: 7914831781402089029}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SpeedUpPotion
   m_TagString: Untagged
   m_Icon: {fileID: 0}

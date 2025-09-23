@@ -1,7 +1,7 @@
 using Photon.Pun;
 using UnityEngine;
 
-public class Respawnable : MonoBehaviour, IRespawnable
+public class Respawnable : MonoBehaviourPun, IRespawnable
 {
     [Header("Respawn")]
     [SerializeField] private string _ResourcesRoot = "Respawnable"; // 예: Resources/Respawnable/<이름>.prefab
@@ -21,29 +21,49 @@ public class Respawnable : MonoBehaviour, IRespawnable
 
     void Start()
     {
-        var data = _harvestable.Data;
-        if (!data || !data.Prefab)
+        var data = _harvestable ? _harvestable.Data : null;
+
+        if (!data || data.Prefabs == null || data.Prefabs.Length == 0)
         {
-            Debug.LogError($"[Respawnable] Data.Prefab 비어있음: {name}");
+            Debug.LogError($"[Respawnable] Data.Prefabs 비어있음: {name}");
             return;
         }
 
-        // 1) 프리팹 이름으로 Resources 경로 구성
-        string prefabNameOnly = data.Prefab.name;
-        _prefabPath = string.IsNullOrEmpty(_ResourcesRoot) ? prefabNameOnly : $"{_ResourcesRoot}/{prefabNameOnly}";
-
-        // 2) 존재 검증(에디터·런타임 공통 가능)
-        var res = Resources.Load<GameObject>(_prefabPath);
-        if (!res)
+        // 마스터가 프리팹 결정 → 전파
+        if (PhotonNetwork.IsMasterClient)
         {
-            Debug.LogError($"[Respawnable] Resources에서 네트워크 프리팹을 찾을 수 없음: '{_prefabPath}'. " +
-                           $"경로가 'Assets/Resources/{_prefabPath}.prefab' 인지 확인.");
-            return;
+            var picked = data.PickRandomRespawnPrefab();
+            if (!picked)
+            {
+                Debug.LogError($"[Respawnable] PickRandomRespawnPrefab() 실패: {name}");
+                return;
+            }
+
+            string prefabNameOnly = picked.name;
+            string path = string.IsNullOrEmpty(_ResourcesRoot) ? prefabNameOnly : $"{_ResourcesRoot}/{prefabNameOnly}";
+
+            // 존재 검증
+            if (!Resources.Load<GameObject>(path))
+            {
+                Debug.LogError($"[Respawnable] Resources에서 프리팹을 찾을 수 없음: 'Assets/Resources/{path}.prefab'");
+                return;
+            }
+
+            // 로컬 적용 + 동기화
+            _prefabPath = path;
+            photonView.RPC(nameof(RPC_SetPrefabPath), RpcTarget.Others, _prefabPath);
         }
 
-        // 3) 등록
+        // 등록(로컬 매니저가 참조할 수 있게)
         RespawnManager._Inst?.Register(this);
     }
+    
+    [PunRPC]
+    void RPC_SetPrefabPath(string path)
+    {
+        _prefabPath = path;
+    }
+
 
     [PunRPC]
     void RPC_DespawnSceneObject()

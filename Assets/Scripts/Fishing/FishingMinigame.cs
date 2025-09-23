@@ -27,6 +27,8 @@ public class FishingMinigame : MonoBehaviour
     {
         OnFishInCheckBox += HandleFishIn;
         OnFishOutCheckBox += HandleFishOut;
+
+        
     }
 
     void OnDisable()

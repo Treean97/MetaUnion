@@ -60,6 +60,7 @@ MonoBehaviour:
   - RPC_PlayByKey
   - RPC_PlayFootstep
   - RPC_PlaySoundGlobal
+  - RPC_SetPrefabPath
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

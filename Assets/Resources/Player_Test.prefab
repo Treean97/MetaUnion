@@ -2183,6 +2183,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaa7b8bfaa12dbb4f8c5aefec1c4d064, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSound
+  _FootKey: Footstep
+  _JumpKey: Jump
+  _HitKey: Hit
+  _SwingKey: Swing
+  _FishingStartKey: FishingStart
+  _FishingSuccessKey: FishingSuccess
+  _FishingFailKey: FishingFail
+  _ItemPickUpKey: ItemPickUp
+  _MinSpeedForStep: 0.15
 --- !u!114 &7600146672090614015
 MonoBehaviour:
   m_ObjectHideFlags: 0

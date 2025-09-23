@@ -13,7 +13,7 @@ public class ItemMovement : MonoBehaviourPun, IPunInstantiateMagicCallback
     [Header("Drop Motion")]
     [SerializeField] private float _MinHorizSpeed = 1.0f;
     [SerializeField] private float _MaxHorizSpeed = 2.5f;
-    [SerializeField] private float _UpSpeed = 3.0f;
+    [SerializeField] private float _UpSpeed = 5.0f;
     [SerializeField] private Vector3 _Gravity = new(0f, -9.8f, 0f);
 
     [Header("Collision / Hover")]

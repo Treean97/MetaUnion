@@ -54,9 +54,7 @@ public class UISound : MonoBehaviour, IPointerEnterHandler
     public void OnClick()
     {
         if (!_ClickSound) return;
-
-        var button = gameObject.GetComponent<Button>();
-        if (!button.interactable) return;
+        if (!_Button || !_Button.interactable) return;
         PlayClick();
     }
 
@@ -78,9 +76,7 @@ public class UISound : MonoBehaviour, IPointerEnterHandler
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (!_HoverSound) return;
-
-        var button = gameObject.GetComponent<Button>();
-        if (!button || !button.interactable) return;
+        if (!_Button || !_Button.interactable) return;
         PlayHover();
     }
 

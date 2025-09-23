@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6176430889638143128}
   - component: {fileID: 3066067787232364995}
   - component: {fileID: 1054832762456863975}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: JumpUpPotion
   m_TagString: Untagged
   m_Icon: {fileID: 0}

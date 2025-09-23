@@ -17,6 +17,13 @@ public class HarvestableDataSO : ScriptableObject
 
 
     [Header("Respawn")]
-    public GameObject Prefab;     // 재생성용
+    public GameObject[] Prefabs;     // 재생성용
     public float RespawnSeconds = 30f;
+
+    public GameObject PickRandomRespawnPrefab()
+    {
+        if (Prefabs == null || Prefabs.Length == 0) return null;
+        int i = Random.Range(0, Prefabs.Length);
+        return Prefabs[i];
+    }
 }
