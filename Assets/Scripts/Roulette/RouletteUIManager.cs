@@ -21,6 +21,9 @@ public class RouletteUIManager : MonoBehaviour, IRouletteUI
     [SerializeField] Button _SpinBtn;
     [SerializeField] Button _CloseBtn;
 
+    [SerializeField] private string _RouletteSpinKey = "RouletteSpin";
+    [SerializeField] private string _RewardSuccessKey = "RewardSuccess";
+
 
     public bool IsOpen => gameObject.activeSelf;
 
@@ -144,20 +147,29 @@ public class RouletteUIManager : MonoBehaviour, IRouletteUI
     {
         _IsSpin = true;
 
+        // 스핀 사운드 시작
+        var spinLoopPlayer = AudioManager._Inst?.Play2DLoopLocalPlayByKey(_RouletteSpinKey);
+
         float time = 0;
         while (time <= _Duration)
         {
             float speed = Mathf.Lerp(_MaxSpeed, 0f, time / _Duration);
-            _Spinner.transform.Rotate(Vector3.back, speed * Time.deltaTime);        // ← 반대방향
+            _Spinner.transform.Rotate(Vector3.back, speed * Time.deltaTime);
             time += Time.deltaTime;
             yield return null;
         }
+
+        // 스핀 사운드 종료
+        spinLoopPlayer.StopAndReturn();
 
         // 아이템 선택
         GameObject reward = SelectSlot();
         GameEvents.RaiseRequestItemGain(
             reward.GetComponent<RouletteSlot>().ItemDataSO.ID,
             reward.GetComponent<RouletteSlot>().Amount);
+
+        // 보상 사운드 실행
+        AudioManager._Inst.PlayLocalByKey(_RewardSuccessKey);
 
         // 아이템 확인 시간 
         yield return new WaitForSeconds(_WaitToNextSpin);

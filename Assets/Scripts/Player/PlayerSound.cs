@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerSound : MonoBehaviourPunCallbacks
 {
     [Header("Keys")]
-    [SerializeField] string _FootKey = "Footstep";
+    [SerializeField] string _FootKey = "FootStep";
     [SerializeField] string _JumpKey = "Jump";
     [SerializeField] string _HitKey = "Hit";
     [SerializeField] string _SwingKey = "Swing";
