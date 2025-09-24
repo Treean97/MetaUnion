@@ -2183,7 +2183,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaa7b8bfaa12dbb4f8c5aefec1c4d064, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSound
-  _FootKey: Footstep
+  _FootKey: FootStep
   _JumpKey: Jump
   _HitKey: Hit
   _SwingKey: Swing

@@ -73,6 +73,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7cdfcccde73e4654887e4a1ecd824ada, type: 2}
   - {fileID: 11400000, guid: afbd042576b3e8e429d0721cee7556cc, type: 2}
   - {fileID: 11400000, guid: d2f862a3e6555694e96368a604c10d60, type: 2}
+  - {fileID: 11400000, guid: 6d12cc8465ef4b441b8a203ab444bc77, type: 2}
+  - {fileID: 11400000, guid: f57a7e2934cc3464f8afcd4d0653f8d5, type: 2}
+  - {fileID: 11400000, guid: f91c029c681844d48997f41a0eb7eb1f, type: 2}
 --- !u!114 &4325577648786806735
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -100,9 +103,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4765987654d46a41827351f371c0628, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GraphicManager
-  _DefaultWidth: 0
-  _DefaultHeight: 0
-  _DefaultTargetFPS: 0
+  _DefaultWidth: 1920
+  _DefaultHeight: 1080
+  _DefaultTargetFPS: -1
 --- !u!114 &-8737493075506996659
 MonoBehaviour:
   m_ObjectHideFlags: 0

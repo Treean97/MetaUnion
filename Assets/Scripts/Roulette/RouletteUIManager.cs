@@ -22,7 +22,7 @@ public class RouletteUIManager : MonoBehaviour, IRouletteUI
     [SerializeField] Button _CloseBtn;
 
     [SerializeField] private string _RouletteSpinKey = "RouletteSpin";
-    [SerializeField] private string _RewardSuccessKey = "RewardSuccess";
+    [SerializeField] private string _RewardSuccessKey = "RouletteRewardSuccess";
 
 
     public bool IsOpen => gameObject.activeSelf;

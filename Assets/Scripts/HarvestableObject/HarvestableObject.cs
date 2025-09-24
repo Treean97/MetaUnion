@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
 
@@ -7,6 +8,10 @@ public class HarvestableObject : MonoBehaviourPun, IDamageable, IDestructible, I
     [Header("Data")]
     [SerializeField] private HarvestableDataSO _Data;
     public HarvestableDataSO Data => _Data;
+
+
+    [Header("Sound")]
+    [SerializeField] private string _Hitkey;
 
     // 드롭 테이블은 외부(루팅 시스템 등)에서 접근
     public DropItemTableSO DropTable => _Data ? _Data.DropTable : null;
@@ -19,16 +24,20 @@ public class HarvestableObject : MonoBehaviourPun, IDamageable, IDestructible, I
     void Start()
     {
         _Dead = false;
-        _Hp   = _Data ? _Data.Durability : 1f;
-        // 리스폰 등록은 Respawnable.Start()에서 자동 수행(이 스크립트는 관여 X)
+        _Hp = _Data ? _Data.Durability : 1f;        
     }
+
 
     public void Damaged(DamageInfo info)
     {
         if (_Dead || !_Data) return;
 
         // 도구 체크: 허용되지 않으면 무시
-        if ( (_Data.AvailableTool & info.tool) == 0 ) return;
+        if ((_Data.AvailableTool & info.tool) == 0) return;
+
+
+        // 사운드 효과
+        AudioManager._Inst.PlayLocalByKey(_Hitkey);
 
         if (PhotonNetwork.IsMasterClient)
         {

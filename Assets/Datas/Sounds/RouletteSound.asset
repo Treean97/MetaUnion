@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c346f43dce7d64e40b4ac97cb4cf0de4, type: 3}
+  m_Name: RouletteSound
+  m_EditorClassIdentifier: Assembly-CSharp::SoundSO
+  _Items:
+  - Key: RouletteSpin
+    Clips:
+    - {fileID: 8300000, guid: 3f4520e99c2b3954994bc371dd7326f9, type: 3}
+    Space: 0
+    Volume: 1
+    Loop: 0
+    MinDistance: 0
+    MaxDistance: 0
+    Rolloff: 0
+  - Key: RouletteRewardSuccess
+    Clips:
+    - {fileID: 8300000, guid: c58a6e6d4ceb56e4882a7d60561a7afc, type: 3}
+    Space: 0
+    Volume: 1
+    Loop: 0
+    MinDistance: 0
+    MaxDistance: 0
+    Rolloff: 0

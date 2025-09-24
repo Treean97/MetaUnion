@@ -59,12 +59,3 @@ MonoBehaviour:
     MinDistance: 0
     MaxDistance: 0
     Rolloff: 0
-  - Key: RouletteSpin
-    Clips:
-    - {fileID: 8300000, guid: 3f4520e99c2b3954994bc371dd7326f9, type: 3}
-    Space: 0
-    Volume: 1
-    Loop: 0
-    MinDistance: 0
-    MaxDistance: 0
-    Rolloff: 0

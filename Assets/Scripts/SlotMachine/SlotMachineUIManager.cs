@@ -48,10 +48,10 @@ public class SlotMachineUIManager : MonoBehaviour, ISlotMachineUI
     [SerializeField] private int _2MatchMul;
 
     [Header("SoundKey")]
-    [SerializeField] private string _SlotPickKey;
-    [SerializeField] private string _RewardSuccessKey;
-    [SerializeField] private string _RewardFailKey;
-    [SerializeField] private string _SlotSpinKey;
+    [SerializeField] private string _SlotPickKey = "SlotPick";
+    [SerializeField] private string _RewardSuccessKey = "SlotMachineRewardSuccess";
+    [SerializeField] private string _RewardFailKey = "SlotMachineRewardFail";
+    [SerializeField] private string _SlotSpinKey = "SlotSpin";
 
 
     private List<ItemDataSO> _CurrencyList;

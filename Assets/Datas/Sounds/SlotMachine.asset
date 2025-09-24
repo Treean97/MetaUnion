@@ -22,7 +22,7 @@ MonoBehaviour:
     MinDistance: 0
     MaxDistance: 0
     Rolloff: 0
-  - Key: RewardSuccess
+  - Key: SlotMachineRewardSuccess
     Clips:
     - {fileID: 8300000, guid: c58a6e6d4ceb56e4882a7d60561a7afc, type: 3}
     Space: 0
@@ -31,7 +31,7 @@ MonoBehaviour:
     MinDistance: 0
     MaxDistance: 0
     Rolloff: 0
-  - Key: RewardFail
+  - Key: SlotMachineRewardFail
     Clips:
     - {fileID: 8300000, guid: 30b7ac2ebb0728b48a26ca1fb54697c7, type: 3}
     Space: 0

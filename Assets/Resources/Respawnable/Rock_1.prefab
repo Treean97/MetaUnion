@@ -129,6 +129,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HarvestableObject
   _Data: {fileID: 11400000, guid: 65affc06a6550754aad25f21967a85fe, type: 2}
+  _Hitkey: PickRock
 --- !u!114 &5055434673526163256
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -141,9 +142,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4a42b1958c51e844b449929877a5e40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Respawnable
-  _PrefabName: 
-  _RespawnSeconds: 30
-  _RespawnAnchor: {fileID: 0}
+  _ResourcesRoot: Respawnable
 --- !u!114 &-2995435127154199173
 MonoBehaviour:
   m_ObjectHideFlags: 0
