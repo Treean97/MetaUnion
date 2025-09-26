@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SoundSO
   _Items:
   - Key: PickRock
-    Clips: []
+    Clips:
+    - {fileID: 8300000, guid: 292b9f0ac7aaa374889c8a1793fd9589, type: 3}
     Space: 1
     Volume: 1
     Loop: 0

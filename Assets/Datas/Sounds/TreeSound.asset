@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SoundSO
   _Items:
   - Key: ChopTree
-    Clips: []
+    Clips:
+    - {fileID: 8300000, guid: 182a6583ff76ff14285c69f727b3ada4, type: 3}
     Space: 1
     Volume: 1
     Loop: 0

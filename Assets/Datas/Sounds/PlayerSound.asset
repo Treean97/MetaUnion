@@ -50,7 +50,7 @@ MonoBehaviour:
     Clips:
     - {fileID: 8300000, guid: 3c392e6befcab436bae9c198f4ea422c, type: 3}
     Space: 1
-    Volume: 1
+    Volume: 2
     Loop: 0
     MinDistance: 1
     MaxDistance: 100
