@@ -29,7 +29,6 @@ public class PlayerSetup : MonoBehaviourPun
         {
             input.BindCamera(thirdPersonCamera);
         }
-            
 
         Debug.Log("PlayerCamera가 내 플레이어에 연결되었습니다.");
     }

@@ -53,9 +53,9 @@ namespace Controller
         public event Action OnAttack;
 
         // 무기 키 입력 이벤트
-        public event Action OnHandKeyPressed;
-        public event Action OnAxeKeyPressed;
-        public event Action OnPickaxeKeyPressed;
+        public event Action OnSlot_0KeyPressed;
+        public event Action OnSlot_1KeyPressed;
+        public event Action OnSlot_2KeyPressed;
 
         // 무기 상태 변경 이벤트
         public event Action<IWeaponState> OnWeaponChange;
@@ -74,11 +74,6 @@ namespace Controller
                 _StatusEffectManager.OnEffectApplied += HandleEffectApplied;
                 _StatusEffectManager.OnEffectRemoved += HandleEffectRemoved;
             }
-
-            // 키 입력 이벤트 구독
-            OnHandKeyPressed += () => m_Attacker.EquipHand();
-            OnAxeKeyPressed += () => m_Attacker.EquipAxe();
-            OnPickaxeKeyPressed += () => m_Attacker.EquipPickaxe();
         }
 
         private void OnDestroy()
@@ -91,10 +86,6 @@ namespace Controller
                 _StatusEffectManager.OnEffectRemoved -= HandleEffectRemoved;
             }
             
-                        // 키 입력 이벤트 구독
-            OnHandKeyPressed -= () => m_Attacker.EquipHand();
-            OnAxeKeyPressed -= () => m_Attacker.EquipAxe();
-            OnPickaxeKeyPressed -= () => m_Attacker.EquipPickaxe();
         }
 
         private void HandleUIRunningStateChanged(bool isBlocked)
@@ -189,17 +180,17 @@ namespace Controller
 
             if (Input.GetKeyDown(m_Handkey))
             {
-                OnHandKeyPressed?.Invoke();
+                OnSlot_0KeyPressed?.Invoke();
             }
 
             if (Input.GetKeyDown(m_Axekey))
             {
-                OnAxeKeyPressed?.Invoke();
+                OnSlot_1KeyPressed?.Invoke();
             }
 
             if (Input.GetKeyDown(m_Pickaxekey))
             {
-                OnPickaxeKeyPressed?.Invoke();
+                OnSlot_2KeyPressed?.Invoke();
             }
 
             if (Input.GetKeyDown(m_InventoryKey))

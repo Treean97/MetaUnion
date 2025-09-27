@@ -37,6 +37,14 @@ public class AttackHandler : MonoBehaviourPun
         _Input = GetComponent<PlayerInput>();
         _Stat = GetComponent<PlayerStat>();
         _Animator = GetComponent<Animator>();
+
+        if(_Input && photonView.IsMine)
+        {
+            _Input.OnSlot_0KeyPressed += () => EquipHand();
+            _Input.OnSlot_1KeyPressed += () => EquipAxe();
+            _Input.OnSlot_2KeyPressed += () => EquipPickaxe();
+        }
+        
     }
 
     void Start()
@@ -52,8 +60,18 @@ public class AttackHandler : MonoBehaviourPun
     {
         _Input.OnAttack -= HandleAttackEvent;
     }
-    
-     private void HandleAttackEvent()
+
+    void OnDestroy()
+    {
+        if(_Input && photonView.IsMine)
+        {
+            _Input.OnSlot_0KeyPressed -= () => EquipHand();
+            _Input.OnSlot_1KeyPressed -= () => EquipAxe();
+            _Input.OnSlot_2KeyPressed -= () => EquipPickaxe();
+        }
+    }
+
+    private void HandleAttackEvent()
     {
         if (!_CanAttack)
             return;

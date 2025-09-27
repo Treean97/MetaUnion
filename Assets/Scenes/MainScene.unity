@@ -17008,6 +17008,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2759584193362330549, guid: 44600fdbfba02b84bbbc32ee3a1422a1, type: 3}
+      propertyPath: sceneViewId
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2771922703489458855, guid: 44600fdbfba02b84bbbc32ee3a1422a1, type: 3}
       propertyPath: m_Name
       value: FishingRob
