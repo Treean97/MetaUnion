@@ -40,9 +40,9 @@ public class AttackHandler : MonoBehaviourPun
 
         if(_Input && photonView.IsMine)
         {
-            _Input.OnSlot_0KeyPressed += () => EquipHand();
-            _Input.OnSlot_1KeyPressed += () => EquipAxe();
-            _Input.OnSlot_2KeyPressed += () => EquipPickaxe();
+            _Input.OnSlot_0KeyPressed += EquipHand;
+            _Input.OnSlot_1KeyPressed += EquipAxe;
+            _Input.OnSlot_2KeyPressed += EquipPickaxe;
         }
         
     }
@@ -65,9 +65,9 @@ public class AttackHandler : MonoBehaviourPun
     {
         if(_Input && photonView.IsMine)
         {
-            _Input.OnSlot_0KeyPressed -= () => EquipHand();
-            _Input.OnSlot_1KeyPressed -= () => EquipAxe();
-            _Input.OnSlot_2KeyPressed -= () => EquipPickaxe();
+            _Input.OnSlot_0KeyPressed -= EquipHand;
+            _Input.OnSlot_1KeyPressed -= EquipAxe;
+            _Input.OnSlot_2KeyPressed -= EquipPickaxe;
         }
     }
 

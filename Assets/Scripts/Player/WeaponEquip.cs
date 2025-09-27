@@ -68,8 +68,8 @@ public class WeaponEquip : MonoBehaviourPunCallbacks
     {
         if (_Input && photonView.IsMine)
         {
-            _Input.OnSlot_0KeyPressed    -= UnequipWeapon;
-            _Input.OnSlot_1KeyPressed     -= OnAxeKey;
+            _Input.OnSlot_0KeyPressed -= UnequipWeapon;
+            _Input.OnSlot_1KeyPressed -= OnAxeKey;
             _Input.OnSlot_2KeyPressed -= OnPickaxeKey;
         }
     }
