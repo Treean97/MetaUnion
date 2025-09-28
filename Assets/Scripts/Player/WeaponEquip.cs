@@ -43,7 +43,7 @@ public class WeaponEquip : MonoBehaviourPunCallbacks
 
     [Header("문자열")]
     [SerializeField] private string _AxeName = "Axe";
-    [SerializeField] private string _PickAxeName = "PickAxe";
+    [SerializeField] private string _PickAxeName = "Pickaxe";
     [SerializeField] private string _FishingRodName = "FishingRod";
 
     AttackHandler _AttackHandler;

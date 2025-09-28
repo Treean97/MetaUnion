@@ -16,8 +16,16 @@ public class ItemDataSO : ScriptableObject, IItemData
     public GameObject Prefab => _Prefab;
     
     [Tooltip("상점 구매가")]
-    [SerializeField] int _Price;
-    public int Price => _Price;
+    [SerializeField] int _BuyPrice;
+    public int BuyPrice => _BuyPrice;
+
+    [Tooltip("상점 판매가")]
+    [SerializeField] int _SellPrice;
+    public int SellPrice => _SellPrice;
+
+    [Tooltip("구매/판매에 사용할 통화")]
+    [SerializeField] private ItemDataSO _PriceCurrency;
+    public ItemDataSO PriceCurrency => _PriceCurrency;
 
     [SerializeField] private ScriptableObject[] _ActionSOs;
     public IInventoryAction[] Actions

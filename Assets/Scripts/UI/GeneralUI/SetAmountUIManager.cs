@@ -79,12 +79,12 @@ public class SetAmountUIManager : MonoBehaviour, ISetAmountUI
         {
             case QuantityMode.Buy:
                 success = GameEvents.RaiseRequestPurchaseItem(
-                    _ItemData.ID, amount, 10000, _ItemData.Price);
+                    _ItemData.ID, amount, 10000, _ItemData.BuyPrice);
                 break;
 
             case QuantityMode.Sell:
                 success = GameEvents.RaiseRequestSellItem(
-                    _ItemData.ID, amount, 10000, _ItemData.Price);
+                    _ItemData.ID, amount, 10000, _ItemData.BuyPrice);
                 break;
         }
 

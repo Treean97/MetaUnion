@@ -2475,9 +2475,9 @@ MonoBehaviour:
   - Name: Pickaxe
     Prefab: {fileID: 1738160149953614317, guid: 47df71ab66823454fb04eb1f3b486797, type: 3}
     InstantiateTransform: {fileID: 2841321499298973768}
-  - Name: Pickaxe
-    Prefab: {fileID: 1738160149953614317, guid: 47df71ab66823454fb04eb1f3b486797, type: 3}
-    InstantiateTransform: {fileID: 2841321499298973768}
+  - Name: FishingRod
+    Prefab: {fileID: 2771922703489458855, guid: 44600fdbfba02b84bbbc32ee3a1422a1, type: 3}
+    InstantiateTransform: {fileID: 9005481972468567355}
   _HandAnchor: {fileID: 6103675933946767921}
   _WeaponRig: {fileID: 3207246784984490593}
   _RightArmIK: {fileID: 7599731661553133654}
@@ -2485,9 +2485,11 @@ MonoBehaviour:
   IdleIKWeight: 0.15
   HoldIKWeight: 0.2
   AttackIKWeight: 1
-  BlendInTime: 0.06
-  BlendOutTime: 0.12
+  BlendTime: 0.1
   _Input: {fileID: 5568501472016897232}
+  _AxeName: Axe
+  _PickAxeName: Pickaxe
+  _FishingRodName: FishingRod
 --- !u!114 &7795573317481127736
 MonoBehaviour:
   m_ObjectHideFlags: 0

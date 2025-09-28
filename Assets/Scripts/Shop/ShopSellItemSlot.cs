@@ -31,7 +31,7 @@ public class ShopSellItemSlot : MonoBehaviour
     {   
         _Icon.sprite = _ItemData.Icon;
         _AmountText.text = _Amount.ToString();
-        _PriceText.text = _ItemData.Price.ToString();
+        _PriceText.text = _ItemData.BuyPrice.ToString();
     }
 
     void OnClickSlotBtn()
