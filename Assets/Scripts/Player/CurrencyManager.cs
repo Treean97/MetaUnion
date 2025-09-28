@@ -72,6 +72,12 @@ public class CurrencyManager : MonoBehaviour
             Debug.LogError("잘못된 Item ID 입니다");
             return false;
         }
+            
+        if (amount < 0)
+        {
+            Debug.LogError("음수 차감 요청");
+            return false;
+        }
 
         _Currencies[id] -= amount;
         GameEvents.RaiseRequestUpdateCurrency(id, _Currencies[id]);

@@ -298,11 +298,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UISound
-  _SoundData: {fileID: 11400000, guid: 7cdfcccde73e4654887e4a1ecd824ada, type: 2}
   _ClickSound: 1
   _HoverSound: 0
   _OpenSound: 0
   _CloseSound: 0
+  _IsToggle: 0
 --- !u!1 &6705062579090125697
 GameObject:
   m_ObjectHideFlags: 0
@@ -676,6 +676,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Icon: {fileID: 2066383047128692073}
+  _CurrencyIcon: {fileID: 4025208401751780694}
   _PriceText: {fileID: 3569803445994478739}
   _Btn: {fileID: 2809768835494225257}
 --- !u!1 &8581006693457422049
@@ -690,7 +691,7 @@ GameObject:
   - component: {fileID: 7826173126805661154}
   - component: {fileID: 4025208401751780694}
   m_Layer: 5
-  m_Name: CurrencyType
+  m_Name: CurrencyIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

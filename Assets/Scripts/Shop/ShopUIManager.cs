@@ -81,14 +81,14 @@ public class ShopUIManager : MonoBehaviour, IShopUI
 
         foreach (var item in items)
         {
-            // 1) 프리팹 인스턴스 생성
+            // 프리팹 인스턴스 생성
             var go = Instantiate(_BuySlotPrefab, _BuyContents);
 
-            // 2) ShopItemSlot 컴포넌트 꺼내기
+            // ShopItemSlot 컴포넌트 꺼내기
             var slot = go.GetComponent<ShopBuyItemSlot>();
 
-            // 3) 슬롯 세팅 (이 안에서 버튼 클릭 리스너까지 모두 처리됨)
-            slot.Setup(item);
+            // 슬롯 세팅
+            slot.SetSlot(item);
         }
     }
 

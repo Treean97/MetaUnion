@@ -17,5 +17,6 @@ MonoBehaviour:
   _ID: Glasses_1
   _ItemMesh: {fileID: 4300000, guid: 6d56df69f4aef2545b94f39f0738fe65, type: 2}
   _Sprite: {fileID: 21300000, guid: a68680d39c424e246a02e0c6639fd048, type: 3}
-  _Price: 500
+  _CurrencyType: {fileID: 11400000, guid: 70644ca84e646ec40a3ad228d43c3205, type: 2}
+  _BuyPrice: 500
   _IsDefaultUnlocked: 0

@@ -15,8 +15,10 @@ public class CustomizeItemSO : ScriptableObject
     public Mesh ItemMesh => _ItemMesh;
     [SerializeField] Sprite _Sprite;
     public Sprite Sprite => _Sprite;
-    [SerializeField] int _Price;
-    public int Price => _Price;
+    [SerializeField] ItemDataSO _CurrencyType;
+    public ItemDataSO CurrencyType => _CurrencyType;
+    [SerializeField] int _BuyPrice;
+    public int BuyPrice => _BuyPrice;
 
     [SerializeField] private bool _IsDefaultUnlocked;
     public bool IsDefaultUnlocked => _IsDefaultUnlocked;

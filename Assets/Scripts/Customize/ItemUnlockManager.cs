@@ -7,9 +7,6 @@ using ExitGames.Client.Photon;
 
 public class ItemUnlockManager : MonoBehaviourPunCallbacks, ISaveSection
 {
-    [Header("사용 가능 재화")]
-    [SerializeField] private ItemDataSO _UseableCurrency;
-
     private readonly HashSet<string> _Unlocked = new();
 
     [Serializable]
@@ -85,7 +82,7 @@ public class ItemUnlockManager : MonoBehaviourPunCallbacks, ISaveSection
     public void TryPurchase(CustomizeItemSO item)
     {
         if (_Unlocked.Contains(item.ID)) return;
-        if (!GameEvents.RaiseRequestCurrencySpend(_UseableCurrency.ID, item.Price))
+        if (!GameEvents.RaiseRequestCurrencySpend(item.CurrencyType.ID, item.BuyPrice))
         {
             Debug.LogWarning("재화가 부족합니다.");
             return;

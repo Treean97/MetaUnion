@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class ShopBuyItemSlot : MonoBehaviour
 {
     [SerializeField] private Image _Icon;
+    [SerializeField] private Image _CurrencyIcon;
     [SerializeField] private TMP_Text _PriceText;
     [SerializeField] private Button _Btn;
 
@@ -23,11 +24,13 @@ public class ShopBuyItemSlot : MonoBehaviour
     /// <summary>
     /// 슬롯을 해당 아이템 정보로 설정합니다.
     /// </summary>
-    public void Setup(CustomizeItemSO itemSO)
+    public void SetSlot(CustomizeItemSO itemSO)
     {
         _ItemSO = itemSO;
         _Icon.sprite = itemSO.Sprite;
-        _PriceText.text = itemSO.Price.ToString();
+        var cur = _ItemSO.CurrencyType;
+        _CurrencyIcon.sprite = cur.Icon;
+        _PriceText.text = cur.BuyPrice.ToString();
     }
 
     /// <summary>

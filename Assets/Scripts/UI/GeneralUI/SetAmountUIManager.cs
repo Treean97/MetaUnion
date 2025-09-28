@@ -73,18 +73,19 @@ public class SetAmountUIManager : MonoBehaviour, ISetAmountUI
         if (!int.TryParse(_AmountInputField.text, out var amount))
             amount = 1;
         amount = Mathf.Max(1, amount);
+        var currency = _ItemData.CurrencyType;
 
         bool success = false;
         switch (_Mode)
         {
             case QuantityMode.Buy:
                 success = GameEvents.RaiseRequestPurchaseItem(
-                    _ItemData.ID, amount, 10000, _ItemData.BuyPrice);
+                    _ItemData.ID, amount, currency.ID, _ItemData.BuyPrice);
                 break;
 
             case QuantityMode.Sell:
                 success = GameEvents.RaiseRequestSellItem(
-                    _ItemData.ID, amount, 10000, _ItemData.BuyPrice);
+                    _ItemData.ID, amount, currency.ID, _ItemData.SellPrice);
                 break;
         }
 
