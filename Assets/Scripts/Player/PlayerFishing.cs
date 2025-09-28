@@ -11,17 +11,17 @@ public class PlayerFishing : MonoBehaviour
 
     void OnEnable()
     {
-        FishingManager.OnCastStarted += HandleCastStart;
-        FishingManager.OnFishingSucceeded += HandleFishingSuccess;
-        FishingManager.OnFishingFailed += HandleFishingFail;
+        FishingSequence.OnFishingStart += HandleCastStart;
+        FishingSequence.OnFishingSuccess += HandleFishingSuccess;
+        FishingSequence.OnFishingFail += HandleFishingFail;
     }
 
     void OnDisable()
     {
 
-        FishingManager.OnCastStarted -= HandleCastStart;
-        FishingManager.OnFishingSucceeded -= HandleFishingSuccess;
-        FishingManager.OnFishingFailed -= HandleFishingFail;
+        FishingSequence.OnFishingStart -= HandleCastStart;
+        FishingSequence.OnFishingSuccess -= HandleFishingSuccess;
+        FishingSequence.OnFishingFail -= HandleFishingFail;
     }
 
     void HandleCastStart()

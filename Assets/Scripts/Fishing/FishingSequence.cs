@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class FishingManager : MonoBehaviour, IFishingUI
+public class FishingSequence : MonoBehaviour, IFishingUI
 {
     
     [SerializeField] private FishingMinigame _MinigameUI;
@@ -25,10 +25,11 @@ public class FishingManager : MonoBehaviour, IFishingUI
 
     public bool IsOpen => gameObject.activeSelf;
 
-    public static event Action OnCastStarted;
-    public static event Action OnWaitLoopStarted;
-    public static event Action OnFishingSucceeded;
-    public static event Action OnFishingFailed;
+    public static event Action OnFishingStart;
+    public static event Action OnWaitLoopStart;
+    public static event Action OnFishingSuccess;
+    public static event Action OnFishingFail;
+    public static event Action OnFishingEnd;
 
     void OnEnable()
     {
@@ -55,7 +56,7 @@ public class FishingManager : MonoBehaviour, IFishingUI
     {
         // 캐스팅
         _State = FishingState.Casting;
-        OnCastStarted?.Invoke();
+        OnFishingStart?.Invoke();
         yield return null;
 
         // 대기
@@ -84,7 +85,7 @@ public class FishingManager : MonoBehaviour, IFishingUI
         if (!catched)
         {
             _State = FishingState.Resolve;
-            OnFishingFailed?.Invoke();
+            OnFishingFail?.Invoke();
             yield return new WaitForSeconds(_Cooldown);
             ResetFlow();
             yield break;
@@ -109,7 +110,7 @@ public class FishingManager : MonoBehaviour, IFishingUI
 
         if (_MinigameResult == true)
         {
-            OnFishingSucceeded?.Invoke();
+            OnFishingSuccess?.Invoke();
 
             int idx = UnityEngine.Random.Range(0, _RewardItemPool.GetItemCount());
             ItemDataSO randomItem = _RewardItemPool.GetItemAt(idx);
@@ -118,9 +119,11 @@ public class FishingManager : MonoBehaviour, IFishingUI
         }
         else
         {
-            OnFishingFailed?.Invoke();
+            OnFishingFail?.Invoke();            
         }
 
+        // 낚시 종료 전파
+        OnFishingEnd?.Invoke();
         yield return new WaitForSeconds(_Cooldown);
         ResetFlow();
     }

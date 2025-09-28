@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using Controller;
 using Photon.Pun;
@@ -31,14 +32,27 @@ public class WeaponEquip : MonoBehaviourPunCallbacks
     [SerializeField] private TwoBoneIKConstraint _RightArmIK;
     [SerializeField] private TwoBoneIKConstraint _LeftArmIK;
 
+    [Header("IK 조절")]
+    [Range(0, 1)] public float IdleIKWeight = 0.15f; // 평소
+    [Range(0, 1)] public float HoldIKWeight = 0.2f;
+    [Range(0, 1)] public float AttackIKWeight = 1.00f; // 공격시
+    [Min(0f)] public float BlendTime = 0.1f;
+
     [Header("입력")]
     [SerializeField] private PlayerInput _Input;
 
-    private GameObject _CurrentWeapon;
+    [Header("문자열")]
+    [SerializeField] private string _AxeName = "Axe";
+    [SerializeField] private string _PickAxeName = "PickAxe";
+    [SerializeField] private string _FishingRodName = "FishingRod";
 
-    void OnAxeKey() => EquipWeapon("Axe");
-    void OnPickaxeKey() => EquipWeapon("Pickaxe");
-    
+    AttackHandler _AttackHandler;
+
+    private GameObject _CurrentWeapon;
+    Coroutine _IKBlend;
+
+
+
     private void Awake()
     {
         // 리스트 → 딕셔너리
@@ -61,7 +75,21 @@ public class WeaponEquip : MonoBehaviourPunCallbacks
             _Input.OnSlot_0KeyPressed += UnequipWeapon;
             _Input.OnSlot_1KeyPressed += OnAxeKey;
             _Input.OnSlot_2KeyPressed += OnPickaxeKey;
+                
+            FishingSequence.OnFishingStart += HandleFishingStart;
+            FishingSequence.OnFishingEnd += HandleFishingEnd;
         }
+
+        _AttackHandler = GetComponent<AttackHandler>();
+        if (_AttackHandler)
+        {
+            _AttackHandler.OnAttackStart += OnAttackStart_IK;
+            _AttackHandler.OnAttackEnd += OnAttackEnd_IK;
+        }
+
+
+        // 시작 웨이트 0으로
+        ApplyIKImmediate(0f);
     }
 
     private void OnDestroy()
@@ -72,12 +100,46 @@ public class WeaponEquip : MonoBehaviourPunCallbacks
             _Input.OnSlot_1KeyPressed -= OnAxeKey;
             _Input.OnSlot_2KeyPressed -= OnPickaxeKey;
         }
+
+        if (_AttackHandler)
+        {
+            _AttackHandler.OnAttackStart -= OnAttackStart_IK;
+            _AttackHandler.OnAttackEnd -= OnAttackEnd_IK;
+        }
+
+        FishingSequence.OnFishingStart -= HandleFishingStart;
+        FishingSequence.OnFishingEnd -= HandleFishingEnd;
     }
 
-    private void Start()
+    void OnAttackStart_IK() => BlendIKTo(AttackIKWeight, BlendTime);
+    void OnAttackEnd_IK() => BlendIKTo(IdleIKWeight, BlendTime);
+
+    void BlendIKTo(float target, float time)
     {
-        // 스폰 직후 소유자의 커스텀프로퍼티로 초기 상태 동기화 (로컬/원격 공통)
-        SyncFromProperties(photonView.Owner);
+        if (_IKBlend != null) StopCoroutine(_IKBlend);
+        _IKBlend = StartCoroutine(CoBlendIK(target, Mathf.Max(0.0001f, time)));
+    }
+
+    IEnumerator CoBlendIK(float target, float time)
+    {
+        float start = _WeaponRig ? _WeaponRig.weight : 0f;
+        float t = 0f;
+        while (t < time)
+        {
+            t += Time.deltaTime;
+            float w = Mathf.Lerp(start, target, t / time);
+            ApplyIKImmediate(w);
+            yield return null;
+        }
+        ApplyIKImmediate(target);
+        _IKBlend = null;
+    }
+
+    void ApplyIKImmediate(float w)
+    {
+        if (_WeaponRig) _WeaponRig.weight = w;
+        if (_LeftArmIK) _LeftArmIK.weight = w;
+        if (_RightArmIK) _RightArmIK.weight = w;
     }
 
     public void EquipWeapon(string name)
@@ -167,16 +229,33 @@ public class WeaponEquip : MonoBehaviourPunCallbacks
         var L = _LeftArmIK.data; L.target = leftGrip; _LeftArmIK.data = L;
         var R = _RightArmIK.data; R.target = rightGrip; _RightArmIK.data = R;
 
-        _LeftArmIK.weight = 1f;
-        _RightArmIK.weight = 1f;
-        _WeaponRig.weight = 1f;
+        ApplyIKImmediate(IdleIKWeight);
     }
 
     private void ApplyUnequipLocally()
     {
         if (_CurrentWeapon) { Destroy(_CurrentWeapon); _CurrentWeapon = null; }
-        _LeftArmIK.weight = _RightArmIK.weight = _WeaponRig.weight = 0f;
+        ApplyIKImmediate(0f); // ← 유지
     }
+
+    #region "바인딩"
+    void OnAxeKey() => EquipWeapon(_AxeName);
+    void OnPickaxeKey() => EquipWeapon(_PickAxeName);
+
+    void HandleFishingStart()
+    {
+        // 낚시대 착용
+        EquipWeapon(_FishingRodName);
+        BlendIKTo(HoldIKWeight, BlendTime);
+    }
+
+    void HandleFishingEnd()
+    {
+        BlendIKTo(0f, BlendTime);
+        // 낚시대 해제
+        UnequipWeapon();
+    }
+    #endregion
 
     // private void Awake()
     // {

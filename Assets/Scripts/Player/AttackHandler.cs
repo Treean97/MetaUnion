@@ -3,6 +3,7 @@ using UnityEngine;
 using Photon.Pun;
 using Controller;
 using System.Collections;
+using System;
 
 [RequireComponent(typeof(PlayerStat), typeof(PhotonView))]
 [RequireComponent(typeof(Animator))]
@@ -21,6 +22,9 @@ public class AttackHandler : MonoBehaviourPun
     IWeaponState _State;
     private bool _CanAttack = true;
 
+    public event Action OnAttackStart;
+    public event Action OnAttackEnd;
+
     public void Equip(WeaponStateSO cfg)
     {
         _State?.ExitState(this);
@@ -38,11 +42,15 @@ public class AttackHandler : MonoBehaviourPun
         _Stat = GetComponent<PlayerStat>();
         _Animator = GetComponent<Animator>();
 
-        if(_Input && photonView.IsMine)
+        if (_Input && photonView.IsMine)
         {
             _Input.OnSlot_0KeyPressed += EquipHand;
             _Input.OnSlot_1KeyPressed += EquipAxe;
             _Input.OnSlot_2KeyPressed += EquipPickaxe;
+
+            _Input.OnAttack += HandleAttackInput;
+            
+            FishingSequence.OnFishingStart += HandleFishingStart;
         }
         
     }
@@ -52,26 +60,21 @@ public class AttackHandler : MonoBehaviourPun
         Equip(HandCfg);
     }
 
-    void OnEnable()
-    {
-        _Input.OnAttack += HandleAttackEvent;
-    }
-    void OnDisable()
-    {
-        _Input.OnAttack -= HandleAttackEvent;
-    }
-
     void OnDestroy()
     {
-        if(_Input && photonView.IsMine)
+        if (_Input && photonView.IsMine)
         {
             _Input.OnSlot_0KeyPressed -= EquipHand;
             _Input.OnSlot_1KeyPressed -= EquipAxe;
             _Input.OnSlot_2KeyPressed -= EquipPickaxe;
+
+            _Input.OnAttack -= HandleAttackInput;
+                
+            FishingSequence.OnFishingStart -= HandleFishingStart;
         }
     }
 
-    private void HandleAttackEvent()
+    private void HandleAttackInput()
     {
         if (!_CanAttack)
             return;
@@ -81,16 +84,27 @@ public class AttackHandler : MonoBehaviourPun
         _State?.ExecuteAttack(this);
     }
 
-    internal IEnumerator ResetAttackFlag(float delay, System.Action onComplete)
-    {        
-        yield return new WaitForSeconds(delay);
-        onComplete?.Invoke();
+    public void AnimEvent_AttackStart()
+    {
+        // 공격 시작 이벤트
+        OnAttackStart?.Invoke();
+    }
+
+    public void AnimEvent_AttackEnd()
+    {
+        OnAttackEnd?.Invoke();
         _CanAttack = true;
     }
 
-    public void OnAttackFinished()
+    void HandleFishingStart()
     {
-        Debug.Log("Attack Finished");
+        Equip(HandCfg);
+    }
+
+    internal IEnumerator ResetAttackFlag(float delay, System.Action onComplete)
+    {
+        yield return new WaitForSeconds(delay);
+        onComplete?.Invoke();
         _CanAttack = true;
     }
     
