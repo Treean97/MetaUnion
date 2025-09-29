@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -6,8 +7,10 @@ using UnityEngine.UI;
 public class VendingMachineSlot : MonoBehaviour,
 IPointerEnterHandler, IPointerExitHandler
 {
-    [SerializeField] Button _SlotBtn;
-    [SerializeField] Image _Icon;    
+    [SerializeField] private Image _Icon;
+    [SerializeField] private Image _CurrencyIcon;
+    [SerializeField] private TMP_Text _PriceText;
+    [SerializeField] private Button _BuyButton;
     private ItemDataSO _ItemDataSO;
 
     public static event Action<ItemDataSO> OnPointerEnterVendingMachineSlot;
@@ -26,10 +29,13 @@ IPointerEnterHandler, IPointerExitHandler
     public void SetSlot(ItemDataSO itemDataSO)
     {
         _ItemDataSO = itemDataSO;
-        _Icon.sprite = _ItemDataSO.Icon;
+        _Icon.sprite = itemDataSO.Icon;
+        var cur = itemDataSO.CurrencyType;
+        _CurrencyIcon.sprite = cur.Icon;
+        _PriceText.text = itemDataSO.BuyPrice.ToString();
 
-        _SlotBtn.onClick.RemoveAllListeners();
-        _SlotBtn.onClick.AddListener(OnClickSlot);
+        _BuyButton.onClick.RemoveAllListeners();
+        _BuyButton.onClick.AddListener(OnClickSlot);
     }
 
     void OnClickSlot()

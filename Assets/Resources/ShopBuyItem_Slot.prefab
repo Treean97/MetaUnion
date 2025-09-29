@@ -188,7 +188,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -65.6}
+  m_AnchoredPosition: {x: 0, y: -65}
   m_SizeDelta: {x: 100, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1637419045084790824
@@ -285,7 +285,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f29b13c5432b39c40a8dbc8e0d2d101b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonPressedEffect
-  _PressOffsetRatio: 0.05
+  _PressOffsetRatio: 0.2
 --- !u!114 &670139101262683976
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -611,7 +611,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 25}
+  m_AnchoredPosition: {x: 0, y: 27}
   m_SizeDelta: {x: 0, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &8365039451784562699
@@ -678,7 +678,7 @@ MonoBehaviour:
   _Icon: {fileID: 2066383047128692073}
   _CurrencyIcon: {fileID: 4025208401751780694}
   _PriceText: {fileID: 3569803445994478739}
-  _Btn: {fileID: 2809768835494225257}
+  _BuyButton: {fileID: 2809768835494225257}
 --- !u!1 &8581006693457422049
 GameObject:
   m_ObjectHideFlags: 0

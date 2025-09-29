@@ -7,10 +7,11 @@ public class VendingMachineFocusUIManager : MonoBehaviour
     [SerializeField] private TMP_Text _Name;
     [SerializeField] private TMP_Text _Description;
 
-    public void Show(ItemInfoSO objInfo)
+    public void Show(ItemDataSO itemData)
     {
-        _Name.text = objInfo._DisplayName;
-        _Description.text = objInfo._Description;
+        var info = itemData.ItemInfo;
+        _Name.text = info._DisplayName;
+        _Description.text = info._Description;
     }
 
 

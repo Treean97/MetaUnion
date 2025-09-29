@@ -24,7 +24,7 @@ public class VendingMachineFocusUIListener : MonoBehaviour
             return;
         }
 
-        _VendingMachineFocusUIManager.Show(itemDataSO.ItemInfo);
+        _VendingMachineFocusUIManager.Show(itemDataSO);
         _VendingMachineFocusUIManager.gameObject.SetActive(true);
     }
 

@@ -16,7 +16,9 @@ MonoBehaviour:
   _ItemInfo: {fileID: 11400000, guid: e8b25638cdb82ef41a844bb70683a7af, type: 2}
   _Icon: {fileID: 21300000, guid: ebad62e970391544e9b23a8226a1fb1b, type: 3}
   _Prefab: {fileID: 4391059573205925471, guid: eee9c8f2bb5c3a14abd243989ae044a4, type: 3}
-  _Price: 500
   _ActionSOs:
   - {fileID: 11400000, guid: b594e5b999e5a6b4987079a7c4fc7f5f, type: 2}
   - {fileID: 11400000, guid: 88f81921cebc2c74396008c1be16edd3, type: 2}
+  _CurrencyType: {fileID: 11400000, guid: 65929ba6509dde04096a1180119b5dda, type: 2}
+  _BuyPrice: 500
+  _SellPrice: 0

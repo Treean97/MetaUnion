@@ -10,15 +10,15 @@ public class ShopBuyItemSlot : MonoBehaviour
     [SerializeField] private Image _Icon;
     [SerializeField] private Image _CurrencyIcon;
     [SerializeField] private TMP_Text _PriceText;
-    [SerializeField] private Button _Btn;
+    [SerializeField] private Button _BuyButton;
 
     private CustomizeItemSO _ItemSO;
 
     void Awake()
     {
         // 버튼 리스너 초기화 (중복 등록 방지)
-        _Btn.onClick.RemoveAllListeners();
-        _Btn.onClick.AddListener(OnPurchaseClicked);
+        _BuyButton.onClick.RemoveAllListeners();
+        _BuyButton.onClick.AddListener(OnPurchaseClicked);
     }
 
     /// <summary>
@@ -30,7 +30,7 @@ public class ShopBuyItemSlot : MonoBehaviour
         _Icon.sprite = itemSO.Sprite;
         var cur = _ItemSO.CurrencyType;
         _CurrencyIcon.sprite = cur.Icon;
-        _PriceText.text = cur.BuyPrice.ToString();
+        _PriceText.text = itemSO.BuyPrice.ToString();
     }
 
     /// <summary>
