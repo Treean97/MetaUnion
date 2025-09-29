@@ -5,17 +5,17 @@ public class InventoryFocusUIListener : MonoBehaviour
     [SerializeField] InventoryFocusUIManager _InventoryFocusUIManager;
 
 
-    void OnEnable()
-    {
-        InventorySlot.OnPointerEnterInventorySlot += HandleFocus;
-        InventorySlot.OnPointerExitInventorySlot += HandleDefocus;
-    }
+    // void OnEnable()
+    // {
+    //     InventorySlot.OnPointerEnterInventorySlot += HandleFocus;
+    //     InventorySlot.OnPointerExitInventorySlot += HandleDefocus;
+    // }
 
-    void OnDisable()
-    {
-        InventorySlot.OnPointerEnterInventorySlot -= HandleFocus;
-        InventorySlot.OnPointerExitInventorySlot -= HandleDefocus;
-    }
+    // void OnDisable()
+    // {
+    //     InventorySlot.OnPointerEnterInventorySlot -= HandleFocus;
+    //     InventorySlot.OnPointerExitInventorySlot -= HandleDefocus;
+    // }
 
     void HandleFocus(ItemDataSO itemDataSO)
     {

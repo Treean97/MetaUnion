@@ -421,7 +421,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f29b13c5432b39c40a8dbc8e0d2d101b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonPressedEffect
-  _PressOffsetRatio: 0.05
+  _PressOffsetRatio: 0.4
 --- !u!114 &7522879160462600703
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -434,11 +434,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UISound
-  _SoundData: {fileID: 11400000, guid: 7cdfcccde73e4654887e4a1ecd824ada, type: 2}
   _ClickSound: 1
   _HoverSound: 0
   _OpenSound: 0
   _CloseSound: 0
+  _IsToggle: 0
 --- !u!1 &8365039451784562699
 GameObject:
   m_ObjectHideFlags: 0

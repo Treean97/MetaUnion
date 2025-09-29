@@ -9,8 +9,7 @@ using UnityEngine.UI;
 
 
 public class InventorySlot : MonoBehaviour,
-IBeginDragHandler, IEndDragHandler, IDropHandler, IDragHandler,
- IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+IBeginDragHandler, IEndDragHandler, IDropHandler, IDragHandler, IPointerClickHandler, IItemDataProvider
 {
     [SerializeField] private Image _Icon;
     [SerializeField] private TMP_Text _Amount;
@@ -21,8 +20,6 @@ IBeginDragHandler, IEndDragHandler, IDropHandler, IDragHandler,
 
     public static event Action<ItemDataSO> OnBeginDragSlot;
     public static event Action OnEndDragSlot;
-    public static event Action<ItemDataSO> OnPointerEnterInventorySlot;
-    public static event Action OnPointerExitInventorySlot;
     public static event Action<Dictionary<string, Action>, Vector2> OnRightClickInventorySlot;
 
 
@@ -85,16 +82,6 @@ IBeginDragHandler, IEndDragHandler, IDropHandler, IDragHandler,
         GameEvents.RaiseRequestSwapSlot(dragged._SlotIndex, this._SlotIndex);
     }
 
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        OnPointerEnterInventorySlot?.Invoke(_ItemDataSO);
-    }
-
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        OnPointerExitInventorySlot?.Invoke();
-    }
-
     public void OnPointerClick(PointerEventData eventData)
     {
         if (eventData.button == PointerEventData.InputButton.Right && _ItemDataSO != null)
@@ -112,5 +99,8 @@ IBeginDragHandler, IEndDragHandler, IDropHandler, IDragHandler,
         
     }
 
-
+    public ItemInfoSO GetItemData()
+    {
+        return _ItemDataSO.ItemInfo;
+    }
 }

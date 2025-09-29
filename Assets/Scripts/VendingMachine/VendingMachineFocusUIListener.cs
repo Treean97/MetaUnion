@@ -5,17 +5,17 @@ public class VendingMachineFocusUIListener : MonoBehaviour
     [SerializeField] VendingMachineFocusUIManager _VendingMachineFocusUIManager;
 
 
-    void OnEnable()
-    {
-        VendingMachineSlot.OnPointerEnterVendingMachineSlot += HandleFocus;
-        VendingMachineSlot.OnPointerExitVendingMachineSlot += HandleDefocus;
-    }
+    // void OnEnable()
+    // {
+    //     VendingMachineSlot.OnPointerEnterVendingMachineSlot += HandleFocus;
+    //     VendingMachineSlot.OnPointerExitVendingMachineSlot += HandleDefocus;
+    // }
 
-    void OnDisable()
-    {
-        VendingMachineSlot.OnPointerEnterVendingMachineSlot -= HandleFocus;
-        VendingMachineSlot.OnPointerExitVendingMachineSlot -= HandleDefocus;
-    }
+    // void OnDisable()
+    // {
+    //     VendingMachineSlot.OnPointerEnterVendingMachineSlot -= HandleFocus;
+    //     VendingMachineSlot.OnPointerExitVendingMachineSlot -= HandleDefocus;
+    // }
 
     void HandleFocus(ItemDataSO itemDataSO)
     {

@@ -498,7 +498,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f29b13c5432b39c40a8dbc8e0d2d101b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonPressedEffect
-  _PressOffsetRatio: 0.2
+  _PressOffsetRatio: 0.4
 --- !u!114 &8573702988575730579
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -526,6 +526,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8736097913323148654}
   - component: {fileID: 1815996217238362792}
+  - component: {fileID: -90881926552931096}
   m_Layer: 5
   m_Name: VendingMachine_Slot
   m_TagString: Untagged
@@ -572,6 +573,18 @@ MonoBehaviour:
   _CurrencyIcon: {fileID: 5487472171544338730}
   _PriceText: {fileID: 1792076002498914114}
   _BuyButton: {fileID: 579535076184651821}
+--- !u!114 &-90881926552931096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6177885362925868584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95a05db1c34bfe543b587f910d5837cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FocusableUI
 --- !u!1 &7308770848914645605
 GameObject:
   m_ObjectHideFlags: 0

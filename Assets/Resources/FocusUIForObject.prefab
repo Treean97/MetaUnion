@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8165560156714282898}
   - component: {fileID: 1909952997662563473}
   m_Layer: 5
-  m_Name: FocusUI
+  m_Name: FocusUIForObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

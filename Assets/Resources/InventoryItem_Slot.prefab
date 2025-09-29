@@ -148,6 +148,7 @@ GameObject:
   - component: {fileID: 1569939848262707509}
   - component: {fileID: 1304750181931213138}
   - component: {fileID: -4329167178753984058}
+  - component: {fileID: -6130174825265482869}
   m_Layer: 5
   m_Name: InventoryItem_Slot
   m_TagString: Untagged
@@ -229,6 +230,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _Icon: {fileID: 2684993244625658402}
   _Amount: {fileID: 5266319673665299160}
+--- !u!114 &-6130174825265482869
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2376647799024410618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95a05db1c34bfe543b587f910d5837cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FocusableUI
 --- !u!1 &6982387770379880835
 GameObject:
   m_ObjectHideFlags: 0

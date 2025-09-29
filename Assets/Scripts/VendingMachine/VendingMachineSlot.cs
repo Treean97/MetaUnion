@@ -4,8 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class VendingMachineSlot : MonoBehaviour,
-IPointerEnterHandler, IPointerExitHandler
+public class VendingMachineSlot : MonoBehaviour, IItemDataProvider
 {
     [SerializeField] private Image _Icon;
     [SerializeField] private Image _CurrencyIcon;
@@ -13,17 +12,9 @@ IPointerEnterHandler, IPointerExitHandler
     [SerializeField] private Button _BuyButton;
     private ItemDataSO _ItemDataSO;
 
-    public static event Action<ItemDataSO> OnPointerEnterVendingMachineSlot;
-    public static event Action OnPointerExitVendingMachineSlot;
-
-    public void OnPointerEnter(PointerEventData eventData)
+    public ItemInfoSO GetItemData()
     {
-        OnPointerEnterVendingMachineSlot?.Invoke(_ItemDataSO);
-    }
-
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        OnPointerExitVendingMachineSlot?.Invoke();
+        return _ItemDataSO.ItemInfo;
     }
 
     public void SetSlot(ItemDataSO itemDataSO)
