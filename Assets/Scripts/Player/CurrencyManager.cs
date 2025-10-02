@@ -72,7 +72,8 @@ public class CurrencyManager : MonoBehaviour
         if (amount <= 0) return;
         if (!_CurrencyPoolSO.TryGetCode(id, out var code)) { Debug.LogError($"[Currency] 코드 없음: {id}"); return; }
 
-        var req = new ExecuteCloudScriptRequest {
+        var req = new ExecuteCloudScriptRequest
+        {
             FunctionName = "addVC",
             FunctionParameter = new { code = code, amount = amount },
             GeneratePlayStreamEvent = false
@@ -91,7 +92,8 @@ public class CurrencyManager : MonoBehaviour
         // UX용 선검사(서버 진실과 다를 수 있음)
         if (_Cache.TryGetValue(id, out var cur) && cur < amount) return false;
 
-        var req = new ExecuteCloudScriptRequest {
+        var req = new ExecuteCloudScriptRequest
+        {
             FunctionName = "subVC",
             FunctionParameter = new { code = code, amount = amount },
             GeneratePlayStreamEvent = false
@@ -109,7 +111,7 @@ public class CurrencyManager : MonoBehaviour
     {
         if (fr is Dictionary<string, object> root)
         {
-            // ✅ ok 플래그 체크
+            // ok 플래그 체크
             if (root.TryGetValue("ok", out var okObj) && okObj is bool ok && !ok)
             {
                 Debug.LogWarning("[Currency] CloudScript ok=false. reason=" + (root.TryGetValue("reason", out var r) ? r : "unknown"));
@@ -135,4 +137,11 @@ public class CurrencyManager : MonoBehaviour
         // 포맷 미스매치 → 풀 리프레시
         RefreshFromPlayFab();
     }
+
+    public void RebroadcastAll()
+    {
+        foreach (var c in _CurrencyPoolSO.GetAllCurrencies())
+            GameEvents.RaiseRequestUpdateCurrency(c.ID, GetCached(c.ID));
+    }
+
 }

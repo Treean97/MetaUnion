@@ -17,30 +17,43 @@ public class CurrencyUIManager : MonoBehaviour
 
     void Awake()
     {
-        // 에디터에서 설정한 리스트를 딕셔너리로 변환
         _Map = new Dictionary<int, TMP_Text>();
         foreach (var ui in _CurrencyUIs)
         {
-            // 중복 키 검사
+            if (ui.Currency == null || ui.Text == null) continue;         // 널 가드
             if (_Map.ContainsKey(ui.Currency.ID))
             {
-                Debug.LogError("Key Dup Error");
+                Debug.LogError($"[CurrencyUI] Duplicate id: {ui.Currency.ID}");
+                continue;
             }
-            _Map[ui.Currency.ID] = ui.Text;
+            _Map.Add(ui.Currency.ID, ui.Text);
         }
-            
     }
 
     void OnEnable()
     {
         GameEvents.OnRequestUpdateCurrency += HandleUpdateCurrency;
-    }
+
+        // 1) 켜지자마자 캐시값으로 즉시 표시(이벤트를 놓쳤어도 안전)
+        var cm = CurrencyManager._Inst;
+        if (cm != null)
+        {
+            foreach (var kv in _Map)
+                kv.Value.text = cm.GetCached(kv.Key).ToString();
+            // 2) 현재값 재브로드캐스트(옵션: 다른 UI도 동기화)
+            cm.RebroadcastAll();
+        }
+        else
+        {
+            // 매니저가 아직 없다면 기본값
+            foreach (var kv in _Map) kv.Value.text = "0";
+        }
+    }    
 
     void OnDisable()
     {
         GameEvents.OnRequestUpdateCurrency -= HandleUpdateCurrency;
     }
-
 
     void HandleUpdateCurrency(int id, int amount)
     {
