@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: -8737493075506996659}
   - component: {fileID: -4396803842954909236}
   - component: {fileID: 296225262186636917}
+  - component: {fileID: 2779542157033092269}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -144,3 +145,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68243c6343b421b45a7484d7821601ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SaveLoadManager
+--- !u!114 &2779542157033092269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1078885290729373513}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8248e7f1f3c0ff241b466b561796ce29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _CurrencyPoolSO: {fileID: 11400000, guid: 35aedb849e5bfee45a9e0831611fde3f, type: 2}

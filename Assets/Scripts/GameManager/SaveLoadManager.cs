@@ -41,29 +41,78 @@ public class SaveLoadManager : MonoBehaviour
     }
 
     // 모든 데이터 저장
+    // public void SaveAll()
+    // {
+    //     // 파일 내용 읽기(없으면 빈 dict)
+    //     var dict = ReadFileToDict();
+    //     // 등록된 섹션 최신 스냅샷으로 갱신
+    //     foreach (var kv in _Sections)
+    //     {
+    //         var sec = kv.Value as Object; // Unity fake-null 대응
+    //         if (sec == null) continue;
+    //         dict[kv.Key] = kv.Value.CaptureJson();
+    //         _Loaded[kv.Key] = dict[kv.Key];
+    //     }
+    //     WriteDictToFile(dict);
+    // }
     public void SaveAll()
+{
+    // 기존 파일을 읽지 않고, "현재 등록된 섹션"만으로 새 딕셔너리 구성
+    var dict = new Dictionary<string, string>();
+
+    foreach (var kv in _Sections)
     {
-        // 파일 내용 읽기(없으면 빈 dict)
-        var dict = ReadFileToDict();
-        // 등록된 섹션 최신 스냅샷으로 갱신
-        foreach (var kv in _Sections)
+        var sec = kv.Value as Object; // Unity fake-null
+        if (sec == null) continue;
+
+        var snap = kv.Value.CaptureJson();
+        if (!string.IsNullOrEmpty(snap))  // ✅ null/빈 문자열은 저장 스킵
         {
-            var sec = kv.Value as Object; // Unity fake-null 대응
-            if (sec == null) continue;
-            dict[kv.Key] = kv.Value.CaptureJson();
-            _Loaded[kv.Key] = dict[kv.Key];
+            dict[kv.Key] = snap;
+            _Loaded[kv.Key] = snap;
         }
-        WriteDictToFile(dict);
+        else
+        {
+            // null이면 _Loaded에서도 제거해주면 더 깔끔
+            _Loaded.Remove(kv.Key);
+        }
     }
 
+    WriteDictToFile(dict);  // ✅ 등록된 섹션만 포함된 새 파일로 덮어씀
+}
+
     // 일부 파트 저장
+    // public void RequestSaveSection(string key)
+    // {
+    //     if (!_Sections.TryGetValue(key, out var sec)) return;
+    //     var obj = sec as Object; if (obj == null) return;
+    //     var dict = ReadFileToDict();
+    //     dict[key] = sec.CaptureJson();
+    //     _Loaded[key] = dict[key];
+    //     WriteDictToFile(dict);
+    // }
+
     public void RequestSaveSection(string key)
     {
         if (!_Sections.TryGetValue(key, out var sec)) return;
         var obj = sec as Object; if (obj == null) return;
+
+        // 현재 파일을 읽어서 갱신/삭제
         var dict = ReadFileToDict();
-        dict[key] = sec.CaptureJson();
-        _Loaded[key] = dict[key];
+        var snap = sec.CaptureJson();
+
+        if (string.IsNullOrEmpty(snap))
+        {
+            // null/빈 값이면 키 삭제
+            dict.Remove(key);
+            _Loaded.Remove(key);
+        }
+        else
+        {
+            dict[key] = snap;
+            _Loaded[key] = snap;
+        }
+
         WriteDictToFile(dict);
     }
 

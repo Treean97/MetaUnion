@@ -8830,8 +8830,8 @@ MonoBehaviour:
   _JoinRoomButton: {fileID: 1187352996}
   _CreateRoomUI: {fileID: 2103205357}
   _CreateRoomButton: {fileID: 2117915620}
-  _CloseBtn: {fileID: 1750895564}
   _StartBtn: {fileID: 777119187}
+  _StatusText: {fileID: 1394710900}
 --- !u!114 &1037249319
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10413,13 +10413,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 732c2f11bbd0a514ebdf09e54735413f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayfabManager
+  _SignUpUI: {fileID: 1751271578}
   _SignUpIdInput: {fileID: 1320958553}
   _SignUpPwInput: {fileID: 282046367}
   _SignUpBtn: {fileID: 1110937424}
+  _LoginUI: {fileID: 1992649075}
   _LoginIdInput: {fileID: 599184372}
   _LoginPwInput: {fileID: 2135260851}
   _LoginBtn: {fileID: 623038903}
   _StatusText: {fileID: 1394710900}
+  _LobbyUI: {fileID: 1037249318}
 --- !u!1 &1246088513
 GameObject:
   m_ObjectHideFlags: 0
@@ -16806,6 +16809,10 @@ GameObject:
   - component: {fileID: 1750895564}
   - component: {fileID: 1750895568}
   - component: {fileID: 1750895567}
+  - component: {fileID: 1750895571}
+  - component: {fileID: 1750895570}
+  - component: {fileID: 1750895569}
+  - component: {fileID: 1750895572}
   m_Layer: 5
   m_Name: Button - close
   m_TagString: Untagged
@@ -16945,6 +16952,57 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
   _HoverScale: 1.08
   _ScaleTime: 0.1
+--- !u!114 &1750895569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1750895562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdfd07d62658ad949b2f2d18996fd0c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OpenUIAction
+  _Target: {fileID: 1394710898}
+--- !u!114 &1750895570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1750895562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1df095b9eab98e548a93b28c2e9e70a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSequence
+--- !u!114 &1750895571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1750895562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c53191a580c7a9a4d93175f66ba0e739, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonActionRunner
+--- !u!114 &1750895572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1750895562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b4c936a838da154fbd5f6080b39f153, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CloseUIAction
+  _Targets:
+  - {fileID: 1037249314}
 --- !u!1 &1751237087
 GameObject:
   m_ObjectHideFlags: 0

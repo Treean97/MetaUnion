@@ -4,6 +4,7 @@ using Photon.Realtime;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using System.Collections;
+using TMPro;
 
 public class LobbyUIManager : MonoBehaviourPunCallbacks
 {
@@ -12,9 +13,9 @@ public class LobbyUIManager : MonoBehaviourPunCallbacks
     [SerializeField] private Button _JoinRoomButton;
     [SerializeField] private GameObject _CreateRoomUI;
     [SerializeField] private Button _CreateRoomButton;
-    [SerializeField] private Button _CloseBtn;
+
     [SerializeField] private Button _StartBtn;
-    // [SerializeField] private Button _RefreshBtn;
+    [SerializeField] private TMP_Text _StatusText;
 
     private RoomInfo _SelectedRoomInfo;
 
@@ -23,7 +24,9 @@ public class LobbyUIManager : MonoBehaviourPunCallbacks
     {
         base.OnEnable();  // ← Photon 콜백 등록
 
-        GameEvents.RaiseOpenLobbyUI();
+        // 로비 화면 출력 시 로그인 상태 텍스트 Off
+        _StatusText.gameObject.SetActive(false);
+
         GameEvents.OnSelectRoom += HandleSelectRoom;
         GameEvents.OnRoomListUpdated += HandleUpdateRoomList;
 
@@ -40,8 +43,6 @@ public class LobbyUIManager : MonoBehaviourPunCallbacks
         _CreateRoomButton.onClick.RemoveListener(OnCreateRoomButtonClicked);
         _CreateRoomButton.onClick.AddListener(OnCreateRoomButtonClicked);
 
-        _CloseBtn.onClick.RemoveListener(OnCloseButtonClicked);
-        _CloseBtn.onClick.AddListener(OnCloseButtonClicked);
     }
 
     // OnDisable 오버라이드
@@ -129,9 +130,4 @@ public class LobbyUIManager : MonoBehaviourPunCallbacks
     //     PhotonNetwork.LeaveLobby();
     // }
 
-    private void OnCloseButtonClicked()
-    {
-        gameObject.SetActive(false);
-        _StartBtn.gameObject.SetActive(true);
-    }
 }

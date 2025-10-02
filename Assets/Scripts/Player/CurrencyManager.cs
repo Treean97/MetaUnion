@@ -1,126 +1,138 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using PlayFab;
+using PlayFab.ClientModels;
 
-[Serializable]
-class CurrencySnapshotDTO
+public class CurrencyManager : MonoBehaviour
 {
-    [Serializable] public class Entry { public int id; public int amount; }
-    public List<Entry> items = new();
-}
+    // 전역 인스턴스
+    public static CurrencyManager _Inst { get; private set; }
 
-public class CurrencyManager : MonoBehaviour, ISaveSection
-{
     [SerializeField] private CurrencyDataPoolSO _CurrencyPoolSO;
-    // id, amount
-    private Dictionary<int, int> _Currencies;
 
-    public string Key => "currency";
+    // 표시/선검사용 로컬 캐시 (id -> amount)
+    private readonly Dictionary<int, int> _Cache = new();
 
     void Awake()
     {
-        _Currencies = new Dictionary<int, int>();
+        // 싱글톤 보장 + 씬 전환 유지
+        if (_Inst && _Inst != this) { Destroy(this); return; }
+        _Inst = this;
+        DontDestroyOnLoad(gameObject);
 
-        foreach (var currency in _CurrencyPoolSO.GetAllCurrencies())
-        {
-            _Currencies[currency.ID] = 0;
-        }
-    }
-    void Start()
-    {
-
-        SaveLoadManager._Inst?.Register(this);
-
-        // UI갱신
-        foreach (var kv in _Currencies)
-        {
-            GameEvents.RaiseRequestUpdateCurrency(kv.Key, kv.Value);
-        }
-
-    }
-
-    void Update()
-    {
-        // 테스트
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            Debug.Log("Gold+100");
-            GameEvents.RaiseRequestCurrencyGain(10000, 100);
-            GameEvents.RaiseRequestCurrencyGain(10001, 100);
-        }
+        // 캐시 초기화
+        foreach (var cur in _CurrencyPoolSO.GetAllCurrencies())
+            _Cache[cur.ID] = 0;
     }
 
     void OnEnable()
     {
         GameEvents.OnRequestCurrencyGain += HandleGain;
-        GameEvents.OnRequestCurrencySpend += HandleConsume;
+        GameEvents.OnRequestCurrencySpend += HandleSpend;
+        PlayfabLoginManager.OnLoginSuccess += RefreshFromPlayFab;
     }
 
     void OnDisable()
     {
         GameEvents.OnRequestCurrencyGain -= HandleGain;
-        GameEvents.OnRequestCurrencySpend -= HandleConsume;
+        GameEvents.OnRequestCurrencySpend -= HandleSpend;
+        PlayfabLoginManager.OnLoginSuccess -= RefreshFromPlayFab;
     }
 
+    // -------- 외부 공개 API --------
+
+    /// <summary>로그인 성공 직후 1회 호출: 서버에서 최신 잔액 동기화</summary>
+    public void RefreshFromPlayFab()
+    {
+        PlayFabClientAPI.GetUserInventory(new GetUserInventoryRequest(), res =>
+        {
+            foreach (var cur in _CurrencyPoolSO.GetAllCurrencies())
+            {
+                int v = 0;
+                if (_CurrencyPoolSO.TryGetCode(cur.ID, out var code) &&
+                    res.VirtualCurrency != null &&
+                    res.VirtualCurrency.TryGetValue(code, out var got))
+                    v = Mathf.Max(0, got);
+
+                _Cache[cur.ID] = v;
+                GameEvents.RaiseRequestUpdateCurrency(cur.ID, v); // UI 갱신
+            }
+        },
+        err => Debug.LogError(err.GenerateErrorReport()));
+    }
+
+    /// <summary>현재 캐시된 잔액 조회(표시/선검사 용)</summary>
+    public int GetCached(int id) => _Cache.TryGetValue(id, out var v) ? v : 0;
+
+    // -------- 내부 처리 --------
 
     void HandleGain(int id, int amount)
     {
-        if (!_Currencies.ContainsKey(id)) { Debug.LogError("잘못된 Currency ID"); return; }
-        if (amount <= 0) return; // 음수/0 무시
+        if (amount <= 0) return;
+        if (!_CurrencyPoolSO.TryGetCode(id, out var code)) { Debug.LogError($"[Currency] 코드 없음: {id}"); return; }
 
-        long next = (long)_Currencies[id] + amount;     // 오버플로 방지
-        if (next > int.MaxValue) next = int.MaxValue;
+        var req = new ExecuteCloudScriptRequest {
+            FunctionName = "addVC",
+            FunctionParameter = new { code = code, amount = amount },
+            GeneratePlayStreamEvent = false
+        };
 
-        _Currencies[id] = (int)next;
-        GameEvents.RaiseRequestUpdateCurrency(id, _Currencies[id]);
-        SaveLoadManager._Inst?.RequestSaveSection(Key);
+        PlayFabClientAPI.ExecuteCloudScript(req,
+            r => ApplyFromFunctionResult(r.FunctionResult),
+            e => Debug.LogError(e.GenerateErrorReport()));
     }
 
-    bool HandleConsume(int id, int amount)
+    bool HandleSpend(int id, int amount)
     {
-        if (!_Currencies.ContainsKey(id)) { Debug.LogError("잘못된 Currency ID"); return false; }
-        if (amount <= 0) return true; // 0원은 통과, 음수 요청은 차단하고 false로 바꿔도 됨
+        if (amount <= 0) return true;
+        if (!_CurrencyPoolSO.TryGetCode(id, out var code)) { Debug.LogError($"[Currency] 코드 없음: {id}"); return false; }
 
-        int cur = _Currencies[id];
-        if (cur < amount)
-        {
-            // 부족 → 차감 금지, false
-            return false;
-        }
+        // UX용 선검사(서버 진실과 다를 수 있음)
+        if (_Cache.TryGetValue(id, out var cur) && cur < amount) return false;
 
-        _Currencies[id] = cur - amount;   // 음수 불가
-        GameEvents.RaiseRequestUpdateCurrency(id, _Currencies[id]);
-        SaveLoadManager._Inst?.RequestSaveSection(Key);
+        var req = new ExecuteCloudScriptRequest {
+            FunctionName = "subVC",
+            FunctionParameter = new { code = code, amount = amount },
+            GeneratePlayStreamEvent = false
+        };
+
+        PlayFabClientAPI.ExecuteCloudScript(req,
+            r => ApplyFromFunctionResult(r.FunctionResult),
+            e => Debug.LogError(e.GenerateErrorReport()));
+
         return true;
     }
 
-    public string CaptureJson()
+    // CloudScript에서 { ok:true, vc:{ "GO":123, "DI":4 } } 형태로 내려주는 결과 적용
+    void ApplyFromFunctionResult(object fr)
     {
-        var dto = new CurrencySnapshotDTO();
-        foreach (var kv in _Currencies)
-            dto.items.Add(new CurrencySnapshotDTO.Entry { id = kv.Key, amount = kv.Value });
-        return JsonUtility.ToJson(dto);
-    }
-
-    public void ApplyJson(string s)
-    {
-        if (string.IsNullOrEmpty(s)) return;
-
-        CurrencySnapshotDTO dto = null;
-        try { dto = JsonUtility.FromJson<CurrencySnapshotDTO>(s); } catch { }
-        if (dto?.items == null) return;
-
-        // 풀에 존재하는 통화만 반영 (정의 안 된 ID 방지)
-        foreach (var e in dto.items)
+        if (fr is Dictionary<string, object> root)
         {
-            if (_Currencies.ContainsKey(e.id))
-                _Currencies[e.id] = Mathf.Max(0, e.amount);
+            // ✅ ok 플래그 체크
+            if (root.TryGetValue("ok", out var okObj) && okObj is bool ok && !ok)
+            {
+                Debug.LogWarning("[Currency] CloudScript ok=false. reason=" + (root.TryGetValue("reason", out var r) ? r : "unknown"));
+                // 서버 상태로 재동기화
+                RefreshFromPlayFab();
+                return;
+            }
+
+            if (root.TryGetValue("vc", out var vcObj) && vcObj is Dictionary<string, object> vc)
+            {
+                foreach (var cur in _CurrencyPoolSO.GetAllCurrencies())
+                {
+                    int v = 0;
+                    if (_CurrencyPoolSO.TryGetCode(cur.ID, out var code) && vc.TryGetValue(code, out var raw))
+                        v = Mathf.Max(0, Convert.ToInt32(raw));
+
+                    _Cache[cur.ID] = v;
+                    GameEvents.RaiseRequestUpdateCurrency(cur.ID, v);
+                }
+                return;
+            }
         }
-
-        // UI/시스템에 현재값 브로드캐스트
-        foreach (var kv in _Currencies)
-            GameEvents.RaiseRequestUpdateCurrency(kv.Key, kv.Value);
+        // 포맷 미스매치 → 풀 리프레시
+        RefreshFromPlayFab();
     }
-
-
 }
