@@ -32,10 +32,6 @@ public static class GameEvents
     public static event Action<bool> OnPlayerIDFieldIsNull;
     public static void RaisePlayerFieldIsNull(bool isNull) => OnPlayerIDFieldIsNull?.Invoke(isNull);
 
-    // Lobby UI 열림
-    public static event Action OnOpenLobbyUI;
-    public static void RaiseOpenLobbyUI() => OnOpenLobbyUI?.Invoke();
-
     // 방 생성 UI 열림
     public static event Action OnOpenCreateRoomUI;
     // 방 생성 UI 열림

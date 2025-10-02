@@ -9,7 +9,7 @@ public struct InputSettingsDTO
     public bool InvertY; // Y축 반전    
 }
 
-public class InputManager : MonoBehaviour, ISaveSection
+public class InputManager : MonoBehaviour, ILocalSaveSection
 {
     public static InputManager _Inst { get; private set; }
 
@@ -46,7 +46,7 @@ public class InputManager : MonoBehaviour, ISaveSection
 
     void Start()
     {
-        SaveLoadManager._Inst?.Register(this);
+        SaveLoadManager._Inst?.RegisterLocal(this);
     }
 
     void DefaultSet()
@@ -61,7 +61,7 @@ public class InputManager : MonoBehaviour, ISaveSection
         var clamped = Mathf.Clamp01(v);
         if (Mathf.Approximately(_Sens, clamped)) return; // 불필요 저장 방지
         _Sens = clamped;
-        if (requestSave) SaveLoadManager._Inst?.RequestSaveSection(Key);
+        if (requestSave) SaveLoadManager._Inst?.SaveLocalSection(Key);
         
     }
 
@@ -69,7 +69,7 @@ public class InputManager : MonoBehaviour, ISaveSection
     {
         if (_InvertY == on) return;
         _InvertY = on;
-        if (requestSave) SaveLoadManager._Inst?.RequestSaveSection(Key);        
+        if (requestSave) SaveLoadManager._Inst?.SaveLocalSection(Key);        
     }
 
     public void SetZoomSpeed(float v, bool requestSave = true)
@@ -77,7 +77,7 @@ public class InputManager : MonoBehaviour, ISaveSection
         var c = Mathf.Clamp01(v);
         if (Mathf.Approximately(_ZoomSpeed, c)) return;
         _ZoomSpeed = c;
-        if (requestSave) SaveLoadManager._Inst?.RequestSaveSection(Key);
+        if (requestSave) SaveLoadManager._Inst?.SaveLocalSection(Key);
     }
 
 

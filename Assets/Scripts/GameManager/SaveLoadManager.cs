@@ -1,6 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
+using PlayFab;
+using PlayFab.ClientModels;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 public class SaveLoadManager : MonoBehaviour
 {
@@ -9,12 +13,17 @@ public class SaveLoadManager : MonoBehaviour
     string _FilePath => Path.Combine(Application.persistentDataPath, "save.json");
 
     // 섹션 등록표 (같은 키 재등록 시 최신으로 교체)
-    readonly Dictionary<string, ISaveSection> _Sections = new();
+    readonly Dictionary<string, ILocalSaveSection> _LocalSections = new();
     // 로드된 섹션별 JSON 캐시(늦게 등록된 섹션에 즉시 적용)
-    readonly Dictionary<string, string> _Loaded = new();
+    readonly Dictionary<string, string> _LocalLoaded = new();
 
     [System.Serializable] class Entry { public string key; public string Json; }
     [System.Serializable] class Blob { public List<Entry> Sections = new(); }
+
+    // ===== 클라우드 저장 (PlayFab UserData) =====
+    readonly Dictionary<string, ICloudSaveSection> _CloudSections = new();
+    readonly Dictionary<string, string> _CloudLoaded = new(); // 서버에서 읽은 원본 캐시
+    public bool CloudReady => PlayFabClientAPI.IsClientLoggedIn();
 
     void Awake()
     {
@@ -25,76 +34,67 @@ public class SaveLoadManager : MonoBehaviour
         }
         _Inst = this;
         DontDestroyOnLoad(gameObject);
-        
-        LoadAll();
+
+        LoadAllLocal();
+
+        PlayfabLoginManager.OnLoginSuccess += OnLoginSuccessCloud;
+        if (CloudReady) OnLoginSuccessCloud();
     }
 
-    // 종료 시 자동 저장
-    void OnApplicationQuit() => SaveAll();
-    
-    // 등록
-    public void Register(ISaveSection s)
+    void OnDestroy()
     {
-        _Sections[s.Key] = s; // 같은 키면 교체
-        if (_Loaded.TryGetValue(s.Key, out var json) && !string.IsNullOrEmpty(json))
+        PlayfabLoginManager.OnLoginSuccess -= OnLoginSuccessCloud;
+    }
+
+    #region 로컬 저장
+    // 종료 시 자동 저장
+    void OnApplicationQuit() => SaveAllLocal();
+
+    // 등록
+    public void RegisterLocal(ILocalSaveSection s)
+    {
+        _LocalSections[s.Key] = s; // 같은 키면 교체
+        if (_LocalLoaded.TryGetValue(s.Key, out var json) && !string.IsNullOrEmpty(json))
             s.ApplyJson(json); // 늦게 등록돼도 즉시 반영
     }
 
-    // 모든 데이터 저장
-    // public void SaveAll()
-    // {
-    //     // 파일 내용 읽기(없으면 빈 dict)
-    //     var dict = ReadFileToDict();
-    //     // 등록된 섹션 최신 스냅샷으로 갱신
-    //     foreach (var kv in _Sections)
-    //     {
-    //         var sec = kv.Value as Object; // Unity fake-null 대응
-    //         if (sec == null) continue;
-    //         dict[kv.Key] = kv.Value.CaptureJson();
-    //         _Loaded[kv.Key] = dict[kv.Key];
-    //     }
-    //     WriteDictToFile(dict);
-    // }
-    public void SaveAll()
-{
-    // 기존 파일을 읽지 않고, "현재 등록된 섹션"만으로 새 딕셔너리 구성
-    var dict = new Dictionary<string, string>();
-
-    foreach (var kv in _Sections)
+    public void RegisterCloud(ICloudSaveSection s)
     {
-        var sec = kv.Value as Object; // Unity fake-null
-        if (sec == null) continue;
-
-        var snap = kv.Value.CaptureJson();
-        if (!string.IsNullOrEmpty(snap))  // ✅ null/빈 문자열은 저장 스킵
-        {
-            dict[kv.Key] = snap;
-            _Loaded[kv.Key] = snap;
-        }
-        else
-        {
-            // null이면 _Loaded에서도 제거해주면 더 깔끔
-            _Loaded.Remove(kv.Key);
-        }
+        _CloudSections[s.Key] = s;
+        // 이미 클라우드가 로드돼 있다면 즉시 반영
+        if (_CloudLoaded.TryGetValue(s.Key, out var json) && !string.IsNullOrEmpty(json))
+            s.ApplyJson(json);
     }
 
-    WriteDictToFile(dict);  // ✅ 등록된 섹션만 포함된 새 파일로 덮어씀
-}
-
-    // 일부 파트 저장
-    // public void RequestSaveSection(string key)
-    // {
-    //     if (!_Sections.TryGetValue(key, out var sec)) return;
-    //     var obj = sec as Object; if (obj == null) return;
-    //     var dict = ReadFileToDict();
-    //     dict[key] = sec.CaptureJson();
-    //     _Loaded[key] = dict[key];
-    //     WriteDictToFile(dict);
-    // }
-
-    public void RequestSaveSection(string key)
+    public void SaveAllLocal()
     {
-        if (!_Sections.TryGetValue(key, out var sec)) return;
+        // 기존 파일을 읽지 않고, "현재 등록된 섹션"만으로 새 딕셔너리 구성
+        var dict = new Dictionary<string, string>();
+
+        foreach (var kv in _LocalSections)
+        {
+            var sec = kv.Value as Object; // Unity fake-null
+            if (sec == null) continue;
+
+            var snap = kv.Value.CaptureJson();
+            if (!string.IsNullOrEmpty(snap))  // ✅ null/빈 문자열은 저장 스킵
+            {
+                dict[kv.Key] = snap;
+                _LocalLoaded[kv.Key] = snap;
+            }
+            else
+            {
+                // null이면 _Loaded에서도 제거해주면 더 깔끔
+                _LocalLoaded.Remove(kv.Key);
+            }
+        }
+
+        WriteDictToFile(dict);  // 등록된 섹션만 포함된 새 파일로 덮어씀
+    }
+
+    public void SaveLocalSection(string key)
+    {
+        if (!_LocalSections.TryGetValue(key, out var sec)) return;
         var obj = sec as Object; if (obj == null) return;
 
         // 현재 파일을 읽어서 갱신/삭제
@@ -105,29 +105,29 @@ public class SaveLoadManager : MonoBehaviour
         {
             // null/빈 값이면 키 삭제
             dict.Remove(key);
-            _Loaded.Remove(key);
+            _LocalLoaded.Remove(key);
         }
         else
         {
             dict[key] = snap;
-            _Loaded[key] = snap;
+            _LocalLoaded[key] = snap;
         }
 
         WriteDictToFile(dict);
     }
 
     // 데이터 불러오기
-    public void LoadAll()
+    public void LoadAllLocal()
     {
         var dict = ReadFileToDict();
-        _Loaded.Clear();
-        foreach (var kv in dict) _Loaded[kv.Key] = kv.Value;
+        _LocalLoaded.Clear();
+        foreach (var kv in dict) _LocalLoaded[kv.Key] = kv.Value;
 
         // 이미 등록된 섹션에는 즉시 적용
-        foreach (var kv in _Sections)
+        foreach (var kv in _LocalSections)
         {
             var secObj = kv.Value as Object; if (secObj == null) continue;
-            if (_Loaded.TryGetValue(kv.Key, out var json) && !string.IsNullOrEmpty(json))
+            if (_LocalLoaded.TryGetValue(kv.Key, out var json) && !string.IsNullOrEmpty(json))
                 kv.Value.ApplyJson(json);
         }
     }
@@ -152,7 +152,7 @@ public class SaveLoadManager : MonoBehaviour
         try
         {
             var blob = new Blob { Sections = new List<Entry>(dict.Count) };
-            foreach (var kv in dict) blob.Sections.Add(new Entry{ key = kv.Key, Json = kv.Value });
+            foreach (var kv in dict) blob.Sections.Add(new Entry { key = kv.Key, Json = kv.Value });
 
             var json = JsonUtility.ToJson(blob);
             var tmp = _FilePath + ".tmp";
@@ -165,4 +165,87 @@ public class SaveLoadManager : MonoBehaviour
             Debug.LogWarning($"[SaveLoad] write fail: {ex.Message}");
         }
     }
+    #endregion
+    #region 클라우드 저장
+    void OnLoginSuccessCloud()
+    {
+        // 로그인 직후 전체 클라우드 로드
+        LoadAllCloud();
+    }
+
+    public void LoadAllCloud()
+    {
+        if (!CloudReady) { Debug.LogWarning("[Cloud] Not logged in"); return; }
+
+        var keys = new List<string>(_CloudSections.Keys);
+        var req = new GetUserDataRequest { Keys = (keys.Count > 0 ? keys : null) }; // ✅
+
+        PlayFabClientAPI.GetUserData(req, r =>
+        {
+            _CloudLoaded.Clear();
+            if (r.Data != null)
+                foreach (var kv in r.Data)
+                    _CloudLoaded[kv.Key] = kv.Value?.Value;
+
+            foreach (var kv in _CloudSections)
+                if (_CloudLoaded.TryGetValue(kv.Key, out var json) && !string.IsNullOrEmpty(json))
+                    kv.Value.ApplyJson(json);
+
+            Debug.Log("[Cloud] LoadAll OK");
+        }, e => Debug.LogError($"[Cloud] LoadAll fail: {e.GenerateErrorReport()}"));
+    }
+
+
+    // 단일 키 로드
+    public void LoadCloud(string key, Action<string> ok = null, Action<string> err = null)
+    {
+        if (!CloudReady) { err?.Invoke("Not logged in"); return; }
+        var req = new GetUserDataRequest { Keys = new List<string> { key } };
+        PlayFabClientAPI.GetUserData(req, r =>
+        {
+            string v = null;
+            if (r.Data != null && r.Data.TryGetValue(key, out var data)) v = data.Value;
+            _CloudLoaded[key] = v;
+            // 등록된 섹션에 즉시 적용
+            if (_CloudSections.TryGetValue(key, out var sec) && !string.IsNullOrEmpty(v))
+                sec.ApplyJson(v);
+            ok?.Invoke(v);
+        },
+        e => { Debug.LogError(e.GenerateErrorReport()); err?.Invoke(e.GenerateErrorReport()); });
+    }
+
+    // 저장
+    public void SaveCloud(string key, string json, Action ok = null, Action<string> err = null)
+    {
+        if (!CloudReady) { err?.Invoke("Not logged in"); return; }
+
+        if (string.IsNullOrEmpty(json))
+        {
+            var delReq = new UpdateUserDataRequest { KeysToRemove = new List<string> { key } }; // ✅ 삭제
+            PlayFabClientAPI.UpdateUserData(delReq, _ => { _CloudLoaded.Remove(key); ok?.Invoke(); },
+                e => { Debug.LogError(e.GenerateErrorReport()); err?.Invoke(e.GenerateErrorReport()); });
+            return;
+        }
+
+        var req = new UpdateUserDataRequest
+        {
+            Data = new Dictionary<string, string> { { key, json } },
+            Permission = UserDataPermission.Private
+        };
+        PlayFabClientAPI.UpdateUserData(req, _ => { _CloudLoaded[key] = json; ok?.Invoke(); },
+            e => { Debug.LogError(e.GenerateErrorReport()); err?.Invoke(e.GenerateErrorReport()); });
+    }
+
+    // 등록된 섹션을 이용한 저장(섹션이 스스로 CaptureJson 호출)
+    public void SaveCloudSection(string key, Action ok = null, Action<string> err = null)
+    {
+        if (!_CloudSections.TryGetValue(key, out var sec))
+        {
+            err?.Invoke($"No cloud section: {key}");
+            return;
+        }
+        var json = sec.CaptureJson();
+        SaveCloud(key, json, ok, err);
+    }
+    #endregion
 }

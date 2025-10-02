@@ -6,7 +6,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
 
-public class PlayerCustomization : MonoBehaviourPunCallbacks, IPunInstantiateMagicCallback, ISaveSection
+public class PlayerCustomization : MonoBehaviourPunCallbacks, IPunInstantiateMagicCallback, ICloudSaveSection
 {
     [Serializable]
     public class SlotBinding
@@ -26,7 +26,7 @@ public class PlayerCustomization : MonoBehaviourPunCallbacks, IPunInstantiateMag
     private const string PropKeyPrefix = "Customize_";
     private const string UnEquipToken  = "0";
 
-    public string Key => "custimize";
+    public string Key => "customize";
     private Dictionary<ItemType, string> _Equipped = new();
 
     // 저장용 DTO
@@ -56,12 +56,11 @@ public class PlayerCustomization : MonoBehaviourPunCallbacks, IPunInstantiateMag
 
     void Start()
     {
-        // 이 오브젝트가 활성화된 직후, 이미 세팅된 CustomProperties가 있으면 바로 적용
-        if (photonView.Owner != null)
-            ApplyAllProperties(photonView.Owner.CustomProperties);
-
         if (photonView.IsMine)
-            SaveLoadManager._Inst?.Register(this);
+        {
+            SaveLoadManager._Inst?.RegisterCloud(this);
+        }
+        
     }
 
     // Photon이 이 프리팹을 인스턴스화할 때 호출 (Instantiate 시점)
@@ -90,7 +89,7 @@ public class PlayerCustomization : MonoBehaviourPunCallbacks, IPunInstantiateMag
         ApplyMesh(type, itemId);
         
         // 저장
-        SaveLoadManager._Inst?.RequestSaveSection(Key);
+        SaveLoadManager._Inst?.SaveCloudSection(Key);
     }
 
     public void UnEquipItem(ItemType type)
@@ -105,10 +104,8 @@ public class PlayerCustomization : MonoBehaviourPunCallbacks, IPunInstantiateMag
         ApplyMesh(type, UnEquipToken);
         
         // 저장
-        SaveLoadManager._Inst?.RequestSaveSection(Key);
+        SaveLoadManager._Inst?.SaveCloudSection(Key);
     }
-
-
 
     /// <summary>
     /// 로컬 클라이언트가 룸에 입장했을 때 호출
@@ -200,17 +197,13 @@ public class PlayerCustomization : MonoBehaviourPunCallbacks, IPunInstantiateMag
 
     public string CaptureJson()
     {
-        // 로컬 소유자만 의미 있음
         var dto = new CustomizeSettingsDTO();
-
-        // 슬롯 목록을 기준으로 직렬화(빈 슬롯은 "0")
         foreach (var b in _SlotBindings)
         {
             var id = UnEquipToken;
             if (_Equipped.TryGetValue(b.Type, out var cur)) id = string.IsNullOrEmpty(cur) ? UnEquipToken : cur;
             else
             {
-                // 혹시 초기화 직후라면 커스텀 프로퍼티에서 보정
                 if (PhotonNetwork.LocalPlayer != null)
                 {
                     var key = PropKeyPrefix + (int)b.Type;
@@ -218,38 +211,33 @@ public class PlayerCustomization : MonoBehaviourPunCallbacks, IPunInstantiateMag
                         id = v.ToString();
                 }
             }
-
             dto.Items.Add(new CustomizeSettingsDTO.Entry { Type = (int)b.Type, Id = id });
         }
-
         return JsonUtility.ToJson(dto);
-    
+        
     }
 
     public void ApplyJson(string s)
     {
-        if (!photonView.IsMine) return;      // 로컬 소유자만 적용
+       if (!photonView.IsMine) return;
         if (string.IsNullOrEmpty(s)) return;
 
         CustomizeSettingsDTO dto = null;
-        try { dto = JsonUtility.FromJson<CustomizeSettingsDTO>(s); }
-        catch { }
-
-        if (dto == null || dto.Items == null) return;
+        try { dto = JsonUtility.FromJson<CustomizeSettingsDTO>(s); } catch { }
+        if (dto?.Items == null) return;
 
         foreach (var e in dto.Items)
         {
             var type = (ItemType)e.Type;
-            var id = string.IsNullOrEmpty(e.Id) ? UnEquipToken : e.Id;
+            var id   = string.IsNullOrEmpty(e.Id) ? UnEquipToken : e.Id;
 
             if (id == UnEquipToken || id == "-1") UnEquipItem(type);
             else
             {
-                // 기존 EquipItem은 SO를 요구하므로 찾아서 전달
                 var so = ItemManager._Inst.GetCustomizeItem(id);
                 if (so != null) EquipItem(so);
-                else UnEquipItem(type); // 유실된 아이템은 안전하게 해제
+                else UnEquipItem(type);
             }
-        }            
+        }
     }
 }

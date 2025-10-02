@@ -1,4 +1,4 @@
-public interface ISaveSection
+public interface ILocalSaveSection
 {
     string Key { get; }         // "audio", "graphics", "input" ...
     string CaptureJson();       // 현재 상태 -> JSON

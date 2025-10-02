@@ -14,7 +14,7 @@ public struct AudioSettingsDTO
 }
 
 
-public class AudioManager : MonoBehaviour, ISaveSection
+public class AudioManager : MonoBehaviour, ILocalSaveSection
 {
     public static AudioManager _Inst { get; private set; }
 
@@ -68,7 +68,7 @@ public class AudioManager : MonoBehaviour, ISaveSection
         _BGMSource.spatialBlend = 0f; // 2D
         _BGMSource.outputAudioMixerGroup = _BGMGroup;
 
-        SaveLoadManager._Inst?.Register(this);
+        SaveLoadManager._Inst?.RegisterLocal(this);
     }
 
     public float GetMasterValue() => _MasterValue;
@@ -79,21 +79,21 @@ public class AudioManager : MonoBehaviour, ISaveSection
     {
         _MasterValue = Mathf.Clamp01(v);
         if (Mixer) Mixer.SetFloat(P_Master, ToDB(_MasterValue));
-        if (requestSave) SaveLoadManager._Inst?.RequestSaveSection(Key);
+        if (requestSave) SaveLoadManager._Inst?.SaveLocalSection(Key);
     }
 
     public void SetBGMValue(float v, bool requestSave = true)
     {
         _BGMValue = Mathf.Clamp01(v);
         if (Mixer) Mixer.SetFloat(P_BGM, ToDB(_BGMValue));
-        if (requestSave) SaveLoadManager._Inst?.RequestSaveSection(Key);
+        if (requestSave) SaveLoadManager._Inst?.SaveLocalSection(Key);
     }
 
     public void SetSFXValue(float v, bool requestSave = true)
     {
         _SFXValue = Mathf.Clamp01(v);
         if (Mixer) Mixer.SetFloat(P_SFX, ToDB(_SFXValue));
-        if (requestSave) SaveLoadManager._Inst?.RequestSaveSection(Key);
+        if (requestSave) SaveLoadManager._Inst?.SaveLocalSection(Key);
     }
 
     public void PlayBGM(AudioClip clip)

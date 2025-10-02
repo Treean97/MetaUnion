@@ -7,18 +7,14 @@ public class InventoryItem
     public int Amount;
 }
 
-
-
-
-
-public class PlayerInventory : MonoBehaviour, ISaveSection
+public class PlayerInventory : MonoBehaviour, ICloudSaveSection
 {
     // id, count
     private InventoryItem[] _Inventory;
     [SerializeField] private int _MaxInventorySlot;
 
     public string Key => "inventory";
-    
+
     [System.Serializable]
     private class InventoryDTO
     {
@@ -38,11 +34,6 @@ public class PlayerInventory : MonoBehaviour, ISaveSection
 
     }
 
-    void Start()
-    {
-        SaveLoadManager._Inst?.Register(this);
-    }
-
     void OnEnable()
     {
         GameEvents.OnRequestItemGain += HandleItemGain;
@@ -51,6 +42,8 @@ public class PlayerInventory : MonoBehaviour, ISaveSection
         GameEvents.OnRequestInventoryStatus += HandleInventoryStatus;
         GameEvents.OnRequestSwapSlot += HandleSwapSlot;
         GameEvents.OnRequestCheckItemAmount += HandleCheckItemAmount;
+
+        SaveLoadManager._Inst?.RegisterCloud(this);
     }
 
     void OnDisable()
@@ -83,7 +76,7 @@ public class PlayerInventory : MonoBehaviour, ISaveSection
             if (_Inventory[i].ID == id)
             {
                 _Inventory[i].Amount += amount;
-                SaveLoadManager._Inst?.RequestSaveSection(Key);
+                SaveLoadManager._Inst?.SaveCloudSection(Key);
                 return true;
             }
         }
@@ -94,7 +87,7 @@ public class PlayerInventory : MonoBehaviour, ISaveSection
             {
                 _Inventory[i].ID = id;
                 _Inventory[i].Amount = amount;
-                SaveLoadManager._Inst?.RequestSaveSection(Key);
+                SaveLoadManager._Inst?.SaveCloudSection(Key);
                 return true;
             }
         }
@@ -117,7 +110,7 @@ public class PlayerInventory : MonoBehaviour, ISaveSection
                     _Inventory[i].ID = -1;
                 }
 
-                SaveLoadManager._Inst?.RequestSaveSection(Key);
+                SaveLoadManager._Inst?.SaveCloudSection(Key);
                 return true;
             }
         }
@@ -137,7 +130,7 @@ public class PlayerInventory : MonoBehaviour, ISaveSection
         (_Inventory[from], _Inventory[to]) = (_Inventory[to], _Inventory[from]);
 
         GameEvents.RaiseRequestUpdateInventory();
-        SaveLoadManager._Inst?.RequestSaveSection(Key);
+        SaveLoadManager._Inst?.SaveCloudSection(Key);
     }
 
     bool HandleCheckItemAmount(int id, int amount)
@@ -169,13 +162,10 @@ public class PlayerInventory : MonoBehaviour, ISaveSection
 
         for (int i = 0; i < _Inventory.Length; i++)
         {
-            // 비어있음은 id = -1, amount = 0으로 통일
             int id = _Inventory[i].ID >= 0 ? _Inventory[i].ID : -1;
             int amt = _Inventory[i].Amount > 0 ? _Inventory[i].Amount : 0;
-
             dto.items.Add(new InventoryDTO.Entry { id = id, amount = amt });
         }
-
         return JsonUtility.ToJson(dto);
     }
 
@@ -187,11 +177,9 @@ public class PlayerInventory : MonoBehaviour, ISaveSection
         try { dto = JsonUtility.FromJson<InventoryDTO>(s); } catch { }
         if (dto == null || dto.items == null) return;
 
-        // 저장 당시 슬롯 수와 현재 _MaxInventorySlot이 다를 수 있으므로
-        // 현재 크기(_MaxInventorySlot)를 기준으로 안전하게 채움
+        // 현재 슬롯 수 기준으로 안전 반영
         int n = _MaxInventorySlot;
 
-        // 내부 배열 크기 보정
         if (_Inventory == null || _Inventory.Length != n)
         {
             _Inventory = new InventoryItem[n];
@@ -206,7 +194,7 @@ public class PlayerInventory : MonoBehaviour, ISaveSection
                 int id = e.id >= 0 ? e.id : -1;
                 int amt = e.amount > 0 ? e.amount : 0;
 
-                _Inventory[i].ID = (amt > 0) ? id : -1; // 수량 0이면 빈 슬롯
+                _Inventory[i].ID = (amt > 0) ? id : -1;
                 _Inventory[i].Amount = (amt > 0) ? amt : 0;
             }
             else
@@ -216,7 +204,8 @@ public class PlayerInventory : MonoBehaviour, ISaveSection
             }
         }
 
-        // UI 갱신 필요 시
+        // UI 갱신
         GameEvents.RaiseRequestUpdateInventory();
     }
+
 }

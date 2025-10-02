@@ -87,7 +87,7 @@ public class SettingUI : MonoBehaviour
 
     void OnClickCloseButton()
     {
-        SaveLoadManager._Inst.SaveAll();
+        SaveLoadManager._Inst.SaveAllLocal();
         gameObject.SetActive(false);
     }
 

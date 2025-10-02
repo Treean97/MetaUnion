@@ -10,7 +10,7 @@ public struct GraphicsSettingsDTO
     public FullScreenMode Mode;        // FullScreenWindow / Windowed 등
 }
 
-public class GraphicManager : MonoBehaviour, ISaveSection
+public class GraphicManager : MonoBehaviour, ILocalSaveSection
 {
     public static GraphicManager _Inst { get; private set; }
     public string Key => "graphic";
@@ -42,7 +42,7 @@ public class GraphicManager : MonoBehaviour, ISaveSection
 
         DefaultSet();
 
-        SaveLoadManager._Inst?.Register(this);
+        SaveLoadManager._Inst?.RegisterLocal(this);
         // 초기 적용(저장 파일 없을 때도 Mixer처럼 즉시 반영)
         ApplyDisplay(); 
         ApplyFrameCap();
@@ -67,28 +67,28 @@ public class GraphicManager : MonoBehaviour, ISaveSection
     {
         _W = w; _H = h;
         ApplyDisplay();
-        if (requestSave) SaveLoadManager._Inst?.RequestSaveSection(Key);
+        if (requestSave) SaveLoadManager._Inst?.SaveLocalSection(Key);
     }
 
     public void SetFullscreen(bool on, bool requestSave = true)
     {
         _Mode = on ? FullScreenMode.FullScreenWindow : FullScreenMode.Windowed;
         ApplyDisplay();
-        if (requestSave) SaveLoadManager._Inst?.RequestSaveSection(Key);
+        if (requestSave) SaveLoadManager._Inst?.SaveLocalSection(Key);
     }
 
     public void SetTargetFps(int fps, bool requestSave = true)
     {
         _TargetFps = fps;            // -1/30/60/120...
         ApplyFrameCap();
-        if (requestSave) SaveLoadManager._Inst?.RequestSaveSection(Key);
+        if (requestSave) SaveLoadManager._Inst?.SaveLocalSection(Key);
     }
 
     public void SetVSync(bool on, bool requestSave = true)
     {
         _VSync = on;
         ApplyFrameCap();             // VSync와 FPS 캡 상호작용 정리
-        if (requestSave) SaveLoadManager._Inst?.RequestSaveSection(Key);
+        if (requestSave) SaveLoadManager._Inst?.SaveLocalSection(Key);
     }
 
     void ApplyDisplay()

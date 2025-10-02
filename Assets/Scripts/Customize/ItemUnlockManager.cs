@@ -5,7 +5,7 @@ using UnityEngine;
 using Photon.Pun;
 using ExitGames.Client.Photon;
 
-public class ItemUnlockManager : MonoBehaviourPunCallbacks, ISaveSection
+public class ItemUnlockManager : MonoBehaviourPunCallbacks, ILocalSaveSection
 {
     private readonly HashSet<string> _Unlocked = new();
 
@@ -22,7 +22,7 @@ public class ItemUnlockManager : MonoBehaviourPunCallbacks, ISaveSection
 
     void Start()
     {
-        SaveLoadManager._Inst?.Register(this);
+        SaveLoadManager._Inst?.RegisterLocal(this);
 
         // SO에 설정된 기본 해금 아이템만큼 루프        
         if (ItemManager._Inst.CustomizeItemPoolSO == null)
@@ -40,7 +40,7 @@ public class ItemUnlockManager : MonoBehaviourPunCallbacks, ISaveSection
                     changed = true;
                 }
             }
-            if (changed) SaveLoadManager._Inst?.RequestSaveSection(Key);
+            if (changed) SaveLoadManager._Inst?.SaveLocalSection(Key);
         }
 
     }
@@ -91,7 +91,7 @@ public class ItemUnlockManager : MonoBehaviourPunCallbacks, ISaveSection
         _Unlocked.Add(item.ID);
         OnItemUnlocked?.Invoke(item);
         // 저장
-        SaveLoadManager._Inst?.RequestSaveSection(Key);
+        SaveLoadManager._Inst?.SaveLocalSection(Key);
         GameEvents.RaiseItemPurchaseSuccess();
     }
 
