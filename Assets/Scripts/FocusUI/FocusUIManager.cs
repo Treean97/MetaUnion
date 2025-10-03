@@ -11,8 +11,8 @@ public class FocusUIManager : MonoBehaviour
 
     public void Show(ItemInfoSO objInfo)
     {       
-        _Name.text = objInfo._DisplayName;
-        _Description.text = objInfo._Description;
+        _Name.text = objInfo.DisplayName;
+        _Description.text = objInfo.Description;
     }    
 
 }

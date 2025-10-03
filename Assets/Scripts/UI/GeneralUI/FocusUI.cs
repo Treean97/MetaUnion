@@ -21,8 +21,8 @@ public class FocusUI : MonoBehaviour
 
     void HandleOnPointerEnterFocusUI(ItemInfoSO itemInfo)
     {
-        _Name.text = itemInfo._DisplayName;
-        _Desc.text = itemInfo._Description;
+        _Name.text = itemInfo.DisplayName;
+        _Desc.text = itemInfo.Description;
         _FocusUI.gameObject.SetActive(true);
     }
 

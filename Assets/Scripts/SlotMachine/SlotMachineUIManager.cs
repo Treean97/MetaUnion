@@ -72,7 +72,7 @@ public class SlotMachineUIManager : MonoBehaviour, ISlotMachineUI
 
         _BetCurrencyDropdown.options
         = _CurrencyList.Select(
-            c => new TMP_Dropdown.OptionData(c.ItemInfo._DisplayName)).ToList();
+            c => new TMP_Dropdown.OptionData(c.ItemInfo.DisplayName)).ToList();
 
         _BettingCurrencyID = _CurrencyList[_BetCurrencyDropdown.value].ID;
 

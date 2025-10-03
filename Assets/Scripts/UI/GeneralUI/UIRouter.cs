@@ -18,6 +18,7 @@ public interface ISetAmountUI : IUI
 {
     void SetUI(QuantityMode mode, ItemDataSO item);
 }
+public interface IDialogueUI : IUI { }
 
 #endregion
 
@@ -47,8 +48,6 @@ public class UIRouter : MonoBehaviour
     {
         _UIs[typeof(T)] = ui;
     }
-
-
 
     public void UnregisterAs<T>(IUI ui) where T : class, IUI
     {

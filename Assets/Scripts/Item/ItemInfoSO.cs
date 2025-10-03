@@ -4,9 +4,9 @@ using UnityEngine;
 public class ItemInfoSO : ScriptableObject
 {
     [Header("아이템 이름")]
-    public string _DisplayName;
+    public string DisplayName;
 
     [Header("아이템 설명")]
-    [TextArea] public string _Description;
+    [TextArea] public string Description;
 
 }
