@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 093c64649d6c28848acfcd6d395f0b6b, type: 3}
   m_Name: Fish_1
   m_EditorClassIdentifier: 
-  _DisplayName: Fish_1
-  _Description: Fish_1 Des
+  DisplayName: "\uD68C\uC0C9 \uBB3C\uACE0\uAE30"
+  Description: "\uD68C\uC0C9 \uBB3C\uACE0\uAE30\uB2E4."

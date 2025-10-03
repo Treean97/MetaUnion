@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 093c64649d6c28848acfcd6d395f0b6b, type: 3}
   m_Name: SpeedUpPotion
   m_EditorClassIdentifier: 
-  _DisplayName: SpeedUpPotion
-  _Description: SpeedUp
+  DisplayName: "\uC18D\uB3C4 \uD5A5\uC0C1 \uBB3C\uC57D"
+  Description: "\uC77C\uC2DC\uC801\uC73C\uB85C \uC18D\uB3C4\uAC00 \uD5A5\uC0C1\uB418\uB294
+    \uBB3C\uC57D\uC774\uB2E4."

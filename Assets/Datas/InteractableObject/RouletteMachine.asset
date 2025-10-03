@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 093c64649d6c28848acfcd6d395f0b6b, type: 3}
   m_Name: RouletteMachine
   m_EditorClassIdentifier: 
-  _DisplayName: Roulette Machine
-  _Description: Press "E"
+  DisplayName: "\uB8F0\uB81B"
+  Description: "E\uB97C \uB20C\uB7EC \uB8F0\uB81B\uC744 \uC774\uC6A9\uD558\uC138\uC694."

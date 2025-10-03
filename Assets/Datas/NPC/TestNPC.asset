@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9ab42210cdec7841a7541aa807396da, type: 3}
   m_Name: TestNPC
   m_EditorClassIdentifier: Assembly-CSharp::NPCSO
-  NPCID: 
-  DisPlayName: 
-  Icon: {fileID: 0}
-  Dialogues: {fileID: 0}
+  NPCID: NPC_0
+  DisPlayName: "\uD14C\uC2A4\uD2B8NPC"
+  Icon: {fileID: 21300000, guid: 8125ab3980afd5f468e7137f11b44c3c, type: 3}
+  Dialogues: {fileID: 11400000, guid: 69ea6325866bf7140a32eb73cc03873d, type: 2}

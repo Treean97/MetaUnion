@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 093c64649d6c28848acfcd6d395f0b6b, type: 3}
   m_Name: Stone
   m_EditorClassIdentifier: 
-  _DisplayName: Stone
-  _Description: Stone Des
+  DisplayName: "\uB3CC"
+  Description: "\uB3CC \uC870\uAC01\uC774\uB2E4."
