@@ -5,43 +5,125 @@ public class DialogueManager : MonoBehaviour
 {
     public static DialogueManager _Inst { get; private set; }
 
+    // 항상: 이름, 아이콘, 본문(일반 텍스트), 진행도(없으면 -1)
     public event Action<string, Sprite, string, int, int> OnShowLine;
+    // 선택지: 이름, 아이콘, 프롬프트(상단 텍스트), 선택지 텍스트 배열
+    public event Action<string, Sprite, string, string[]> OnShowChoices;
     public event Action<string> OnEnd;
 
-    NPCSO _NPC;
-    DialogueSO _Dialogue;
+    NPCSO _NPCSO;
+    DialogueSO _dlg;
+
+    enum Mode { None, Linear, Graph }
+    Mode _Mode = Mode.None;
+
+    // Linear
     int _Idx;
-    public bool IsRunning => _Dialogue != null;
+
+    // Graph
+    int _NodeId;
+
+    public bool IsRunning => _Mode != Mode.None;
 
     void Awake()
     {
         if (_Inst && _Inst != this)
         {
-            Destroy(this);
-            return;
-        }   
+            Destroy(this); return;
+        }
 
-        _Inst = this; DontDestroyOnLoad(gameObject);
+        _Inst = this;
+        DontDestroyOnLoad(gameObject);
     }
 
     public void Play(NPCSO npc, DialogueSO overrideDialogue = null)
     {
         var dlg = overrideDialogue ? overrideDialogue : npc?.Dialogues;
-        if (npc == null || dlg == null || dlg.Dialogues == null || dlg.Dialogues.Length == 0) { Debug.LogWarning("[Dialogue] 대사 없음"); return; }
-        _NPC = npc; _Dialogue = dlg; _Idx = 0; Emit();
+        if (npc == null || dlg == null) { Debug.LogWarning("[Dialogue] 대사 없음"); return; }
+
+        _NPCSO = npc; _dlg = dlg;
+
+        if (dlg.HasGraph)
+        {
+            _Mode = Mode.Graph;
+            _NodeId = dlg.StartId;
+            StepGraph();
+        }
+        else
+        {
+            if (dlg.Dialogues == null || dlg.Dialogues.Length == 0) { Stop(); return; }
+            _Mode = Mode.Linear;
+            _Idx = 0;
+            EmitLinear();
+        }
     }
 
     public void Next()
     {
-        if (_Dialogue == null) return;
-        _Idx++;
-        if (_Idx >= _Dialogue.Dialogues.Length) { var id = _NPC?.NPCID; _NPC=null; _Dialogue=null; _Idx=0; OnEnd?.Invoke(id); return; }
-        Emit();
+        if (_Mode == Mode.Linear) NextLinear();
+        else if (_Mode == Mode.Graph) NextGraph(); // Choice 상태에서는 무시
     }
 
-    void Emit()
+    public void Choose(int index)
     {
-        string line = _Dialogue.Dialogues[_Idx];
-        OnShowLine?.Invoke(_NPC?.DisplayName ?? "NPC", _NPC?.Icon, line, _Idx, _Dialogue.Dialogues.Length);
+        if (_Mode == Mode.Graph) ChooseGraph(index);
+    }
+
+    // --- Linear ---
+    void EmitLinear()
+    {
+        string line = _dlg.Dialogues[_Idx];
+        OnShowLine?.Invoke(_NPCSO?.DisplayName, _NPCSO?.Icon, line, _Idx, _dlg.Dialogues.Length);
+    }
+
+    void NextLinear()
+    {
+        _Idx++;
+        if (_Idx >= _dlg.Dialogues.Length) { Stop(); return; }
+        EmitLinear();
+    }
+
+    // --- Graph ---
+    void StepGraph()
+    {
+        var n = _dlg.Get(_NodeId);
+        if (n == null) { Stop(); return; }
+
+        if (n is DialogueSO.LineNode ln)
+        {
+            OnShowLine?.Invoke( _NPCSO?.DisplayName, _NPCSO?.Icon, ln.Text, -1, -1);
+        }
+        else if (n is DialogueSO.ChoiceNode cn)
+        {
+            string[] options = new string[cn.Choices.Count];
+            for (int i = 0; i < options.Length; i++) options[i] = cn.Choices[i].Text;
+            OnShowChoices?.Invoke(_NPCSO?.DisplayName, _NPCSO?.Icon, cn.Text, options);
+        }
+    }
+
+    void NextGraph()
+    {
+        var ln = _dlg.Get(_NodeId) as DialogueSO.LineNode;
+        if (ln == null) return;                   // Choice 상태에서는 Next 무시
+        if (ln.NextId < 0) { Stop(); return; }
+        _NodeId = ln.NextId; StepGraph();
+    }
+
+    void ChooseGraph(int index)
+    {
+        var cn = _dlg.Get(_NodeId) as DialogueSO.ChoiceNode;
+        if (cn == null || index < 0 || index >= cn.Choices.Count) return;
+
+        var c = cn.Choices[index];
+        if (c.NextId < 0) { Stop(); return; }
+        _NodeId = c.NextId; StepGraph();
+    }
+
+    void Stop()
+    {
+        var id = _NPCSO?.NPCID;
+        _NPCSO = null; _dlg = null; _Mode = Mode.None;
+        _Idx = 0; _NodeId = 0;
+        OnEnd?.Invoke(id);
     }
 }

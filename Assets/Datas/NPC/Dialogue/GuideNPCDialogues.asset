@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e99347ca11af43a48b909102a903a57c, type: 3}
+  m_Name: GuideNPCDialogues
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueSO
+  _Dialogues:
+  - 
+  _StartId: 0
+  _nodes:
+  - rid: 3285214404497637534
+  - rid: 3285214404497637535
+  - rid: 3285214404497637536
+  - rid: 3285214404497637537
+  references:
+    version: 2
+    RefIds:
+    - rid: 3285214404497637534
+      type: {class: DialogueSO/LineNode, ns: , asm: Assembly-CSharp}
+      data:
+        Id: 0
+        Text: "\uC548\uB155\uD558\uC138\uC694. \uAC00\uC774\uB4DCNPC\uC785\uB2C8\uB2E4."
+        NextId: 1
+    - rid: 3285214404497637535
+      type: {class: DialogueSO/ChoiceNode, ns: , asm: Assembly-CSharp}
+      data:
+        Id: 1
+        Text: "\uAD81\uAE08\uD55C\uAC8C \uC788\uC73C\uBA74 \uBB3C\uC5B4\uBCF4\uC138\uC694."
+        Choices:
+        - Text: "\uACE8\uB4DC\uB294 \uC5B4\uB5BB\uAC8C \uD68D\uB4DD\uD558\uB098\uC694?"
+          NextId: 100
+        - Text: "\uB2E4\uC774\uC544\uBAAC\uB4DC\uB294 \uC5B4\uB5BB\uAC8C \uD68D\uB4DD\uD558\uB098\uC694?"
+          NextId: 200
+    - rid: 3285214404497637536
+      type: {class: DialogueSO/LineNode, ns: , asm: Assembly-CSharp}
+      data:
+        Id: 100
+        Text: "\uACE8\uB4DC\uB294 \uBC8C\uBAA9 \uBC0F \uC544\uC774\uD15C \uD310\uB9E4\uB85C
+          \uD68D\uB4DD\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4."
+        NextId: -1
+    - rid: 3285214404497637537
+      type: {class: DialogueSO/LineNode, ns: , asm: Assembly-CSharp}
+      data:
+        Id: 200
+        Text: "\uB2E4\uC774\uC544\uBAAC\uB4DC\uB294 \uCC44\uAD11 \uBC0F \uC544\uC774\uD15C
+          \uD310\uB9E4\uB85C \uD68D\uB4DD\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4."
+        NextId: -1
