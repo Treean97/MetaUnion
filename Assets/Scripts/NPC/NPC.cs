@@ -49,6 +49,8 @@ public class NPC : MonoBehaviour, IInteractable
 
         UIRouter._Inst?.Open<IDialogueUI>();
         DialogueManager._Inst.Play(_NPCSO, _DialogueSO);
+        // 대화 애니메이션 트리거
+        GetComponent<Animator>().SetTrigger("TalkTrigger");
         OnDefocus();
     }
 
