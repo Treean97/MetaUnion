@@ -71335,6 +71335,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1853752709}
   m_CullTransparentMesh: 1
+--- !u!1 &1855126519
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1855126520}
+  m_Layer: 0
+  m_Name: NameplateTransform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1855126520
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1855126519}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.2, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4136470239485688290}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1855445873
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -83361,7 +83392,9 @@ GameObject:
   - component: {fileID: 6822017137655837958}
   - component: {fileID: 6822017137655837961}
   - component: {fileID: 6822017137655837960}
-  m_Layer: 0
+  - component: {fileID: 6822017137655837963}
+  - component: {fileID: 6822017137655837962}
+  m_Layer: 7
   m_Name: NPC_Test
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -83378,11 +83411,12 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 5}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 1.7, y: 1.7, z: 1.7}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2772779916855091041}
   - {fileID: 807082135509070113}
+  - {fileID: 1855126520}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!4 &4143081157253710313
@@ -84106,7 +84140,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NPCInteract
   _NPCSO: {fileID: 11400000, guid: 90063b5b41b40504aa634f0e0c51df06, type: 2}
-  _DialogueSO: {fileID: 11400000, guid: 69ea6325866bf7140a32eb73cc03873d, type: 2}
 --- !u!136 &6822017137655837959
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -84148,6 +84181,10 @@ MonoBehaviour:
   _ClampWeight: 0.6
   _BlendInSpeed: 6
   _BlendOutSpeed: 4
+  _MaxYawDegPerSec: 240
+  _MaxPitchDegPerSec: 180
+  _NeutralDistance: 10
+  _NeutralHeight: 1.6
 --- !u!114 &6822017137655837961
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -84171,6 +84208,32 @@ MonoBehaviour:
     m_Bits: 4294967295
   _ExcludeSelf: 1
   _Root: {fileID: 0}
+--- !u!114 &6822017137655837962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3615371703568606040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b7dcadd92b6f7244aa7f6a397371705, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NPCNameplate
+--- !u!114 &6822017137655837963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3615371703568606040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e8cf91952f7a0a4b99ca5a948418c56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NameplateSpawner
+  _NameplateTransform: {fileID: 1855126520}
+  _NameplatePrefab: {fileID: 2731728785363065731, guid: c70669cc1db3cd14f8a826359678e51c, type: 3}
 --- !u!1001 &6989679267263869699
 PrefabInstance:
   m_ObjectHideFlags: 0

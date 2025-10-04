@@ -2068,6 +2068,7 @@ GameObject:
   - component: {fileID: 7600146672090614015}
   - component: {fileID: 239484582011537738}
   - component: {fileID: 5841054823660800388}
+  - component: {fileID: -7780103813104668388}
   - component: {fileID: 2067205965991700547}
   - component: {fileID: 2457597801121862179}
   - component: {fileID: 5568501472016897232}
@@ -2231,6 +2232,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _PlayerCameraPrefab: {fileID: 2008770302162957476, guid: 66f05cde79ab5994986079e4c96042f5, type: 3}
+--- !u!114 &-7780103813104668388
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5832607453936394915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f446379c82b66c84f97c7bcb5892f5f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerNameplate
 --- !u!114 &2067205965991700547
 MonoBehaviour:
   m_ObjectHideFlags: 0

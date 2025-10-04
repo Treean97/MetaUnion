@@ -29,9 +29,9 @@ public class LookAtTarget : MonoBehaviour
 
     void Awake()
     {
-        _Anim = GetComponent<Animator>();
+        _Anim    = GetComponent<Animator>();
         _Tracker = GetComponent<PlayerTracker>();
-        _Head = _Anim.GetBoneTransform(HumanBodyBones.Head);
+        _Head    = _Anim ? _Anim.GetBoneTransform(HumanBodyBones.Head) : null;
 
         // 초기 응시점: 정면
         _AimPos = transform.position + transform.forward * _NeutralDistance + Vector3.up * _NeutralHeight;
@@ -40,8 +40,8 @@ public class LookAtTarget : MonoBehaviour
     void Update()
     {
         bool hasTarget = _Tracker && _Tracker.CurrentTarget;
-        float target = hasTarget ? 1f : 0f;
-        float speed = hasTarget ? _BlendInSpeed : _BlendOutSpeed;
+        float target   = hasTarget ? 1f : 0f;
+        float speed    = hasTarget ? _BlendInSpeed : _BlendOutSpeed;
         _W = Mathf.MoveTowards(_W, target, speed * Time.deltaTime);
     }
 
@@ -51,51 +51,50 @@ public class LookAtTarget : MonoBehaviour
 
         if (_W <= 0.001f) { _Anim.SetLookAtWeight(0f); return; }
 
-        // 원하는 목표점(Desired) 계산
-        Vector3 desiredPos;
-        if (_Tracker && _Tracker.CurrentTarget)
-        {
-            var t = _Tracker.CurrentTarget;
-            desiredPos = t.position + Vector3.up * _TargetHeightOffset;
-        }
-        else
-        {
-            desiredPos = transform.position + transform.forward * _NeutralDistance + Vector3.up * _NeutralHeight;
-        }
+        // 원하는 목표점(Desired)
+        Vector3 desiredPos = (_Tracker && _Tracker.CurrentTarget)
+            ? _Tracker.CurrentTarget.position + Vector3.up * _TargetHeightOffset
+            : transform.position + transform.forward * _NeutralDistance + Vector3.up * _NeutralHeight;
 
-        // 각속도 제한으로 _AimPos 갱신
+        // 기준 머리 위치
         Vector3 headPos = _Head ? _Head.position : transform.position + Vector3.up * _NeutralHeight;
 
-        Vector3 currDir = (_AimPos - headPos).sqrMagnitude > 1e-6f
-            ? (_AimPos - headPos).normalized
-            : transform.forward;
+        // ✅ 수평만 보도록 Y 고정
+        float fixedY = headPos.y;
+        desiredPos.y = fixedY;
+        _AimPos.y    = fixedY;
 
-        Vector3 destDir = (desiredPos - headPos).sqrMagnitude > 1e-6f
-            ? (desiredPos - headPos).normalized
-            : transform.forward;
+        // 현재/목표 방향
+        Vector3 currDir = (_AimPos - headPos).sqrMagnitude > 1e-6f ? (_AimPos - headPos).normalized : transform.forward;
+        Vector3 destDir = (desiredPos - headPos).sqrMagnitude > 1e-6f ? (desiredPos - headPos).normalized : transform.forward;
 
-        // 로컬 공간에서 요/피치로 변환
+        // 로컬에서 요/피치 계산
         Quaternion worldToLocal = Quaternion.Inverse(transform.rotation);
         Vector3 currLocal = (worldToLocal * currDir).normalized;
         Vector3 destLocal = (worldToLocal * destDir).normalized;
 
-        float currYaw = Mathf.Atan2(currLocal.x, currLocal.z) * Mathf.Rad2Deg;
-        float destYaw = Mathf.Atan2(destLocal.x, destLocal.z) * Mathf.Rad2Deg;
-        float currPitch = Mathf.Asin(Mathf.Clamp(currLocal.y, -1f, 1f)) * Mathf.Rad2Deg;
-        float destPitch = Mathf.Asin(Mathf.Clamp(destLocal.y, -1f, 1f)) * Mathf.Rad2Deg;
+        float currYaw   = Mathf.Atan2(currLocal.x, currLocal.z) * Mathf.Rad2Deg;
+        float destYaw   = Mathf.Atan2(destLocal.x, destLocal.z) * Mathf.Rad2Deg;
 
-        float yawStep = _MaxYawDegPerSec   * Time.deltaTime;
+        float currPitch = Mathf.Asin(Mathf.Clamp(currLocal.y, -1f, 1f)) * Mathf.Rad2Deg;
+        float destPitch = 0f; // ✅ 피치 고정
+
+        float yawStep   = _MaxYawDegPerSec   * Time.deltaTime;
         float pitchStep = _MaxPitchDegPerSec * Time.deltaTime;
 
-        float newYaw = (_MaxYawDegPerSec   > 0f) ? Mathf.MoveTowardsAngle(currYaw,   destYaw,   yawStep)   : destYaw;
+        float newYaw   = (_MaxYawDegPerSec   > 0f) ? Mathf.MoveTowardsAngle(currYaw,   destYaw,   yawStep)   : destYaw;
         float newPitch = (_MaxPitchDegPerSec > 0f) ? Mathf.MoveTowardsAngle(currPitch, destPitch, pitchStep) : destPitch;
 
+        // 새로운 방향
         Vector3 newLocalDir = (Quaternion.Euler(newPitch, newYaw, 0f) * Vector3.forward).normalized;
         Vector3 newWorldDir = (transform.rotation * newLocalDir).normalized;
 
-        // 목표까지의 현재 거리 유지(너무 가까우면 최소 1m)
+        // 거리 유지
         float keepDist = Mathf.Max(1f, Vector3.Distance(headPos, desiredPos));
         _AimPos = headPos + newWorldDir * keepDist;
+
+        // Y 고정 유지
+        _AimPos.y = fixedY;
 
         // IK 적용
         _Anim.SetLookAtPosition(_AimPos);

@@ -4,10 +4,14 @@ using UnityEngine;
 public class NPCSO : ScriptableObject
 {
     [Header("식별/표시")]
-    public string NPCID;
-    public string DisplayName;
-    public Sprite Icon;
+    [SerializeField] private string _NPCID;
+    public string NPCID => _NPCID;
+    [SerializeField] private string _DisplayName;
+    public string DisplayName => _DisplayName;
+    [SerializeField] private Sprite _Icon;
+    public Sprite Icon => _Icon;
 
     [Header("대사 번들")]
-    public DialogueSO Dialogues;
+    [SerializeField] DialogueSO _Dialogues;
+    public DialogueSO Dialogues => _Dialogues;
 }

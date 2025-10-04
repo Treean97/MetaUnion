@@ -1,4 +1,3 @@
-using Photon.Pun;
 using TMPro;
 using UnityEngine;
 
@@ -7,33 +6,37 @@ public class NameplateSpawner : MonoBehaviour
     [SerializeField] private Transform _NameplateTransform;
     [SerializeField] private GameObject _NameplatePrefab;
 
-    private GameObject _nameplate;
+    GameObject _NameplateObj;
+    INameplate _INameplate;
+    INameplateVisibility _Visibility;
+
+    void Awake()
+    {
+        if (!_NameplateTransform) _NameplateTransform = transform;
+        _INameplate = GetComponent<INameplate>();
+        _Visibility = GetComponent<INameplateVisibility>();
+    }
 
     void Start()
     {
-        var photonView = GetComponent<PhotonView>();
+        if (!_NameplatePrefab) return;
 
-        _nameplate = Instantiate(_NameplatePrefab, _NameplateTransform);
-        _nameplate.transform.localPosition = Vector3.zero;
-        _nameplate.transform.localRotation = Quaternion.identity;
+        _NameplateObj = Instantiate(_NameplatePrefab, _NameplateTransform);
+        _NameplateObj.transform.localPosition = Vector3.zero;
+        _NameplateObj.transform.localRotation = Quaternion.identity;
 
-        var label = _nameplate.GetComponentInChildren<TMP_Text>(true);
-        if (label) label.text = photonView.Owner.NickName;
+        var label = _NameplateObj.GetComponentInChildren<TMP_Text>(true);
+        if (label) label.text = _INameplate?.GetDisplayName() ?? gameObject.name;
 
-        // 각 클라이언트에서 카메라를 찾게 함
-        var display = _nameplate.GetComponent<NameplateDisplay>();
+        var display = _NameplateObj.GetComponent<NameplateDisplay>();
         if (display) display.SetDisplay();
 
-        // 자신 이름표 숨김
-        if (photonView.IsMine) _nameplate.SetActive(false);
+        if (_Visibility?.HideForLocal() == true) _NameplateObj.SetActive(false);
     }
 
     void OnDestroy()
     {
-        if (_nameplate)
-        {
-            Destroy(_nameplate);
-        }
+        if (_NameplateObj) Destroy(_NameplateObj);
     }
 
 

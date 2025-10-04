@@ -4,9 +4,14 @@ public class NPC : MonoBehaviour, IInteractable
 {
     [SerializeField] NPCSO _NPCSO;
     public NPCSO NPCSO => _NPCSO;
-    [SerializeField] DialogueSO _DialogueSO;    
+    private DialogueSO _DialogueSO;    
 
     ItemInfoSO _TempFocusInfo;
+
+    void Awake()
+    {
+        _DialogueSO = _NPCSO.Dialogues;
+    }
 
     public ItemInfoSO GetObjectInfo()
     {
@@ -27,7 +32,8 @@ public class NPC : MonoBehaviour, IInteractable
 
     public void OnFocus()
     {
-        GameEvents.RaiseDefocus();
+        var info = GetObjectInfo();
+        GameEvents.RaiseFocus(info);
     }
 
     public void OnInteract()

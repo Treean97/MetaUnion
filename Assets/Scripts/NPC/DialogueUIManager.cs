@@ -3,12 +3,14 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class DialogueUIManager : MonoBehaviour, IPointerClickHandler
+public class DialogueUIManager : MonoBehaviour, IPointerClickHandler, IDialogueUI   
 {
     [SerializeField] private GameObject _DialogueUI;
     [SerializeField] private TMP_Text _NameText;
     [SerializeField] private Image _Icon;
     [SerializeField] private TMP_Text _DialogueText;
+
+    public bool IsOpen => gameObject.activeSelf;
 
     void OnEnable()
     {
@@ -56,5 +58,15 @@ public class DialogueUIManager : MonoBehaviour, IPointerClickHandler
         if (eventData.button != PointerEventData.InputButton.Left) return;
         if (DialogueManager._Inst?.IsRunning == true)
             DialogueManager._Inst.Next();
+    }
+
+    public void Show()
+    {
+        gameObject.SetActive(true);
+    }
+
+    public void Hide()
+    {
+        gameObject.SetActive(false);
     }
 }

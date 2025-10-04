@@ -3,5 +3,6 @@ using UnityEngine;
 [CreateAssetMenu (menuName = "DialogueData")]
 public class DialogueSO : ScriptableObject
 {
-    public string[] Dialogues;
+    [SerializeField] string[] _Dialogues;
+    public string[] Dialogues => _Dialogues;
 }
