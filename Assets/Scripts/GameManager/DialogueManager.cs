@@ -42,6 +42,6 @@ public class DialogueManager : MonoBehaviour
     void Emit()
     {
         string line = _Dialogue.Dialogues[_Idx];
-        OnShowLine?.Invoke(_NPC?.DisPlayName ?? "NPC", _NPC?.Icon, line, _Idx, _Dialogue.Dialogues.Length);
+        OnShowLine?.Invoke(_NPC?.DisplayName ?? "NPC", _NPC?.Icon, line, _Idx, _Dialogue.Dialogues.Length);
     }
 }

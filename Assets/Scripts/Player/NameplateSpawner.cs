@@ -22,7 +22,7 @@ public class NameplateSpawner : MonoBehaviour
 
         // 각 클라이언트에서 카메라를 찾게 함
         var display = _nameplate.GetComponent<NameplateDisplay>();
-        if (display) display.SetDisplay(_NameplateTransform);
+        if (display) display.SetDisplay();
 
         // 자신 이름표 숨김
         if (photonView.IsMine) _nameplate.SetActive(false);

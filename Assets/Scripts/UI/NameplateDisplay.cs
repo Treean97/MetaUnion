@@ -2,19 +2,16 @@ using UnityEngine;
 
 public class NameplateDisplay : MonoBehaviour
 {
-    private Transform _Target;
     private Camera _Cam;
 
-
-    public void SetDisplay(Transform target)
+    public void SetDisplay()
     {
-        _Target = target;
         _Cam = Camera.main;
     }
 
     void LateUpdate()
     {
-        if (!_Cam || !_Target)
+        if (!_Cam)
         {
             return;
         }

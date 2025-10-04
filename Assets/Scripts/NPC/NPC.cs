@@ -1,8 +1,9 @@
 using UnityEngine;
 
-public class NPCInteract : MonoBehaviour, IInteractable
+public class NPC : MonoBehaviour, IInteractable
 {
     [SerializeField] NPCSO _NPCSO;
+    public NPCSO NPCSO => _NPCSO;
     [SerializeField] DialogueSO _DialogueSO;    
 
     ItemInfoSO _TempFocusInfo;
