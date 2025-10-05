@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b451e924dd3ca2a428e8dc5fe7cbf69e, type: 3}
   m_Name: Emote_1
   m_EditorClassIdentifier: Assembly-CSharp::EmoteSO
-  _ID: Emote_0
-  _StateName: Emote_0
-  _DisplayName: "\uCDA4_0"
+  _ID: Emote_1
+  _StateName: Emote_Dance_0
+  _DisplayName: "\uCDA4_1"
   _Layer: 0
   _LengthSeconds: 15
   _EmoteAnchor: {fileID: 4195652156583984782, guid: dc95e12f616b8a241b090e5f3947153b, type: 3}

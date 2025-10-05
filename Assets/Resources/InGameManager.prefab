@@ -85,5 +85,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EmoteManager
   _EmoteSOs:
-  - {fileID: 11400000, guid: 63fa8c520f226684ea4d320354aea395, type: 2}
   - {fileID: 11400000, guid: 2d04a8cc46cad17498bbb6052e4c373c, type: 2}
+  - {fileID: 11400000, guid: 63fa8c520f226684ea4d320354aea395, type: 2}

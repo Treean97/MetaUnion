@@ -2064,6 +2064,7 @@ GameObject:
   - component: {fileID: 7326643668330111642}
   - component: {fileID: 4805114103450155677}
   - component: {fileID: 559015421560556864}
+  - component: {fileID: 320333543612819797}
   - component: {fileID: -1816853052009607568}
   - component: {fileID: 7600146672090614015}
   - component: {fileID: 239484582011537738}
@@ -2173,6 +2174,20 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &320333543612819797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5832607453936394915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51b94fc89902b7d41ba09f848fd1cbe7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerEmote
+  _CrossFade: 0.1
+  _IdleState: Movement
 --- !u!114 &-1816853052009607568
 MonoBehaviour:
   m_ObjectHideFlags: 0

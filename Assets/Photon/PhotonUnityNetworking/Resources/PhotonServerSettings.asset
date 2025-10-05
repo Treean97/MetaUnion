@@ -62,6 +62,7 @@ MonoBehaviour:
   - RPC_PlaySoundGlobal
   - RPC_SetPrefabPath
   - RPC_ForceLeaveAndReturn
+  - RPC_PlayEmote
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

@@ -35,6 +35,7 @@ namespace Controller
         [SerializeField] private KeyCode _EmoteKey = KeyCode.Z;
 
         private MoveHandler _Mover;
+        private PlayerEmote _PlayerEmote;
 
         private Vector2 _Axis;
         private bool _IsRun;
@@ -122,6 +123,11 @@ namespace Controller
                 _IsStunnedBlocked = false;
         }
 
+        bool IsInEmote()
+        {
+            if (!_PlayerEmote) _PlayerEmote = GetComponent<PlayerEmote>();
+            return _PlayerEmote && _PlayerEmote.InEmote;
+        }
 
         private void Update()
         {
@@ -131,8 +137,8 @@ namespace Controller
             {
                 return;
             }
-            
-            if(!photonView.IsMine)
+
+            if (!photonView.IsMine)
             {
                 return;
             }
@@ -219,26 +225,59 @@ namespace Controller
 
             if (Input.GetKeyDown(_EmoteKey))
             {
-                UIRouter._Inst.Open<IEmoteUI>();
-            }
+                // UIRouter._Inst.Open<IEmoteUI>();
+                if (!photonView.IsMine) return;
 
-            if (Input.GetKeyUp(_EmoteKey))
-            {
-                UIRouter._Inst.Close<IEmoteUI>();
-            }
+                var mgr = EmoteManager._Inst;
+                if (mgr == null || mgr.EmoteSOs == null || mgr.EmoteSOs.Length == 0) { Debug.LogWarning("[EmoteTest] EmoteSO 리스트 비어있음"); return; }
+
+                var so = mgr.EmoteSOs[0];
+                if (!so || !so.EmoteAnchor) { Debug.LogWarning("[EmoteTest] EmoteSO 또는 EmoteAnchor 누락"); return; }
+
+                var pe = GetComponent<PlayerEmote>();
+                if (!pe) { Debug.LogWarning("[EmoteTest] PlayerEmote 컴포넌트 없음"); return; }
+
+                // 앵커 생성(생성과 동시에 0번 슬롯 예약)
+                Vector3 pos = transform.position + transform.forward * 1.5f;
+                Quaternion rot = Quaternion.LookRotation(-transform.forward, Vector3.up);
+                var anchor = mgr.StartEmote(so, pos, rot, pe);
+                if (!anchor) return;
+
+                // 바로 재생 RPC (0번 슬롯, 정규화 시간은 막 시작했으니 0에 가깝지만 공식대로 계산)
+                float nt = EmoteManager.GetNormalizedTime(anchor);
+                pe.photonView.RPC(nameof(PlayerEmote.RPC_PlayEmote), RpcTarget.All, anchor.photonView.ViewID, 0, nt);
+                }
+
+            // if (Input.GetKeyUp(_EmoteKey))
+            // {
+            //     UIRouter._Inst.Close<IEmoteUI>();
+            // }
         }
 
         public void SetInput()
         {
-            if (_Mover != null)
+            // 이동만 차단: 이모트 중이면 이동 관련 입력을 0으로 만들어서 MoveHandler에 전달
+            Vector2 axis = _Axis;
+            bool isRun = _IsRun;
+            bool isJump = _IsJump;
+
+            if (IsInEmote())
             {
-                _Mover.SetInput(in _Axis, in _Target, _IsRun, _IsJump);
+                axis = Vector2.zero;
+                isRun = false;
+                isJump = false;
             }
 
+            if (_Mover != null)
+            {
+                _Mover.SetInput(in axis, in _Target, isRun, isJump);
+            }
+
+            // 카메라 입력은 그대로 유지(요청: 움직임만 막기)
             if (_Camera != null)
             {
                 _Camera.SetInput(in _MouseDelta, _Scroll);
-            }
+            }    
         }
         
         
