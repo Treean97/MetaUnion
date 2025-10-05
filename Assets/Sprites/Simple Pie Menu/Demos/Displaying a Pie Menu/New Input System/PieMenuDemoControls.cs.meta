@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: e0f56f5afc03b834ab04415103f11ecc
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 270056
+  packageName: Simple Pie Menu | Radial Menu Asset
+  packageVersion: 1.0.6
+  assetPath: Assets/Sprites/Simple Pie Menu/Demos/Displaying a Pie Menu/New Input
+    System/PieMenuDemoControls.cs
+  uploadId: 793808

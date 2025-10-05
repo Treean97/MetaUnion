@@ -19,7 +19,7 @@ public interface ISetAmountUI : IUI
     void SetUI(QuantityMode mode, ItemDataSO item);
 }
 public interface IDialogueUI : IUI { }
-
+public interface IEmoteUI : IUI { }
 #endregion
 
 

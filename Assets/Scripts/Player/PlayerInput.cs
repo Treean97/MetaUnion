@@ -11,38 +11,38 @@ namespace Controller
     public class PlayerInput : MonoBehaviourPun
     {
         [Header("Character")]
-        [SerializeField] private string m_HorizontalAxis = "Horizontal";
-        [SerializeField] private string m_VerticalAxis = "Vertical";
-        [SerializeField] private string m_JumpButton = "Jump";
-        [SerializeField] private KeyCode m_RunKey = KeyCode.LeftShift;
+        [SerializeField] private string _HorizontalAxis = "Horizontal";
+        [SerializeField] private string _VerticalAxis = "Vertical";
+        [SerializeField] private string _JumpButton = "Jump";
+        [SerializeField] private KeyCode _RunKey = KeyCode.LeftShift;
 
         [Header("Camera")]
-        [SerializeField] private PlayerCamera m_Camera;
-        [SerializeField] private string m_MouseX = "Mouse X";
-        [SerializeField] private string m_MouseY = "Mouse Y";
-        [SerializeField] private string m_MouseScroll = "Mouse ScrollWheel";
+        [SerializeField] private PlayerCamera _Camera;
+        [SerializeField] private string _MouseX = "Mouse X";
+        [SerializeField] private string _MouseY = "Mouse Y";
+        [SerializeField] private string _MouseScroll = "Mouse ScrollWheel";
 
         [Header("Input")]
-        [SerializeField] private KeyCode m_InteractKey = KeyCode.E;
-        [SerializeField] private KeyCode m_AttackKey = KeyCode.Mouse0;
-        [SerializeField] private KeyCode m_Handkey = KeyCode.Alpha1;
-        [SerializeField] private KeyCode m_Axekey = KeyCode.Alpha2;
-        [SerializeField] private KeyCode m_Pickaxekey = KeyCode.Alpha3;
-        [SerializeField] private KeyCode m_ChatKey = KeyCode.T;
-        [SerializeField] private KeyCode m_InventoryKey = KeyCode.Q;
-        [SerializeField] private KeyCode m_PlayerListKey = KeyCode.Tab;
-        [SerializeField] private KeyCode m_CursorToggle = KeyCode.LeftAlt;
+        [SerializeField] private KeyCode _InteractKey = KeyCode.E;
+        [SerializeField] private KeyCode _AttackKey = KeyCode.Mouse0;
+        [SerializeField] private KeyCode _Handkey = KeyCode.Alpha1;
+        [SerializeField] private KeyCode _Axekey = KeyCode.Alpha2;
+        [SerializeField] private KeyCode _Pickaxekey = KeyCode.Alpha3;
+        [SerializeField] private KeyCode _ChatKey = KeyCode.T;
+        [SerializeField] private KeyCode _InventoryKey = KeyCode.Q;
+        [SerializeField] private KeyCode _PlayerListKey = KeyCode.Tab;
+        [SerializeField] private KeyCode _CursorToggle = KeyCode.LeftAlt;
+        [SerializeField] private KeyCode _EmoteKey = KeyCode.Z;
 
-        private MoveHandler m_Mover;
-        private AttackHandler m_Attacker;
+        private MoveHandler _Mover;
 
-        private Vector2 m_Axis;
-        private bool m_IsRun;
-        private bool m_IsJump;
+        private Vector2 _Axis;
+        private bool _IsRun;
+        private bool _IsJump;
 
-        private Vector3 m_Target;
-        private Vector2 m_MouseDelta;
-        private float m_Scroll;
+        private Vector3 _Target;
+        private Vector2 _MouseDelta;
+        private float _Scroll;
 
         private bool _IsMovementBlocked; // 추가: 움직임 차단 플래그
         private bool _IsStunnedBlocked;
@@ -63,8 +63,7 @@ namespace Controller
 
         private void Awake()
         {
-            m_Mover = GetComponent<MoveHandler>();
-            m_Attacker = GetComponent<AttackHandler>();
+            _Mover = GetComponent<MoveHandler>();
 
             InputBlockManager.OnInputBlockStatus += HandleUIRunningStateChanged; // 추가: 구독
 
@@ -97,10 +96,10 @@ namespace Controller
             if (isBlocked)
             {
                 // 움직임 0으로 
-                m_Axis = Vector2.zero;
-                m_IsRun = false;
-                m_IsJump = false;
-                m_MouseDelta = Vector2.zero;
+                _Axis = Vector2.zero;
+                _IsRun = false;
+                _IsJump = false;
+                _MouseDelta = Vector2.zero;
 
                 // 반영
                 SetInput();                
@@ -144,33 +143,33 @@ namespace Controller
 
         public void BindCamera(PlayerCamera cam)
         {
-            m_Camera = cam;
-            m_Camera.SetPlayer(transform);
+            _Camera = cam;
+            _Camera.SetPlayer(transform);
         }
 
 
         public void GatherInput()
         {
-            m_Axis = new Vector2(Input.GetAxis(m_HorizontalAxis), Input.GetAxis(m_VerticalAxis));
-            m_IsRun = Input.GetKey(m_RunKey);
-            m_IsJump = Input.GetButton(m_JumpButton);
+            _Axis = new Vector2(Input.GetAxis(_HorizontalAxis), Input.GetAxis(_VerticalAxis));
+            _IsRun = Input.GetKey(_RunKey);
+            _IsJump = Input.GetButton(_JumpButton);
 
-            m_Target = (m_Camera == null) ? Vector3.zero : m_Camera.Target;
-            m_MouseDelta = new Vector2(Input.GetAxis(m_MouseX), Input.GetAxis(m_MouseY));
-            m_Scroll = Input.GetAxis(m_MouseScroll);
+            _Target = (_Camera == null) ? Vector3.zero : _Camera.Target;
+            _MouseDelta = new Vector2(Input.GetAxis(_MouseX), Input.GetAxis(_MouseY));
+            _Scroll = Input.GetAxis(_MouseScroll);
 
             // 커서 켜졌을 때는 회전 잠금
             if (CursorManager._IsShown)
             {
-                m_MouseDelta = Vector2.zero;
-            }                   
+                _MouseDelta = Vector2.zero;
+            }
 
-            if (Input.GetKeyDown(m_InteractKey))
+            if (Input.GetKeyDown(_InteractKey))
             {
                 OnInteract?.Invoke();
             }
 
-            if (Input.GetKeyDown(m_AttackKey))
+            if (Input.GetKeyDown(_AttackKey))
             {
                 if (EventSystem.current.IsPointerOverGameObject())
                     return;
@@ -178,57 +177,67 @@ namespace Controller
                 OnAttack?.Invoke();
             }
 
-            if (Input.GetKeyDown(m_Handkey))
+            if (Input.GetKeyDown(_Handkey))
             {
                 OnSlot_0KeyPressed?.Invoke();
             }
 
-            if (Input.GetKeyDown(m_Axekey))
+            if (Input.GetKeyDown(_Axekey))
             {
                 OnSlot_1KeyPressed?.Invoke();
             }
 
-            if (Input.GetKeyDown(m_Pickaxekey))
+            if (Input.GetKeyDown(_Pickaxekey))
             {
                 OnSlot_2KeyPressed?.Invoke();
             }
 
-            if (Input.GetKeyDown(m_InventoryKey))
+            if (Input.GetKeyDown(_InventoryKey))
             {
                 UIRouter._Inst.Toggle<IInventoryUI>();
             }
 
-            if (Input.GetKeyDown(m_ChatKey))
+            if (Input.GetKeyDown(_ChatKey))
             {
                 UIRouter._Inst.Toggle<IChatUI>();
             }
 
-            if (Input.GetKeyDown(m_PlayerListKey))
+            if (Input.GetKeyDown(_PlayerListKey))
             {
                 UIRouter._Inst.Open<IPlayerListUI>();
             }
 
-            if (Input.GetKeyUp(m_PlayerListKey))
+            if (Input.GetKeyUp(_PlayerListKey))
             {
-                UIRouter._Inst.Close<IPlayerListUI>();                    
+                UIRouter._Inst.Close<IPlayerListUI>();
             }
 
-            if (Input.GetKeyDown(m_CursorToggle))
+            if (Input.GetKeyDown(_CursorToggle))
             {
                 CursorManager.Toggle();
+            }
+
+            if (Input.GetKeyDown(_EmoteKey))
+            {
+                UIRouter._Inst.Open<IEmoteUI>();
+            }
+
+            if (Input.GetKeyUp(_EmoteKey))
+            {
+                UIRouter._Inst.Close<IEmoteUI>();
             }
         }
 
         public void SetInput()
         {
-            if (m_Mover != null)
+            if (_Mover != null)
             {
-                m_Mover.SetInput(in m_Axis, in m_Target, m_IsRun, m_IsJump);
+                _Mover.SetInput(in _Axis, in _Target, _IsRun, _IsJump);
             }
 
-            if (m_Camera != null)
+            if (_Camera != null)
             {
-                m_Camera.SetInput(in m_MouseDelta, m_Scroll);
+                _Camera.SetInput(in _MouseDelta, _Scroll);
             }
         }
         

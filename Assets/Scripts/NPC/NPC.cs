@@ -19,11 +19,12 @@ public class NPC : MonoBehaviour, IInteractable
         if (_TempFocusInfo == null)
         {
             _TempFocusInfo = ScriptableObject.CreateInstance<ItemInfoSO>();
-            _TempFocusInfo.DisplayName = _NPCSO.name;
+            _TempFocusInfo.DisplayName = _NPCSO.DisplayName;
             _TempFocusInfo.Description = "";
         }
         return _TempFocusInfo;
     }
+   
 
     public void OnDefocus()
     {
