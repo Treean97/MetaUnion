@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NPCSO
   _NPCID: NPC_0
   _DisplayName: "\uAC00\uC774\uB4DC"
-  _Icon: {fileID: 21300000, guid: 6cd59cd8c3d1c5443a9d3eeecf2b775e, type: 3}
+  _Icon: {fileID: 21300000, guid: 744a5c6e2d50f914eb719a7628c1781c, type: 3}
   _Dialogues: {fileID: 11400000, guid: 60f8926e7361b99419f6d40250240642, type: 2}
