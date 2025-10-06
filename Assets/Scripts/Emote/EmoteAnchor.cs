@@ -20,6 +20,20 @@ public class EmoteAnchor : MonoBehaviourPun, IPunInstantiateMagicCallback, IInte
 
     public void Setup(EmoteSO so) => _EmoteSO = so;
 
+    void OnEnable()
+    {
+        EmoteManager.RegisterAnchor(this);
+
+        // 앵커 소유자(=생성자)만 자동 종료 워치독 수행
+        if (PhotonNetwork.InRoom && photonView.IsMine)
+            StartCoroutine(Co_AutoStopAfterLength());
+    }
+
+    void OnDisable()
+    {
+        EmoteManager.UnregisterAnchor(this);
+    }
+
     public Vector3 GetSlotWorldPos(int index)
     {
         if (_slots == null || index < 0 || index >= _slots.Count || !_slots[index])
@@ -103,12 +117,6 @@ public class EmoteAnchor : MonoBehaviourPun, IPunInstantiateMagicCallback, IInte
         }
     }
 
-    void OnEnable()
-    {
-        // 앵커 소유자(=생성자)만 자동 종료 워치독 수행
-        if (PhotonNetwork.InRoom && photonView.IsMine)
-            StartCoroutine(Co_AutoStopAfterLength());
-    }
 
     IEnumerator Co_AutoStopAfterLength()
     {

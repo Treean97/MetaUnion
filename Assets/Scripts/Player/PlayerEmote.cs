@@ -33,6 +33,18 @@ public class PlayerEmote : MonoBehaviourPun
         _Anim = GetComponentInChildren<Animator>();
     }
 
+    void LateUpdate()
+    {
+        // 앵커가 이동하는 퍼포먼스라면, 소유자만 슬롯에 스냅 유지(원격은 PTV 보간)
+        if (_IsInEmote && _Anchor && photonView.IsMine)
+        {
+            transform.SetPositionAndRotation(
+                _Anchor.GetSlotWorldPos(_SlotIndex),
+                _Anchor.GetSlotWorldRot(_SlotIndex)
+            );
+        }
+    }
+
     // ===== 외부(UI/상호작용) 진입 포인트 =====
     public void RequestJoinSequential(EmoteAnchor anchor)
     {
@@ -131,15 +143,23 @@ public class PlayerEmote : MonoBehaviourPun
         return pv ? pv.ViewID : -1;
     }
 
-    void LateUpdate()
+
+
+    public void ApplyEmoteLocal(EmoteAnchor anchor, int slotIndex, float normalizedTime)
     {
-        // 앵커가 이동하는 퍼포먼스라면, 소유자만 슬롯에 스냅 유지(원격은 PTV 보간)
-        if (_IsInEmote && _Anchor && photonView.IsMine)
+        if (!anchor || !anchor.EmoteSO) return;
+
+        _Anchor = anchor;
+        _SlotIndex = slotIndex;
+        _IsInEmote = true;
+
+        var so = anchor.EmoteSO;
+        if (_Anim)
         {
-            transform.SetPositionAndRotation(
-                _Anchor.GetSlotWorldPos(_SlotIndex),
-                _Anchor.GetSlotWorldRot(_SlotIndex)
-            );
+            int hash = Animator.StringToHash(so.StateName);
+            if (_Anim.HasState(so.Layer, hash))
+                _Anim.CrossFadeInFixedTime(so.StateName, 0.1f, so.Layer, Mathf.Clamp01(normalizedTime));
         }
     }
+
 }

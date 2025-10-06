@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
@@ -17,6 +18,18 @@ public class EmoteManager : MonoBehaviourPunCallbacks
     [Header("Catalog")]
     [SerializeField] private EmoteSO[] _EmoteSOs;
     public EmoteSO[] EmoteSOs => _EmoteSOs;
+    static readonly List<EmoteAnchor> _Anchors = new();
+    public static IReadOnlyList<EmoteAnchor> Anchors => _Anchors;
+
+    public static void RegisterAnchor(EmoteAnchor a)
+    {
+        if (a && !_Anchors.Contains(a)) _Anchors.Add(a);
+    }
+
+    public static void UnregisterAnchor(EmoteAnchor a)
+    {
+        if (a) _Anchors.Remove(a);
+    }
 
     // ----- Room Property Keys (앵커 ViewID 네임스페이스) -----
     static string _KEY_ACTIVE(int vid) => $"_EMOTE_{vid}_ACTIVE";
@@ -251,6 +264,42 @@ public class EmoteManager : MonoBehaviourPunCallbacks
     {
         if (!anchor || !photonView) return;
         photonView.RPC(nameof(RPC_StopEmoteByMC), RpcTarget.MasterClient, anchor.photonView.ViewID);
-    }    
+    }
+
+    public void SyncEmotesForNewcomer()
+    {
+        var room = PhotonNetwork.CurrentRoom;
+        if (room == null) return;
+
+        foreach (var anchor in Anchors) // ← 전역 검색 제거
+        {
+            int vid = anchor.photonView.ViewID;
+
+            if (!room.CustomProperties.TryGetValue(_KEY_ACTIVE(vid), out var act) || !(bool)act)
+                continue;
+
+            if (!room.CustomProperties.TryGetValue(_KEY_SLOTS(vid), out var slotsObj))
+                continue;
+
+            var entries = ParseCsv((string)slotsObj);
+            float norm = GetNormalizedTime(anchor);
+
+            for (int i = 0; i < entries.Length; i++)
+            {
+                var e = entries[i];
+                if (e.viewId <= 0) continue;
+
+                var pv = PhotonView.Find(e.viewId);
+                if (!pv) continue;
+
+                var pe = pv.GetComponent<PlayerEmote>();
+                if (!pe) continue;
+
+                pe.ApplyEmoteLocal(anchor, i, norm); // 로컬 적용(신규 입장자 전용)
+            }
+        }
+    }
+
+
 
 }
