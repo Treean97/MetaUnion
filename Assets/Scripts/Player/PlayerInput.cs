@@ -225,33 +225,35 @@ namespace Controller
 
             if (Input.GetKeyDown(_EmoteKey))
             {
-                // UIRouter._Inst.Open<IEmoteUI>();
                 if (!photonView.IsMine) return;
 
+                var pe = _PlayerEmote ? _PlayerEmote : (_PlayerEmote = GetComponent<PlayerEmote>());
+                if (!pe) { Debug.LogWarning("[EmoteTest] PlayerEmote 없음"); return; }
+
+                // 이미 이모트 중이면: 주최/참여/퇴장은 앵커 상호작용(E키)로만 처리 → 아무 것도 안 함
+                if (pe.InEmote) return;
+
+                // 이모트 중이 아니면: 0번 SO로 "주최만" 수행
                 var mgr = EmoteManager._Inst;
-                if (mgr == null || mgr.EmoteSOs == null || mgr.EmoteSOs.Length == 0) { Debug.LogWarning("[EmoteTest] EmoteSO 리스트 비어있음"); return; }
+                if (!mgr) return;
 
-                var so = mgr.EmoteSOs[0];
-                if (!so || !so.EmoteAnchor) { Debug.LogWarning("[EmoteTest] EmoteSO 또는 EmoteAnchor 누락"); return; }
+                var list = mgr.EmoteSOs;
+                if (list == null || list.Length == 0) { Debug.LogWarning("[EmoteTest] EmoteSO 리스트 비어있음"); return; }
 
-                var pe = GetComponent<PlayerEmote>();
-                if (!pe) { Debug.LogWarning("[EmoteTest] PlayerEmote 컴포넌트 없음"); return; }
+                var so = list[0];
+                if (!so || !so.EmoteAnchor) { Debug.LogWarning("[EmoteTest] EmoteSO/Anchor 누락"); return; }
 
-                // 앵커 생성(생성과 동시에 0번 슬롯 예약)
+                int actor = PhotonNetwork.LocalPlayer.ActorNumber;
+                int view = GetComponent<PhotonView>()?.ViewID ?? -1;
+                if (view <= 0) { Debug.LogWarning("[EmoteTest] 내 PhotonViewID 없음"); return; }
+
                 Vector3 pos = transform.position + transform.forward * 1.5f;
                 Quaternion rot = Quaternion.LookRotation(-transform.forward, Vector3.up);
-                var anchor = mgr.StartEmote(so, pos, rot, pe);
-                if (!anchor) return;
 
-                // 바로 재생 RPC (0번 슬롯, 정규화 시간은 막 시작했으니 0에 가깝지만 공식대로 계산)
-                float nt = EmoteManager.GetNormalizedTime(anchor);
-                pe.photonView.RPC(nameof(PlayerEmote.RPC_PlayEmote), RpcTarget.All, anchor.photonView.ViewID, 0, nt);
-                }
-
-            // if (Input.GetKeyUp(_EmoteKey))
-            // {
-            //     UIRouter._Inst.Close<IEmoteUI>();
-            // }
+                // 룸 프로퍼티 방식: 앵커 생성 + 0번 슬롯 내 자동예약(주최만)
+                // 참여/퇴장은 앵커(E) 상호작용에서 처리
+                mgr.StartEmoteHost(so, pos, rot, actor, view); // 이후 재생은 OnRoomPropertiesUpdate → Reconcile → ApplyEmoteLocal 로 자동 적용됨
+            }
         }
 
         public void SetInput()

@@ -2605,7 +2605,7 @@ MonoBehaviour:
     SynchronizeType: 1
     Name: IsJumpEnd
   - Type: 1
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: Foot
   m_SynchronizeLayers:
   - SynchronizeType: 1

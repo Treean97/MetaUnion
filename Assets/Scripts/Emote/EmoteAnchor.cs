@@ -12,27 +12,15 @@ public class EmoteAnchor : MonoBehaviourPun, IPunInstantiateMagicCallback, IInte
     [Header("Slots (인스펙터에서 수동 할당)")]
     [SerializeField] private List<Transform> _slots = new(); // Slot_0, Slot_1...
     private EmoteSO _EmoteSO;
-
     public EmoteSO EmoteSO => _EmoteSO;
     public int SlotCount => _slots?.Count ?? 0;
 
     ItemInfoSO _TempFocusInfo;
 
+    void OnEnable()  => EmoteManager.RegisterAnchor(this);
+    void OnDisable() => EmoteManager.UnregisterAnchor(this);
+
     public void Setup(EmoteSO so) => _EmoteSO = so;
-
-    void OnEnable()
-    {
-        EmoteManager.RegisterAnchor(this);
-
-        // 앵커 소유자(=생성자)만 자동 종료 워치독 수행
-        if (PhotonNetwork.InRoom && photonView.IsMine)
-            StartCoroutine(Co_AutoStopAfterLength());
-    }
-
-    void OnDisable()
-    {
-        EmoteManager.UnregisterAnchor(this);
-    }
 
     public Vector3 GetSlotWorldPos(int index)
     {
@@ -57,28 +45,21 @@ public class EmoteAnchor : MonoBehaviourPun, IPunInstantiateMagicCallback, IInte
             _TempFocusInfo.DisplayName = _EmoteSO ? _EmoteSO.DisplayName : "Emote";
             _TempFocusInfo.Description = "\"E\"를 눌러 이모트에 참여하세요";
         }
-
         return _TempFocusInfo;
     }
 
     public void OnFocus()
     {
-        // 👇 로컬 플레이어가 이모트 중이면 포커스 UI를 강제로 끄고, 더 진행하지 않음
         var lp = PlayerSetup._LocalPlayer ? PlayerSetup._LocalPlayer.GetComponent<PlayerEmote>() : null;
-        if (lp && lp.InEmote)
-        {
-            GameEvents.RaiseDefocus();
-            return;
-        }
-
-        var info = GetObjectInfo();
-        GameEvents.RaiseFocus(info);
+        if (lp && lp.InEmote) { GameEvents.RaiseDefocus(); return; }
+        GameEvents.RaiseFocus(GetObjectInfo());
     }
 
     public void OnDefocus() => GameEvents.RaiseDefocus();
+
     public void OnInteract()
     {
-        var local = PlayerSetup._LocalPlayer.GetComponent<PlayerEmote>();
+        var local = PlayerSetup._LocalPlayer ? PlayerSetup._LocalPlayer.GetComponent<PlayerEmote>() : null;
         if (!local) { Debug.LogWarning("[Emote] 로컬 PlayerEmote 없음"); return; }
 
         bool iAmOwnerOfAnchor = photonView.IsMine;
@@ -86,22 +67,15 @@ public class EmoteAnchor : MonoBehaviourPun, IPunInstantiateMagicCallback, IInte
         if (local.InEmote && ReferenceEquals(local.GetCurrentAnchor(), this))
         {
             if (iAmOwnerOfAnchor)
-            {
-                // 앵커 소유자(생성자)만 전체 종료 권한
-                EmoteManager._Inst?.StopEmote(this);
-            }
+                EmoteManager._Inst?.StopEmote(this); // 주최자: 전체 종료
             else
-            {
-                // 참여자이면 내 클라만 나가기
-                local.RequestLeave();
-            }
+                local.RequestLeaveViaRoomProp(); // 참여자: 내 슬롯 비우고 종료
             return;
         }
 
-        // 이모트 중이 아니면 참여 시도
-        local.RequestJoinSequential(this);
-        OnDefocus();   
-
+        // 이모트 중이 아니면 참여 시도(룸 프로퍼티 기반)
+        local.RequestJoinViaRoomProp(this);
+        OnDefocus();
     }
 
     // ==== 포톤 인스턴스 데이터로 SO 복구 ====
@@ -115,35 +89,6 @@ public class EmoteAnchor : MonoBehaviourPun, IPunInstantiateMagicCallback, IInte
             else
                 Debug.LogError($"[EmoteAnchor] EmoteSO 복구 실패: {emoteId}");
         }
-    }
-
-
-    IEnumerator Co_AutoStopAfterLength()
-    {
-        // EmoteSO/START 준비 대기
-        int vid = photonView.ViewID;
-        while (_EmoteSO == null) yield return null;
-
-        double start = 0;
-        while (true)
-        {
-            var room = PhotonNetwork.CurrentRoom;
-            if (room == null) yield break;
-
-            if (room.CustomProperties.TryGetValue($"_EMOTE_{vid}_START", out var startObj))
-            {
-                start = (double)startObj;
-                break;
-            }
-            yield return null;
-        }
-
-        double len = _EmoteSO.Length;
-        while (PhotonNetwork.Time - start < len - 1e-3)
-            yield return null;
-
-        // 길이만큼 경과 → 소유자가 종료
-        EmoteManager._Inst?.StopEmote(this);
     }
 
 }

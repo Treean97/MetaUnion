@@ -73,7 +73,7 @@ public class PlayfabLoginManager : MonoBehaviour
     void SignUpSuccess(RegisterPlayFabUserResult res)
     {
         _SignUpBtn.interactable = true;
-        SetStatus($"회원가입 성공. PlayFabId={res.PlayFabId}");
+        SetStatus($"회원가입 성공.");
         // 필요 시: 회원가입 후 자동 로그인 상태(세션) 이미 부여됨
     }
 
