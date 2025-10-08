@@ -13,7 +13,7 @@ public class InventoryUIManager : MonoBehaviour, IInventoryUI
     private int _MaxSlotCount;
     public bool IsOpen => _UISlider != null && _UISlider.IsOpen;
 
-    void Awake()
+    void OnEnable()
     {
         GameEvents.OnRequestUpdateInventory += HandleUpdateInventory;
         InventorySlot.OnBeginDragSlot += HandleBeginDragSlot;
@@ -32,12 +32,9 @@ public class InventoryUIManager : MonoBehaviour, IInventoryUI
             _Slots[i] = go.GetComponent<InventorySlot>();
             _Slots[i].Init(i);
         }
-
-        // 한번 초기화
-        HandleUpdateInventory();
     }
 
-    void OnDestroy()
+    void OnDisable()
     {
         GameEvents.OnRequestUpdateInventory -= HandleUpdateInventory;
         InventorySlot.OnBeginDragSlot -= HandleBeginDragSlot;
@@ -48,7 +45,8 @@ public class InventoryUIManager : MonoBehaviour, IInventoryUI
     void HandleUpdateInventory()
     {
         Debug.Log("Update Inventory");
-        InventoryItem[] inventory = GameEvents.RaiseRequestInventoryStatus();
+        var inventory = GameEvents.RaiseRequestInventoryStatus();
+        if (inventory == null || _Slots == null) return; // 널가드
 
         foreach (var slot in _Slots)
         {

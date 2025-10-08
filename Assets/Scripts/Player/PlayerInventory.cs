@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -203,6 +204,14 @@ public class PlayerInventory : MonoBehaviour, ICloudSaveSection
                 _Inventory[i].Amount = 0;
             }
         }
+
+        // UI 갱신
+        StartCoroutine(DelayUpdate());
+    }
+
+    IEnumerator DelayUpdate()
+    {
+        yield return null;
 
         // UI 갱신
         GameEvents.RaiseRequestUpdateInventory();

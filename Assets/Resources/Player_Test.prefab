@@ -2499,6 +2499,7 @@ MonoBehaviour:
   IdleIKWeight: 0.15
   HoldIKWeight: 0.2
   AttackIKWeight: 1
+  UnequipIKWeight: 0
   BlendTime: 0.1
   _Input: {fileID: 5568501472016897232}
   _AxeName: Axe

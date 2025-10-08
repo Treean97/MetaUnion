@@ -33,9 +33,10 @@ public class WeaponEquip : MonoBehaviourPunCallbacks
     [SerializeField] private TwoBoneIKConstraint _LeftArmIK;
 
     [Header("IK 조절")]
-    [Range(0, 1)] public float IdleIKWeight = 0.15f; // 평소
+    [Range(0, 1)] public float IdleIKWeight = 0.15f;
     [Range(0, 1)] public float HoldIKWeight = 0.2f;
-    [Range(0, 1)] public float AttackIKWeight = 1.00f; // 공격시
+    [Range(0, 1)] public float AttackIKWeight = 1.00f;
+    [Range(0, 1)] public float UnequipIKWeight = 0f;
     [Min(0f)] public float BlendTime = 0.1f;
 
     [Header("입력")]
@@ -49,9 +50,9 @@ public class WeaponEquip : MonoBehaviourPunCallbacks
     AttackHandler _AttackHandler;
 
     private GameObject _CurrentWeapon;
-    Coroutine _IKBlend;
+    private Coroutine _IKBlend;
 
-
+    private bool _HasWeapon;
 
     private void Awake()
     {
@@ -75,7 +76,7 @@ public class WeaponEquip : MonoBehaviourPunCallbacks
             _Input.OnSlot_0KeyPressed += UnequipWeapon;
             _Input.OnSlot_1KeyPressed += OnAxeKey;
             _Input.OnSlot_2KeyPressed += OnPickaxeKey;
-                
+
             FishingSequence.OnFishingStart += HandleFishingStart;
             FishingSequence.OnFishingEnd += HandleFishingEnd;
         }
@@ -87,9 +88,9 @@ public class WeaponEquip : MonoBehaviourPunCallbacks
             _AttackHandler.OnAttackEnd += OnAttackEnd_IK;
         }
 
-
         // 시작 웨이트 0으로
         ApplyIKImmediate(0f);
+        _HasWeapon = false;
     }
 
     private void OnDestroy()
@@ -111,11 +112,15 @@ public class WeaponEquip : MonoBehaviourPunCallbacks
         FishingSequence.OnFishingEnd -= HandleFishingEnd;
     }
 
-    void OnAttackStart_IK() => BlendIKTo(AttackIKWeight, BlendTime);
-    void OnAttackEnd_IK() => BlendIKTo(IdleIKWeight, BlendTime);
+    // === 1번 적용: 공격 이벤트에서도 무기 없으면 블렌딩 금지 ===
+    void OnAttackStart_IK() { if (_HasWeapon) BlendIKTo(AttackIKWeight, BlendTime); }
+    void OnAttackEnd_IK()   { if (_HasWeapon) BlendIKTo(IdleIKWeight,   BlendTime); }
 
     void BlendIKTo(float target, float time)
     {
+        // === 1번 적용: 무기 없으면 블렌딩 진입 자체를 막음 ===
+        if (!_HasWeapon) return;
+
         if (_IKBlend != null) StopCoroutine(_IKBlend);
         _IKBlend = StartCoroutine(CoBlendIK(target, Mathf.Max(0.0001f, time)));
     }
@@ -152,11 +157,9 @@ public class WeaponEquip : MonoBehaviourPunCallbacks
             return;
         }
 
-        // 프로퍼티 갱신(전파)
         var table = new Hashtable { [PROP_EQUIP] = name };
         PhotonNetwork.LocalPlayer.SetCustomProperties(table);
 
-        // 로컬 즉시 반영(콜백 대기 안 함)
         ApplyEquipLocally(name);
     }
 
@@ -172,7 +175,6 @@ public class WeaponEquip : MonoBehaviourPunCallbacks
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
     {
-        // 이 뷰의 소유자에 대한 변경만 처리
         if (targetPlayer != photonView.Owner) return;
         if (!changedProps.ContainsKey(PROP_EQUIP)) return;
 
@@ -183,7 +185,6 @@ public class WeaponEquip : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
-        // 재입장/씬 재진입 대비하여 한 번 더 안전 동기화
         SyncFromProperties(photonView.Owner);
     }
 
@@ -223,19 +224,30 @@ public class WeaponEquip : MonoBehaviourPunCallbacks
         {
             Debug.LogWarning("LeftGrip/RightGrip 없음");
             _LeftArmIK.weight = _RightArmIK.weight = _WeaponRig.weight = 0f;
+            _HasWeapon = true; // 그립 없지만 장착 상태는 true로 표시(필요 시 false로 변경 가능)
             return;
         }
 
         var L = _LeftArmIK.data; L.target = leftGrip; _LeftArmIK.data = L;
         var R = _RightArmIK.data; R.target = rightGrip; _RightArmIK.data = R;
 
+        if (_IKBlend != null) StopCoroutine(_IKBlend);
+        _HasWeapon = true;                    // === 1번 적용
         ApplyIKImmediate(IdleIKWeight);
     }
 
     private void ApplyUnequipLocally()
     {
         if (_CurrentWeapon) { Destroy(_CurrentWeapon); _CurrentWeapon = null; }
-        ApplyIKImmediate(0f); // ← 유지
+
+        _HasWeapon = false;                   // === 1번 적용
+        if (_IKBlend != null) StopCoroutine(_IKBlend); // 진행 중 블렌딩 중단
+
+        // 안전: 타겟 해제(선택)
+        var L = _LeftArmIK.data;  L.target = null; _LeftArmIK.data  = L;
+        var R = _RightArmIK.data; R.target = null; _RightArmIK.data = R;
+
+        ApplyIKImmediate(UnequipIKWeight);    // 보통 0
     }
 
     #region "바인딩"
@@ -244,7 +256,6 @@ public class WeaponEquip : MonoBehaviourPunCallbacks
 
     void HandleFishingStart()
     {
-        // 낚시대 착용
         EquipWeapon(_FishingRodName);
         BlendIKTo(HoldIKWeight, BlendTime);
     }
@@ -252,82 +263,7 @@ public class WeaponEquip : MonoBehaviourPunCallbacks
     void HandleFishingEnd()
     {
         BlendIKTo(0f, BlendTime);
-        // 낚시대 해제
         UnequipWeapon();
     }
     #endregion
-
-    // private void Awake()
-    // {
-    //     // 리스트 → 딕셔너리
-    //     _WeaponDict = new Dictionary<string, WeaponEntry>();
-    //     foreach (var entry in _Weapons)
-    //     {
-    //         if (string.IsNullOrEmpty(entry.Name) || entry.Prefab == null)
-    //             continue;
-
-    //         if (_WeaponDict.ContainsKey(entry.Name))
-    //             Debug.LogWarning($"WeaponEquip: 중복된 무기 이름 '{entry.Name}'");
-    //         else
-    //             _WeaponDict.Add(entry.Name, entry);
-    //     }
-
-    // _Input.OnHandKeyPressed += UnequipWeapon;
-    // _Input.OnAxeKeyPressed += OnAxeKey;
-    // _Input.OnPickaxeKeyPressed += OnPickaxeKey;
-    // }
-
-    // void OnDestroy()
-    // {
-    //     _Input.OnHandKeyPressed -= UnequipWeapon;
-    //     _Input.OnAxeKeyPressed -= OnAxeKey;
-    //     _Input.OnPickaxeKeyPressed -= OnPickaxeKey;
-    // }
-
-    //     public void EquipWeapon(string name)
-    // {
-    //     // 내 캐릭터면 전파, 모두가 동일하게 로컬 생성
-    //     if (photonView.IsMine)
-    //         photonView.RPC(nameof(RPC_EquipWeapon), RpcTarget.All, name);
-    // }
-
-    // public void UnequipWeapon()
-    // {
-    //     if (photonView.IsMine)
-    //         photonView.RPC(nameof(RPC_UnequipWeapon), RpcTarget.All);
-    // }
-
-    // [PunRPC] void RPC_EquipWeapon(string name)
-    // {
-    //     if (!_WeaponDict.TryGetValue(name, out var w))
-    //     {
-    //         Debug.LogWarning($"Weapon '{name}' not found");
-    //         return;
-    //     }
-
-    //     // 기존 제거(로컬)
-    //     if (_CurrentWeapon) Destroy(_CurrentWeapon);
-
-    //     _CurrentWeapon = Instantiate(w.Prefab, _HandAnchor, false);
-    //     _CurrentWeapon.transform.localPosition = w.InstantiateTransform.localPosition;
-    //     _CurrentWeapon.transform.localRotation = w.InstantiateTransform.localRotation;
-
-    //     // IK 타깃
-    //     var leftGrip  = _CurrentWeapon.transform.Find("LeftGrip");
-    //     var rightGrip = _CurrentWeapon.transform.Find("RightGrip");
-    //     if (!leftGrip || !rightGrip) { Debug.LogWarning("LeftGrip/RightGrip 없음"); return; }
-
-    //     var L = _LeftArmIK.data; L.target = leftGrip;   _LeftArmIK.data = L;
-    //     var R = _RightArmIK.data; R.target = rightGrip; _RightArmIK.data = R;
-
-    //     _LeftArmIK.weight  = 1f;
-    //     _RightArmIK.weight = 1f;
-    //     _WeaponRig.weight  = 1f;
-    // }
-
-    // [PunRPC] void RPC_UnequipWeapon()
-    // {
-    //     if (_CurrentWeapon) { Destroy(_CurrentWeapon); _CurrentWeapon = null; }
-    //     _LeftArmIK.weight = _RightArmIK.weight = _WeaponRig.weight = 0f;
-    // }
 }
