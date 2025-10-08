@@ -83306,6 +83306,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -3629971524510396999, guid: 715c3269a66fe1e478587122f60d3de5, type: 3}
+      propertyPath: _EmoteSO.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -3629971524510396999, guid: 715c3269a66fe1e478587122f60d3de5, type: 3}
+      propertyPath: '_EmoteSO.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 2d04a8cc46cad17498bbb6052e4c373c, type: 2}
+    - target: {fileID: -3629971524510396999, guid: 715c3269a66fe1e478587122f60d3de5, type: 3}
+      propertyPath: '_EmoteSO.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 63fa8c520f226684ea4d320354aea395, type: 2}
     - target: {fileID: 3250182994972033367, guid: 715c3269a66fe1e478587122f60d3de5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

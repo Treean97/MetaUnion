@@ -1,101 +1,108 @@
 using Photon.Pun;
 using UnityEngine;
 
-/// <summary>
-/// RPC 없이 로컬 동작만 수행.
-/// - 참여/퇴장 요청은 EmoteManager의 룸 프로퍼티 CAS로 처리
-/// - 상태 반영은 EmoteManager.Reconcile에서 이 스크립트의 ApplyEmoteLocal/DoLeaveAndReturn 호출
-/// </summary>
-[RequireComponent(typeof(PhotonView))]
-public class PlayerEmote : MonoBehaviourPun
+[RequireComponent(typeof(Animator))]
+public sealed class PlayerEmote : MonoBehaviourPun
 {
-    [Header("Blend")]
-    [SerializeField] private float _CrossFade = 0.1f;
-    [SerializeField] private string _IdleState = "Idle";
+    [Header("Animator")]
+    [SerializeField] private Animator _Animator;
 
-    private Animator _Anim;
-    private EmoteAnchor _Anchor;
-    private int _SlotIndex = -1;
-    private bool _IsInEmote;
+    [Header("Movement Snap")]
+    [SerializeField] private bool _SnapToSlot = true;
+    [SerializeField] private bool _MatchRotationY = true;
 
-    private Vector3 _ReturnPos;
-    private Quaternion _ReturnRot;
+    // 상태
+    public bool IsInEmote { get; private set; }
+    public bool IsLocal => photonView.IsMine;
+    public EmoteAnchor CurrentAnchor { get; private set; }
+    public int CurrentSlotIndex { get; private set; } = -1;
 
-    public bool InEmote => _IsInEmote;
-    public EmoteAnchor GetCurrentAnchor() => _Anchor;
+    // 메타(현재 참여 이모트)
+    string _stateName;
+    int    _layer;
+    float  _length;
 
-    void Awake() => _Anim = GetComponentInChildren<Animator>();
-
-    // ==== 참여 요청(룸 프로퍼티) ====
-    public void RequestJoinViaRoomProp(EmoteAnchor anchor)
+    void Awake()
     {
-        if (!anchor || !anchor.EmoteSO) return;
-        int actor = PhotonNetwork.LocalPlayer.ActorNumber;
-        int view  = photonView ? photonView.ViewID : -1;
-        if (view <= 0) return;
+        if (!_Animator) _Animator = GetComponent<Animator>();
+    }
 
-        // 성공 시 곧바로 재생하지 않는다. Reconcile이 호출되어 로컬 적용된다.
-        if (!EmoteManager._Inst.TryJoinSlot(anchor, actor, view, out _))
+    /// <summary>앵커 상호작용(외부 입력에서 호출)</summary>
+    public void InteractAnchor(EmoteAnchor anchor)
+    {
+        if (!IsLocal || !anchor) return;
+        anchor.Interact_AsParticipant(this);
+    }
+
+    /// <summary>주최 종료 버튼(주최자일 때만)</summary>
+    public void InteractEndIfHost(EmoteAnchor anchor)
+    {
+        if (!IsLocal || !anchor) return;
+        anchor.Interact_AsHostEnd();
+    }
+
+    /// <summary>참여(슬롯 확보 후 호출)</summary>
+    public void JoinEmote(EmoteAnchor anchor, int slotIndex, Transform slot, float normalizedFromRoom)
+    {
+        if (!IsLocal) return;
+
+        CurrentAnchor    = anchor;
+        CurrentSlotIndex = slotIndex;
+        IsInEmote        = true;
+
+        // 1) SO 레지스트리 우선
+        string state; int layer; float len;
+        if (EmoteManager._Inst.TryGetSO(anchor.EmoteId, out var so) && so)
         {
-            // 경합 실패(만석 등) → 필요 시 UI 토스트
-            Debug.Log("[Emote] 참여 실패(만석/경합)");
+            state = so.StateName;
+            layer = so.Layer;
+            len   = so.Length;
         }
-    }
-
-    // ==== 퇴장 요청(룸 프로퍼티) ====
-    public void RequestLeaveViaRoomProp()
-    {
-        if (!_Anchor) return;
-        int actor = PhotonNetwork.LocalPlayer.ActorNumber;
-        int view  = photonView ? photonView.ViewID : -1;
-        if (view <= 0) return;
-
-        EmoteManager._Inst.LeaveSlot(_Anchor, actor, view);
-        // 성공 시 Reconcile이 호출되어 로컬 종료된다. (즉시 꺼도 무방)
-        // DoLeaveAndReturn();
-    }
-
-    // ==== Reconcile에서 호출: 로컬 재생 ====
-    public void ApplyEmoteLocal(EmoteAnchor anchor, int slotIndex, float normalizedTime)
-    {
-        if (!anchor || !anchor.EmoteSO) return;
-
-        _Anchor    = anchor;
-        _SlotIndex = slotIndex;
-        _IsInEmote = true;
-
-        if (photonView.IsMine)
+        else
         {
-            _ReturnPos = transform.position;
-            _ReturnRot = transform.rotation;
-
-            // 슬롯 스냅(안전)
-            if (_SlotIndex >= 0 && _SlotIndex < anchor.SlotCount)
-                transform.SetPositionAndRotation(anchor.GetSlotWorldPos(_SlotIndex), anchor.GetSlotWorldRot(_SlotIndex));
+            // 2) 룸 스냅샷 폴백
+            state = anchor.AnimatorState;
+            layer = anchor.AnimatorLayer;
+            len   = (float)anchor.EmoteLength;
         }
 
-        var so = anchor.EmoteSO;
-        if (_Anim)
+        _stateName = state;
+        _layer     = layer;
+        _length    = Mathf.Max(0.01f, len);
+
+        // 위치/회전 맞추기
+        if (_SnapToSlot && slot) transform.position = slot.position;
+        if (_MatchRotationY && slot)
         {
-            int hash = Animator.StringToHash(so.StateName);
-            if (_Anim.HasState(so.Layer, hash))
-                _Anim.Play(so.StateName, so.Layer, Mathf.Clamp01(normalizedTime)); // 진행 중 지점부터
-            else
-                Debug.LogError($"[Emote] 상태 없음: Layer={so.Layer}, State='{so.StateName}'");
+            var e = transform.eulerAngles;
+            e.y = slot.eulerAngles.y;
+            transform.rotation = Quaternion.Euler(e);
         }
+
+        // 이어 재생
+        float t = Mathf.Repeat(normalizedFromRoom, 1f);
+        _Animator.Play(_stateName, _layer, t);
+        _Animator.Update(0f); // 즉시 반영
     }
 
-    // ==== Reconcile에서 호출: 로컬 종료 ====
-    public void DoLeaveAndReturn()
+    /// <summary>탈출(상호작용으로 호출)</summary>
+    public void LeaveEmote()
     {
-        if (_IsInEmote && _Anim && !string.IsNullOrEmpty(_IdleState))
-            _Anim.CrossFadeInFixedTime(_IdleState, 0.08f, 0, 0f);
+        if (!IsLocal) return;
 
-        if (photonView.IsMine)
-            transform.SetPositionAndRotation(_ReturnPos, _ReturnRot);
+        // 슬롯 해제
+        if (CurrentAnchor && CurrentSlotIndex >= 0)
+            EmoteManager._Inst.ReleaseSlot(CurrentAnchor, CurrentSlotIndex);
 
-        _IsInEmote = false;
-        _Anchor    = null;
-        _SlotIndex = -1;
+        // 상태 초기화
+        IsInEmote = false;
+        CurrentSlotIndex = -1;
+        CurrentAnchor = null;
+
+        // 필요 시 Idle 등으로 복귀
+        // _Animator.CrossFade("Idle", 0.1f, 0);
     }
+
+    // 편의
+    public int ActorNumber => PhotonNetwork.LocalPlayer?.ActorNumber ?? -1;
 }
