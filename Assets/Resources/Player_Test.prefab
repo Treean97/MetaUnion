@@ -2186,9 +2186,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51b94fc89902b7d41ba09f848fd1cbe7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerEmote
-  _Animator: {fileID: 0}
-  _SnapToSlot: 1
-  _MatchRotationY: 1
+  _CrossFade: 0.1
+  _IdleState: Movement
 --- !u!114 &-1816853052009607568
 MonoBehaviour:
   m_ObjectHideFlags: 0

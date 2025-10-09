@@ -1,108 +1,145 @@
 using Photon.Pun;
 using UnityEngine;
 
-[RequireComponent(typeof(Animator))]
-public sealed class PlayerEmote : MonoBehaviourPun
+/// <summary>
+/// UI/상호작용으로 이미 진행 중인 이모트에 참여/나가기.
+/// - 참여 시: EmoteManager.JoinEmote로 슬롯 예약 → RPC로 전 클라 재생
+/// - 나가기: EmoteManager.LeaveEmote로 해제 → 복귀
+/// - 위치/각도 스냅은 '소유자만', 나머지는 Photon Transform View가 보간
+/// </summary>
+[RequireComponent(typeof(PhotonView))]
+public class PlayerEmote : MonoBehaviourPun
 {
-    [Header("Animator")]
-    [SerializeField] private Animator _Animator;
+    [Header("Blend")]
+    [SerializeField] private float _CrossFade = 0.1f;
+    [SerializeField] private string _IdleState = "Movement";
 
-    [Header("Movement Snap")]
-    [SerializeField] private bool _SnapToSlot = true;
-    [SerializeField] private bool _MatchRotationY = true;
+    private Animator _Anim;
+    private EmoteAnchor _Anchor;
+    private int _SlotIndex = -1;
+    private bool _IsInEmote;
 
-    // 상태
-    public bool IsInEmote { get; private set; }
-    public bool IsLocal => photonView.IsMine;
-    public EmoteAnchor CurrentAnchor { get; private set; }
-    public int CurrentSlotIndex { get; private set; } = -1;
+    // 복귀
+    private Vector3 _ReturnPos;
+    private Quaternion _ReturnRot;
 
-    // 메타(현재 참여 이모트)
-    string _stateName;
-    int    _layer;
-    float  _length;
+    public bool InEmote => _IsInEmote;
+    public int CurrentSlotIndex => _SlotIndex;
+    public EmoteAnchor GetCurrentAnchor() => _Anchor;
 
     void Awake()
     {
-        if (!_Animator) _Animator = GetComponent<Animator>();
+        // 자식에 Animator가 있는 구조까지 커버
+        _Anim = GetComponentInChildren<Animator>();
     }
 
-    /// <summary>앵커 상호작용(외부 입력에서 호출)</summary>
-    public void InteractAnchor(EmoteAnchor anchor)
+    // ===== 외부(UI/상호작용) 진입 포인트 =====
+    public void RequestJoinSequential(EmoteAnchor anchor)
     {
-        if (!IsLocal || !anchor) return;
-        anchor.Interact_AsParticipant(this);
-    }
+        if (!anchor) return;
 
-    /// <summary>주최 종료 버튼(주최자일 때만)</summary>
-    public void InteractEndIfHost(EmoteAnchor anchor)
-    {
-        if (!IsLocal || !anchor) return;
-        anchor.Interact_AsHostEnd();
-    }
-
-    /// <summary>참여(슬롯 확보 후 호출)</summary>
-    public void JoinEmote(EmoteAnchor anchor, int slotIndex, Transform slot, float normalizedFromRoom)
-    {
-        if (!IsLocal) return;
-
-        CurrentAnchor    = anchor;
-        CurrentSlotIndex = slotIndex;
-        IsInEmote        = true;
-
-        // 1) SO 레지스트리 우선
-        string state; int layer; float len;
-        if (EmoteManager._Inst.TryGetSO(anchor.EmoteId, out var so) && so)
+        if (!EmoteManager._Inst.JoinEmote(anchor, this, out var slot))
         {
-            state = so.StateName;
-            layer = so.Layer;
-            len   = so.Length;
-        }
-        else
-        {
-            // 2) 룸 스냅샷 폴백
-            state = anchor.AnimatorState;
-            layer = anchor.AnimatorLayer;
-            len   = (float)anchor.EmoteLength;
+            OnJoinRejected_Full();
+            return;
         }
 
-        _stateName = state;
-        _layer     = layer;
-        _length    = Mathf.Max(0.01f, len);
+        // 성공 시 BeginJoin 호출
+        BeginJoin(anchor, slot);
+    }
 
-        // 위치/회전 맞추기
-        if (_SnapToSlot && slot) transform.position = slot.position;
-        if (_MatchRotationY && slot)
+    public void RequestLeave()
+    {
+        if (!_Anchor) return;
+        EmoteManager._Inst.LeaveEmote(_Anchor, this);
+        DoLeaveAndReturn();
+    }
+
+    // ===== 내부 로직 =====
+    public void BeginJoin(EmoteAnchor anchor, int slotIndex)
+    {
+        if (!anchor || !anchor.EmoteSO || _IsInEmote) return;
+
+        // 소유자만 복귀점 기록 + 슬롯 스냅
+        if (photonView.IsMine)
         {
-            var e = transform.eulerAngles;
-            e.y = slot.eulerAngles.y;
-            transform.rotation = Quaternion.Euler(e);
+            _ReturnPos = transform.position;
+            _ReturnRot = transform.rotation;
+
+            // Use Local을 쓴다면 여기서 로컬 변환으로 맞춰도 됨(팀 규칙에 맞춰 통일)
+            transform.SetPositionAndRotation(anchor.GetSlotWorldPos(slotIndex), anchor.GetSlotWorldRot(slotIndex));
         }
 
-        // 이어 재생
-        float t = Mathf.Repeat(normalizedFromRoom, 1f);
-        _Animator.Play(_stateName, _layer, t);
-        _Animator.Update(0f); // 즉시 반영
+        float t = EmoteManager.GetNormalizedTime(anchor);
+        photonView.RPC(nameof(RPC_PlayEmote), RpcTarget.All, anchor.photonView.ViewID, slotIndex, t);
     }
 
-    /// <summary>탈출(상호작용으로 호출)</summary>
-    public void LeaveEmote()
+    [PunRPC]
+    public void RPC_PlayEmote(int anchorViewId, int slotIndex, float normalizedTime)
     {
-        if (!IsLocal) return;
+        var pv = PhotonView.Find(anchorViewId);
+        var anchor = pv ? pv.GetComponent<EmoteAnchor>() : null;
+        if (!anchor || !anchor.EmoteSO) return;
 
-        // 슬롯 해제
-        if (CurrentAnchor && CurrentSlotIndex >= 0)
-            EmoteManager._Inst.ReleaseSlot(CurrentAnchor, CurrentSlotIndex);
+        _Anchor = anchor;
+        _SlotIndex = slotIndex;
+        _IsInEmote = true;
 
-        // 상태 초기화
-        IsInEmote = false;
-        CurrentSlotIndex = -1;
-        CurrentAnchor = null;
+        var so = anchor.EmoteSO;
 
-        // 필요 시 Idle 등으로 복귀
-        // _Animator.CrossFade("Idle", 0.1f, 0);
+        if (_Anim)
+        {
+            // 상태 존재 검증(오타/세팅 실수 방지)
+            int hash = Animator.StringToHash(so.StateName);
+            if (_Anim.HasState(so.Layer, hash))
+                _Anim.CrossFadeInFixedTime(so.StateName, _CrossFade, so.Layer, Mathf.Clamp01(normalizedTime));
+            else
+                Debug.LogError($"[Emote] 상태 없음: Layer={so.Layer}, State='{so.StateName}'");
+        }
     }
 
-    // 편의
-    public int ActorNumber => PhotonNetwork.LocalPlayer?.ActorNumber ?? -1;
+    public void DoLeaveAndReturn()
+    {
+        if (_IsInEmote && _Anim && !string.IsNullOrEmpty(_IdleState))
+            _Anim.CrossFadeInFixedTime(_IdleState, 0.08f, 0, 0f);
+
+        // 소유자만 복귀 텔레포트(원격은 PTV 보간)
+        if (photonView.IsMine)
+            transform.SetPositionAndRotation(_ReturnPos, _ReturnRot);
+
+        _IsInEmote = false;
+        _Anchor = null;
+        _SlotIndex = -1;
+    }
+
+    [PunRPC]
+    public void RPC_ForceLeaveAndReturn()
+    {
+        DoLeaveAndReturn();
+    }
+
+    public void OnJoinRejected_Full()
+    {
+        Debug.Log("[Emote] 참여 거절: 슬롯이 가득 찼습니다.");
+        // TODO: UI 토스트 등
+    }
+
+    // 도우미: 내 PhotonViewID 얻기
+    public int TryGetViewID()
+    {
+        var pv = GetComponent<PhotonView>();
+        return pv ? pv.ViewID : -1;
+    }
+
+    void LateUpdate()
+    {
+        // 앵커가 이동하는 퍼포먼스라면, 소유자만 슬롯에 스냅 유지(원격은 PTV 보간)
+        if (_IsInEmote && _Anchor && photonView.IsMine)
+        {
+            transform.SetPositionAndRotation(
+                _Anchor.GetSlotWorldPos(_SlotIndex),
+                _Anchor.GetSlotWorldRot(_SlotIndex)
+            );
+        }
+    }
 }

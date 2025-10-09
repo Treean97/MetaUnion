@@ -115,7 +115,7 @@ namespace Controller
         bool IsInEmote()
         {
             if (!_PlayerEmote) _PlayerEmote = GetComponent<PlayerEmote>();
-            return _PlayerEmote && _PlayerEmote.IsInEmote;
+            return _PlayerEmote && _PlayerEmote.InEmote;
         }
 
         private void Update()
@@ -173,23 +173,28 @@ namespace Controller
             // Z 키로 _Catalog[0] 이모트 주최 시작(테스트용)
             if (Input.GetKeyDown(_EmoteKey))
             {
-                // 이모트 중엔 무시(요구사항: 호스트 시작만 담당)
-                if (IsInEmote()) return;
+                // UIRouter._Inst.Open<IEmoteUI>();
+                if (!photonView.IsMine) return;
 
                 var mgr = EmoteManager._Inst;
-                if (mgr == null) return;
+                if (mgr == null || mgr.EmoteSOs == null || mgr.EmoteSOs.Length == 0) { Debug.LogWarning("[EmoteTest] EmoteSO 리스트 비어있음"); return; }
 
-                var so = mgr.GetSOByIndex(0);
-                if (!so) return;
+                var so = mgr.EmoteSOs[0];
+                if (!so || !so.EmoteAnchor) { Debug.LogWarning("[EmoteTest] EmoteSO 또는 EmoteAnchor 누락"); return; }
 
-                // 프리팹에 설정된 슬롯 수를 가져오거나, 없으면 기본 0
-                int slotCount = mgr.GetSlotCountFromPrefab(so);
+                var pe = GetComponent<PlayerEmote>();
+                if (!pe) { Debug.LogWarning("[EmoteTest] PlayerEmote 컴포넌트 없음"); return; }
 
-                // 플레이어 현재 위치/정면 기준으로 배치
-                Vector3 pos = transform.position;
-                Quaternion rot = Quaternion.Euler(0f, transform.eulerAngles.y, 0f);
+                // 앵커 생성(생성과 동시에 0번 슬롯 예약)
+                Vector3 pos = transform.position + transform.forward * 1.5f;
+                Quaternion rot = Quaternion.LookRotation(-transform.forward, Vector3.up);
+                var anchor = mgr.StartEmote(so, pos, rot, pe);
+                if (!anchor) return;
 
-                mgr.RequestStartEmote(so, pos, rot, slotCount);
+                // 바로 재생 RPC (0번 슬롯, 정규화 시간은 막 시작했으니 0에 가깝지만 공식대로 계산)
+                float nt = EmoteManager.GetNormalizedTime(anchor);
+                pe.photonView.RPC(nameof(PlayerEmote.RPC_PlayEmote), RpcTarget.All, anchor.photonView.ViewID, 0, nt);
+                
             }    
         }
 

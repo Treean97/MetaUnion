@@ -81,7 +81,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 635a5062035f15348a27524eae9603ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EmoteAnchor
-  _Slots:
+  _slots:
   - {fileID: 8542739704137418612}
   - {fileID: 3202040298321304433}
   - {fileID: 5414903999529776825}
