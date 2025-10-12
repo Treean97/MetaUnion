@@ -25,6 +25,10 @@ public class EmoteManager : MonoBehaviourPunCallbacks
     // CSV: "actor:viewId,actor:viewId,...", 빈 슬롯 "-1:-1"
     static string _KEY_SLOTS(int vid) => $"_EMOTE_{vid}_SLOTS";
 
+    public static string KEY_ACTIVE(int vid) => _KEY_ACTIVE(vid);
+    public static string KEY_START(int vid)  => _KEY_START(vid);
+    public static string KEY_SLOTS(int vid)  => _KEY_SLOTS(vid);
+
     public static double _NOW => PhotonNetwork.Time;
 
     void Awake()

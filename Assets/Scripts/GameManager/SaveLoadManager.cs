@@ -66,6 +66,21 @@ public class SaveLoadManager : MonoBehaviour
             s.ApplyJson(json);
     }
 
+    public void UnregisterLocal(ILocalSaveSection s)
+    {
+        if (s == null) return;
+        if (_LocalSections.TryGetValue(s.Key, out var cur) && ReferenceEquals(cur, s))
+            _LocalSections.Remove(s.Key);
+    }
+
+    public void UnregisterCloud(ICloudSaveSection s)
+    {
+        if (s == null) return;
+        if (_CloudSections.TryGetValue(s.Key, out var cur) && ReferenceEquals(cur, s))
+            _CloudSections.Remove(s.Key);
+    }
+
+
     public void SaveAllLocal()
     {
         // 기존 파일을 읽지 않고, "현재 등록된 섹션"만으로 새 딕셔너리 구성
