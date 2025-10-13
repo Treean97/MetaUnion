@@ -16,5 +16,8 @@ public class EmoteSO : ScriptableObject
     public float Length => Mathf.Max(0.01f, _LengthSeconds);
     [SerializeField] GameObject _EmoteAnchor; // 대형 프리팹
     public GameObject EmoteAnchor => _EmoteAnchor;
+    [SerializeField] string _SFXKey;
+    public string SFXKey => _SFXKey;
+    
 
 }

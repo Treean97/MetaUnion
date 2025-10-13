@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
@@ -43,6 +44,12 @@ public class AudioManager : MonoBehaviour, ILocalSaveSection
     private bool _SFXBlock;
     public void SFXBlock() => _SFXBlock = true;
     public void SFXUnBlock() => _SFXBlock = false;
+
+    // BGM Runtime Mute 
+    readonly HashSet<string> _BGMMuteTokens_RT = new();
+    Coroutine _BGMRuntimeFadeCo;
+    float _BGMRuntimeMult = 1f; // 0~1, _BGMSource.volume에 곱해짐
+
 
     float _MasterValue = 1f, _BGMValue = 1f, _SFXValue = 1f;
 
@@ -101,7 +108,73 @@ public class AudioManager : MonoBehaviour, ILocalSaveSection
         if (!clip) return;
         if (_BGMSource.clip == clip) return;
         _BGMSource.clip = clip;
+        _BGMSource.volume = _BGMRuntimeMult;
         _BGMSource.Play();
+    }
+
+    public void BeginBGMMuteRuntime(string token, float fadeSec = 0.1f)
+    {
+        if (string.IsNullOrEmpty(token)) return;
+        _BGMMuteTokens_RT.Add(token);
+        StartBGMRuntimeFade(0f, fadeSec);
+    }
+    public void EndBGMMuteRuntime(string token, float fadeSec = 0.1f)
+    {
+        if (string.IsNullOrEmpty(token)) return;
+        _BGMMuteTokens_RT.Remove(token);
+        float target = _BGMMuteTokens_RT.Count > 0 ? 0f : 1f;
+        StartBGMRuntimeFade(target, fadeSec);
+    }
+    void StartBGMRuntimeFade(float to, float fadeSec)
+    {
+        if (_BGMRuntimeFadeCo != null) StopCoroutine(_BGMRuntimeFadeCo);
+        _BGMRuntimeFadeCo = StartCoroutine(CoBGMRuntimeFade(Mathf.Clamp01(to), Mathf.Max(0.01f, fadeSec)));
+    }
+
+    IEnumerator CoBGMRuntimeFade(float to, float fade)
+    {
+        float from = _BGMRuntimeMult;
+        float t = 0f;
+        while (t < 1f)
+        {
+            t += Time.unscaledDeltaTime / fade;
+            _BGMRuntimeMult = Mathf.Lerp(from, to, t);
+            if (_BGMSource) _BGMSource.volume = _BGMRuntimeMult; // Mixer 값과 독립
+            yield return null;
+        }
+        _BGMRuntimeMult = to;
+        if (_BGMSource) _BGMSource.volume = _BGMRuntimeMult;
+        _BGMRuntimeFadeCo = null;
+    }
+
+
+    // === SFX 유틸: 키 → Entry 조회 ===
+    bool TryResolve(string key, out SoundSO.Entry e)
+    {
+        e = null;
+        if (string.IsNullOrEmpty(key) || _SoundDatas == null) return false;
+        for (int i = 0; i < _SoundDatas.Length; i++)
+        {
+            var so = _SoundDatas[i];
+            if (so != null && so.TryGet(key, out e)) return true;
+        }
+        return false;
+    }
+
+    // === SFX 길이 조회(첫 유효 클립 기준) ===
+    public bool TryGetAudioLengthByKey(string key, out float length)
+    {
+        length = 0f;
+        if (!TryResolve(key, out var e)) return false;
+        if (e.Clips != null)
+        {
+            for (int i = 0; i < e.Clips.Length; i++)
+            {
+                var c = e.Clips[i];
+                if (c) { length = c.length; return length > 0.0001f; }
+            }
+        }
+        return false;
     }
 
     public Pooled2DAudioPlayer Play2DLoopLocalPlayByKey(string key)
@@ -137,6 +210,25 @@ public class AudioManager : MonoBehaviour, ILocalSaveSection
         p2d.Play(clip, e.Volume, true);
 
         return p2d; // p2d.StopAndReturn() 으로 중단    
+    }
+
+    public Pooled2DAudioPlayer Play2DLoopFromOffsetByKey(string key, float offsetSec)
+    {
+        if (_SFXBlock || string.IsNullOrEmpty(key)) return null;
+        if (!TryResolve(key, out var e)) { Debug.LogWarning($"[Audio] key not found: {key}"); return null; }
+        if (e.Space != SoundSpace.S2D) { Debug.LogWarning($"[Audio] '{key}' is not S2D."); return null; }
+
+        AudioClip clip = null;
+        if (e.Clips != null) for (int i = 0; i < e.Clips.Length; i++) if (e.Clips[i]) { clip = e.Clips[i]; break; }
+        if (!clip) return null;
+
+        float start = (clip.length > 0f) ? Mathf.Repeat(offsetSec, clip.length) : 0f;
+
+        var p2d = ObjectPoolManager._Inst?.Rent(_SFX2DPlayerPrefab);
+        if (!p2d) return null;
+        p2d.ConfigureMixer(_SFXGroup);
+        p2d.Play(clip, e.Volume, true, start);
+        return p2d;
     }
 
     public void PlayLocalByKey(string key)

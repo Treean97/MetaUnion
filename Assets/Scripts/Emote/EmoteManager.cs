@@ -80,11 +80,16 @@ public class EmoteManager : MonoBehaviourPunCallbacks
     }
 
     // ===== 이모트 시작(앵커 생성 + 룸 프로퍼티 세팅) =====
-    public EmoteAnchor StartEmote(EmoteSO so, Vector3 pos, Quaternion rot, PlayerEmote autoJoinWho = null)
+    public EmoteAnchor StartEmote(EmoteSO so, Vector3 pos, Quaternion rot, PlayerEmote emoteOwner)
     {
+        if (!PhotonNetwork.InRoom) { Debug.LogError("[Emote] Not in room"); return null; }
         if (!so || !so.EmoteAnchor) { Debug.LogError("[Emote] SO/Anchor 누락"); return null; }
+        if (emoteOwner == null || !emoteOwner.photonView || !emoteOwner.photonView.IsMine)
+        {
+            Debug.LogError("[Emote] emoteOwner must be local & non-null");
+            return null;
+        }
 
-        // Photon prefab 이름 = EmoteSO.EmoteAnchor.name (Resources 또는 커스텀 풀 등록 필요)
         var go = PhotonNetwork.Instantiate(so.EmoteAnchor.name, pos, rot, 0, new object[] { so.ID });
         if (!go) { Debug.LogError("[Emote] Instantiate 실패"); return null; }
 
@@ -95,27 +100,33 @@ public class EmoteManager : MonoBehaviourPunCallbacks
         int vid = anchor.photonView.ViewID;
         int slotCount = Mathf.Max(1, anchor.SlotCount);
 
-        // 기본 CSV
         var arr = new string[slotCount];
         for (int i = 0; i < slotCount; i++) arr[i] = "-1:-1";
 
-        // 생성자 자동 예약(0번 슬롯)
-        if (autoJoinWho != null)
-        {
-            int myActor = PhotonNetwork.LocalPlayer.ActorNumber;
-            int myView = autoJoinWho.TryGetViewID(); // 없으면: autoJoinWho.GetComponent<PhotonView>()?.ViewID ?? -1;
-            if (myView > 0) arr[0] = $"{myActor}:{myView}";
-        }
+        bool ownerReserved = false;
+        int myActor = PhotonNetwork.LocalPlayer.ActorNumber;
+        int myView  = emoteOwner.TryGetViewID();
+        if (myView > 0) { arr[0] = $"{myActor}:{myView}"; ownerReserved = true; }
 
         var hash = new Hashtable {
-        { _KEY_ACTIVE(vid), true },
-        { _KEY_EMOTE_ID(vid), so.ID },
-        { _KEY_START(vid), _NOW },
-        { _KEY_SLOTS(vid), string.Join(",", arr) }   // ← 이미 예약된 상태로 기록
-    };
+            { _KEY_ACTIVE(vid), true },
+            { _KEY_EMOTE_ID(vid), so.ID },
+            { _KEY_START(vid), _NOW },
+            { _KEY_SLOTS(vid), string.Join(",", arr) }
+        };
         PhotonNetwork.CurrentRoom.SetCustomProperties(hash);
 
-        return anchor;
+        if (ownerReserved && !emoteOwner.InEmote)
+        {
+            float t = GetNormalizedTime(anchor); // SO.Length 기준
+            emoteOwner.BeginJoin(anchor, 0, t);
+        }
+        else
+        {
+            Debug.LogWarning("[Emote] Owner slot not reserved or already in emote. Skipped auto-join.");
+        }
+
+        return anchor;    
     }
 
     // ===== 이모트 종료(슬롯 참가자들에게 강제 종료 지시 + 앵커 삭제) =====

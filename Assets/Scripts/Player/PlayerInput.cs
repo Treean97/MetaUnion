@@ -192,8 +192,8 @@ namespace Controller
                 if (!anchor) return;
 
                 // 바로 재생 RPC (0번 슬롯, 정규화 시간은 막 시작했으니 0에 가깝지만 공식대로 계산)
-                float nt = EmoteManager.GetNormalizedTime(anchor);
-                pe.photonView.RPC(nameof(PlayerEmote.RPC_PlayEmote), RpcTarget.All, anchor.photonView.ViewID, 0, nt);
+                // float nt = EmoteManager.GetNormalizedTime(anchor);
+                // pe.photonView.RPC(nameof(PlayerEmote.RPC_PlayEmote), RpcTarget.All, anchor.photonView.ViewID, 0, nt);
                 
             }    
         }

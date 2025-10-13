@@ -39,6 +39,26 @@ public class Pooled2DAudioPlayer : MonoBehaviour
         if (!loop) _CO = StartCoroutine(CoReturnAfterRealtime(_AudioSource.clip.length));
     }
 
+    public void Play(AudioClip clip, float volume, bool loop, float startTimeSec)
+    {
+        if (!clip) return;
+        StopRunning();
+
+        var camPos = Camera.main ? Camera.main.transform.position : Vector3.zero;
+        transform.SetParent(null, true);
+        transform.position = camPos;
+
+        _AudioSource.spatialBlend = 0f;
+        _AudioSource.loop = loop;
+        _AudioSource.clip = clip;
+        _AudioSource.volume = Mathf.Clamp01(volume);
+        _AudioSource.pitch = 1f;
+        _AudioSource.time = Mathf.Clamp(startTimeSec, 0f, Mathf.Max(0f, clip.length - 0.01f));
+        _AudioSource.Play();
+
+        if (!loop) _CO = StartCoroutine(CoReturnAfterRealtime(_AudioSource.clip.length - _AudioSource.time));    
+    }
+
     public void StopAndReturn()
     {
         StopRunning();

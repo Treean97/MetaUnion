@@ -48,26 +48,19 @@ public class PlayerEmote : MonoBehaviourPunCallbacks
             return;
         }
 
-        // ── 룸 시작시각 & "실제 상태 길이" 기반 진행률 계산 ──
         double start = PhotonNetwork.Time;
         var room = PhotonNetwork.CurrentRoom;
         int vid = anchor.photonView.ViewID;
         if (room != null && room.CustomProperties.TryGetValue(EmoteManager.KEY_START(vid), out var startObj))
             start = (double)startObj;
 
-        float effectiveLen = anchor.EmoteSO.Length; // 기본값: SO 길이
-        if (TryResolveStateLength(_Anim, anchor.EmoteSO.StateName, anchor.EmoteSO.Layer, out float clipLen))
-        {
-            effectiveLen = Mathf.Max(0.01f, clipLen);
+        // 진행도는 '이모트 자체 길이(SO.Length)'로만 계산
+        float emoteLen = Mathf.Max(0.01f, anchor.EmoteSO.Length);
+        float t = (float)(((PhotonNetwork.Time - start) % emoteLen) / emoteLen);
 
-            // 길이 불일치 경고(디버깅용)
-            if (Mathf.Abs(effectiveLen - anchor.EmoteSO.Length) > 0.05f)
-                Debug.LogWarning($"[Emote] SO.Length({anchor.EmoteSO.Length:F2}) != Clip.Length({effectiveLen:F2}) → SO 길이 보정 권장");
-        }
-
-        float t = (float)(((PhotonNetwork.Time - start) % effectiveLen) / effectiveLen);
         BeginJoin(anchor, slot, t);
     }
+
 
     /// <summary>
     /// 나가기(슬롯 해제 후 복귀)
@@ -118,11 +111,9 @@ public class PlayerEmote : MonoBehaviourPunCallbacks
         if (room != null && room.CustomProperties.TryGetValue(EmoteManager.KEY_START(vid), out var startObj))
             start = (double)startObj;
 
-        float effectiveLen = anchor.EmoteSO.Length;
-        if (TryResolveStateLength(_Anim, anchor.EmoteSO.StateName, anchor.EmoteSO.Layer, out var clipLen))
-            effectiveLen = Mathf.Max(0.01f, clipLen);
+        float emoteLen = Mathf.Max(0.01f, anchor.EmoteSO.Length);
+        float t = (float)(((PhotonNetwork.Time - start) % emoteLen) / emoteLen);
 
-        float t = (float)(((PhotonNetwork.Time - start) % effectiveLen) / effectiveLen);
         BeginJoin(anchor, slotIndex, t);
     }
 
