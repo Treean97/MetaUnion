@@ -16,7 +16,7 @@ public class EmoteAnchor : MonoBehaviourPun, IPunInstantiateMagicCallback, IInte
     public EmoteSO EmoteSO => _EmoteSO;
     public int SlotCount => _slots?.Count ?? 0;
 
-    ItemInfoSO _TempFocusInfo;
+    InfoDataSO _TempFocusInfo;
 
     public void Setup(EmoteSO so) => _EmoteSO = so;
 
@@ -35,12 +35,12 @@ public class EmoteAnchor : MonoBehaviourPun, IPunInstantiateMagicCallback, IInte
     }
 
     // ==== IInteractable ====
-    public ItemInfoSO GetObjectInfo()
+    public InfoDataSO GetObjectInfo()
     {
         if (_TempFocusInfo == null)
         {
-            _TempFocusInfo = ScriptableObject.CreateInstance<ItemInfoSO>();
-            _TempFocusInfo.DisplayName = _EmoteSO ? _EmoteSO.DisplayName : "Emote";
+            _TempFocusInfo = ScriptableObject.CreateInstance<InfoDataSO>();
+            _TempFocusInfo.DisplayName = _EmoteSO ? _EmoteSO.InfoDataSO.DisplayName : "Emote";
             _TempFocusInfo.Description = "\"E\"를 눌러 이모트에 참여하세요";
         }
 

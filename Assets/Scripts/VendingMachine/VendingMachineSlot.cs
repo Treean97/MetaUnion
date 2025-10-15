@@ -12,9 +12,9 @@ public class VendingMachineSlot : MonoBehaviour, IItemDataProvider
     [SerializeField] private Button _BuyButton;
     private ItemDataSO _ItemDataSO;
 
-    public ItemInfoSO GetItemData()
+    public InfoDataSO GetItemData()
     {
-        return _ItemDataSO.ItemInfo;
+        return _ItemDataSO.InfoData;
     }
 
     public void SetSlot(ItemDataSO itemDataSO)

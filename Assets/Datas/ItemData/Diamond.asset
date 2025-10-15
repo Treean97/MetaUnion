@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: Diamond
   m_EditorClassIdentifier: 
   _ID: 10001
-  _ItemInfo: {fileID: 11400000, guid: 984312baa3b527745a0578205578d65b, type: 2}
+  _InfoData: {fileID: 11400000, guid: 984312baa3b527745a0578205578d65b, type: 2}
   _Icon: {fileID: 21300000, guid: e46576b0a1aa5d24ab2d72689c1329f5, type: 3}
   _Prefab: {fileID: 3276915121264919138, guid: 1396cb1c28eb3854aabbf26f572940ca, type: 3}
-  _Price: 0
   _ActionSOs: []
+  _CurrencyType: {fileID: 0}
+  _BuyPrice: 0
+  _SellPrice: 0

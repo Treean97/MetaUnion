@@ -8,8 +8,8 @@ public class EmoteSO : ScriptableObject
     public string ID => _ID;
     [SerializeField] string _StateName;   // Animator 상태 이름
     public string StateName => _StateName;
-    [SerializeField] string _DisplayName; // 재생할 상태 이름
-    public string DisplayName => _DisplayName;
+    [SerializeField] InfoDataSO _InfoDataSO;
+    public InfoDataSO InfoDataSO => _InfoDataSO;
     [SerializeField] int _Layer = 0; // 재생 레이어
     public int Layer => _Layer;
     [SerializeField] float _LengthSeconds; // 총 길이(초) - 정확히 입력
@@ -18,6 +18,8 @@ public class EmoteSO : ScriptableObject
     public GameObject EmoteAnchor => _EmoteAnchor;
     [SerializeField] string _SFXKey;
     public string SFXKey => _SFXKey;
+    [SerializeField] Sprite _Icon;
+    public Sprite Icon => _Icon;
     
 
 }

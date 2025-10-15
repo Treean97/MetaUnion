@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ShopSellItemSlot : MonoBehaviour
+public class ShopSellItemSlot : MonoBehaviour, IItemDataProvider
 {
     [SerializeField] private Image _Icon;
     [SerializeField] private TMP_Text _AmountText;
@@ -34,5 +34,10 @@ public class ShopSellItemSlot : MonoBehaviour
     void OnClickSlotBtn()
     {
         UIRouter._Inst.Open<ISetAmountUI>(ui => ui.SetUI(QuantityMode.Sell, _ItemData));
+    }
+
+    public InfoDataSO GetItemData()
+    {
+        return _ItemData.InfoData;
     }
 }

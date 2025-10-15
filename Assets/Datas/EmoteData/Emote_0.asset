@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EmoteSO
   _ID: Emote_0
   _StateName: Emote_Dance_0
-  _DisplayName: "\uCDA4_0"
+  _InfoDataSO: {fileID: 11400000, guid: 4746c611a020179458da08e157bcdad1, type: 2}
   _Layer: 0
   _LengthSeconds: 15
   _EmoteAnchor: {fileID: 4195652156583984782, guid: dc95e12f616b8a241b090e5f3947153b, type: 3}

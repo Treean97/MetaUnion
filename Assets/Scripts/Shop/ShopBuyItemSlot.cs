@@ -5,7 +5,7 @@ using UnityEngine.UI;
 /// <summary>
 /// 상점 내 아이템 슬롯을 담당하는 컴포넌트입니다.
 /// </summary>
-public class ShopBuyItemSlot : MonoBehaviour
+public class ShopBuyItemSlot : MonoBehaviour, IItemDataProvider
 {
     [SerializeField] private Image _Icon;
     [SerializeField] private Image _CurrencyIcon;
@@ -40,5 +40,10 @@ public class ShopBuyItemSlot : MonoBehaviour
     {
         if (_ItemSO == null) return;
         GameEvents.RaiseRequestUnlockItem(_ItemSO);
+    }
+
+    public InfoDataSO GetItemData()
+    {
+        return _ItemSO.InfoDataSO;
     }
 }

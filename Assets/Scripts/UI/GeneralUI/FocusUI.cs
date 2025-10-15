@@ -19,7 +19,7 @@ public class FocusUI : MonoBehaviour
         FocusableUI.OnPointerExitFocusUI -= HandleOnPointerExitFocusUI;
     }
 
-    void HandleOnPointerEnterFocusUI(ItemInfoSO itemInfo)
+    void HandleOnPointerEnterFocusUI(InfoDataSO itemInfo)
     {
         _Name.text = itemInfo.DisplayName;
         _Desc.text = itemInfo.Description;

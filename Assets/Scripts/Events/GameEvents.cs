@@ -64,8 +64,8 @@ public static class GameEvents
 
     #region 게임 화면 이벤트  
     // Focus UI 호출
-    public static event Action<ItemInfoSO> OnFocus;
-    public static void RaiseFocus(ItemInfoSO objInfo)
+    public static event Action<InfoDataSO> OnFocus;
+    public static void RaiseFocus(InfoDataSO objInfo)
     => OnFocus?.Invoke(objInfo);
 
     // Focus UI 해제

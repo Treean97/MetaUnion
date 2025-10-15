@@ -1,8 +1,9 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Rendering.LookDev;
 using UnityEngine.UI;
 
-public class CustomizeItemSlot : MonoBehaviour
+public class CustomizeItemSlot : MonoBehaviour, IItemDataProvider
 {
     [SerializeField] TMP_Text _Name;
     [SerializeField] Image _Icon;
@@ -28,7 +29,7 @@ public class CustomizeItemSlot : MonoBehaviour
     {
         _ItemSO = itemSO;
         _Icon.sprite = itemSO.Sprite;
-        _Name.text = itemSO.Name;
+        _Name.text = itemSO.InfoDataSO.DisplayName;
     }
 
     private void OnClickButton()
@@ -39,5 +40,10 @@ public class CustomizeItemSlot : MonoBehaviour
     public void SetState(bool equipped)
     {
         _ButtonText.text = equipped ? "해제" : "착용";
+    }
+
+    public InfoDataSO GetItemData()
+    {
+        return _ItemSO.InfoDataSO;
     }
 }

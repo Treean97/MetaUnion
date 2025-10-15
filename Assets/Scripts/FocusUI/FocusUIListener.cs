@@ -19,7 +19,7 @@ public class FocusUIListener : MonoBehaviour
         GameEvents.OnDefocus -= HandleDefocus;
     }
 
-    private void HandleFocus(ItemInfoSO objInfo)
+    private void HandleFocus(InfoDataSO objInfo)
     {
         // if(_IsBlocked) return;
         

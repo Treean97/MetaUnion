@@ -6,19 +6,19 @@ public class NPC : MonoBehaviour, IInteractable
     public NPCSO NPCSO => _NPCSO;
     private DialogueSO _DialogueSO;    
 
-    ItemInfoSO _TempFocusInfo;
+    InfoDataSO _TempFocusInfo;
 
     void Awake()
     {
         _DialogueSO = _NPCSO.Dialogues;
     }
 
-    public ItemInfoSO GetObjectInfo()
+    public InfoDataSO GetObjectInfo()
     {
         // 기존 인터페이스를 반드시 지켜야 한다면 임시 SO 반환
         if (_TempFocusInfo == null)
         {
-            _TempFocusInfo = ScriptableObject.CreateInstance<ItemInfoSO>();
+            _TempFocusInfo = ScriptableObject.CreateInstance<InfoDataSO>();
             _TempFocusInfo.DisplayName = _NPCSO.DisplayName;
             _TempFocusInfo.Description = "";
         }

@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 public class FocusableUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     IItemDataProvider itemDataProvider;
-    public static Action<ItemInfoSO> OnPointerEnterFocusUI;
+    public static Action<InfoDataSO> OnPointerEnterFocusUI;
     public static Action OnPointerExitFocusUI;
 
     void Awake()

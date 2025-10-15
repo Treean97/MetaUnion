@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SpeedUpPotion
   m_EditorClassIdentifier: 
   _ID: 200
-  _ItemInfo: {fileID: 11400000, guid: e8b25638cdb82ef41a844bb70683a7af, type: 2}
+  _InfoData: {fileID: 11400000, guid: e8b25638cdb82ef41a844bb70683a7af, type: 2}
   _Icon: {fileID: 21300000, guid: ebad62e970391544e9b23a8226a1fb1b, type: 3}
   _Prefab: {fileID: 4391059573205925471, guid: eee9c8f2bb5c3a14abd243989ae044a4, type: 3}
   _ActionSOs:

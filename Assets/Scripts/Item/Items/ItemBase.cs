@@ -32,8 +32,8 @@ public abstract class ItemBase : MonoBehaviourPun, IInteractable, IPunInstantiat
     // }
 
     // IInteractable 인터페이스 기본 구현
-    public virtual ItemInfoSO GetObjectInfo() => _ItemData.ItemInfo;
-    public virtual void OnFocus()   => GameEvents.RaiseFocus(_ItemData.ItemInfo);
+    public virtual InfoDataSO GetObjectInfo() => _ItemData.InfoData;
+    public virtual void OnFocus()   => GameEvents.RaiseFocus(_ItemData.InfoData);
     public virtual void OnDefocus() => GameEvents.RaiseDefocus();
     public abstract void OnInteract();
 }

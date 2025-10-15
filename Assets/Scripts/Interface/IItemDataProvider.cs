@@ -1,5 +1,5 @@
 
 public interface IItemDataProvider
 {
-    public ItemInfoSO GetItemData();
+    public InfoDataSO GetItemData();
 }

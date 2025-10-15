@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: Gold
   m_EditorClassIdentifier: 
   _ID: 10000
-  _ItemInfo: {fileID: 11400000, guid: 5328aef74c7fa8d48ad8ee2b184b7d4b, type: 2}
+  _InfoData: {fileID: 11400000, guid: 5328aef74c7fa8d48ad8ee2b184b7d4b, type: 2}
   _Icon: {fileID: 21300000, guid: 6943eb6f78497a64b8c15f32da144785, type: 3}
   _Prefab: {fileID: 3467747983584936052, guid: bbfcd0c4ace896946badd516761e19df, type: 3}
-  _Price: 0
   _ActionSOs: []
+  _CurrencyType: {fileID: 0}
+  _BuyPrice: 0
+  _SellPrice: 0

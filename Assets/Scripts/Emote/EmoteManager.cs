@@ -61,6 +61,7 @@ public class EmoteManager : MonoBehaviourPunCallbacks
         }
         return res;
     }
+    
     static string ToCsv(SlotEntry[] a)
     {
         var parts = new string[a.Length];

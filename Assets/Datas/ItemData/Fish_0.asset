@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Fish_0
   m_EditorClassIdentifier: 
   _ID: 100
-  _ItemInfo: {fileID: 11400000, guid: 73a794dc5ca1b8f4399156320315061b, type: 2}
+  _InfoData: {fileID: 11400000, guid: 73a794dc5ca1b8f4399156320315061b, type: 2}
   _Icon: {fileID: 21300000, guid: a7ae81ed398808a4b9f90d5726c202b9, type: 3}
   _Prefab: {fileID: 6121912704951201263, guid: 0db70420b1a9845498fa610803fd803a, type: 3}
   _ActionSOs:

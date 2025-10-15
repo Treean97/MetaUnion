@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Accessory_1
   m_EditorClassIdentifier: 
   _Type: 3
-  _Name: "\uC774\uC5B4\uD3F0"
+  _InfoDataSO: {fileID: 11400000, guid: 0fe0115a86ffc77418cc45567a3b4f1b, type: 2}
   _ID: Accessory_1
   _ItemMesh: {fileID: 4300000, guid: 515f4701b5a500242a61cc5e424decb1, type: 2}
   _Sprite: {fileID: 21300000, guid: 77ffc5b373183284792121d9de3107b7, type: 3}

@@ -3,7 +3,7 @@ using UnityEngine;
 public class VendingMachineObject : MonoBehaviour, IInteractable
 {
     [SerializeField]    
-    ItemInfoSO _ObjInfo;
+    InfoDataSO _ObjInfo;
 
     public void OnFocus()
     {
@@ -22,7 +22,7 @@ public class VendingMachineObject : MonoBehaviour, IInteractable
         Debug.Log("Interact");
     }
 
-    public ItemInfoSO GetObjectInfo()
+    public InfoDataSO GetObjectInfo()
     {
         return _ObjInfo;
     }

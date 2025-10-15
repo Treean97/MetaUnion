@@ -99,8 +99,8 @@ IBeginDragHandler, IEndDragHandler, IDropHandler, IDragHandler, IPointerClickHan
         
     }
 
-    public ItemInfoSO GetItemData()
+    public InfoDataSO GetItemData()
     {
-        return _ItemDataSO.ItemInfo;
+        return _ItemDataSO.InfoData;
     }
 }

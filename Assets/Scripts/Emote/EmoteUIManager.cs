@@ -3,15 +3,29 @@ using UnityEngine;
 
 public class EmoteUIManager : MonoBehaviour, IEmoteUI
 {
-    public bool IsOpen => throw new System.NotImplementedException();
+    [SerializeField] GameObject _EmoteSlot;
+    EmoteSO[] _EmoteSOs;
+
+    void Start()
+    {
+        _EmoteSOs = EmoteManager._Inst.EmoteSOs;
+
+        foreach(var item in _EmoteSOs)
+        {
+            var slot = Instantiate(_EmoteSlot);
+            slot.GetComponent<EmoteSlot>().Setup(item);
+        }
+    }    
+
+    public bool IsOpen => gameObject.activeSelf;
 
     public void Hide()
     {
-        throw new System.NotImplementedException();
+        gameObject.SetActive(false);
     }
 
     public void Show()
     {
-        throw new System.NotImplementedException();
+        gameObject.SetActive(true);
     }
 }

@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "ItemInfo", menuName = "Item/ItemInfo")]
-public class ItemInfoSO : ScriptableObject
+[CreateAssetMenu(fileName = "InfoData")]
+public class InfoDataSO : ScriptableObject
 {
     [Header("아이템 이름")]
     public string DisplayName;
