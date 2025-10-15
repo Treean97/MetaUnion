@@ -35461,7 +35461,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1943078838682549206, guid: 19f66e00734183542a8380ba86152a29, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2907545475532651810, guid: 19f66e00734183542a8380ba86152a29, type: 3}
       propertyPath: _Clip
@@ -76881,7 +76881,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64fedfd1f0ce0784a86994d968b89acd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EmoteUIManager
-  _EmoteSlot: {fileID: 0}
+  _EmoteSlot: {fileID: 312115001226045917, guid: 6097bac5cdbf69d4db56dc26ca849778, type: 3}
 --- !u!1001 &1998918415
 PrefabInstance:
   m_ObjectHideFlags: 0

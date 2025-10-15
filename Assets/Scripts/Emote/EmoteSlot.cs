@@ -30,13 +30,14 @@ public class EmoteSlot : MonoBehaviour, IItemDataProvider
     void OnClick()
     {
         var mgr = EmoteManager._Inst;
-
-        Vector3 pos = transform.position + transform.forward * 1.5f;
-        Quaternion rot = Quaternion.LookRotation(-transform.forward, Vector3.up);
-
         var owner = PlayerSetup._LocalPlayer.GetComponent<PlayerEmote>();
-        
+        var ownerTransform = owner.transform;
+        Vector3 pos = ownerTransform.position + ownerTransform.forward * 1.5f;
+        Quaternion rot = Quaternion.LookRotation(-ownerTransform.forward, Vector3.up);
+
         mgr.StartEmote(_EmoteSO, pos, rot, owner);
+        
+        UIRouter._Inst.Close<IEmoteUI>();
     }
 
 }
