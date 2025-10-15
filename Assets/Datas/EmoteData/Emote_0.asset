@@ -18,3 +18,4 @@ MonoBehaviour:
   _Layer: 0
   _LengthSeconds: 15
   _EmoteAnchor: {fileID: 4195652156583984782, guid: dc95e12f616b8a241b090e5f3947153b, type: 3}
+  _SFXKey: Emote_Dance_0

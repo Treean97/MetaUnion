@@ -1,4 +1,3 @@
-using System.Text;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -7,7 +6,6 @@ using UnityEngine.EventSystems;
 public class PlayerPWInputManager : MonoBehaviour, ISelectHandler, IDeselectHandler
 {
     TMP_InputField _InputField;
-    readonly StringBuilder _StringBuilder = new(); // 비밀번호 버퍼
 
     IMECompositionMode _PrevIme;
 
@@ -15,38 +13,32 @@ public class PlayerPWInputManager : MonoBehaviour, ISelectHandler, IDeselectHand
     {
         _InputField = GetComponent<TMP_InputField>();
 
-        _InputField.contentType = TMP_InputField.ContentType.Standard; // Password 사용 안함
-        _InputField.lineType    = TMP_InputField.LineType.SingleLine;
-        _InputField.richText    = false;
+        // === Password 모드 고정 ===
+        _InputField.contentType = TMP_InputField.ContentType.Password; // TMP가 자동으로 '*' 마스킹
+        _InputField.asteriskChar = '*';
+        _InputField.lineType     = TMP_InputField.LineType.SingleLine;
+        _InputField.richText     = false;
 
-        _InputField.onValidateInput += ValidateAndMask;
-        _InputField.onValueChanged.AddListener(SyncBufferByMaskedLength);
+        // 모바일 키보드: ASCII 전용 레이아웃 권장
+        _InputField.keyboardType = TouchScreenKeyboardType.ASCIICapable;
+
+        // 1) 문자 단위 유효성 검사 (입력 시점에서 걸러냄)
+        _InputField.onValidateInput += ValidateAsciiOnly;
+
+        // 2) 안전망: 붙여넣기 등으로 들어온 비ASCII를 한 번 더 정리
+        _InputField.onValueChanged.AddListener(SanitizeAsciiOnly);
     }
 
     void OnDestroy()
     {
         if (_InputField)
         {
-            _InputField.onValidateInput -= ValidateAndMask;
-            _InputField.onValueChanged.RemoveListener(SyncBufferByMaskedLength);
+            _InputField.onValidateInput -= ValidateAsciiOnly;
+            _InputField.onValueChanged.RemoveListener(SanitizeAsciiOnly);
         }
     }
 
-    void Update()
-    {
-        // IME 조합 문자열이 생기면 TMP가 조합 미리보기를 붙임 -> 즉시 별표로 되돌려 억제
-        if (!string.IsNullOrEmpty(Input.compositionString))
-        {
-            var stars = new string('*', _StringBuilder.Length);
-            if (_InputField.text != stars)
-            {
-                _InputField.SetTextWithoutNotify(stars);
-                _InputField.caretPosition = _StringBuilder.Length;
-            }
-        }
-    }
-
-    // IME 제어
+    // === IME 제어: 선택 시 한글 IME 끄기, 해제 시 원복 ===
     public void OnSelect(BaseEventData e)
     {
         _PrevIme = Input.imeCompositionMode;
@@ -59,40 +51,48 @@ public class PlayerPWInputManager : MonoBehaviour, ISelectHandler, IDeselectHand
     }
 
     // 실제 비밀번호 읽기
-    public string GetPassword() => _StringBuilder.ToString();
-
-    // 입력 검증: ASCII만 허용, 화면엔 '*'만
-    char ValidateAndMask(string text, int charIndex, char added)
-    {
-        if (added < 32 || added > 126) return '\0'; // 비ASCII/제어문자 차단
-
-        if (charIndex < 0 || charIndex > _StringBuilder.Length) charIndex = _StringBuilder.Length;
-        _StringBuilder.Insert(charIndex, added);
-        return '*';
-    }
-
-    // 삭제/붙여넣기 동기화
-    void SyncBufferByMaskedLength(string masked)
-    {
-        int mLen = masked?.Length ?? 0;
-
-        if (mLen < _StringBuilder.Length)
-        {
-            _StringBuilder.Length = mLen; // 삭제 반영
-        }
-        else if (mLen > _StringBuilder.Length)
-        {
-            // onValidate에서 못 걸렀을 때 안전망
-            var stars = new string('*', _StringBuilder.Length);
-            _InputField.SetTextWithoutNotify(stars);
-            _InputField.caretPosition = _StringBuilder.Length;
-        }
-    }
+    public string GetPassword() => _InputField ? _InputField.text : string.Empty;
 
     public void ClearPassword()
     {
-        _StringBuilder.Clear();
+        if (!_InputField) return;
         _InputField.SetTextWithoutNotify(string.Empty);
         _InputField.caretPosition = 0;
+    }
+
+    // ========= 헬퍼 =========
+
+    // 단일 문자 유효성 검사: 0x20~0x7E(표시 가능한 ASCII)만 허용
+    char ValidateAsciiOnly(string text, int charIndex, char added)
+    {
+        return (added >= 0x20 && added <= 0x7E) ? added : '\0';
+    }
+
+    // 전체 문자열 안전망: 비ASCII 전부 제거 + 캐럿 보정
+    void SanitizeAsciiOnly(string s)
+    {
+        if (_InputField == null) return;
+        if (string.IsNullOrEmpty(s)) return;
+
+        // 빠른 경로: 전부 ASCII면 그대로
+        bool allAscii = true;
+        for (int i = 0; i < s.Length; i++)
+        {
+            char c = s[i];
+            if (c < 0x20 || c > 0x7E) { allAscii = false; break; }
+        }
+        if (allAscii) return;
+
+        // 정화
+        System.Text.StringBuilder sb = new System.Text.StringBuilder(s.Length);
+        for (int i = 0; i < s.Length; i++)
+        {
+            char c = s[i];
+            if (c >= 0x20 && c <= 0x7E) sb.Append(c);
+        }
+
+        int caret = Mathf.Min(_InputField.caretPosition, sb.Length);
+        _InputField.SetTextWithoutNotify(sb.ToString());
+        _InputField.caretPosition = caret;
     }
 }
