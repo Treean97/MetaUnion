@@ -98,8 +98,6 @@ public class LobbyUIManager : MonoBehaviourPunCallbacks
     IEnumerator CreateRoomButtonSequence()
     {
         yield return WaitSequence(_CreateRoomButton);
-
-        _CreateRoomUI.SetActive(true);
     }
 
     private void OnJoinRoomButtonClicked()
