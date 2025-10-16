@@ -129,9 +129,9 @@ public class PlayfabLoginManager : MonoBehaviour
     {
         _LoginBtn.interactable = true;
         SetStatus($"로그인 성공.");
-        _SignUpUI.SetActive(false);
-        _LoginUI.SetActive(false);
-        _LobbyUI.gameObject.SetActive(true);
+        UIFX.Hide(_SignUpUI);
+        UIFX.Hide(_LoginUI);
+        UIFX.Show(_LobbyUI.gameObject);
         Launcher._Inst.Connect();
         OnLoginSuccess?.Invoke();        
 

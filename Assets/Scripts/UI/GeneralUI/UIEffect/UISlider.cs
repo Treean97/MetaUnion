@@ -1,4 +1,4 @@
-using System.Collections;
+using DG.Tweening;
 using UnityEngine;
 
 public class UISlider : MonoBehaviour
@@ -8,17 +8,26 @@ public class UISlider : MonoBehaviour
     [SerializeField] private Vector2 _ClosePosition;
     [SerializeField] private float _Duration = 0.5f;
 
+    [Header("Tween Options")]
+    [SerializeField] private Ease _Ease = Ease.OutCubic;
+    [SerializeField] private bool _UnscaledTime = true; // 기존처럼 Time.unscaledDeltaTime 기준
+
     private bool _IsOpen;
     public bool IsOpen => _IsOpen;
 
-    private Coroutine _CoMove;
-
-    // 토글중
-    public bool _IsAnimating => _CoMove != null;
+    Tween _MoveTween;
+    public bool _IsAnimating =>
+        _MoveTween != null && _MoveTween.IsActive() && _MoveTween.IsPlaying();
 
     void Awake()
     {
         if (_Target == null) _Target = GetComponent<RectTransform>();
+    }
+
+    void OnDisable()
+    {
+        _MoveTween?.Kill();
+        _MoveTween = null;
     }
 
     public void Show()
@@ -26,12 +35,13 @@ public class UISlider : MonoBehaviour
         if (_IsAnimating) return;
         MoveTo(_OpenPosition, true);
     }
+
     public void Hide()
     {
         if (_IsAnimating) return;
-        MoveTo(_ClosePosition, false);    
+        MoveTo(_ClosePosition, false);
     }
-    
+
     public void Toggle()
     {
         if (_IsAnimating) return;
@@ -40,26 +50,15 @@ public class UISlider : MonoBehaviour
 
     void MoveTo(Vector2 end, bool open)
     {
-        if (_CoMove != null) { StopCoroutine(_CoMove); _CoMove = null; }
-
-        Vector2 start = _Target.anchoredPosition; // 항상 현재 위치에서 시작
-        _CoMove = StartCoroutine(CoMove(start, end, open));
-    }
-
-    IEnumerator CoMove(Vector2 start, Vector2 end, bool open)
-    {
-        float elapsed = 0f;
-
-        while (elapsed < _Duration)
-        {
-            elapsed += Time.unscaledDeltaTime;
-            float t = Mathf.Clamp01(elapsed / _Duration);
-            _Target.anchoredPosition = Vector2.Lerp(start, end, t);
-            yield return null;
-        }
-
-        _Target.anchoredPosition = end;
-        _IsOpen = open;
-        _CoMove = null;
+        _MoveTween?.Kill(); // 항상 현재 위치에서 시작(DoTween이 자동으로 현재값을 사용)
+        _MoveTween = _Target
+            .DOAnchorPos(end, _Duration)
+            .SetEase(_Ease)
+            .SetUpdate(_UnscaledTime)
+            .OnComplete(() =>
+            {
+                _IsOpen = open;
+                _MoveTween = null;
+            });
     }
 }

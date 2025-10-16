@@ -5,7 +5,6 @@ using UnityEngine.UI;
 public class InventoryUIManager : MonoBehaviour, IInventoryUI
 {
     [SerializeField] private UISlider _UISlider;
-
     [SerializeField] private GameObject _SlotPrefab;
     [SerializeField] private Transform _InventoryUIContent;
     [SerializeField] private Image _DragImage;

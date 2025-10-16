@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -59,8 +60,14 @@ public class UIRouter : MonoBehaviour
 
     public bool Open<T>() where T : class, IUI
     {
-        if (_UIs.TryGetValue(typeof(T), out var s)) { s.Show(); return true; }
-        Debug.LogWarning($"[UIRouter] {typeof(T).Name} 화면이 등록되지 않았습니다.");
+        if (_UIs.TryGetValue(typeof(T), out var s))
+        {
+            var mb = s as MonoBehaviour;
+            if (mb) UIFX.Show(mb.gameObject); // 연출 + 활성
+            s.Show(); // 데이터 바인딩/초기화 등 내부 로직
+            return true;
+        }
+        Debug.LogWarning($"[UIRouter] {typeof(T).Name} 미등록");
         return false;
     }
 
@@ -68,18 +75,32 @@ public class UIRouter : MonoBehaviour
     {
         if (_UIs.TryGetValue(typeof(T), out var s))
         {
-            init?.Invoke((T)s); // 여기서 SetUI 호출
+            // 데이터 주입
+            init?.Invoke((T)s);
+
+            // 시각적 오픈
+            var mb = s as MonoBehaviour;
+            if (mb) UIFX.Show(mb.gameObject);
+
+            // UI 로직상 Show
             s.Show();
             return true;
         }
-        Debug.LogWarning($"[UIRouter] {typeof(T).Name} not registered");
+        Debug.LogWarning($"[UIRouter] {typeof(T).Name} 화면이 등록되지 않았습니다.");
         return false;
     }
 
+
     public void Close<T>() where T : class, IUI
     {
-        if (_UIs.TryGetValue(typeof(T), out var s)) s.Hide();
+        if (_UIs.TryGetValue(typeof(T), out var s))
+        {
+            var mb = s as MonoBehaviour;
+            s.Hide();               // 내부 정리
+            if (mb) UIFX.Hide(mb.gameObject); // 연출 + 비활성
+        }
     }
+
 
     public bool Toggle<T>(bool? force = null) where T : class, IUI
     {

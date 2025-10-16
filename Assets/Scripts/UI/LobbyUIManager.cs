@@ -11,8 +11,6 @@ public class LobbyUIManager : MonoBehaviourPunCallbacks
     [SerializeField] private Transform _RoomListContent;
     [SerializeField] private GameObject _RoomItemPrefab;
     [SerializeField] private Button _JoinRoomButton;
-    [SerializeField] private GameObject _CreateRoomUI;
-    [SerializeField] private Button _CreateRoomButton;
 
     [SerializeField] private Button _StartBtn;
     [SerializeField] private TMP_Text _StatusText;
@@ -39,10 +37,6 @@ public class LobbyUIManager : MonoBehaviourPunCallbacks
 
         _JoinRoomButton.onClick.RemoveListener(OnJoinRoomButtonClicked);
         _JoinRoomButton.onClick.AddListener(OnJoinRoomButtonClicked);
-
-        _CreateRoomButton.onClick.RemoveListener(OnCreateRoomButtonClicked);
-        _CreateRoomButton.onClick.AddListener(OnCreateRoomButtonClicked);
-
     }
 
     // OnDisable 오버라이드
@@ -88,16 +82,6 @@ public class LobbyUIManager : MonoBehaviourPunCallbacks
             var manager = item.GetComponent<RoomItemUIManager>();
             manager.SetInfo(info);
         }
-    }
-
-    private void OnCreateRoomButtonClicked()
-    {
-        StartCoroutine(CreateRoomButtonSequence());
-    }
-
-    IEnumerator CreateRoomButtonSequence()
-    {
-        yield return WaitSequence(_CreateRoomButton);
     }
 
     private void OnJoinRoomButtonClicked()

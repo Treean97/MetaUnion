@@ -10,14 +10,12 @@ public class CreateRoomUIManager : MonoBehaviour
     [SerializeField] private TMP_InputField _RoomNameInput;
     [SerializeField] private TMP_Dropdown _MaxPlayerDropdown;
     [SerializeField] private Button _CreateButton;
-    [SerializeField] private Button _CancelButton;
 
     private const string MAP_PROP = "map";
 
     private void OnEnable()
     {
         _CreateButton.onClick.AddListener(OnConfirmClicked);
-        _CancelButton.onClick.AddListener(OnCancelClicked);
         _RoomNameInput.onValueChanged.AddListener(CheckRoomNameInput);
 
         InitDropdown();
@@ -90,12 +88,7 @@ public class CreateRoomUIManager : MonoBehaviour
 
         PhotonNetwork.CreateRoom(roomName, options);
 
-        gameObject.SetActive(false);
-    }
-
-    private void OnCancelClicked()
-    {
-        gameObject.SetActive(false);
+        UIFX.Hide(gameObject);
     }
 
     private void CheckRoomNameInput(string input)
