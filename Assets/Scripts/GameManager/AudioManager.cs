@@ -67,7 +67,10 @@ public class AudioManager : MonoBehaviour, ILocalSaveSection
         }
         _Inst = this;
         DontDestroyOnLoad(gameObject);
+    }
 
+    void Start()
+    {
         // BGM 소스
         _BGMSource = gameObject.AddComponent<AudioSource>();
         _BGMSource.playOnAwake = false;

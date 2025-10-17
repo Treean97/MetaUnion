@@ -10,7 +10,6 @@ public class CustomizeUIManager : MonoBehaviour, ICustomizeUI
     [SerializeField] private Transform _Contents;
     [SerializeField] private GameObject _SlotPrefab;
     [SerializeField] private List<Button> _CategoryBtns;
-    [SerializeField] private Button _CloseBtn;
 
     private ItemType _CurType;
 
@@ -29,9 +28,6 @@ public class CustomizeUIManager : MonoBehaviour, ICustomizeUI
             int idx = i;
             _CategoryBtns[i].onClick.AddListener(() => ChangeCategory((ItemType)idx));
         }
-
-        // 버튼
-        _CloseBtn.onClick.AddListener(() => Hide());
     }
 
     void OnEnable()
@@ -119,7 +115,7 @@ public class CustomizeUIManager : MonoBehaviour, ICustomizeUI
         if (willEquip) player.EquipItem(item);
         else player.UnEquipItem(item.Type);
 
-        // ✅ 낙관적 UI 업데이트: 같은 타입 슬롯만 즉시 반영
+        // 낙관적 UI 업데이트: 같은 타입 슬롯만 즉시 반영
         foreach (Transform c in _Contents)
         {
             var slot = c.GetComponent<CustomizeItemSlot>();
@@ -150,13 +146,8 @@ public class CustomizeUIManager : MonoBehaviour, ICustomizeUI
         }
     }
 
-    public void Show()
-    {
-        gameObject.SetActive(true);
-    }
+    public void Show() { }
 
-    public void Hide()
-    {
-        gameObject.SetActive(false);
-    }
+    public void Hide() { }
+
 }

@@ -44,13 +44,7 @@ public class PlayerListUIManager : MonoBehaviour, IPlayerListUI
         }
     }
 
-    public void Show()
-    {
-        gameObject.SetActive(true);
-    }
+    public void Show() { }
 
-    public void Hide()
-    {
-        gameObject.SetActive(false);
-    }
+    public void Hide() { }
 }

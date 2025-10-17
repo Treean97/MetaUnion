@@ -11,7 +11,7 @@ public class FishingSequence : MonoBehaviour, IFishingUI
     [SerializeField] private ItemDataPoolSO _RewardItemPool;
     [SerializeField] private int _MaxRewardAmount = 9;
 
-    [SerializeField] private float[] _BiteDelay = new float[] { 1f, 5f };
+    [SerializeField] private float[] _BiteDelay = new float[] { 3f, 5f };
     [SerializeField] private float _CatchableSeconds = 1f;
     [SerializeField] private float _Cooldown = 1f;
 
@@ -151,14 +151,10 @@ public class FishingSequence : MonoBehaviour, IFishingUI
         Hide();
     }
 
-    public void Show()
+    public void Show() 
     {
-        gameObject.SetActive(true);
-        StartFishing();
+          StartFishing();
     }
 
-    public void Hide()
-    {
-        gameObject.SetActive(false);
-    }
+    public void Hide() { }
 }

@@ -9,7 +9,6 @@ public class SetAmountUIManager : MonoBehaviour, ISetAmountUI
     [SerializeField] private TMP_InputField _AmountInputField;
     [SerializeField] private Image _Icon;
     [SerializeField] private Button _ConfirmBtn;
-    [SerializeField] private Button _CloseBtn;
 
     private ItemDataSO _ItemData;
     private QuantityMode _Mode;
@@ -24,7 +23,6 @@ public class SetAmountUIManager : MonoBehaviour, ISetAmountUI
 
         _AmountInputField.onEndEdit.AddListener(ClampAmount);
         _ConfirmBtn.onClick.AddListener(OnClickConfirmBtn);
-        _CloseBtn.onClick.AddListener(OnClickCloseBtn);
     }
 
 
@@ -96,18 +94,7 @@ public class SetAmountUIManager : MonoBehaviour, ISetAmountUI
         
     }
 
-    void OnClickCloseBtn()
-    {
-        Hide();
-    }
+    public void Show() { }
 
-    public void Show()
-    {
-        gameObject.SetActive(true);
-    }
-
-    public void Hide()
-    {
-        gameObject.SetActive(false);
-    }
+    public void Hide() { }
 }

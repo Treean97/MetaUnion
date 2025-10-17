@@ -1981,7 +1981,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdfd07d62658ad949b2f2d18996fd0c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OpenUIAction
-  _Targets: []
+  _Targets:
+  - {fileID: 1756312553}
 --- !u!114 &278161056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7482,7 +7483,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdfd07d62658ad949b2f2d18996fd0c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OpenUIAction
-  _Targets: []
+  _Targets:
+  - {fileID: 2123787093}
 --- !u!114 &919432014
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11652,7 +11654,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdfd07d62658ad949b2f2d18996fd0c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OpenUIAction
-  _Targets: []
+  _Targets:
+  - {fileID: 2125113038}
 --- !u!114 &1343703143
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12511,8 +12514,11 @@ GameObject:
   - component: {fileID: 1423810520}
   - component: {fileID: 1423810519}
   - component: {fileID: 1423810518}
+  - component: {fileID: 1423810523}
   - component: {fileID: 1423810517}
   - component: {fileID: 1423810516}
+  - component: {fileID: 1423810522}
+  - component: {fileID: 1423810521}
   m_Layer: 5
   m_Name: Button - close
   m_TagString: Untagged
@@ -12653,6 +12659,44 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1423810514}
   m_CullTransparentMesh: 0
+--- !u!114 &1423810521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1423810514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c53191a580c7a9a4d93175f66ba0e739, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonActionRunner
+--- !u!114 &1423810522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1423810514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1df095b9eab98e548a93b28c2e9e70a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSequence
+--- !u!114 &1423810523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1423810514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b4c936a838da154fbd5f6080b39f153, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CloseUIAction
+  _Targets:
+  - {fileID: 1756312553}
 --- !u!1 &1426405791
 GameObject:
   m_ObjectHideFlags: 0
@@ -15862,7 +15906,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdfd07d62658ad949b2f2d18996fd0c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OpenUIAction
-  _Targets: []
+  _Targets:
+  - {fileID: 217089148}
 --- !u!114 &1678332536
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17381,7 +17426,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1756312554}
-  - component: {fileID: 1756312555}
   - component: {fileID: 1756312556}
   - component: {fileID: 1756312557}
   - component: {fileID: 1756312558}
@@ -17417,18 +17461,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 600, y: 900}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1756312555
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1756312553}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26aed3d3cc66673458efa57f3abc8715, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UISoundOnOpenClose
 --- !u!114 &1756312556
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17441,7 +17473,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53c94eff53f9b824da86c8513faa2140, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SettingUI
-  _CloseButton: {fileID: 1423810518}
   _SoundTab: {fileID: 2125113038}
   _MasterVolSlider: {fileID: 2085252212}
   _BGMVolSlider: {fileID: 1674572131}

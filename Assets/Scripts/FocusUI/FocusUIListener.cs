@@ -23,13 +23,13 @@ public class FocusUIListener : MonoBehaviour
     {
         // if(_IsBlocked) return;
         
-        _FocusUIPanel.Show(objInfo);
-        _FocusUIPanel.gameObject.SetActive(true);
+        _FocusUIPanel.Setup(objInfo);
+        UIFX.Show(_FocusUIPanel.gameObject);
     }
 
     private void HandleDefocus()
     {
-        _FocusUIPanel.gameObject.SetActive(false);
+        UIFX.Hide(_FocusUIPanel.gameObject);
     }
     
 }

@@ -15,7 +15,6 @@ public class ShopUIManager : MonoBehaviour, IShopUI
     [Header("Sell Area")]
     [SerializeField] private Transform _SellContents;
     [SerializeField] private GameObject _SellSlotPrefab;
-    [SerializeField] private Button _CloseBtn;
 
     [SerializeField] private GameObject _SetAmountUI;
 
@@ -31,9 +30,7 @@ public class ShopUIManager : MonoBehaviour, IShopUI
         {
             int idx = i;
             _CategoryBtns[i].onClick.AddListener(() => ChangeCategory((ItemType)idx));
-        }
-        // 닫기 버튼
-        _CloseBtn.onClick.AddListener(() => gameObject.SetActive(false));        
+        }    
     }
 
     void OnEnable()
@@ -121,13 +118,7 @@ public class ShopUIManager : MonoBehaviour, IShopUI
         }
     }
 
-    public void Show()
-    {
-        gameObject.SetActive(true);
-    }
+    public void Show() { }
 
-    public void Hide()
-    {
-        gameObject.SetActive(false);
-    }
+    public void Hide() { }
 }

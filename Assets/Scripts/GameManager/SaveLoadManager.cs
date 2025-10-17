@@ -20,7 +20,7 @@ public class SaveLoadManager : MonoBehaviour
     [System.Serializable] class Entry { public string key; public string Json; }
     [System.Serializable] class Blob { public List<Entry> Sections = new(); }
 
-    // ===== 클라우드 저장 (PlayFab UserData) =====
+    // 클라우드 저장 (PlayFab UserData)
     readonly Dictionary<string, ICloudSaveSection> _CloudSections = new();
     readonly Dictionary<string, string> _CloudLoaded = new(); // 서버에서 읽은 원본 캐시
     public bool CloudReady => PlayFabClientAPI.IsClientLoggedIn();

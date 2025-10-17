@@ -48,7 +48,7 @@ public class ItemMovement : MonoBehaviourPun, IPunInstantiateMagicCallback
 
     void Update()
     {
-        // 회전: 모든 클라에서 동일 수행(시각 연출)
+        // 회전
         transform.Rotate(Vector3.up, _RotateSpeed * Time.deltaTime, Space.World);
 
         // 이동 시뮬은 Owner만
@@ -125,10 +125,10 @@ public class ItemMovement : MonoBehaviourPun, IPunInstantiateMagicCallback
                 return;
             }
 
-            // 벽/가파른 면: 반사(튕김) + 감쇠
+            // 벽/가파른 면: 반사 + 감쇠
             _Vel = Vector3.Reflect(vAfter, hit.normal) * _Bounciness;
 
-            // 너무 느리면 그대로 떨어지게 보정(정체 방지)
+            // 너무 느리면 그대로 떨어지게 보정
             if (_Vel.magnitude < _SleepSpeed)
                 _Vel += hit.normal * 0.01f; // 약간 밀어내어 다음 프레임 진행
 
@@ -142,7 +142,7 @@ public class ItemMovement : MonoBehaviourPun, IPunInstantiateMagicCallback
 
     private void MaintainHover()
     {
-        // 지면 앵커 재확인(이동 플랫폼 대응; 정적 지형이면 주석 처리 가능)
+        // 지면 앵커 확인
         if (Physics.Raycast(
             _HoverAnchor + Vector3.up,
             Vector3.down,

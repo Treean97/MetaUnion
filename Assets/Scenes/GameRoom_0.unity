@@ -863,6 +863,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
   _HoverScale: 1.08
   _ScaleTime: 0.1
+  _Ease: 7
 --- !u!1001 &24225426
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1114,6 +1115,8 @@ MonoBehaviour:
   _OpenPosition: {x: 0, y: 0}
   _ClosePosition: {x: -950, y: 0}
   _Duration: 0.5
+  _Ease: 9
+  _UnscaledTime: 1
 --- !u!114 &25628035
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2806,6 +2809,7 @@ GameObject:
   - component: {fileID: 94892743}
   - component: {fileID: 94892745}
   - component: {fileID: 94892744}
+  - component: {fileID: 94892746}
   m_Layer: 5
   m_Name: SettingUIPanel
   m_TagString: Untagged
@@ -2826,11 +2830,11 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1149590798}
-  - {fileID: 570632050}
   - {fileID: 1017826676}
   - {fileID: 305969218}
   - {fileID: 1245519038}
   - {fileID: 788822873}
+  - {fileID: 570632050}
   - {fileID: 1667204964}
   m_Father: {fileID: 653548767}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2868,7 +2872,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53c94eff53f9b824da86c8513faa2140, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SettingUI
-  _CloseButton: {fileID: 1484991507}
   _SoundTab: {fileID: 305969217}
   _MasterVolSlider: {fileID: 1595189705}
   _BGMVolSlider: {fileID: 1920862140}
@@ -2882,6 +2885,25 @@ MonoBehaviour:
   _SensSlider: {fileID: 112683005}
   _ZoomSpeedSlider: {fileID: 1745076206}
   _InvertYToggle: {fileID: 1511102131}
+--- !u!114 &94892746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 94892742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e2cd77363efb0344a358d4e1d55dd3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIPopEffect
+  _ShowFromScale: 0.85
+  _ShowDuration: 0.15
+  _ShowEase: 6
+  _PopScale: 1.05
+  _HideToScale: 0.8
+  _HideDuration: 0.12
+  _HideEase: 5
 --- !u!1 &98751914
 GameObject:
   m_ObjectHideFlags: 0
@@ -3445,6 +3467,8 @@ MonoBehaviour:
   _OpenPosition: {x: 0, y: 320}
   _ClosePosition: {x: 0, y: 0}
   _Duration: 0.5
+  _Ease: 9
+  _UnscaledTime: 1
 --- !u!1001 &117380493
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3884,6 +3908,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
   _HoverScale: 1.08
   _ScaleTime: 0.1
+  _Ease: 7
 --- !u!1001 &131161272
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5208,6 +5233,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
   _HoverScale: 1.08
   _ScaleTime: 0.1
+  _Ease: 7
 --- !u!1001 &162398876
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6991,6 +7017,7 @@ GameObject:
   - component: {fileID: 202426063}
   - component: {fileID: 202426065}
   - component: {fileID: 202426066}
+  - component: {fileID: 202426067}
   m_Layer: 5
   m_Name: SetAmountUIPanel
   m_TagString: Untagged
@@ -7075,7 +7102,6 @@ MonoBehaviour:
   _AmountInputField: {fileID: 1777527963}
   _Icon: {fileID: 2139498839}
   _ConfirmBtn: {fileID: 575630911}
-  _CloseBtn: {fileID: 308333706}
 --- !u!114 &202426066
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7093,6 +7119,25 @@ MonoBehaviour:
   _OpenSound: 1
   _CloseSound: 1
   _IsToggle: 0
+--- !u!114 &202426067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 202426061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e2cd77363efb0344a358d4e1d55dd3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIPopEffect
+  _ShowFromScale: 0.85
+  _ShowDuration: 0.15
+  _ShowEase: 6
+  _PopScale: 1.05
+  _HideToScale: 0.8
+  _HideDuration: 0.12
+  _HideEase: 5
 --- !u!1001 &207313945
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7646,6 +7691,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverSpin
   _HoverScale: 1.08
   _ScaleTime: 0.1
+  _Ease: 7
 --- !u!114 &226719499
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7702,7 +7748,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdfd07d62658ad949b2f2d18996fd0c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OpenUIAction
-  _Target: {fileID: 681511351}
+  _Targets:
+  - {fileID: 681511351}
 --- !u!114 &226719503
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8860,6 +8907,7 @@ GameObject:
   m_Component:
   - component: {fileID: 248545666}
   - component: {fileID: 248545667}
+  - component: {fileID: 248545668}
   m_Layer: 5
   m_Name: PlayerListUIPanel
   m_TagString: Untagged
@@ -8902,6 +8950,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _PlayerListSlot: {fileID: 3992075343501249773, guid: 54f186ed67240624495dd8e0044b5cd5, type: 3}
   _Content: {fileID: 2058926178}
+--- !u!114 &248545668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 248545665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e2cd77363efb0344a358d4e1d55dd3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIPopEffect
+  _ShowFromScale: 0.85
+  _ShowDuration: 0.15
+  _ShowEase: 6
+  _PopScale: 1.05
+  _HideToScale: 0.8
+  _HideDuration: 0.12
+  _HideEase: 5
 --- !u!1001 &250480021
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10828,8 +10895,11 @@ GameObject:
   - component: {fileID: 308333708}
   - component: {fileID: 308333707}
   - component: {fileID: 308333706}
+  - component: {fileID: 308333713}
   - component: {fileID: 308333710}
   - component: {fileID: 308333709}
+  - component: {fileID: 308333712}
+  - component: {fileID: 308333711}
   m_Layer: 5
   m_Name: Button - close
   m_TagString: Untagged
@@ -10969,6 +11039,45 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
   _HoverScale: 1.08
   _ScaleTime: 0.1
+  _Ease: 7
+--- !u!114 &308333711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 308333704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c53191a580c7a9a4d93175f66ba0e739, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonActionRunner
+--- !u!114 &308333712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 308333704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1df095b9eab98e548a93b28c2e9e70a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSequence
+--- !u!114 &308333713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 308333704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b4c936a838da154fbd5f6080b39f153, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CloseUIAction
+  _Targets:
+  - {fileID: 202426061}
 --- !u!1 &311202431
 GameObject:
   m_ObjectHideFlags: 0
@@ -11552,6 +11661,7 @@ GameObject:
   - component: {fileID: 322785698}
   - component: {fileID: 322785697}
   - component: {fileID: 322785699}
+  - component: {fileID: 322785700}
   m_Layer: 5
   m_Name: ShopUIPanel
   m_TagString: Untagged
@@ -11608,7 +11718,6 @@ MonoBehaviour:
   - {fileID: 1348994753}
   _SellContents: {fileID: 1625219019}
   _SellSlotPrefab: {fileID: 8365039451784562699, guid: 5003b04a82fc29946b474eac0963e75b, type: 3}
-  _CloseBtn: {fileID: 694423951}
   _SetAmountUI: {fileID: 202426061}
 --- !u!114 &322785695
 MonoBehaviour:
@@ -11689,6 +11798,25 @@ MonoBehaviour:
   _OpenSound: 1
   _CloseSound: 1
   _IsToggle: 0
+--- !u!114 &322785700
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 322785692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e2cd77363efb0344a358d4e1d55dd3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIPopEffect
+  _ShowFromScale: 0.85
+  _ShowDuration: 0.15
+  _ShowEase: 6
+  _PopScale: 1.05
+  _HideToScale: 0.8
+  _HideDuration: 0.12
+  _HideEase: 5
 --- !u!1 &323764608
 GameObject:
   m_ObjectHideFlags: 0
@@ -11976,6 +12104,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
   _HoverScale: 1.08
   _ScaleTime: 0.1
+  _Ease: 7
 --- !u!1001 &334606967
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13989,6 +14118,7 @@ GameObject:
   - component: {fileID: 389548490}
   - component: {fileID: 389548489}
   - component: {fileID: 389548491}
+  - component: {fileID: 389548492}
   m_Layer: 5
   m_Name: VendingMachineUIPanel
   m_TagString: Untagged
@@ -14041,7 +14171,6 @@ MonoBehaviour:
   _VendingMachineItemDataPoolSO: {fileID: 11400000, guid: 52cbce479e334c549a1126524455a4e0, type: 2}
   _Contents: {fileID: 1635999866}
   _SlotPrefab: {fileID: 6177885362925868584, guid: ba41678eb63e65c4e91e443ad1f8b9ea, type: 3}
-  _CloseBtn: {fileID: 1066300668}
 --- !u!114 &389548489
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14083,6 +14212,25 @@ MonoBehaviour:
   _OpenSound: 1
   _CloseSound: 1
   _IsToggle: 0
+--- !u!114 &389548492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 389548484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e2cd77363efb0344a358d4e1d55dd3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIPopEffect
+  _ShowFromScale: 0.85
+  _ShowDuration: 0.15
+  _ShowEase: 6
+  _PopScale: 1.05
+  _HideToScale: 0.8
+  _HideDuration: 0.12
+  _HideEase: 5
 --- !u!1001 &393869886
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17067,6 +17215,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverSpin
   _HoverScale: 1.08
   _ScaleTime: 0.1
+  _Ease: 7
 --- !u!114 &482845093
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17123,7 +17272,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdfd07d62658ad949b2f2d18996fd0c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OpenUIAction
-  _Target: {fileID: 322785692}
+  _Targets:
+  - {fileID: 322785692}
 --- !u!114 &482845097
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20636,9 +20786,9 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1219013187}
+  - {fileID: 1160004483}
   - {fileID: 1484991504}
   - {fileID: 1310006963}
-  - {fileID: 1160004483}
   m_Father: {fileID: 94892743}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
@@ -20992,6 +21142,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
   _HoverScale: 1.08
   _ScaleTime: 0.1
+  _Ease: 7
 --- !u!1 &575851858
 GameObject:
   m_ObjectHideFlags: 0
@@ -24928,6 +25079,7 @@ GameObject:
   - component: {fileID: 681511357}
   - component: {fileID: 681511356}
   - component: {fileID: 681511358}
+  - component: {fileID: 681511359}
   m_Layer: 5
   m_Name: CustomizeUIPanel
   m_TagString: Untagged
@@ -24990,7 +25142,6 @@ MonoBehaviour:
   - {fileID: 1952258673}
   - {fileID: 1704210028}
   - {fileID: 889936901}
-  _CloseBtn: {fileID: 912252001}
 --- !u!114 &681511356
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25032,6 +25183,25 @@ MonoBehaviour:
   _OpenSound: 1
   _CloseSound: 1
   _IsToggle: 0
+--- !u!114 &681511359
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 681511351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e2cd77363efb0344a358d4e1d55dd3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIPopEffect
+  _ShowFromScale: 0.85
+  _ShowDuration: 0.15
+  _ShowEase: 6
+  _PopScale: 1.05
+  _HideToScale: 0.8
+  _HideDuration: 0.12
+  _HideEase: 5
 --- !u!1 &684020421
 GameObject:
   m_ObjectHideFlags: 0
@@ -25259,8 +25429,11 @@ GameObject:
   - component: {fileID: 694423953}
   - component: {fileID: 694423952}
   - component: {fileID: 694423951}
+  - component: {fileID: 694423958}
   - component: {fileID: 694423955}
   - component: {fileID: 694423954}
+  - component: {fileID: 694423957}
+  - component: {fileID: 694423956}
   m_Layer: 5
   m_Name: Button - close
   m_TagString: Untagged
@@ -25400,6 +25573,45 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
   _HoverScale: 1.08
   _ScaleTime: 0.1
+  _Ease: 7
+--- !u!114 &694423956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 694423949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c53191a580c7a9a4d93175f66ba0e739, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonActionRunner
+--- !u!114 &694423957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 694423949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1df095b9eab98e548a93b28c2e9e70a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSequence
+--- !u!114 &694423958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 694423949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b4c936a838da154fbd5f6080b39f153, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CloseUIAction
+  _Targets:
+  - {fileID: 322785692}
 --- !u!1001 &698334117
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -26028,6 +26240,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
   _HoverScale: 1.08
   _ScaleTime: 0.1
+  _Ease: 7
 --- !u!1 &711633574
 GameObject:
   m_ObjectHideFlags: 0
@@ -27291,6 +27504,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
   _HoverScale: 1.08
   _ScaleTime: 0.1
+  _Ease: 7
 --- !u!1 &737468502
 GameObject:
   m_ObjectHideFlags: 0
@@ -27303,8 +27517,11 @@ GameObject:
   - component: {fileID: 737468506}
   - component: {fileID: 737468505}
   - component: {fileID: 737468504}
+  - component: {fileID: 737468511}
   - component: {fileID: 737468508}
   - component: {fileID: 737468507}
+  - component: {fileID: 737468510}
+  - component: {fileID: 737468509}
   m_Layer: 5
   m_Name: Button - close
   m_TagString: Untagged
@@ -27444,6 +27661,45 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
   _HoverScale: 1.08
   _ScaleTime: 0.1
+  _Ease: 7
+--- !u!114 &737468509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 737468502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c53191a580c7a9a4d93175f66ba0e739, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonActionRunner
+--- !u!114 &737468510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 737468502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1df095b9eab98e548a93b28c2e9e70a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSequence
+--- !u!114 &737468511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 737468502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b4c936a838da154fbd5f6080b39f153, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CloseUIAction
+  _Targets:
+  - {fileID: 1392145518}
 --- !u!1001 &743395277
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -27599,7 +27855,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 50, y: -250}
+  m_AnchoredPosition: {x: 50, y: -246}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &746012188
@@ -27645,6 +27901,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
   _HoverScale: 1.08
   _ScaleTime: 0.1
+  _Ease: 7
 --- !u!114 &746012191
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27672,7 +27929,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdfd07d62658ad949b2f2d18996fd0c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OpenUIAction
-  _Target: {fileID: 788822872}
+  _Targets:
+  - {fileID: 788822872}
 --- !u!114 &746012193
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28239,6 +28497,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverSpin
   _HoverScale: 1.08
   _ScaleTime: 0.1
+  _Ease: 7
 --- !u!114 &761860895
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28251,7 +28510,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdfd07d62658ad949b2f2d18996fd0c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OpenUIAction
-  _Target: {fileID: 94892742}
+  _Targets:
+  - {fileID: 94892742}
 --- !u!114 &761860896
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30461,6 +30721,7 @@ GameObject:
   - component: {fileID: 816081140}
   - component: {fileID: 816081139}
   - component: {fileID: 816081141}
+  - component: {fileID: 816081142}
   m_Layer: 5
   m_Name: RouletteUIPanel
   m_TagString: Untagged
@@ -30523,7 +30784,6 @@ MonoBehaviour:
   _MaxSpeed: 500
   _NormalSpeed: 50
   _SpinBtn: {fileID: 2077623456}
-  _CloseBtn: {fileID: 1573497145}
   _RouletteSpinKey: RouletteSpin
   _RewardSuccessKey: RouletteRewardSuccess
 --- !u!114 &816081139
@@ -30567,6 +30827,25 @@ MonoBehaviour:
   _OpenSound: 1
   _CloseSound: 1
   _IsToggle: 0
+--- !u!114 &816081142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 816081134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e2cd77363efb0344a358d4e1d55dd3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIPopEffect
+  _ShowFromScale: 0.85
+  _ShowDuration: 0.15
+  _ShowEase: 6
+  _PopScale: 1.05
+  _HideToScale: 0.8
+  _HideDuration: 0.12
+  _HideEase: 5
 --- !u!1001 &819099711
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -31155,6 +31434,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
   _HoverScale: 1.08
   _ScaleTime: 0.1
+  _Ease: 7
 --- !u!1001 &830695874
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -32243,6 +32523,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
   _HoverScale: 1.08
   _ScaleTime: 0.1
+  _Ease: 7
 --- !u!1001 &864626106
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -33450,6 +33731,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
   _HoverScale: 1.08
   _ScaleTime: 0.1
+  _Ease: 7
 --- !u!1001 &890105726
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -34483,6 +34765,9 @@ GameObject:
   - component: {fileID: 912252001}
   - component: {fileID: 912252005}
   - component: {fileID: 912252004}
+  - component: {fileID: 912252008}
+  - component: {fileID: 912252007}
+  - component: {fileID: 912252006}
   m_Layer: 5
   m_Name: Button - close
   m_TagString: Untagged
@@ -34622,6 +34907,45 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
   _HoverScale: 1.08
   _ScaleTime: 0.1
+  _Ease: 7
+--- !u!114 &912252006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 912251999}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c53191a580c7a9a4d93175f66ba0e739, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonActionRunner
+--- !u!114 &912252007
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 912251999}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1df095b9eab98e548a93b28c2e9e70a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSequence
+--- !u!114 &912252008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 912251999}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b4c936a838da154fbd5f6080b39f153, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CloseUIAction
+  _Targets:
+  - {fileID: 681511351}
 --- !u!1 &913588837
 GameObject:
   m_ObjectHideFlags: 0
@@ -37645,7 +37969,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 0
-  m_Spacing: 0
+  m_Spacing: -2
   m_ChildForceExpandWidth: 0
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 0
@@ -39277,6 +39601,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
   _HoverScale: 1.08
   _ScaleTime: 0.1
+  _Ease: 7
 --- !u!1 &1055984276
 GameObject:
   m_ObjectHideFlags: 0
@@ -39958,8 +40283,11 @@ GameObject:
   - component: {fileID: 1066300670}
   - component: {fileID: 1066300669}
   - component: {fileID: 1066300668}
+  - component: {fileID: 1066300675}
   - component: {fileID: 1066300672}
   - component: {fileID: 1066300671}
+  - component: {fileID: 1066300674}
+  - component: {fileID: 1066300673}
   m_Layer: 5
   m_Name: Button - close
   m_TagString: Untagged
@@ -40099,6 +40427,45 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
   _HoverScale: 1.08
   _ScaleTime: 0.1
+  _Ease: 7
+--- !u!114 &1066300673
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1066300666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c53191a580c7a9a4d93175f66ba0e739, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonActionRunner
+--- !u!114 &1066300674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1066300666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1df095b9eab98e548a93b28c2e9e70a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSequence
+--- !u!114 &1066300675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1066300666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b4c936a838da154fbd5f6080b39f153, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CloseUIAction
+  _Targets:
+  - {fileID: 389548484}
 --- !u!1001 &1067650240
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -50879,6 +51246,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
   _HoverScale: 1.08
   _ScaleTime: 0.1
+  _Ease: 7
 --- !u!1001 &1349371819
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -51351,6 +51719,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
   _HoverScale: 1.08
   _ScaleTime: 0.1
+  _Ease: 7
 --- !u!1001 &1367632394
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -52122,6 +52491,7 @@ GameObject:
   - component: {fileID: 1392145525}
   - component: {fileID: 1392145524}
   - component: {fileID: 1392145526}
+  - component: {fileID: 1392145527}
   m_Layer: 5
   m_Name: SlotMachineUIPanel
   m_TagString: Untagged
@@ -52221,7 +52591,6 @@ MonoBehaviour:
   _RollTic: 0.02
   _Destiny: 
   _RerollBtn: {fileID: 1594047646}
-  _CloseBtn: {fileID: 737468504}
   _BetCurrencyDropdown: {fileID: 288036337}
   _CurrencyDataPoolSO: {fileID: 11400000, guid: 35aedb849e5bfee45a9e0831611fde3f, type: 2}
   _CurrencyInputField: {fileID: 1241615320}
@@ -52272,6 +52641,25 @@ MonoBehaviour:
   _OpenSound: 1
   _CloseSound: 1
   _IsToggle: 0
+--- !u!114 &1392145527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1392145518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e2cd77363efb0344a358d4e1d55dd3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIPopEffect
+  _ShowFromScale: 0.85
+  _ShowDuration: 0.15
+  _ShowEase: 6
+  _PopScale: 1.05
+  _HideToScale: 0.8
+  _HideDuration: 0.12
+  _HideEase: 5
 --- !u!1001 &1398455946
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -52549,6 +52937,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
   _HoverScale: 1.08
   _ScaleTime: 0.1
+  _Ease: 7
 --- !u!1001 &1403008557
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -53750,6 +54139,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
   _HoverScale: 1.08
   _ScaleTime: 0.1
+  _Ease: 7
 --- !u!1001 &1423436103
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -54275,6 +54665,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
   _HoverScale: 1.08
   _ScaleTime: 0.1
+  _Ease: 7
 --- !u!1001 &1433204588
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -55128,6 +55519,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
   _HoverScale: 1.08
   _ScaleTime: 0.1
+  _Ease: 7
 --- !u!1001 &1463493064
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -56201,6 +56593,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
   _HoverScale: 1.08
   _ScaleTime: 0.1
+  _Ease: 7
 --- !u!1001 &1484597329
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -56267,8 +56660,11 @@ GameObject:
   - component: {fileID: 1484991509}
   - component: {fileID: 1484991508}
   - component: {fileID: 1484991507}
+  - component: {fileID: 1484991512}
   - component: {fileID: 1484991506}
   - component: {fileID: 1484991505}
+  - component: {fileID: 1484991511}
+  - component: {fileID: 1484991510}
   m_Layer: 5
   m_Name: Button - close
   m_TagString: Untagged
@@ -56309,6 +56705,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
   _HoverScale: 1.08
   _ScaleTime: 0.1
+  _Ease: 7
 --- !u!114 &1484991506
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56408,6 +56805,44 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1484991503}
   m_CullTransparentMesh: 0
+--- !u!114 &1484991510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1484991503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c53191a580c7a9a4d93175f66ba0e739, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonActionRunner
+--- !u!114 &1484991511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1484991503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1df095b9eab98e548a93b28c2e9e70a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSequence
+--- !u!114 &1484991512
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1484991503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b4c936a838da154fbd5f6080b39f153, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CloseUIAction
+  _Targets:
+  - {fileID: 94892742}
 --- !u!1 &1485401586
 GameObject:
   m_ObjectHideFlags: 0
@@ -59830,8 +60265,11 @@ GameObject:
   - component: {fileID: 1573497147}
   - component: {fileID: 1573497146}
   - component: {fileID: 1573497145}
+  - component: {fileID: 1573497152}
   - component: {fileID: 1573497149}
   - component: {fileID: 1573497148}
+  - component: {fileID: 1573497151}
+  - component: {fileID: 1573497150}
   m_Layer: 5
   m_Name: Button - close
   m_TagString: Untagged
@@ -59971,6 +60409,45 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
   _HoverScale: 1.08
   _ScaleTime: 0.1
+  _Ease: 7
+--- !u!114 &1573497150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1573497143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c53191a580c7a9a4d93175f66ba0e739, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonActionRunner
+--- !u!114 &1573497151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1573497143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1df095b9eab98e548a93b28c2e9e70a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSequence
+--- !u!114 &1573497152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1573497143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b4c936a838da154fbd5f6080b39f153, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CloseUIAction
+  _Targets:
+  - {fileID: 816081134}
 --- !u!1 &1573520617
 GameObject:
   m_ObjectHideFlags: 0
@@ -61483,6 +61960,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
   _HoverScale: 1.08
   _ScaleTime: 0.1
+  _Ease: 7
 --- !u!1001 &1594395057
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -64296,6 +64774,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3556021143838404538, guid: 4a1382aed99aa334c9922951cc0fdb8b, type: 3}
+      propertyPath: _Content
+      value: 
+      objectReference: {fileID: 1667204965}
     - target: {fileID: 4076252178623364345, guid: 4a1382aed99aa334c9922951cc0fdb8b, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -64401,6 +64883,11 @@ PrefabInstance:
 --- !u!224 &1667204964 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4076252178623364345, guid: 4a1382aed99aa334c9922951cc0fdb8b, type: 3}
+  m_PrefabInstance: {fileID: 1667204963}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &1667204965 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 8991779777391505044, guid: 4a1382aed99aa334c9922951cc0fdb8b, type: 3}
   m_PrefabInstance: {fileID: 1667204963}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1670235570
@@ -65724,6 +66211,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
   _HoverScale: 1.08
   _ScaleTime: 0.1
+  _Ease: 7
 --- !u!1001 &1706522626
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -66858,6 +67346,7 @@ GameObject:
   - component: {fileID: 1742578289}
   - component: {fileID: 1742578291}
   - component: {fileID: 1742578290}
+  - component: {fileID: 1742578292}
   m_Layer: 5
   m_Name: DialogueUIPanel
   m_TagString: Untagged
@@ -66929,6 +67418,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2165e5d2fb8e1444ba2fa7de9f52300, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CursorGuard
+--- !u!114 &1742578292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1742578287}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e2cd77363efb0344a358d4e1d55dd3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIPopEffect
+  _ShowFromScale: 0.85
+  _ShowDuration: 0.15
+  _ShowEase: 6
+  _PopScale: 1.05
+  _HideToScale: 0.8
+  _HideDuration: 0.12
+  _HideEase: 5
 --- !u!1 &1742916056
 GameObject:
   m_ObjectHideFlags: 0
@@ -70661,7 +71169,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 50, y: -150}
+  m_AnchoredPosition: {x: 50, y: -148}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1841557967
@@ -70707,6 +71215,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
   _HoverScale: 1.08
   _ScaleTime: 0.1
+  _Ease: 7
 --- !u!114 &1841557970
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70734,7 +71243,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdfd07d62658ad949b2f2d18996fd0c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OpenUIAction
-  _Target: {fileID: 1245519037}
+  _Targets:
+  - {fileID: 1245519037}
 --- !u!114 &1841557972
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72173,6 +72683,7 @@ GameObject:
   - component: {fileID: 1877876912}
   - component: {fileID: 1877876916}
   - component: {fileID: 1877876917}
+  - component: {fileID: 1877876918}
   m_Layer: 5
   m_Name: FishingUIPanel
   m_TagString: Untagged
@@ -72234,6 +72745,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b61b2d90cff24674dbf44c5b954ea1ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InputBlockGuard
+--- !u!114 &1877876918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1877876911}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e2cd77363efb0344a358d4e1d55dd3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIPopEffect
+  _ShowFromScale: 0.85
+  _ShowDuration: 0.15
+  _ShowEase: 6
+  _PopScale: 1.05
+  _HideToScale: 0.8
+  _HideDuration: 0.12
+  _HideEase: 5
 --- !u!1 &1881191799
 GameObject:
   m_ObjectHideFlags: 0
@@ -74185,6 +74715,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
   _HoverScale: 1.08
   _ScaleTime: 0.1
+  _Ease: 7
 --- !u!114 &1942781696
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74212,7 +74743,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdfd07d62658ad949b2f2d18996fd0c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OpenUIAction
-  _Target: {fileID: 305969217}
+  _Targets:
+  - {fileID: 305969217}
 --- !u!114 &1942781698
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -75009,6 +75541,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
   _HoverScale: 1.08
   _ScaleTime: 0.1
+  _Ease: 7
 --- !u!1 &1952300542
 GameObject:
   m_ObjectHideFlags: 0
@@ -76767,6 +77300,7 @@ GameObject:
   - component: {fileID: 1997888495}
   - component: {fileID: 1997888494}
   - component: {fileID: 1997888496}
+  - component: {fileID: 1997888497}
   m_Layer: 5
   m_Name: EmoteUIPanel
   m_TagString: Untagged
@@ -76882,6 +77416,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EmoteUIManager
   _EmoteSlot: {fileID: 312115001226045917, guid: 6097bac5cdbf69d4db56dc26ca849778, type: 3}
+--- !u!114 &1997888497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1997888490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e2cd77363efb0344a358d4e1d55dd3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIPopEffect
+  _ShowFromScale: 0.85
+  _ShowDuration: 0.15
+  _ShowEase: 6
+  _PopScale: 1.05
+  _HideToScale: 0.8
+  _HideDuration: 0.12
+  _HideEase: 5
 --- !u!1001 &1998918415
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -79120,6 +79673,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
   _HoverScale: 1.08
   _ScaleTime: 0.1
+  _Ease: 7
 --- !u!1001 &2045520215
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -80291,6 +80845,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
   _HoverScale: 1.08
   _ScaleTime: 0.1
+  _Ease: 7
 --- !u!1 &2080072076
 GameObject:
   m_ObjectHideFlags: 0

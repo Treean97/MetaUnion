@@ -19,7 +19,6 @@ public class RouletteUIManager : MonoBehaviour, IRouletteUI
     bool _IsSpin = false;
 
     [SerializeField] Button _SpinBtn;
-    [SerializeField] Button _CloseBtn;
 
     [SerializeField] private string _RouletteSpinKey = "RouletteSpin";
     [SerializeField] private string _RewardSuccessKey = "RouletteRewardSuccess";
@@ -30,7 +29,6 @@ public class RouletteUIManager : MonoBehaviour, IRouletteUI
     void Awake()
     {
         _SpinBtn.onClick.AddListener(OnClickSpinBtn);
-        _CloseBtn.onClick.AddListener(OnClickCloseBtn);
     }
 
     void Start()
@@ -185,13 +183,7 @@ public class RouletteUIManager : MonoBehaviour, IRouletteUI
         }
     }
 
-    public void Show()
-    {
-        gameObject.SetActive(true);
-    }
+    public void Show() { }
 
-    public void Hide()
-    {
-        gameObject.SetActive(false);
-    }
+    public void Hide() { }
 }

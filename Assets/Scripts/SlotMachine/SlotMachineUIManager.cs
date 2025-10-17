@@ -38,7 +38,6 @@ public class SlotMachineUIManager : MonoBehaviour, ISlotMachineUI
 
     [Header("Button Setting")]
     [SerializeField] private Button _RerollBtn;
-    [SerializeField] private Button _CloseBtn;
 
     [Header("Betting")]
     [SerializeField] private TMP_Dropdown _BetCurrencyDropdown;
@@ -62,7 +61,6 @@ public class SlotMachineUIManager : MonoBehaviour, ISlotMachineUI
     void Awake()
     {
         _RerollBtn.onClick.AddListener(OnClickRerollBtn);
-        _CloseBtn.onClick.AddListener(OnClickCloseBtn);
     }
 
     void Start()
@@ -331,22 +329,10 @@ public class SlotMachineUIManager : MonoBehaviour, ISlotMachineUI
         Reroll();
     }
 
-    void OnClickCloseBtn()
-    {
-        if (_IsRolling) return;
 
-        gameObject.SetActive(false);
-    }
+    public void Show() { }
 
-    public void Show()
-    {
-        gameObject.SetActive(true);
-    }
-
-    public void Hide()
-    {
-        gameObject.SetActive(false);
-    }
+    public void Hide() { }
     
     int GetRandom(int minIndex, int maxIndex) => Random.Range(minIndex, maxIndex);
 }

@@ -39,12 +39,15 @@ public class GraphicManager : MonoBehaviour, ILocalSaveSection
         }
         _Inst = this;
         DontDestroyOnLoad(gameObject);
+    }
 
+    void Start()
+    {
         DefaultSet();
 
         SaveLoadManager._Inst?.RegisterLocal(this);
         // 초기 적용(저장 파일 없을 때도 Mixer처럼 즉시 반영)
-        ApplyDisplay(); 
+        ApplyDisplay();
         ApplyFrameCap();
     }
 

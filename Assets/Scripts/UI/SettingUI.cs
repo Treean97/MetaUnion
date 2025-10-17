@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 public class SettingUI : MonoBehaviour
 {
-    [SerializeField] Button _CloseButton;
-
     [Header("Sound Setting")]
     [SerializeField] GameObject _SoundTab;
     [SerializeField] Slider _MasterVolSlider;
@@ -43,8 +41,6 @@ public class SettingUI : MonoBehaviour
 
     void Awake()
     {
-        _CloseButton.onClick.AddListener(OnClickCloseButton);
-
         _DefaultTab = _SoundTab;
         DefaultSet();
     }
@@ -74,6 +70,8 @@ public class SettingUI : MonoBehaviour
         _SensSlider.onValueChanged.RemoveAllListeners();
         _ZoomSpeedSlider.onValueChanged.RemoveAllListeners();
         _InvertYToggle.onValueChanged.RemoveAllListeners();
+
+        SaveLoadManager._Inst.SaveAllLocal();
     }
 
     void DefaultSet()
@@ -83,12 +81,6 @@ public class SettingUI : MonoBehaviour
         _InputTab.SetActive(false);
 
         _DefaultTab.SetActive(true);
-    }
-
-    void OnClickCloseButton()
-    {
-        SaveLoadManager._Inst.SaveAllLocal();
-        gameObject.SetActive(false);
     }
 
     void BindAudio()

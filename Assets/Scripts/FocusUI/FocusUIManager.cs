@@ -9,7 +9,7 @@ public class FocusUIManager : MonoBehaviour
     [SerializeField]
     private TMP_Text _Description;
 
-    public void Show(InfoDataSO objInfo)
+    public void Setup(InfoDataSO objInfo)
     {       
         _Name.text = objInfo.DisplayName;
         _Description.text = objInfo.Description;
