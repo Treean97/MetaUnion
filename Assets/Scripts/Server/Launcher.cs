@@ -155,7 +155,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
-using System.Collections;
 
 public class Launcher : MonoBehaviourPunCallbacks
 {
@@ -253,7 +252,8 @@ public class Launcher : MonoBehaviourPunCallbacks
             PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue(MAP_PROP, out object obj))
         {
             string mapName = (string)obj;
-            LoadingManager._Inst?.LoadScene(mapName); // 네 UI 오버레이 로더로 로컬 씬 로드
+            // LoadingManager._Inst?.LoadScene(mapName); // UI 오버레이 로더로 로컬 씬 로드
+            SceneLoadManager._Inst.SceneLoad(mapName);
             Debug.Log($"→ Load Scene: {mapName}");
         }
 

@@ -15,6 +15,7 @@ public class RouletteUIManager : MonoBehaviour, IRouletteUI
     [SerializeField] float _Duration;
     [SerializeField] float _MaxSpeed;
     [SerializeField] float _NormalSpeed;
+    [SerializeField] float _MinPitch = 0.75f;
     float _WaitToNextSpin = 3f;
     bool _IsSpin = false;
 
@@ -133,37 +134,38 @@ public class RouletteUIManager : MonoBehaviour, IRouletteUI
     {
         _IsSpin = true;
 
-        // 스핀 사운드 시작
-        var spinLoopPlayer = AudioManager._Inst?.Play2DLoopLocalPlayByKey(_RouletteSpinKey);
+    var spinLoopPlayer = AudioManager._Inst?.Play2DLoopLocalPlayByKey(_RouletteSpinKey);
+    if (spinLoopPlayer != null) spinLoopPlayer.SetPitch(1f); // 시작은 1 그대로
 
-        float time = 0;
+    float time = 0f;
         while (time <= _Duration)
         {
-            float speed = Mathf.Lerp(_MaxSpeed, 0f, time / _Duration);
+            float t = time / _Duration;                   // 0→1
+            float speed = Mathf.Lerp(_MaxSpeed, 0f, t);   // 현재 각속도
             _Spinner.transform.Rotate(Vector3.back, speed * Time.deltaTime);
+
+            // ▼ 피치: 스핀 속도 비율에 따라 1 → _MinPitch로 감소
+            if (spinLoopPlayer != null)
+            {
+                float norm = (_MaxSpeed <= 0f) ? 0f : Mathf.Clamp01(speed / _MaxSpeed); // 0~1
+                float pitch = Mathf.Lerp(_MinPitch, 1f, norm);
+                spinLoopPlayer.SetPitch(pitch);
+            }
+
             time += Time.deltaTime;
             yield return null;
         }
 
-        // 스핀 사운드 종료
-        spinLoopPlayer.StopAndReturn();
+        // 종료
+        spinLoopPlayer?.StopAndReturn();
 
-        // 아이템 선택
+        // 보상 처리...
         GameObject reward = SelectSlot();
-        // 기존 아이템 지급 
-        // GameEvents.RaiseRequestItemGain(
-        //     reward.GetComponent<RouletteSlot>().ItemDataSO.ID,
-        //     reward.GetComponent<RouletteSlot>().Amount);
-        // // 보상 사운드 실행
-        // AudioManager._Inst.PlayLocalByKey(_RewardSuccessKey);
-
-        // 아이템 보상으로 통일
         GameEvents.RaiseRewardSuccess(
             RewardType.Item,
             reward.GetComponent<RouletteSlot>().ItemDataSO.ID,
             reward.GetComponent<RouletteSlot>().Amount);
 
-        // 아이템 확인 시간 
         yield return new WaitForSeconds(_WaitToNextSpin);
         _IsSpin = false;
         DefaultSet();

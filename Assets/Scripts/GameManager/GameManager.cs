@@ -62,8 +62,7 @@ namespace Com.MyCompany.MyGame
         public void LeaveRoom()
         {
             PhotonNetwork.LeaveRoom();
-            GameEvents.RaiseLeaveRoom();        
-            
+            GameEvents.RaiseLeaveRoom();                 
         }
 
 

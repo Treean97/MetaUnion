@@ -55,6 +55,8 @@ public class PlayerInventory : MonoBehaviour, ICloudSaveSection
         GameEvents.OnRequestInventoryStatus -= HandleInventoryStatus;
         GameEvents.OnRequestSwapSlot -= HandleSwapSlot;
         GameEvents.OnRequestCheckItemAmount -= HandleCheckItemAmount;
+
+        SaveLoadManager._Inst?.UnregisterCloud(this);
     }
 
     int HandleInventorySlotCount()

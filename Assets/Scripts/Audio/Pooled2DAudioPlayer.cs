@@ -15,6 +15,15 @@ public class Pooled2DAudioPlayer : MonoBehaviour
         _AudioSource.spatialBlend = 0f; // 2D
     }
 
+    public void SetPitch(float v)
+    {
+        if (_AudioSource) _AudioSource.pitch = Mathf.Clamp(v, 0.1f, 3f);
+    }
+    public void SetVolume(float v)
+    {
+        if (_AudioSource) _AudioSource.volume = Mathf.Clamp01(v);
+    }
+
     public void ConfigureMixer(AudioMixerGroup group)
     {
         if (_AudioSource) _AudioSource.outputAudioMixerGroup = group;

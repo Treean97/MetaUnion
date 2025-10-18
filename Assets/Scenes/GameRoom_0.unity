@@ -17904,7 +17904,7 @@ MonoBehaviour:
   _CanvasRT: {fileID: 78905}
   _PanelRT: {fileID: 485648490}
   _ConfettiPrefab: {fileID: 8206960985296732269, guid: 88a9aa0140c8fa34494caff04e9826d8, type: 3}
-  _ConfettiCount: 100
+  _ConfettiCount: 200
   _TopYMargin: 40
   _SideXMargin: 60
   _LifetimeRange: {x: 3, y: 5}
