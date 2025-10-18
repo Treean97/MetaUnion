@@ -3,11 +3,12 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ItemRewardUI : MonoBehaviour
+public class RewardUI : MonoBehaviour
 {
     [SerializeField] GameObject _RewardUI;
     [SerializeField] Image _RewardIcon;
     [SerializeField] TMP_Text _RewardAmount;
+    [SerializeField] RewardEffect _RewardEffect;
     [SerializeField] float _NoticeTime = 3f;
     [SerializeField] string _RewardSuccessKey = "Reward_Success";
     [SerializeField] string _RewardFailKey = "Reward_Fail";
@@ -50,6 +51,7 @@ public class ItemRewardUI : MonoBehaviour
         _RewardIcon.sprite = itemData.Icon;
         _RewardAmount.text = amount.ToString();
         UIFX.Show(_RewardUI);
+        _RewardEffect.Play();
 
         AudioManager._Inst.PlayLocalByKey(_RewardSuccessKey);
         yield return new WaitForSecondsRealtime(_NoticeTime);
