@@ -10,6 +10,7 @@ public class CurrencyManager : MonoBehaviour
     public static CurrencyManager _Inst { get; private set; }
 
     [SerializeField] private CurrencyDataPoolSO _CurrencyPoolSO;
+    public CurrencyDataPoolSO CurrencyPoolSO => _CurrencyPoolSO;
 
     // 표시/선검사용 로컬 캐시 (id -> amount)
     private readonly Dictionary<int, int> _Cache = new();

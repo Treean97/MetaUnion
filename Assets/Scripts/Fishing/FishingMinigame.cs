@@ -1,6 +1,6 @@
 using System;
+using System.Collections;
 using UnityEngine;
-using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class FishingMinigame : MonoBehaviour
@@ -26,9 +26,7 @@ public class FishingMinigame : MonoBehaviour
     void OnEnable()
     {
         OnFishInCheckBox += HandleFishIn;
-        OnFishOutCheckBox += HandleFishOut;
-
-        
+        OnFishOutCheckBox += HandleFishOut;        
     }
 
     void OnDisable()
@@ -41,7 +39,7 @@ public class FishingMinigame : MonoBehaviour
     {
         _IsInCheckBox = false;
         _Gauge.value = _GaugeSet;
-        gameObject.SetActive(true);
+        UIFX.Show(gameObject);
     }
 
     void Update()
@@ -57,9 +55,6 @@ public class FishingMinigame : MonoBehaviour
             GaugeDecrease();
         }
     }
-
-
-
 
     // 게이지 증가
     void GaugeIncrease()
@@ -97,11 +92,11 @@ public class FishingMinigame : MonoBehaviour
     void HandleFishOut()
     {
         _IsInCheckBox = false;
-    }   
+    }
 
     public void FishingUIClose()
     {
-        InputBlockManager.UnblockInput();
-        gameObject.SetActive(false);
+        UIFX.Hide(gameObject);
     }
+
 }

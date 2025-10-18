@@ -21,8 +21,6 @@ public class RouletteUIManager : MonoBehaviour, IRouletteUI
     [SerializeField] Button _SpinBtn;
 
     [SerializeField] private string _RouletteSpinKey = "RouletteSpin";
-    [SerializeField] private string _RewardSuccessKey = "RouletteRewardSuccess";
-
 
     public bool IsOpen => gameObject.activeSelf;
 
@@ -131,16 +129,6 @@ public class RouletteUIManager : MonoBehaviour, IRouletteUI
         StartCoroutine(RotateRoulette());
     }
 
-    void OnClickCloseBtn()
-    {
-        if (_IsSpin)
-        {
-            return;
-        }
-
-        Hide();
-    }
-
     IEnumerator RotateRoulette()
     {
         _IsSpin = true;
@@ -162,12 +150,18 @@ public class RouletteUIManager : MonoBehaviour, IRouletteUI
 
         // 아이템 선택
         GameObject reward = SelectSlot();
-        GameEvents.RaiseRequestItemGain(
+        // 기존 아이템 지급 
+        // GameEvents.RaiseRequestItemGain(
+        //     reward.GetComponent<RouletteSlot>().ItemDataSO.ID,
+        //     reward.GetComponent<RouletteSlot>().Amount);
+        // // 보상 사운드 실행
+        // AudioManager._Inst.PlayLocalByKey(_RewardSuccessKey);
+
+        // 아이템 보상으로 통일
+        GameEvents.RaiseRewardSuccess(
+            RewardType.Item,
             reward.GetComponent<RouletteSlot>().ItemDataSO.ID,
             reward.GetComponent<RouletteSlot>().Amount);
-
-        // 보상 사운드 실행
-        AudioManager._Inst.PlayLocalByKey(_RewardSuccessKey);
 
         // 아이템 확인 시간 
         yield return new WaitForSeconds(_WaitToNextSpin);

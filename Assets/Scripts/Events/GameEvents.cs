@@ -6,7 +6,8 @@ using UnityEngine;
 
 
 
-public enum UIID {Start, Lobby, Control, CreateRoom, JoinRoom, Confirm, Cancel};
+// public enum UIID {Start, Lobby, Control, CreateRoom, JoinRoom, Confirm, Cancel};
+public enum RewardType { Item, Currency }
 
 public static class GameEvents
 {
@@ -211,6 +212,36 @@ public static class GameEvents
             OnRequestUpdateInventory?.Invoke();
         }
         return success;
+    }
+
+    // 리워드 획득
+    public static event Action<RewardType, int,int> OnRewardSuccess;
+
+    public static bool RaiseRewardSuccess(RewardType type, int id, int amount)
+    {
+        switch (type)
+        {
+            case RewardType.Item:
+            {
+                bool success = OnRequestItemGain?.Invoke(id, amount) ?? false;
+                if (!success) { OnRewardFail?.Invoke(); return false; }
+                break;
+            }
+            case RewardType.Currency:
+            {
+                OnRequestCurrencyGain?.Invoke(id, amount);
+                break;
+            }
+        }
+
+        OnRewardSuccess?.Invoke(type, id, amount);
+        return true;
+    }
+    
+    public static event Action OnRewardFail;
+    public static void RaiseRewardFail()
+    {
+        OnRewardFail?.Invoke();
     }
 
     // 아이템 소비

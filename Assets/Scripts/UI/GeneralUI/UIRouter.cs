@@ -95,7 +95,7 @@ public class UIRouter : MonoBehaviour
         if (_UIs.TryGetValue(typeof(T), out var s))
         {
             var mb = s as MonoBehaviour;
-            s.Hide();               // 내부 정리
+            s.Hide(); // 내부 정리
             if (mb) UIFX.Hide(mb.gameObject); // 연출 + 비활성
         }
     }

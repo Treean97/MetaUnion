@@ -13,7 +13,7 @@ public class FishingSequence : MonoBehaviour, IFishingUI
 
     [SerializeField] private float[] _BiteDelay = new float[] { 3f, 5f };
     [SerializeField] private float _CatchableSeconds = 1f;
-    [SerializeField] private float _Cooldown = 1f;
+    [SerializeField] private float _Cooldown = 2f;
 
     [Header("Sound")]
     [SerializeField] private string _ReelKey;
@@ -110,12 +110,7 @@ public class FishingSequence : MonoBehaviour, IFishingUI
 
         if (_MinigameResult == true)
         {
-            OnFishingSuccess?.Invoke();
-
-            int idx = UnityEngine.Random.Range(0, _RewardItemPool.GetItemCount());
-            ItemDataSO randomItem = _RewardItemPool.GetItemAt(idx);
-            int amount = UnityEngine.Random.Range(1, _MaxRewardAmount + 1);
-            GameEvents.RaiseRequestItemGain(randomItem.ID, amount);
+            OnFishingSuccess?.Invoke();            
         }
         else
         {
@@ -131,29 +126,31 @@ public class FishingSequence : MonoBehaviour, IFishingUI
     void HandleMinigameSuccess()
     {
         _MinigameResult = true;
+
+        int idx = UnityEngine.Random.Range(0, _RewardItemPool.GetItemCount());
+        ItemDataSO randomItem = _RewardItemPool.GetItemAt(idx);
+        int amount = UnityEngine.Random.Range(1, _MaxRewardAmount + 1);
+        GameEvents.RaiseRewardSuccess(RewardType.Item, randomItem.ID, amount);
     }
 
     void HandleMinigameFail()
     {
         _MinigameResult = false;
+
+        GameEvents.RaiseRewardFail();
     }
 
     void ResetFlow()
-    {
+    {        
         if (_Routine != null) StopCoroutine(_Routine);
         _Routine = null;
-        _State = FishingState.Idle;
-
-        if (_MinigameUI.gameObject.activeSelf)
-        {
-            _MinigameUI.FishingUIClose();
-        }
-        Hide();
+        _State = FishingState.Idle;        
+        gameObject.SetActive(false);
     }
 
     public void Show() 
     {
-          StartFishing();
+        StartFishing();
     }
 
     public void Hide() { }

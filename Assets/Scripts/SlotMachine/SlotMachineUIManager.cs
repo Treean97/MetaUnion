@@ -48,8 +48,6 @@ public class SlotMachineUIManager : MonoBehaviour, ISlotMachineUI
 
     [Header("SoundKey")]
     [SerializeField] private string _SlotPickKey = "SlotPick";
-    [SerializeField] private string _RewardSuccessKey = "SlotMachineRewardSuccess";
-    [SerializeField] private string _RewardFailKey = "SlotMachineRewardFail";
     [SerializeField] private string _SlotSpinKey = "SlotSpin";
 
 
@@ -251,7 +249,6 @@ public class SlotMachineUIManager : MonoBehaviour, ISlotMachineUI
         // 슬롯 픽 사운드
         PlayKey(_SlotPickKey);
 
-        // ★ 오탈자 수정: laneIndex 사용
         if (laneIndex == _LaneContents.Length - 1)
         {
             GetReward();
@@ -300,28 +297,24 @@ public class SlotMachineUIManager : MonoBehaviour, ISlotMachineUI
         var groups = _Destiny.GroupBy(x => x);
         var maxCount = groups.Max(g => g.Count());
 
-        bool isSuccess = false;
         switch (maxCount)
         {
             case 3:
-                GameEvents.RaiseRequestCurrencyGain(
-                    _BettingCurrencyID, _BettingCurrencyAmount * _3MatchMul);
-                isSuccess = true;
+                GameEvents.RaiseRewardSuccess(
+                    RewardType.Currency,
+                    _BettingCurrencyID,
+                    _BettingCurrencyAmount * _3MatchMul);
                 break;
             case 2:
-                GameEvents.RaiseRequestCurrencyGain(
-                    _BettingCurrencyID, _BettingCurrencyAmount * _2MatchMul);
-                isSuccess = true;
+                GameEvents.RaiseRewardSuccess(
+                    RewardType.Currency,
+                    _BettingCurrencyID,
+                    _BettingCurrencyAmount * _2MatchMul);
                 break;
             default:
-                isSuccess = false;
+                GameEvents.RaiseRewardFail();
                 break;
-        }
-
-        // 보상/실패 사운드 (최종 판정 1회만)
-        if (isSuccess) PlayKey(_RewardSuccessKey);
-        else PlayKey(_RewardFailKey);
-    
+        }    
     }
 
     void OnClickRerollBtn()
