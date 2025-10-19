@@ -15,11 +15,21 @@ public class FocusableUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        var data = itemDataProvider?.GetItemData();
-        OnPointerEnterFocusUI?.Invoke(data);
+        Focus();
     }
 
     public void OnPointerExit(PointerEventData eventData)
+    {
+        Defocus();
+    }
+
+    public void Focus()
+    {
+        var data = itemDataProvider?.GetItemData();
+        OnPointerEnterFocusUI?.Invoke(data);
+    }
+    
+    public void Defocus()
     {
         OnPointerExitFocusUI?.Invoke();
     }

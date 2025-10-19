@@ -17,6 +17,4 @@ public class CursorGuard : MonoBehaviour
         CursorManager.HideCursor();
         _Armed = false;
     }
-
-    void OnDestroy() => OnDisable(); // 누수 방지
 }

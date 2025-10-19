@@ -34,13 +34,15 @@ public class EmoteSlot : MonoBehaviour, IItemDataProvider
 
         if (so.PlayMode == EmotePlayMode.Solo)
         {
-            owner.RequestStartSolo(so); // 솔로 이모트
+            // owner.RequestStartSolo(so); // 솔로 이모트
+            return;
         }
         else // EmotePlayMode.Group
         {
             StartGroup(so, owner); // 단체 이모트
         }
-
+        
+        GetComponent<FocusableUI>().Defocus();
         UIRouter._Inst.Close<IEmoteUI>();
     }
 

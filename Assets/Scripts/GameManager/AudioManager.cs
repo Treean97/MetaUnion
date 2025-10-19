@@ -74,7 +74,11 @@ public class AudioManager : MonoBehaviour, ILocalSaveSection
         _BGMSource.loop = true;
         _BGMSource.spatialBlend = 0f; // 2D
         _BGMSource.outputAudioMixerGroup = _BGMGroup;
+    }
 
+    
+    void Start()
+    {
         SaveLoadManager._Inst?.RegisterLocal(this);
     }
 

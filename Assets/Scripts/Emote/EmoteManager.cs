@@ -1,9 +1,14 @@
 using System;
 using Photon.Pun;
-using Photon.Realtime;
 using UnityEngine;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
+/// <summary>
+/// EmoteSO 리스트를 보관하고,
+/// - 이모트 시작/종료(앵커 생성/삭제)
+/// - 이모트 참여/나가기(슬롯 예약/해제)
+/// 및 정규화 시간 계산을 담당.
+/// </summary>
 public class EmoteManager : MonoBehaviourPunCallbacks
 {
     public static EmoteManager _Inst { get; private set; }
@@ -12,30 +17,33 @@ public class EmoteManager : MonoBehaviourPunCallbacks
     [SerializeField] private EmoteSO[] _EmoteSOs;
     public EmoteSO[] EmoteSOs => _EmoteSOs;
 
+    // ----- Room Property Keys (앵커 ViewID 네임스페이스) -----
+    private static string _KEY_ACTIVE(int vid)   => $"_EMOTE_{vid}_ACTIVE";
+    private static string _KEY_EMOTE_ID(int vid) => $"_EMOTE_{vid}_ID";
+    private static string _KEY_START(int vid)    => $"_EMOTE_{vid}_START";
+    // CSV: "actor:viewId,actor:viewId,...", 빈 슬롯 "-1:-1"
+    private static string _KEY_SLOTS(int vid)    => $"_EMOTE_{vid}_SLOTS";
+
+    public static string KEY_ACTIVE(int vid) => _KEY_ACTIVE(vid);
+    public static string KEY_START (int vid) => _KEY_START(vid);
+    public static string KEY_SLOTS (int vid) => _KEY_SLOTS(vid);
+
     public static double _NOW => PhotonNetwork.Time;
 
-    void Awake()
+    private void Awake()
     {
         if (_Inst != null && _Inst != this) { Destroy(this); return; }
         _Inst = this;
     }
 
-    // 유틸
+    // ===== 유틸 =====
     struct SlotEntry
     {
         public int actor;
         public int viewId;
     }
 
-    static string BuildEmptyCsv(int count)
-    {
-        if (count <= 0) return "";
-        var arr = new string[count];
-        for (int i = 0; i < count; i++) arr[i] = "-1:-1";
-        return string.Join(",", arr);
-    }
-
-    static SlotEntry[] ParseCsv(string csv)
+    private static SlotEntry[] ParseCsv(string csv)
     {
         if (string.IsNullOrEmpty(csv)) return Array.Empty<SlotEntry>();
         var parts = csv.Split(',');
@@ -46,15 +54,17 @@ public class EmoteManager : MonoBehaviourPunCallbacks
             int a = -1, v = -1;
             if (p.Length > 0) int.TryParse(p[0], out a);
             if (p.Length > 1) int.TryParse(p[1], out v);
-            res[i].actor = a; res[i].viewId = v;
+            res[i].actor = a;
+            res[i].viewId = v;
         }
         return res;
     }
 
-    static string ToCsv(SlotEntry[] a)
+    private static string ToCsv(SlotEntry[] a)
     {
         var parts = new string[a.Length];
-        for (int i = 0; i < a.Length; i++) parts[i] = $"{a[i].actor}:{a[i].viewId}";
+        for (int i = 0; i < a.Length; i++)
+            parts[i] = $"{a[i].actor}:{a[i].viewId}";
         return string.Join(",", parts);
     }
 
@@ -64,12 +74,16 @@ public class EmoteManager : MonoBehaviourPunCallbacks
         if (string.IsNullOrEmpty(id) || _EmoteSOs == null) return false;
         for (int i = 0; i < _EmoteSOs.Length; i++)
         {
-            if (_EmoteSOs[i] && _EmoteSOs[i].ID == id) { so = _EmoteSOs[i]; return true; }
+            if (_EmoteSOs[i] && _EmoteSOs[i].ID == id)
+            {
+                so = _EmoteSOs[i];
+                return true;
+            }
         }
         return false;
     }
 
-    // 이모트 시작
+    // ===== 이모트 시작(앵커 생성 + 룸 프로퍼티 세팅) =====
     public EmoteAnchor StartEmote(EmoteSO so, Vector3 pos, Quaternion rot, PlayerEmote emoteOwner)
     {
         if (!PhotonNetwork.InRoom) { Debug.LogError("[Emote] Not in room"); return null; }
@@ -99,16 +113,16 @@ public class EmoteManager : MonoBehaviourPunCallbacks
         if (myView > 0) { arr[0] = $"{myActor}:{myView}"; ownerReserved = true; }
 
         var hash = new Hashtable {
-            { EmoteKeys._ACTIVE(vid), true },
-            { EmoteKeys._EMOTE_ID(vid), so.ID },
-            { EmoteKeys._START(vid), _NOW },
-            { EmoteKeys._SLOTS(vid), string.Join(",", arr) }
+            { _KEY_ACTIVE(vid), true },
+            { _KEY_EMOTE_ID(vid), so.ID },
+            { _KEY_START(vid), _NOW },
+            { _KEY_SLOTS(vid), string.Join(",", arr) }
         };
         PhotonNetwork.CurrentRoom.SetCustomProperties(hash);
 
         if (ownerReserved && !emoteOwner.InEmote)
         {
-            float t = GetNormalizedTime(anchor);
+            float t = GetNormalizedTime(anchor); // SO.Length 기준
             emoteOwner.BeginJoin(anchor, 0, t);
         }
         else
@@ -116,16 +130,16 @@ public class EmoteManager : MonoBehaviourPunCallbacks
             Debug.LogWarning("[Emote] Owner slot not reserved or already in emote. Skipped auto-join.");
         }
 
-        return anchor;    
+        return anchor;
     }
 
-    // 이모트 종료
+    // ===== 이모트 종료(슬롯 참가자들에게 강제 종료 지시 + 앵커 삭제) =====
     public void StopEmote(EmoteAnchor anchor)
     {
         if (!anchor) return;
         int vid = anchor.photonView.ViewID;
 
-        if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue(EmoteKeys._SLOTS(vid), out var slotsObj))
+        if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue(_KEY_SLOTS(vid), out var slotsObj))
         {
             var arr = ParseCsv((string)slotsObj);
             for (int i = 0; i < arr.Length; i++)
@@ -135,16 +149,16 @@ public class EmoteManager : MonoBehaviourPunCallbacks
                 {
                     var pv = PhotonView.Find(targetViewId);
                     if (pv != null)
-                        pv.RPC(nameof(PlayerEmote.RPC_ForceLeaveAndReturn), pv.Owner);
+                        pv.RPC(nameof(PlayerEmote.RPC_ForceLeaveAndReturn), pv.Owner); // 소유자에게 지시
                 }
             }
         }
 
-        PhotonNetwork.CurrentRoom.SetCustomProperties(new Hashtable { { EmoteKeys._ACTIVE(vid), false } });
+        PhotonNetwork.CurrentRoom.SetCustomProperties(new Hashtable { { _KEY_ACTIVE(vid), false } });
         PhotonNetwork.Destroy(anchor.gameObject);
     }
 
-    // 참여
+    // ===== 참여(슬롯 예약: 선착순 CAS) =====
     public bool JoinEmote(EmoteAnchor anchor, PlayerEmote who, out int slotIndex)
     {
         slotIndex = -1;
@@ -153,34 +167,39 @@ public class EmoteManager : MonoBehaviourPunCallbacks
         var room = PhotonNetwork.CurrentRoom;
         int vid = anchor.photonView.ViewID;
 
-        if (!room.CustomProperties.TryGetValue(EmoteKeys._ACTIVE(vid), out var act) || !(bool)act)
+        if (!room.CustomProperties.TryGetValue(_KEY_ACTIVE(vid), out var act) || !(bool)act)
             return false;
 
-        if (!room.CustomProperties.TryGetValue(EmoteKeys._SLOTS(vid), out var slotsObj))
+        if (!room.CustomProperties.TryGetValue(_KEY_SLOTS(vid), out var slotsObj))
             return false;
 
         string oldCsv = (string)slotsObj;
-        var arr = ToEntries(oldCsv);
+        var arr = ParseCsv(oldCsv);
 
         int myActor = PhotonNetwork.LocalPlayer.ActorNumber;
         int myView = who.TryGetViewID();
+        if (myView < 0)
+        {
+            Debug.LogWarning("[Emote] PlayerEmote에 PhotonView 없음");
+            return false;
+        }
 
-        if (myView < 0) { Debug.LogWarning("[Emote] PlayerEmote에 PhotonView 없음"); return false; }
-
+        // 이미 들어가 있으면 거절
         for (int i = 0; i < arr.Length; i++)
             if (arr[i].actor == myActor) return false;
 
+        // 빈 슬롯 찾기
         int pick = -1;
         for (int i = 0; i < arr.Length; i++)
             if (arr[i].actor < 0 && arr[i].viewId < 0) { pick = i; break; }
-        if (pick < 0) return false;
+        if (pick < 0) return false; // 만석
 
         arr[pick].actor = myActor;
         arr[pick].viewId = myView;
 
-        string newCsv = FromEntries(arr);
-        var expected = new Hashtable { { EmoteKeys._SLOTS(vid), oldCsv } };
-        var update   = new Hashtable { { EmoteKeys._SLOTS(vid), newCsv } };
+        string newCsv = ToCsv(arr);
+        var expected = new Hashtable { { _KEY_SLOTS(vid), oldCsv } };
+        var update   = new Hashtable { { _KEY_SLOTS(vid), newCsv } };
 
         if (room.SetCustomProperties(update, expected))
         {
@@ -188,13 +207,9 @@ public class EmoteManager : MonoBehaviourPunCallbacks
             return true;
         }
         return false;
-
-        // local helpers
-        static SlotEntry[] ToEntries(string csv) => ParseCsv(csv);
-        static string FromEntries(SlotEntry[] a) => ToCsv(a);
     }
 
-    // 나가기 
+    // ===== 나가기(내 엔트리만 해제) =====
     public void LeaveEmote(EmoteAnchor anchor, PlayerEmote who)
     {
         if (!anchor || !who) return;
@@ -202,7 +217,7 @@ public class EmoteManager : MonoBehaviourPunCallbacks
         var room = PhotonNetwork.CurrentRoom;
         int vid = anchor.photonView.ViewID;
 
-        if (!room.CustomProperties.TryGetValue(EmoteKeys._SLOTS(vid), out var slotsObj)) return;
+        if (!room.CustomProperties.TryGetValue(_KEY_SLOTS(vid), out var slotsObj)) return;
 
         string oldCsv = (string)slotsObj;
         var arr = ParseCsv(oldCsv);
@@ -215,25 +230,27 @@ public class EmoteManager : MonoBehaviourPunCallbacks
         {
             if (arr[i].actor == myActor && arr[i].viewId == myView)
             {
-                arr[i].actor = -1; arr[i].viewId = -1;
-                changed = true; break;
+                arr[i].actor = -1;
+                arr[i].viewId = -1;
+                changed = true;
+                break;
             }
         }
         if (!changed) return;
 
         string newCsv = ToCsv(arr);
-        var expected = new Hashtable { { EmoteKeys._SLOTS(vid), oldCsv } };
-        var update   = new Hashtable { { EmoteKeys._SLOTS(vid), newCsv } };
+        var expected = new Hashtable { { _KEY_SLOTS(vid), oldCsv } };
+        var update   = new Hashtable { { _KEY_SLOTS(vid), newCsv } };
         room.SetCustomProperties(update, expected);
     }
 
-    // 정규화 시간
+    // ===== 정규화 시간(0~1) =====
     public static float GetNormalizedTime(EmoteAnchor anchor)
     {
         if (!anchor || !anchor.EmoteSO) return 0f;
         int vid = anchor.photonView.ViewID;
 
-        if (!PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue(EmoteKeys._START(vid), out var startObj))
+        if (!PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue(_KEY_START(vid), out var startObj))
             return 0f;
 
         double start = (double)startObj;
@@ -243,14 +260,15 @@ public class EmoteManager : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    void RPC_StopEmoteByMC(int anchorViewId)
+    private void RPC_StopEmoteByMC(int anchorViewId)
     {
         if (!PhotonNetwork.IsMasterClient) return;
         var pv = PhotonView.Find(anchorViewId);
         var anchor = pv ? pv.GetComponent<EmoteAnchor>() : null;
-        if (anchor != null) StopEmote(anchor);
+        if (anchor != null) StopEmote(anchor); // 네가 이미 가지고 있는 StopEmote 재사용
     }
 
+    // 외부에서 호출: 아무 클라나 이걸 부르면 마스터가 실제 파괴를 수행
     public void RequestStopEmote(EmoteAnchor anchor)
     {
         if (!anchor || !photonView) return;

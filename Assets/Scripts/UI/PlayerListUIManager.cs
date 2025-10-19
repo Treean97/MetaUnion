@@ -17,7 +17,7 @@ public class PlayerListUIManager : MonoBehaviour, IPlayerListUI
         UpdatePlayerList();
     }
 
-    void OnDisable()
+    void OnDestroy()
     {
         UIRouter._Inst?.UnregisterAs<IPlayerListUI>(this);
     }

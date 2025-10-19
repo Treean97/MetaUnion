@@ -101,6 +101,7 @@ IBeginDragHandler, IEndDragHandler, IDropHandler, IDragHandler, IPointerClickHan
 
     public InfoDataSO GetItemData()
     {
+        if (!_ItemDataSO) return null;
         return _ItemDataSO.InfoData;
     }
 }

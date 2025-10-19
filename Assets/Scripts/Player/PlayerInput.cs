@@ -138,32 +138,35 @@ namespace Controller
 
         public void GatherInput()
         {
-            // 카메라/축/런/점프 기본 수집
+            // 기본 수집
             _Axis = new Vector2(Input.GetAxis(_HorizontalAxis), Input.GetAxis(_VerticalAxis));
             _IsRun = Input.GetKey(_RunKey);
             _IsJump = Input.GetButton(_JumpButton);
-
             _Target = (_Camera == null) ? Vector3.zero : _Camera.Target;
             _MouseDelta = new Vector2(Input.GetAxis(_MouseX), Input.GetAxis(_MouseY));
             _Scroll = Input.GetAxis(_MouseScroll);
 
-            // 커서 표시 중이면 카메라 회전 입력은 막음
+            // 커서 노출 시엔 카메라 회전 막기(요건 기존 유지)
             if (CursorManager._IsShown)
                 _MouseDelta = Vector2.zero;
 
-            // 이모트 중: 카메라만 허용, 나머지 입력 전부 무시
+            // === 이모트 중 처리 ===
             if (IsInEmote())
             {
-                // 이동/달리기/점프 강제 차단
+                // 이동/달리기/점프만 차단
                 _Axis = Vector2.zero;
                 _IsRun = false;
                 _IsJump = false;
 
-                // 아래의 상호작용/공격/무기 전환/각종 UI 토글/커서 토글/이모트 시작 등 “행동 입력”은 처리하지 않음
+                // 이모트 중에도 상호작용은 허용 (예: 앵커 다시 눌러 나가기 등)
+                if (Input.GetKeyDown(_InteractKey))
+                    OnInteract?.Invoke();
+
+                // 나머지 행동 입력(공격/무기전환/UI/커서 토글/새 이모트 UI 등)은 처리하지 않음
                 return;
             }
 
-            // 평상시 입력 처리
+            // === 평상시 입력 처리 ===
             if (Input.GetKeyDown(_InteractKey))
                 OnInteract?.Invoke();
 
@@ -187,7 +190,8 @@ namespace Controller
 
             if (Input.GetKeyDown(_EmoteKey)) UIRouter._Inst.Open<IEmoteUI>();
             if (Input.GetKeyUp(_EmoteKey)) UIRouter._Inst.Close<IEmoteUI>();
-        }
+        }   
+
 
 
         public void SetInput()

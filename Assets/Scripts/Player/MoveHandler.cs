@@ -52,6 +52,7 @@ namespace Controller
         public Vector3 Target => m_Target;
         public bool IsRun => m_IsRun;
 
+
         private void OnValidate()
         {
             m_WalkSpeed = Mathf.Max(m_WalkSpeed, 0f);
@@ -183,6 +184,16 @@ namespace Controller
             }
         }
 
+        public void LockTurn()
+        {
+            m_Movement._IsLockTurn = true;
+        }
+        
+        public void UnlockTurn()
+        {
+            m_Movement._IsLockTurn = false;
+        }
+
         #region Handlers
         private class MovementHandler
         {
@@ -194,8 +205,8 @@ namespace Controller
             private float m_TargetAngle;
             private bool m_IsRotating;
             private Vector3 m_Normal;
-            
             private Vector3 m_VerticalVelocity;
+            internal bool _IsLockTurn;
 
             public Vector3 VerticalVelocity => m_VerticalVelocity;
 
@@ -292,6 +303,8 @@ namespace Controller
 
             private void Turn(in Vector3 targetForward, bool isMoving)
             {
+                if (_IsLockTurn) return;
+
                 var angle = Vector3.SignedAngle(
                     m_Transform.forward,
                     Vector3.ProjectOnPlane(targetForward, Vector3.up),
