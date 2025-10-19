@@ -70,16 +70,13 @@ public class PlayerEmote : MonoBehaviourPunCallbacks
         {
             _ReturnPos = transform.position;
             _ReturnRot = transform.rotation;
-
-            // 슬롯의 월드 포즈로 이동
-            transform.SetPositionAndRotation(anchor.GetSlotWorldPos(slotIndex), anchor.GetSlotWorldRot(slotIndex));
-            transform.SetParent(anchor.transform, true);
         }
 
+        // 모든 클라에서 동일 동작이 되도록 RPC로 위임 (부모 지정 포함)
         photonView.RPC(nameof(RPC_PlayEmote), RpcTarget.All,
             anchor.photonView.ViewID, slotIndex, Mathf.Clamp01(normalizedTime));
     }
-
+        
     [PunRPC]
     public void RPC_PlayEmote(int anchorViewId, int slotIndex, float normalizedTime)
     {
@@ -91,8 +88,14 @@ public class PlayerEmote : MonoBehaviourPunCallbacks
         _SlotIndex = slotIndex;
         _IsInEmote = true;
 
-        var so = anchor.EmoteSO;
+        // 슬롯 Transform을 부모로
+        var slotT = anchor.GetSlotTransform(slotIndex);
+        transform.SetParent(slotT, false);     // worldPositionStays = false
+        transform.localPosition = Vector3.zero;
+        transform.localRotation = Quaternion.identity;
 
+        // 애니메이션 재생
+        var so = anchor.EmoteSO;
         if (_Anim)
         {
             _Anim.Play(so.StateName, so.Layer, Mathf.Clamp01(normalizedTime));
@@ -109,16 +112,17 @@ public class PlayerEmote : MonoBehaviourPunCallbacks
         if (_IsInEmote && _Anim && !string.IsNullOrEmpty(_IdleState))
             _Anim.CrossFadeInFixedTime(_IdleState, 0.08f, 0, 0f);
 
+        // 부모 해제는 모든 클라 공통
+        transform.SetParent(null, true);
+
         if (photonView.IsMine)
-        {
-            transform.SetParent(null, true);
             transform.SetPositionAndRotation(_ReturnPos, _ReturnRot);
-        }
 
         _IsInEmote = false;
         _Anchor = null;
         _SlotIndex = -1;
     }
+
 
     [PunRPC] public void RPC_ForceLeaveAndReturn() => DoLeaveAndReturn();
 

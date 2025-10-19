@@ -120,4 +120,10 @@ public class EmoteAnchor : MonoBehaviourPun, IPunInstantiateMagicCallback, IInte
         EmoteManager._Inst?.StopEmote(this);
     }
 
+    public Transform GetSlotTransform(int index)
+    {
+        if (_slots == null || index < 0 || index >= _slots.Count) return this.transform;
+        return _slots[index] ? _slots[index] : this.transform;
+    }
+
 }

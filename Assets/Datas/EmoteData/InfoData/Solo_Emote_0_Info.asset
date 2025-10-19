@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 093c64649d6c28848acfcd6d395f0b6b, type: 3}
   m_Name: Solo_Emote_0_Info
   m_EditorClassIdentifier: Assembly-CSharp::InfoDataSO
-  DisplayName: 
-  Description: 
+  DisplayName: "\uAC1C\uC778 \uCDA4"
+  Description: "1\uC778 \uCDA4 \uC774\uBAA8\uD2B8"
