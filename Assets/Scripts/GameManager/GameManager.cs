@@ -58,11 +58,22 @@ namespace Com.MyCompany.MyGame
 
         #region Public Methods
 
+        bool _IsLeaving = false;
 
         public void LeaveRoom()
         {
+            if (_IsLeaving) return;
+
+            _IsLeaving = true;
+            StartCoroutine(LeaveRoomCo());
+        }
+        
+        IEnumerator LeaveRoomCo()
+        {
+            yield return SceneLoadManager._Inst.WaitDuringClose();
+
             PhotonNetwork.LeaveRoom();
-            GameEvents.RaiseLeaveRoom();                 
+            GameEvents.RaiseLeaveRoom();
         }
 
 

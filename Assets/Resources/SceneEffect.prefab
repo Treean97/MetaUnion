@@ -88,8 +88,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea944c3e98f3a034ca8db8710ceb93fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CircleRevealOverlay
-  _OpenDuration: 2
-  _CloseDuration: 2
+  _OpenDuration: 1
+  _CloseDuration: 1
 --- !u!1 &2954433144028744000
 GameObject:
   m_ObjectHideFlags: 0

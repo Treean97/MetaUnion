@@ -25,19 +25,33 @@ public class EmoteSlot : MonoBehaviour, IItemDataProvider
         _EmoteSO = emoteSO;
         _Icon.sprite = emoteSO.Icon;
         _DisplayName.text = emoteSO.InfoDataSO.DisplayName;
-    }    
+    }
 
     void OnClick()
     {
-        var mgr = EmoteManager._Inst;
+        var so = _EmoteSO;
         var owner = PlayerSetup._LocalPlayer.GetComponent<PlayerEmote>();
-        var ownerTransform = owner.transform;
-        Vector3 pos = ownerTransform.position + ownerTransform.forward * 1.5f;
-        Quaternion rot = Quaternion.LookRotation(-ownerTransform.forward, Vector3.up);
 
-        mgr.StartEmote(_EmoteSO, pos, rot, owner);
-        
+        if (so.PlayMode == EmotePlayMode.Solo)
+        {
+            owner.RequestStartSolo(so); // 솔로 이모트
+        }
+        else // EmotePlayMode.Group
+        {
+            StartGroup(so, owner); // 단체 이모트
+        }
+
         UIRouter._Inst.Close<IEmoteUI>();
     }
+
+    void StartGroup(EmoteSO so, PlayerEmote owner)
+    {
+        var mgr = EmoteManager._Inst;
+        var t = owner.transform;
+        Vector3 pos = t.position + t.forward * 1.5f;
+        Quaternion rot = Quaternion.LookRotation(-t.forward, Vector3.up);
+        mgr.StartEmote(so, pos, rot, owner);
+    }
+
 
 }

@@ -1,16 +1,8 @@
 using ExitGames.Client.Photon;
 using Photon.Pun;
+using Photon.Realtime; // ★ 추가
 using UnityEngine;
 
-/// <summary>
-/// UI/상호작용으로 이미 진행 중인 이모트에 참여/나가기.
-/// - 참여 시: EmoteManager.JoinEmote로 슬롯 예약 → RPC로 전 클라 재생
-/// - 나가기: EmoteManager.LeaveEmote로 해제 → 복귀
-/// - 위치/각도 스냅은 '소유자만', 나머지는 Photon Transform View가 보간
-/// - ⬇️ 오디오 정책:
-///    * 이모트 입장 시: EmoteSO.SFXKey 로컬 루프 재생(진행도에 맞춘 오프셋), BGM 뮤트 토큰 ON
-///    * 이모트 종료/이탈/앵커 파괴 시: SFX 정지, BGM 뮤트 토큰 OFF
-/// </summary>
 [RequireComponent(typeof(PhotonView))]
 public class PlayerEmote : MonoBehaviourPunCallbacks
 {
@@ -23,28 +15,24 @@ public class PlayerEmote : MonoBehaviourPunCallbacks
     private int _SlotIndex = -1;
     private bool _IsInEmote;
 
-    // ⬇️ 오디오 핸들
-    private Pooled2DAudioPlayer _Sfx2D;   // 이모트 SFX 루프 플레이어(2D 전용)
-    private string _BgmToken;             // BGM 런타임 뮤트 토큰 (앵커별로 고유하게)
+    private Pooled2DAudioPlayer _Sfx2D;
+    private string _BgmToken;
 
-    // 복귀 지점(소유자만)
     private Vector3 _ReturnPos;
     private Quaternion _ReturnRot;
+
+    // ===== 솔로 이모트 =====
+    Coroutine _SoloWatchdog;
+    string _SoloCurrentId;
 
     public bool InEmote => _IsInEmote;
     public int CurrentSlotIndex => _SlotIndex;
     public EmoteAnchor GetCurrentAnchor() => _Anchor;
 
-    void Awake()
-    {
-        _Anim = GetComponentInChildren<Animator>();
-    }
+    void Awake() => _Anim = GetComponentInChildren<Animator>();
 
-    // ===== 외부(UI/상호작용) 진입 포인트 =====
-
-    /// <summary>
-    /// 참여 시도(슬롯 예약 → 진행률 계산 → 재생 RPC)
-    /// </summary>
+    #region 그룹
+    // 참여 시도
     public void RequestJoinSequential(EmoteAnchor anchor)
     {
         if (!anchor) return;
@@ -55,11 +43,10 @@ public class PlayerEmote : MonoBehaviourPunCallbacks
             return;
         }
 
-        // 앵커의 시작 시간으로부터 정규화 진행도 산출 (SO.Length 기준)
         double start = PhotonNetwork.Time;
         var room = PhotonNetwork.CurrentRoom;
         int vid = anchor.photonView.ViewID;
-        if (room != null && room.CustomProperties.TryGetValue(EmoteManager.KEY_START(vid), out var startObj))
+        if (room != null && room.CustomProperties.TryGetValue(EmoteKeys._START(vid), out var startObj))
             start = (double)startObj;
 
         float emoteLen = Mathf.Max(0.01f, anchor.EmoteSO.Length);
@@ -68,22 +55,13 @@ public class PlayerEmote : MonoBehaviourPunCallbacks
         BeginJoin(anchor, slot, t);
     }
 
-    /// <summary>
-    /// 나가기(슬롯 해제 후 복귀)
-    /// </summary>
     public void RequestLeave()
     {
         if (!_Anchor) return;
-
         EmoteManager._Inst.LeaveEmote(_Anchor, this);
         photonView.RPC(nameof(RPC_ForceLeaveAndReturn), RpcTarget.All);
     }
 
-    // ===== 내부 합류/재생 =====
-
-    /// <summary>
-    /// 사전 계산된 진행률로 합류 시작(권장 경로)
-    /// </summary>
     public void BeginJoin(EmoteAnchor anchor, int slotIndex, float normalizedTime)
     {
         if (!anchor || !anchor.EmoteSO || _IsInEmote) return;
@@ -92,30 +70,14 @@ public class PlayerEmote : MonoBehaviourPunCallbacks
         {
             _ReturnPos = transform.position;
             _ReturnRot = transform.rotation;
+
+            // 슬롯의 월드 포즈로 이동
             transform.SetPositionAndRotation(anchor.GetSlotWorldPos(slotIndex), anchor.GetSlotWorldRot(slotIndex));
+            transform.SetParent(anchor.transform, true);
         }
 
         photonView.RPC(nameof(RPC_PlayEmote), RpcTarget.All,
             anchor.photonView.ViewID, slotIndex, Mathf.Clamp01(normalizedTime));
-    }
-
-    /// <summary>
-    /// 레거시 경로(내부에서 진행률 산출)
-    /// </summary>
-    public void BeginJoin(EmoteAnchor anchor, int slotIndex)
-    {
-        if (!anchor || !anchor.EmoteSO || _IsInEmote) return;
-
-        double start = PhotonNetwork.Time;
-        var room = PhotonNetwork.CurrentRoom;
-        int vid = anchor.photonView.ViewID;
-        if (room != null && room.CustomProperties.TryGetValue(EmoteManager.KEY_START(vid), out var startObj))
-            start = (double)startObj;
-
-        float emoteLen = Mathf.Max(0.01f, anchor.EmoteSO.Length);
-        float t = (float)(((PhotonNetwork.Time - start) % emoteLen) / emoteLen);
-
-        BeginJoin(anchor, slotIndex, t);
     }
 
     [PunRPC]
@@ -131,56 +93,44 @@ public class PlayerEmote : MonoBehaviourPunCallbacks
 
         var so = anchor.EmoteSO;
 
-        // 애니메이션: 정확한 진행도 반영
         if (_Anim)
         {
             _Anim.Play(so.StateName, so.Layer, Mathf.Clamp01(normalizedTime));
             _Anim.Update(0f);
         }
 
-        // ⬇️ 오디오: 진행도 기반 오프셋으로 로컬 루프 재생 + BGM 뮤트
         StartEmoteAudio(normalizedTime);
     }
 
-    /// <summary>
-    /// 로컬 복귀(애니메이터/위치 되돌림) + 오디오 정리
-    /// </summary>
     public void DoLeaveAndReturn()
     {
-        // ⬇️ 오디오 종료/원복
         StopEmoteAudio();
 
         if (_IsInEmote && _Anim && !string.IsNullOrEmpty(_IdleState))
             _Anim.CrossFadeInFixedTime(_IdleState, 0.08f, 0, 0f);
 
         if (photonView.IsMine)
+        {
+            transform.SetParent(null, true);
             transform.SetPositionAndRotation(_ReturnPos, _ReturnRot);
+        }
 
         _IsInEmote = false;
         _Anchor = null;
         _SlotIndex = -1;
     }
 
-    [PunRPC]
-    public void RPC_ForceLeaveAndReturn()
-    {
-        DoLeaveAndReturn();
-    }
+    [PunRPC] public void RPC_ForceLeaveAndReturn() => DoLeaveAndReturn();
 
-    public void OnJoinRejected_Full()
-    {
-        Debug.Log("[Emote] 참여 거절: 슬롯 가득 참");
-        // TODO: UI 토스트
-    }
+    public void OnJoinRejected_Full() => Debug.Log("[Emote] 참여 거절: 슬롯 가득 참");
 
-    /// <summary>내 PhotonViewID</summary>
     public int TryGetViewID()
     {
         var pv = GetComponent<PhotonView>();
         return pv ? pv.ViewID : -1;
     }
 
-    // ===== 룸 프로퍼티 수신 =====
+    // 룸 프로퍼티 수신
     public override void OnRoomPropertiesUpdate(Hashtable changed)
     {
         if (!_IsInEmote || _Anchor == null) return;
@@ -188,33 +138,12 @@ public class PlayerEmote : MonoBehaviourPunCallbacks
         int vid = _Anchor.photonView ? _Anchor.photonView.ViewID : -1;
         if (vid < 0) { SafeLeaveIfBroken(); return; }
 
-        var key = EmoteManager.KEY_ACTIVE(vid);
+        var key = EmoteKeys._ACTIVE(vid);
         if (changed != null && changed.ContainsKey(key))
         {
             var active = changed[key] as bool?;
             if (active.HasValue && active.Value == false)
-                DoLeaveAndReturn(); // 앵커 종료됨 → 즉시 복귀(+오디오 정리)
-        }
-    }
-
-    void LateUpdate()
-    {
-        if (!_IsInEmote) return;
-
-        // 앵커 파괴/분실 감지
-        if (_Anchor == null || _Anchor.photonView == null || PhotonView.Find(_Anchor.photonView.ViewID) == null)
-        {
-            SafeLeaveIfBroken();
-            return;
-        }
-
-        // 소유자는 슬롯에 스냅 유지(원격은 PTV 보간)
-        if (photonView.IsMine)
-        {
-            transform.SetPositionAndRotation(
-                _Anchor.GetSlotWorldPos(_SlotIndex),
-                _Anchor.GetSlotWorldRot(_SlotIndex)
-            );
+                DoLeaveAndReturn();
         }
     }
 
@@ -223,27 +152,19 @@ public class PlayerEmote : MonoBehaviourPunCallbacks
         if (_IsInEmote) DoLeaveAndReturn();
     }
 
-    // ===== 내부: 오디오 제어 =====
-
-    /// <summary>
-    /// 이모트 시작 시 SFX 루프 + BGM 뮤트.
-    /// normalizedTime(0~1)을 SFX 길이에 매핑해 오프셋 재생.
-    /// </summary>
+    //  오디오 제어(그룹)
     void StartEmoteAudio(float normalizedTime)
     {
         var anchor = _Anchor;
         var so = anchor ? anchor.EmoteSO : null;
         if (!so) return;
 
-        // BGM 뮤트 토큰(앵커 ViewID로 고유화)
         _BgmToken = anchor ? $"emote-{anchor.photonView.ViewID}" : "emote";
         AudioManager._Inst?.BeginBGMMuteRuntime(_BgmToken, 0.1f);
 
-        // SFX 키가 없으면 BGM 뮤트만 적용
         string key = so.SFXKey;
         if (string.IsNullOrEmpty(key) || AudioManager._Inst == null) return;
 
-        // 진행도를 SFX 길이에 매핑 → 오프셋 계산
         float sfxLen;
         if (AudioManager._Inst.TryGetAudioLengthByKey(key, out sfxLen) && sfxLen > 0f)
         {
@@ -252,14 +173,10 @@ public class PlayerEmote : MonoBehaviourPunCallbacks
         }
         else
         {
-            // 길이 확인 불가 → 그냥 루프 시작(0초부터)
             _Sfx2D = AudioManager._Inst.Play2DLoopLocalPlayByKey(key);
         }
     }
 
-    /// <summary>
-    /// 이모트 종료/이탈/강제종료 시 SFX 정지 + BGM 원복.
-    /// </summary>
     void StopEmoteAudio()
     {
         if (_Sfx2D != null)
@@ -273,4 +190,168 @@ public class PlayerEmote : MonoBehaviourPunCallbacks
             _BgmToken = null;
         }
     }
+    #endregion
+    #region 솔로
+    public void RequestStartSolo(EmoteSO so)
+    {
+        if (!photonView.IsMine) return;
+        if (so == null || so.PlayMode != EmotePlayMode.Solo) return;
+        if (_IsInEmote) return; // 그룹 이모트 중엔 금지 (기존 흐름 보호)
+
+        // 이미 솔로 중: 같은 SO면 무시, 다른 SO면 교체
+        if (_SoloWatchdog != null && _SoloCurrentId == so.ID) return;
+        if (_SoloWatchdog != null) RequestStopSolo();
+
+        PhotonNetwork.LocalPlayer.SetCustomProperties(new Hashtable {
+            { EmoteKeys._SOLO_ID, so.ID },
+            { EmoteKeys._SOLO_START, PhotonNetwork.Time }
+        });
+
+        PlaySoloLocal(so, 0f);
+
+        _SoloWatchdog = StartCoroutine(Co_AutoStopSoloAfter(so.Length));
+        _SoloCurrentId = so.ID;
+    }
+
+    /// <summary>싱글(솔로) 이모트 종료: 커스텀 프로퍼티 삭제 → 전체 동기화.</summary>
+    public void RequestStopSolo()
+    {
+        if (!photonView.IsMine) return;
+        if (_SoloWatchdog == null) return;
+
+        PhotonNetwork.LocalPlayer.SetCustomProperties(new Hashtable {
+            { EmoteKeys._SOLO_ID, null },
+            { EmoteKeys._SOLO_START, null }
+        });
+
+        StopSoloLocal();
+        _SoloCurrentId = null;
+    }
+
+    System.Collections.IEnumerator Co_AutoStopSoloAfter(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        RequestStopSolo();
+    }
+
+    // 로컬 재생/정리
+    void PlaySoloLocal(EmoteSO so, float normalizedTime)
+    {
+        if (_Anim)
+        {
+            _Anim.Play(so.StateName, so.Layer, Mathf.Clamp01(normalizedTime));
+            _Anim.Update(0f);
+        }
+
+        _IsInEmote = true;
+
+        // 오디오: 솔로 전용 토큰
+        _BgmToken = $"solo-{photonView.ViewID}";
+        StartSoloAudio(so.SFXKey, normalizedTime);
+    }
+
+    void StopSoloLocal()
+    {
+        StopSoloAudio();
+
+        if (_Anim && !string.IsNullOrEmpty(_IdleState))
+            _Anim.CrossFadeInFixedTime(_IdleState, 0.08f, 0, 0f);
+
+        if (_SoloWatchdog != null) { StopCoroutine(_SoloWatchdog); _SoloWatchdog = null; }
+
+        _IsInEmote = false;
+    }
+
+    // 다른 클라가 내 솔로 상태를 복구할 수 있도록 플레이어 커스텀 프로퍼티 수신
+    public override void OnPlayerPropertiesUpdate(Player target, Hashtable changedProps)
+    {
+        if (photonView == null || photonView.Owner != target) return;
+        if (changedProps == null) return;
+
+        bool touched = changedProps.ContainsKey(EmoteKeys._SOLO_ID) || changedProps.ContainsKey(EmoteKeys._SOLO_START);
+        if (!touched) return;
+
+        string id = target.CustomProperties.TryGetValue(EmoteKeys._SOLO_ID, out var idObj) ? idObj as string : null;
+        double start = (target.CustomProperties.TryGetValue(EmoteKeys._SOLO_START, out var stObj) && stObj is double d) ? d : -1;
+
+        if (string.IsNullOrEmpty(id) || start < 0)
+        {
+            // 종료 신호
+            StopSoloLocal();
+            _SoloCurrentId = null;
+            return;
+        }
+
+        if (EmoteManager._Inst != null && EmoteManager._Inst.TryGetById(id, out var so))
+        {
+            float len = Mathf.Max(0.01f, so.Length);
+            float t = (float)(((PhotonNetwork.Time - start) % len) / len);
+            PlaySoloLocal(so, t);
+            _SoloCurrentId = id;
+
+            // 남은 시간으로 워치독 재설정
+            if (_SoloWatchdog != null) StopCoroutine(_SoloWatchdog);
+            _SoloWatchdog = StartCoroutine(Co_AutoStopSoloAfter(len * (1f - t)));
+        }
+    }
+
+    public override void OnEnable()
+    {
+        base.OnEnable();
+
+        // 씬 활성화 시, 오너의 현 솔로 상태 즉시 복원(늦게 붙은 경우)
+        if (photonView && photonView.Owner != null)
+        {
+            var owner = photonView.Owner;
+            string id = owner.CustomProperties.TryGetValue(EmoteKeys._SOLO_ID, out var idObj) ? idObj as string : null;
+            double start = (owner.CustomProperties.TryGetValue(EmoteKeys._SOLO_START, out var stObj) && stObj is double d) ? d : -1;
+
+            if (!string.IsNullOrEmpty(id) && start >= 0 &&
+                EmoteManager._Inst != null && EmoteManager._Inst.TryGetById(id, out var so))
+            {
+                float len = Mathf.Max(0.01f, so.Length);
+                float t = (float)(((PhotonNetwork.Time - start) % len) / len);
+                PlaySoloLocal(so, t);
+                _SoloCurrentId = id;
+
+                if (_SoloWatchdog != null) StopCoroutine(_SoloWatchdog);
+                _SoloWatchdog = StartCoroutine(Co_AutoStopSoloAfter(len * (1f - t)));
+            }
+        }
+    }
+
+    public override void OnDisable()
+    {
+        base.OnDisable(); 
+
+        if (_SoloWatchdog != null) { StopCoroutine(_SoloWatchdog); _SoloWatchdog = null; }
+    }
+
+    // 솔로용 오디오
+    void StartSoloAudio(string sfxKey, float normalizedTime)
+    {
+        AudioManager._Inst?.BeginBGMMuteRuntime(_BgmToken, 0.1f);
+        if (string.IsNullOrEmpty(sfxKey) || AudioManager._Inst == null) return;
+
+        if (AudioManager._Inst.TryGetAudioLengthByKey(sfxKey, out var sfxLen) && sfxLen > 0f)
+        {
+            float offsetSec = Mathf.Clamp01(normalizedTime) * sfxLen;
+            _Sfx2D = AudioManager._Inst.Play2DLoopFromOffsetByKey(sfxKey, offsetSec);
+        }
+        else
+        {
+            _Sfx2D = AudioManager._Inst.Play2DLoopLocalPlayByKey(sfxKey);
+        }
+    }
+
+    void StopSoloAudio()
+    {
+        if (_Sfx2D != null) { _Sfx2D.StopAndReturn(); _Sfx2D = null; }
+        if (!string.IsNullOrEmpty(_BgmToken))
+        {
+            AudioManager._Inst?.EndBGMMuteRuntime(_BgmToken, 0.1f);
+            _BgmToken = null;
+        }
+    }
+    #endregion
 }

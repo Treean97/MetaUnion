@@ -56,4 +56,18 @@ public class SceneLoadManager : MonoBehaviour
 
         LoadingManager._Inst?.LoadScene(sceneName);
     }
+
+    public IEnumerator WaitDuringClose()
+    {
+        if (_Overlay == null) yield break;
+
+        // 혹시 꺼져있어도 보이게
+        _Overlay.SetVisible(true);
+
+        // 0.5 -> 0 으로 닫기
+        yield return _Overlay.Close().WaitForCompletion();
+
+        // 여기서는 일부러 끄지 않는다(검은 화면 유지)
+        // 이후 LoadingManager가 뜨고, 씬이 바뀌면 OnSceneLoaded에서 Open()으로 다시 열림
+    }
 }
