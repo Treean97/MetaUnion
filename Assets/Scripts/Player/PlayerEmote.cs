@@ -1,6 +1,7 @@
 using Controller;
 using ExitGames.Client.Photon;
 using Photon.Pun;
+using PlayFab.Internal;
 using UnityEngine;
 
 /// <summary>
@@ -33,6 +34,12 @@ public class PlayerEmote : MonoBehaviourPunCallbacks
     public bool InEmote => _IsInEmote;
     public int CurrentSlotIndex => _SlotIndex;
     public EmoteAnchor GetCurrentAnchor() => _Anchor;
+
+    bool _pendingSnap;
+    Vector3 _snapPos;
+    Quaternion _snapRot;
+
+    
 
     private void Awake()
     {
@@ -103,10 +110,14 @@ public class PlayerEmote : MonoBehaviourPunCallbacks
             // 이모트 동안 회전 고정
             GetComponent<MoveHandler>()?.LockTurn();
 
-            // 슬롯 포즈로 1회 스냅
-            var slotPos = anchor.GetSlotWorldPos(slotIndex);
-            var slotRot = anchor.GetSlotWorldRot(slotIndex);
-            transform.SetPositionAndRotation(slotPos, slotRot);
+                // // 슬롯 포즈로 1회 스냅
+                // var slotPos = anchor.GetSlotWorldPos(slotIndex);
+                // var slotRot = anchor.GetSlotWorldRot(slotIndex);
+                // transform.SetPositionAndRotation(slotPos, slotRot);
+
+            _snapPos = anchor.GetSlotWorldPos(slotIndex);
+            _snapRot = anchor.GetSlotWorldRot(slotIndex);
+            _pendingSnap = true;     
         }
     
 
@@ -202,9 +213,7 @@ public class PlayerEmote : MonoBehaviourPunCallbacks
     /// 로컬 복귀(애니메이터/위치 되돌림 + 오디오 복구)
     /// </summary>
     public void DoLeaveAndReturn()
-    {
-        _IsInEmote = false;
-         
+    {       
         // 오디오 먼저 정리
         StopLocalEmoteAudio();
 
@@ -216,6 +225,7 @@ public class PlayerEmote : MonoBehaviourPunCallbacks
 
         _Anchor = null;
         _SlotIndex = -1;
+        _IsInEmote = false;
         GetComponent<MoveHandler>().UnlockTurn();
     }
 
@@ -224,8 +234,7 @@ public class PlayerEmote : MonoBehaviourPunCallbacks
 
     public void OnJoinRejected_Full()
     {
-        Debug.Log("[Emote] 참여 거절: 슬롯 가득 참");
-        // TODO: UI 토스트
+        GameEvents.RaiseShowWarning("이모트의 정원이 가득 찼습니다.");
     }
 
     /// <summary>내 PhotonViewID</summary>
@@ -262,6 +271,12 @@ public class PlayerEmote : MonoBehaviourPunCallbacks
 
     private void LateUpdate()
     {
+        if (_pendingSnap)
+        {
+            transform.SetPositionAndRotation(_snapPos, _snapRot);
+            _pendingSnap = false;
+        }
+        
         if (!_IsInEmote) return;
 
         // 앵커 파괴/분실 감지
