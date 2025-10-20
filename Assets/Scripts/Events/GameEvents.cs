@@ -12,11 +12,15 @@ public enum RewardType { Item, Currency }
 public static class GameEvents
 {
     #region 전역 이벤트
-
+    // 경고 문구
     public static event Action<string, float> OnShowWarning;
 
     public static void RaiseShowWarning(string message, float duration = 2f)
     => OnShowWarning?.Invoke(message, duration);
+
+    public static event Action OnHideWarning;
+    public static void RaiseHideWarning() => OnHideWarning?.Invoke();
+    
 
     #endregion
 

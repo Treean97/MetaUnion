@@ -251,7 +251,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ItemData: {fileID: 11400000, guid: 30ddb31554ec4114185ffde4e3b67ee5, type: 2}
-  _Amount: 0
+  _Amount: 999
 --- !u!114 &8115487689459917774
 MonoBehaviour:
   m_ObjectHideFlags: 0

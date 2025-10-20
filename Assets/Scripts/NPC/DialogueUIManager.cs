@@ -19,7 +19,7 @@ public class DialogueUIManager : MonoBehaviour, IDialogueUI, IPointerClickHandle
     public bool IsOpen => gameObject.activeSelf;
 
     // 현재 상태가 선택지인지(= 클릭으로 넘기면 안 됨)
-    bool _isChoiceMode = false;
+    bool _IsChoiceMode = false;
 
     void OnEnable()
     {
@@ -28,7 +28,7 @@ public class DialogueUIManager : MonoBehaviour, IDialogueUI, IPointerClickHandle
         dm.OnShowChoices += HandleChoices;
         dm.OnEnd         += HandleEnd;
 
-        _isChoiceMode = false;
+        _IsChoiceMode = false;
         ClearChoices();
     }
 
@@ -46,7 +46,7 @@ public class DialogueUIManager : MonoBehaviour, IDialogueUI, IPointerClickHandle
 
     void HandleLine(string speaker, Sprite icon, string text, int idx, int total)
     {
-        _isChoiceMode = false;
+        _IsChoiceMode = false;
 
         if (_NameText)  _NameText.text = speaker ?? "";
         if (_LineText)     _LineText.text    = text ?? "";
@@ -62,7 +62,7 @@ public class DialogueUIManager : MonoBehaviour, IDialogueUI, IPointerClickHandle
 
     void HandleChoices(string speaker, Sprite icon, string prompt, string[] options)
     {
-        _isChoiceMode = true;
+        _IsChoiceMode = true;
 
         if (_NameText)  _NameText.text = speaker ?? "";
         if (_LineText)     _LineText.text    = prompt ?? "";
@@ -86,7 +86,7 @@ public class DialogueUIManager : MonoBehaviour, IDialogueUI, IPointerClickHandle
     {
         gameObject.SetActive(false); // 원하는 방식으로 닫기
         ClearChoices();
-        _isChoiceMode = false;
+        _IsChoiceMode = false;
     }
 
     void ClearChoices()
@@ -102,7 +102,7 @@ public class DialogueUIManager : MonoBehaviour, IDialogueUI, IPointerClickHandle
     // 부모 패널에 RaycastTarget이 있는 그래픽(예: Image)이 있어야 동작함
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (!_isChoiceMode && DialogueManager._Inst != null)
+        if (!_IsChoiceMode && DialogueManager._Inst != null)
             DialogueManager._Inst.Next();
     }
 }

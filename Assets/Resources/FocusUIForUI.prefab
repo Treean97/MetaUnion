@@ -32,10 +32,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 6442793995310644346}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 272.59, y: -50.07}
+  m_SizeDelta: {x: 525.18, y: 80.14}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4926925546477882384
 CanvasRenderer:
@@ -168,10 +168,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 6442793995310644346}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 272.59, y: -130.20999}
+  m_SizeDelta: {x: 198.83, y: 80.14}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6317186626095219939
 CanvasRenderer:
@@ -338,12 +338,12 @@ GameObject:
   - component: {fileID: 4685389212905693016}
   - component: {fileID: 5378246114259373206}
   m_Layer: 5
-  m_Name: FocusUI
+  m_Name: FocusUIPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6442793995310644346
 RectTransform:
   m_ObjectHideFlags: 0
@@ -363,7 +363,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -290.83997, y: -80.22}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 545.18, y: 180.28}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &6864589635984899724
 CanvasRenderer:

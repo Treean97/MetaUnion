@@ -44,4 +44,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 566cfdc14a69b79478cb94afcd87ff43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BGMManager
-  _Clip: {fileID: 8300000, guid: 5b1ed8fbe89154eaf96723b6e5f0aad3, type: 3}
+  _Clip: {fileID: 8300000, guid: bea93a38b71b64b598109b3a3b1a0048, type: 3}

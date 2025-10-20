@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5309739677824830601}
   - component: {fileID: 412501633340793609}
   - component: {fileID: 8859312391583821309}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: RouletteMachine
   m_TagString: Untagged
   m_Icon: {fileID: 0}

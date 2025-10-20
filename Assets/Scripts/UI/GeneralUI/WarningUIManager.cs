@@ -1,10 +1,10 @@
 using System.Collections;
-using Photon.Pun;
 using TMPro;
 using UnityEngine;
 
 public class WarningUIManager : MonoBehaviour
 {
+    [SerializeField] private GameObject _WarningUIPanel;
     [SerializeField] private TMP_Text _WarningText;
 
     private Coroutine _HideCoroutine;
@@ -12,7 +12,7 @@ public class WarningUIManager : MonoBehaviour
     public void Show(string message, float duration)
     {      
         _WarningText.text = message;
-        gameObject.SetActive(true);
+        UIFX.Show(_WarningUIPanel);
 
         if (_HideCoroutine != null)
             StopCoroutine(_HideCoroutine);
@@ -23,7 +23,12 @@ public class WarningUIManager : MonoBehaviour
     private IEnumerator HideAfter(float seconds)
     {
         yield return new WaitForSeconds(seconds);
-        gameObject.SetActive(false);
+        Hide();
         _HideCoroutine = null;
+    }
+
+    public void Hide()
+    {
+        UIFX.Hide(_WarningUIPanel);
     }
 }
