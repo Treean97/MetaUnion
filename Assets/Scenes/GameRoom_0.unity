@@ -66414,6 +66414,7 @@ MonoBehaviour:
   _LineText: {fileID: 586282772}
   _ChoicesContent: {fileID: 1485401587}
   _ChoicePrefab: {fileID: 1947660200285970359, guid: 6604c4a800ccbaa4590e5311e74dd928, type: 3}
+  _CharsPerSecond: 30
 --- !u!114 &1742578290
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71353,9 +71354,9 @@ MonoBehaviour:
   m_fontSize: 36
   m_fontSizeBase: 36
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMax: 36
   m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 512

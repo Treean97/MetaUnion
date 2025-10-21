@@ -110,6 +110,7 @@ public class EmoteAnchor : MonoBehaviourPun, IPunInstantiateMagicCallback, IInte
         while (_EmoteSO == null) yield return null;
 
         double start = 0;
+        
         while (true)
         {
             var room = PhotonNetwork.CurrentRoom;

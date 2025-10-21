@@ -1,17 +1,8 @@
 using UnityEngine;
-public enum EmotePlayMode
-{
-    Solo = 0,
-    Group = 1
-}
 
 [CreateAssetMenu (menuName = "EmoteData")]
 public class EmoteSO : ScriptableObject
 {
-    [Header("Playback Mode")]
-    [SerializeField] EmotePlayMode _PlayMode;
-    public EmotePlayMode PlayMode => _PlayMode;
-
     [Header("Animator")]
     [SerializeField] string _ID;
     public string ID => _ID;    

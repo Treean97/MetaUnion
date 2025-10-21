@@ -32,21 +32,13 @@ public class EmoteSlot : MonoBehaviour, IItemDataProvider
         var so = _EmoteSO;
         var owner = PlayerSetup._LocalPlayer.GetComponent<PlayerEmote>();
 
-        if (so.PlayMode == EmotePlayMode.Solo)
-        {
-            // owner.RequestStartSolo(so); // 솔로 이모트
-            return;
-        }
-        else // EmotePlayMode.Group
-        {
-            StartGroup(so, owner); // 단체 이모트
-        }
+        StartEmote(so, owner);
         
         GetComponent<FocusableUI>().Defocus();
         UIRouter._Inst.Close<IEmoteUI>();
     }
 
-    void StartGroup(EmoteSO so, PlayerEmote owner)
+    void StartEmote(EmoteSO so, PlayerEmote owner)
     {
         var mgr = EmoteManager._Inst;
         var t = owner.transform;
@@ -54,6 +46,4 @@ public class EmoteSlot : MonoBehaviour, IItemDataProvider
         Quaternion rot = Quaternion.LookRotation(-t.forward, Vector3.up);
         mgr.StartEmote(so, pos, rot, owner);
     }
-
-
 }
