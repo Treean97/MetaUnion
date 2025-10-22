@@ -136,6 +136,7 @@ public class DialogueUIManager : MonoBehaviour, IDialogueUI, IPointerClickHandle
     bool _IsTyping;
     int _TargetVisible;
     Action _OnTypeEnd; // 타자 종료 콜백
+    public static event Action OnUserAdvance; // 컷신용 이벤트
 
     void OnEnable()
     {
@@ -207,7 +208,8 @@ public class DialogueUIManager : MonoBehaviour, IDialogueUI, IPointerClickHandle
             int idx = i;
             var item = Instantiate(_ChoicePrefab, _ChoicesContent);
             item.Bind(options[i], () => DialogueManager._Inst.Choose(idx));
-        }
+            item.Bind(options[i], () => { DialogueManager._Inst.Choose(idx); OnUserAdvance?.Invoke(); });
+        }        
     }
 
     void HandleEnd(string npcId)
@@ -317,5 +319,6 @@ public class DialogueUIManager : MonoBehaviour, IDialogueUI, IPointerClickHandle
         }
 
         dm.Next(); // 다음 대사
+        OnUserAdvance?.Invoke(); // 컷신 진행 이벤트
     }
 }
