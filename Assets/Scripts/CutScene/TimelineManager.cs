@@ -3,17 +3,11 @@ using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
 
-public class TimelineController : MonoBehaviour
+public class TimelineManager : MonoBehaviour
 {
-    public static TimelineController _Inst { get; private set; }
+    public static TimelineManager _Inst { get; private set; }
 
     PlayableDirector _Director;
-
-    void Awake()
-    {
-        if (_Inst != null && _Inst != this) { Destroy(this); return; }
-        _Inst = this;        
-    }    
 
     void Start()
     {
@@ -46,21 +40,9 @@ public class TimelineController : MonoBehaviour
             Debug.LogError("디렉터 or 타임라인 없음");
             return;
         }
-
-        var brain = Camera.main?.GetComponent<CinemachineBrain>();
-        var receiver = _Director.GetComponent<SignalReceiver>();
         
         _Director.Stop();
         _Director.playableAsset = timeline;
-
-        foreach (var output in timeline.outputs)
-        {
-            if (output.outputTargetType == typeof(CinemachineBrain))
-                _Director.SetGenericBinding(output.sourceObject, brain);
-
-            if (output.outputTargetType == typeof(SignalReceiver))
-                _Director.SetGenericBinding(output.sourceObject, receiver);
-        }
                     
         _Director.time = 0;
         _Director.Play();        

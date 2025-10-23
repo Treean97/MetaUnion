@@ -13,6 +13,6 @@ public class PlayTimelineAction : ChoiceActionSO
 
         Debug.Log("대사 선택지 액션 실행");
 
-        TimelineController._Inst?.Play(_Timeline);        
+        TimelineManager._Inst?.Play(_Timeline);        
     }
 }

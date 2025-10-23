@@ -222,7 +222,7 @@ public class DialogueUIManager : MonoBehaviour, IDialogueUI, IPointerClickHandle
     void HandleEnd()
     {
         StopTypewriter();
-        gameObject.SetActive(false);
+        UIFX.Hide(gameObject);
         ClearChoices();
         _IsChoiceMode = false;
     }
