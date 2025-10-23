@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 296225262186636917}
   - component: {fileID: 2779542157033092269}
   - component: {fileID: -5553867389134766372}
+  - component: {fileID: 1889823943935136881}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -172,3 +173,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6e4ae7b47221534e9875717304b7c9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DialogueManager
+--- !u!114 &1889823943935136881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1078885290729373513}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffdecbe8f0737384bb1dbc754e852dc3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SceneLoadManager
+  _Fade: {fileID: 0}
