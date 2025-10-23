@@ -11,9 +11,8 @@ public class PlayTimelineAction : ChoiceActionSO
         // 타임라인 호출
         if (!_Timeline) return;
 
-        var ctrl = TimelineController._Inst ?? FindFirstObjectByType<TimelineController>();
-        if (!ctrl) return;
+        Debug.Log("대사 선택지 액션 실행");
 
-        ctrl.Play(_Timeline);
+        TimelineController._Inst?.Play(_Timeline);        
     }
 }

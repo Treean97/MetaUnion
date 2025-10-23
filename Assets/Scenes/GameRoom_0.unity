@@ -43447,6 +43447,7 @@ GameObject:
   - component: {fileID: 1157025515}
   - component: {fileID: 1157025518}
   - component: {fileID: 1157025519}
+  - component: {fileID: 1157025520}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -43604,6 +43605,25 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   CustomBlends: {fileID: 0}
+--- !u!320 &1157025520
+PlayableDirector:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1157025514}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_PlayableAsset: {fileID: 11400000, guid: 70e9d93a742fd6b439b5fd18742a4709, type: 2}
+  m_InitialState: 1
+  m_WrapMode: 2
+  m_DirectorUpdateMode: 1
+  m_InitialTime: 0
+  m_SceneBindings:
+  - key: {fileID: -5791736122555041766, guid: 70e9d93a742fd6b439b5fd18742a4709, type: 2}
+    value: {fileID: 1157025519}
+  m_ExposedReferences:
+    m_References: []
 --- !u!1001 &1158261567
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -51904,7 +51924,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1391844770
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58396,7 +58416,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1538258160
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67206,7 +67226,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -70778,7 +70798,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1849543035
 MonoBehaviour:
   m_ObjectHideFlags: 0

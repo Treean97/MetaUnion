@@ -1,38 +1,34 @@
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.Playables;
+using UnityEngine.Timeline;
 
 public class TimelineController : MonoBehaviour
 {
     public static TimelineController _Inst { get; private set; }
 
-    [SerializeField] PlayableDirector _Director;
+    PlayableDirector _Director;
 
     void Awake()
     {
         if (_Inst != null && _Inst != this) { Destroy(this); return; }
-        _Inst = this;
+        _Inst = this;        
+    }    
 
-        if (!_Director) _Director = FindAnyObjectByType<PlayableDirector>();
+    void Start()
+    {
+        if (!_Director) _Director = GetComponent<PlayableDirector>();
     }
+
 
     void OnEnable()
     {
         DialogueUIManager._OnUserAdvance += ResumeTL;
-        if (DialogueManager._Inst != null)
-            DialogueManager._Inst.OnEnd += OnDialogueEnd;
     }
 
     void OnDisable()
     {
         DialogueUIManager._OnUserAdvance -= ResumeTL;
-        if (DialogueManager._Inst != null)
-            DialogueManager._Inst.OnEnd -= OnDialogueEnd;
-    }
-
-    void OnDialogueEnd()
-    {
-        // 대화가 완전히 종료될 때도 안전하게 재생
-        ResumeTL();
     }
 
     // 타임라인 마커에서 호출
@@ -44,11 +40,32 @@ public class TimelineController : MonoBehaviour
 
     public void Play(PlayableAsset timeline)
     {
-        if (!_Director || !timeline) return;
+        Debug.Log("타임라인 실행");
+        if (!_Director || !timeline)
+        {
+            Debug.LogError("디렉터 or 타임라인 없음");
+            return;
+        }
+
+        var brain = Camera.main?.GetComponent<CinemachineBrain>();
+        var receiver = _Director.GetComponent<SignalReceiver>();
+        
+        _Director.Stop();
         _Director.playableAsset = timeline;
-        _Director.Play();
+
+        foreach (var output in timeline.outputs)
+        {
+            if (output.outputTargetType == typeof(CinemachineBrain))
+                _Director.SetGenericBinding(output.sourceObject, brain);
+
+            if (output.outputTargetType == typeof(SignalReceiver))
+                _Director.SetGenericBinding(output.sourceObject, receiver);
+        }
+                    
+        _Director.time = 0;
+        _Director.Play();        
     }
-    
+
     bool HasValidGraph()
     {
         if (!_Director) return false;
@@ -64,15 +81,14 @@ public class TimelineController : MonoBehaviour
     }
     void ResumeTL()
     {
-        if (!HasValidGraph()) return;          // ★ 그래프 없으면 조용히 무시
+        if (!HasValidGraph()) return;
         _Director.Play();
         SetSpeed(1);
-        _Director.Evaluate();                  // (선택) 1프레임 안정화
     }
 
     void SetSpeed(float s)
     {
-        if (!HasValidGraph()) return;          // ★ 여기서도 가드
+        if (!HasValidGraph()) return;
         var root = _Director.playableGraph.GetRootPlayable(0);
         if (root.IsValid()) root.SetSpeed(s);
     }
