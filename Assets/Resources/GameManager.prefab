@@ -18,6 +18,8 @@ GameObject:
   - component: {fileID: 296225262186636917}
   - component: {fileID: 2779542157033092269}
   - component: {fileID: -5553867389134766372}
+  - component: {fileID: -6270106694948812342}
+  - component: {fileID: 5586644281168988443}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -172,3 +174,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6e4ae7b47221534e9875717304b7c9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DialogueManager
+--- !u!114 &-6270106694948812342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1078885290729373513}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec67e05171fe6214aa7048deacaa3858, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TimelineController
+  _Director: {fileID: 0}
+--- !u!320 &5586644281168988443
+PlayableDirector:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1078885290729373513}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_PlayableAsset: {fileID: 0}
+  m_InitialState: 0
+  m_WrapMode: 2
+  m_DirectorUpdateMode: 1
+  m_InitialTime: 0
+  m_SceneBindings: []
+  m_ExposedReferences:
+    m_References: []

@@ -9,7 +9,7 @@ public class DialogueManager : MonoBehaviour
     public event Action<string, Sprite, string, int, int> OnShowLine;
     // 선택지: 이름, 아이콘, 프롬프트(상단 텍스트), 선택지 텍스트 배열
     public event Action<string, Sprite, string, string[]> OnShowChoices;
-    public event Action<string> OnEnd;
+    public event Action OnEnd;
 
     NPCSO _NPCSO;
     DialogueSO _dlg;
@@ -124,6 +124,27 @@ public class DialogueManager : MonoBehaviour
         var id = _NPCSO?.NPCID;
         _NPCSO = null; _dlg = null; _Mode = Mode.None;
         _Idx = 0; _NodeId = 0;
-        OnEnd?.Invoke(id);
+        OnEnd?.Invoke();
     }
+
+    public DialogueSO.Node CurrentNode => _dlg?.Get(_NodeId);
+    public DialogueSO.Choice GetCurrentChoice(int index)
+    {
+        var cn = CurrentNode as DialogueSO.ChoiceNode;
+        if (cn == null || cn.Choices == null) return null;
+        if (index < 0 || index >= cn.Choices.Count) return null;
+        return cn.Choices[index];
+    }
+
+    // 선택지 액션 실행 헬퍼
+    public void ExecuteChoiceActions(int index)
+    {
+        var choice = GetCurrentChoice(index);
+        var actions = choice?.Actions;
+        if (actions == null) return;
+
+        for (int i = 0; i < actions.Length; i++)
+            actions[i]?.Execute();
+    }
+
 }

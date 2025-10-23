@@ -18,8 +18,12 @@ MonoBehaviour:
   _nodes:
   - rid: 3285214404497637534
   - rid: 3285214404497637535
+  - rid: 3285214828724748478
+  - rid: 3285214828724748479
+  - rid: 3285214828724748480
+  - rid: 3285214828724748484
   - rid: 3285214404497637536
-  - rid: 3285214404497637537
+  - rid: 3285214828724748485
   references:
     version: 2
     RefIds:
@@ -35,21 +39,60 @@ MonoBehaviour:
         Id: 1
         Text: "\uAD81\uAE08\uD55C\uAC8C \uC788\uC73C\uBA74 \uBB3C\uC5B4\uBCF4\uC138\uC694."
         Choices:
-        - Text: "\uACE8\uB4DC\uB294 \uC5B4\uB5BB\uAC8C \uD68D\uB4DD\uD558\uB098\uC694?"
+        - Text: "\uB9F5\uC5D0 \uB300\uD574 \uC18C\uAC1C\uD574\uC8FC\uC138\uC694(\uCEF7\uC52C)"
           NextId: 100
-        - Text: "\uB2E4\uC774\uC544\uBAAC\uB4DC\uB294 \uC5B4\uB5BB\uAC8C \uD68D\uB4DD\uD558\uB098\uC694?"
+          Actions:
+          - {fileID: 11400000, guid: 4b41e6b6a08adfb429b0eff8024ac554, type: 2}
+        - Text: "\uACE8\uB4DC\uB294 \uC5B4\uB5BB\uAC8C \uD68D\uB4DD\uD558\uB098\uC694?"
           NextId: 200
+          Actions: []
+        - Text: "\uB2E4\uC774\uC544\uBAAC\uB4DC\uB294 \uC5B4\uB5BB\uAC8C \uD68D\uB4DD\uD558\uB098\uC694?"
+          NextId: 300
+          Actions: []
     - rid: 3285214404497637536
       type: {class: DialogueSO/LineNode, ns: , asm: Assembly-CSharp}
       data:
-        Id: 100
+        Id: 200
         Text: "\uACE8\uB4DC\uB294 \uBC8C\uBAA9 \uBC0F \uC544\uC774\uD15C \uD310\uB9E4\uB85C
           \uD68D\uB4DD\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4."
         NextId: -1
-    - rid: 3285214404497637537
+    - rid: 3285214828724748478
       type: {class: DialogueSO/LineNode, ns: , asm: Assembly-CSharp}
       data:
-        Id: 200
+        Id: 101
+        Text: "\uC774 \uB9F5\uC740 \uB3C4\uC2EC\uC9C0 \uB9F5\uC785\uB2C8\uB2E4."
+        NextId: 102
+    - rid: 3285214828724748479
+      type: {class: DialogueSO/LineNode, ns: , asm: Assembly-CSharp}
+      data:
+        Id: 102
+        Text: "\uB3C4\uC2DC \uC911\uAC04\uC5D0 \uC788\uB294 \uC232\uC5D0\uC11C\uB294
+          \uCC44\uAD11, \uBC8C\uBAA9, \uB09A\uC2DC\uB97C \uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4."
+        NextId: -1
+    - rid: 3285214828724748480
+      type: {class: DialogueSO/LineNode, ns: , asm: Assembly-CSharp}
+      data:
+        Id: 103
+        Text: "\uD68D\uB4DD\uD55C \uC7AC\uD654\uB97C \uD1B5\uD574 \uB9C8\uC744 \uACF3\uACF3\uC5D0
+          \uC788\uB294 \uC2AC\uB86F\uBA38\uC2E0, \uB8F0\uB81B, \uC790\uD310\uAE30\uB97C
+          \uC774\uC6A9\uD558\uC2E4 \uC218 \uC788\uC2B5\uB2C8\uB2E4."
+        NextId: 104
+    - rid: 3285214828724748484
+      type: {class: DialogueSO/ChoiceNode, ns: , asm: Assembly-CSharp}
+      data:
+        Id: 104
+        Text: "\uB2E4\uB978 \uAD81\uAE08\uD55C \uC0AC\uD56D \uC788\uC73C\uC2E0\uAC00\uC694?"
+        Choices:
+        - Text: "\uACE8\uB4DC\uB294 \uC5B4\uB5BB\uAC8C \uD68D\uB4DD\uD558\uB098\uC694?"
+          NextId: 200
+          Actions: []
+        - Text: "\uB2E4\uC774\uC544\uBAAC\uB4DC\uB294 \uC5B4\uB5BB\uAC8C \uD68D\uB4DD\uD558\uB098\uC694?"
+          NextId: 300
+          Actions: []
+    - rid: 3285214828724748485
+      type: {class: DialogueSO/LineNode, ns: , asm: Assembly-CSharp}
+      data:
+        Id: 300
         Text: "\uB2E4\uC774\uC544\uBAAC\uB4DC\uB294 \uCC44\uAD11 \uBC0F \uC544\uC774\uD15C
-          \uD310\uB9E4\uB85C \uD68D\uB4DD\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4."
+          \uD310\uB9E4\uB85C \uD68D\uB4DD\uD558\uC2E4 \uC218 \uC788\uC2B5\uB2C8\uB2E4."
         NextId: -1

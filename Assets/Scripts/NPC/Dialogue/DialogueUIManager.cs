@@ -136,14 +136,14 @@ public class DialogueUIManager : MonoBehaviour, IDialogueUI, IPointerClickHandle
     bool _IsTyping;
     int _TargetVisible;
     Action _OnTypeEnd; // 타자 종료 콜백
-    public static event Action OnUserAdvance; // 컷신용 이벤트
+    public static event Action _OnUserAdvance; // 컷신용 이벤트
 
     void OnEnable()
     {
         var dm = DialogueManager._Inst;
-        dm.OnShowLine    += HandleLine;
+        dm.OnShowLine += HandleLine;
         dm.OnShowChoices += HandleChoices;
-        dm.OnEnd         += HandleEnd;
+        dm.OnEnd += HandleEnd;
 
         _IsChoiceMode = false;
         ClearChoices();
@@ -154,15 +154,15 @@ public class DialogueUIManager : MonoBehaviour, IDialogueUI, IPointerClickHandle
         var dm = DialogueManager._Inst;
         if (dm != null)
         {
-            dm.OnShowLine    -= HandleLine;
+            dm.OnShowLine -= HandleLine;
             dm.OnShowChoices -= HandleChoices;
-            dm.OnEnd         -= HandleEnd;
+            dm.OnEnd -= HandleEnd;
         }
         StopTypewriter();
         ClearChoices();
     }
 
-    // ===== 일반 대사(타자효과) =====
+    // 일반 대사
     void HandleLine(string speaker, Sprite icon, string text, int idx, int total)
     {
         _IsChoiceMode = false;
@@ -176,7 +176,7 @@ public class DialogueUIManager : MonoBehaviour, IDialogueUI, IPointerClickHandle
         StartTypewriter(text ?? "", null); // 대사는 그냥 타자만
     }
 
-    // ===== 선택지(프롬프트 타자효과 + 종료 후 옵션 생성) =====
+    // 선택지
     void HandleChoices(string speaker, Sprite icon, string prompt, string[] options)
     {
         _IsChoiceMode = true;
@@ -207,12 +207,19 @@ public class DialogueUIManager : MonoBehaviour, IDialogueUI, IPointerClickHandle
         {
             int idx = i;
             var item = Instantiate(_ChoicePrefab, _ChoicesContent);
-            item.Bind(options[i], () => DialogueManager._Inst.Choose(idx));
-            item.Bind(options[i], () => { DialogueManager._Inst.Choose(idx); OnUserAdvance?.Invoke(); });
+            item.Bind(options[i], () => {
+                // 선택지 액션
+                DialogueManager._Inst.ExecuteChoiceActions(idx);
+                // 대화 분기
+                DialogueManager._Inst.Choose(idx);
+                // 외부 알림
+                _OnUserAdvance?.Invoke();
+                
+                });
         }        
     }
 
-    void HandleEnd(string npcId)
+    void HandleEnd()
     {
         StopTypewriter();
         gameObject.SetActive(false);
@@ -319,6 +326,6 @@ public class DialogueUIManager : MonoBehaviour, IDialogueUI, IPointerClickHandle
         }
 
         dm.Next(); // 다음 대사
-        OnUserAdvance?.Invoke(); // 컷신 진행 이벤트
+        _OnUserAdvance?.Invoke(); // 컷신 진행 이벤트
     }
 }

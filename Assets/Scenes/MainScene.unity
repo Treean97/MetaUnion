@@ -22182,6 +22182,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2907545475532651810, guid: 19f66e00734183542a8380ba86152a29, type: 3}
+      propertyPath: _Clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 5b1ed8fbe89154eaf96723b6e5f0aad3, type: 3}
     - target: {fileID: 8351364227794118621, guid: 19f66e00734183542a8380ba86152a29, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

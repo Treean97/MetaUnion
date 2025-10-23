@@ -8,7 +8,7 @@ using UnityEditor;
 [CreateAssetMenu(menuName = "DialogueData")]
 public class DialogueSO : ScriptableObject
 {
-    [Header("Linear (옵션)")]
+    [Header("Linear (선형)")]
     [SerializeField] private string[] _Dialogues;
     public string[] Dialogues => _Dialogues;
 
@@ -40,6 +40,7 @@ public class DialogueSO : ScriptableObject
     {
         public string Text;
         public int NextId = -1; // -1: 종료
+        public ChoiceActionSO[] Actions;
     }
 
 #if UNITY_EDITOR
