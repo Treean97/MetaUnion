@@ -1,13 +1,22 @@
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.Playables;
-using UnityEngine.Timeline;
 
 public class TimelineManager : MonoBehaviour
 {
     public static TimelineManager _Inst { get; private set; }
 
     PlayableDirector _Director;
+
+    void Awake()
+    {
+        if (_Inst != null && _Inst != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        _Inst = this;
+    }
 
     void Start()
     {
@@ -29,7 +38,7 @@ public class TimelineManager : MonoBehaviour
     public void Marker_Next()
     {
         PauseTL();
-        DialogueManager._Inst?.Next();
+        // DialogueManager._Inst?.Next();
     }
 
     public void Play(PlayableAsset timeline)
@@ -42,8 +51,7 @@ public class TimelineManager : MonoBehaviour
         }
         
         _Director.Stop();
-        _Director.playableAsset = timeline;
-                    
+        _Director.playableAsset = timeline;                    
         _Director.time = 0;
         _Director.Play();        
     }

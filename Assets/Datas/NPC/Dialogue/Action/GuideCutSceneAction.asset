@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 191d7893455512f40808e6eb1628a921, type: 3}
   m_Name: GuideCutSceneAction
   m_EditorClassIdentifier: Assembly-CSharp::PlayTimelineAction
-  _Timeline: {fileID: 11400000, guid: f68edf4b162363d479ef05a9cd27e57e, type: 2}
+  _Timeline: {fileID: 11400000, guid: e72be06e91865004b9a035c10d7f18ba, type: 2}
