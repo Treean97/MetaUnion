@@ -1,111 +1,3 @@
-// using TMPro;
-// using UnityEngine;
-// using UnityEngine.EventSystems;
-// using UnityEngine.UI;
-
-// public class DialogueUIManager : MonoBehaviour, IDialogueUI, IPointerClickHandler
-// {
-//     [Header("Header")]
-//     [SerializeField] TMP_Text _NameText;
-//     [SerializeField] Image _Icon;
-
-//     [Header("Body")]
-//     [SerializeField] TMP_Text _LineText;
-
-//     [Header("Choices (ScrollView)")]
-//     [SerializeField] Transform _ChoicesContent; // ScrollView/Viewport/Content
-//     [SerializeField] DialogueChoiceItem _ChoicePrefab;
-
-//     public bool IsOpen => gameObject.activeSelf;
-
-//     // 현재 상태가 선택지인지(= 클릭으로 넘기면 안 됨)
-//     bool _IsChoiceMode = false;
-
-//     void OnEnable()
-//     {
-//         var dm = DialogueManager._Inst;
-//         dm.OnShowLine    += HandleLine;
-//         dm.OnShowChoices += HandleChoices;
-//         dm.OnEnd         += HandleEnd;
-
-//         _IsChoiceMode = false;
-//         ClearChoices();
-//     }
-
-//     void OnDisable()
-//     {
-//         var dm = DialogueManager._Inst;
-//         if (dm != null)
-//         {
-//             dm.OnShowLine    -= HandleLine;
-//             dm.OnShowChoices -= HandleChoices;
-//             dm.OnEnd         -= HandleEnd;
-//         }
-//         ClearChoices();
-//     }
-
-//     void HandleLine(string speaker, Sprite icon, string text, int idx, int total)
-//     {
-//         _IsChoiceMode = false;
-
-//         if (_NameText)  _NameText.text = speaker ?? "";
-//         if (_LineText)     _LineText.text    = text ?? "";
-
-//         if (_Icon)
-//         {
-//             _Icon.sprite = icon;
-//             _Icon.color = icon ? Color.white : new Color(1,1,1,0);
-//         }
-        
-//         ClearChoices(); // 선택지 영역 비우기
-//     }
-
-//     void HandleChoices(string speaker, Sprite icon, string prompt, string[] options)
-//     {
-//         _IsChoiceMode = true;
-
-//         if (_NameText)  _NameText.text = speaker ?? "";
-//         if (_LineText)     _LineText.text    = prompt ?? "";
-
-//         if (_Icon)
-//         {
-//             _Icon.sprite = icon;
-//             _Icon.color = icon ? Color.white : new Color(1,1,1,0);
-//         }
-
-//         ClearChoices();
-//         for (int i = 0; i < options.Length; i++)
-//         {
-//             int idx = i;
-//             var item = Instantiate(_ChoicePrefab, _ChoicesContent);
-//             item.Bind(options[i], () => DialogueManager._Inst.Choose(idx));
-//         }
-//     }
-
-//     void HandleEnd(string npcId)
-//     {
-//         gameObject.SetActive(false); // 원하는 방식으로 닫기
-//         ClearChoices();
-//         _IsChoiceMode = false;
-//     }
-
-//     void ClearChoices()
-//     {
-//         for (int i = _ChoicesContent.childCount - 1; i >= 0; i--)
-//             Destroy(_ChoicesContent.GetChild(i).gameObject);
-//     }
-
-//     public void Show() => gameObject.SetActive(true);
-//     public void Hide() => gameObject.SetActive(false);
-
-//     // ====== 클릭으로 다음 진행 ======
-//     // 부모 패널에 RaycastTarget이 있는 그래픽(예: Image)이 있어야 동작함
-//     public void OnPointerClick(PointerEventData eventData)
-//     {
-//         if (!_IsChoiceMode && DialogueManager._Inst != null)
-//             DialogueManager._Inst.Next();
-//     }
-// }
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -135,8 +27,8 @@ public class DialogueUIManager : MonoBehaviour, IDialogueUI, IPointerClickHandle
     Coroutine _TypeCo;
     bool _IsTyping;
     int _TargetVisible;
-    Action _OnTypeEnd; // 타자 종료 콜백
-    public static event Action _OnUserAdvance; // 컷신용 이벤트
+    Action OnTypeEnd; // 타자 종료 콜백
+    public static event Action OnClick; // 컷신용 이벤트
 
     void OnEnable()
     {
@@ -213,7 +105,7 @@ public class DialogueUIManager : MonoBehaviour, IDialogueUI, IPointerClickHandle
                 // 대화 분기
                 DialogueManager._Inst.Choose(idx);
                 // 외부 알림
-                _OnUserAdvance?.Invoke();
+                OnClick?.Invoke();
                 
                 });
         }        
@@ -242,7 +134,7 @@ public class DialogueUIManager : MonoBehaviour, IDialogueUI, IPointerClickHandle
         StopTypewriter();              // 진행 중이면 정리 + onDone 호출 처리 포함
         if (!_LineText) return;
 
-        _OnTypeEnd = onDone;          // 종료 콜백 저장
+        OnTypeEnd = onDone;          // 종료 콜백 저장
 
         _LineText.text = fullText;
         _LineText.maxVisibleCharacters = 0;
@@ -252,7 +144,7 @@ public class DialogueUIManager : MonoBehaviour, IDialogueUI, IPointerClickHandle
         if (_CharsPerSecond <= 0f || _TargetVisible <= 0)
         {
             _LineText.maxVisibleCharacters = int.MaxValue;
-            var cb = _OnTypeEnd; _OnTypeEnd = null;
+            var cb = OnTypeEnd; OnTypeEnd = null;
             cb?.Invoke();
             _IsTyping = false;
             return;
@@ -272,9 +164,9 @@ public class DialogueUIManager : MonoBehaviour, IDialogueUI, IPointerClickHandle
         if (_LineText) _LineText.maxVisibleCharacters = int.MaxValue;
 
         // 스킵 시에도 onDone은 즉시 호출되어야 선택지가 바로 뜸
-        if (_OnTypeEnd != null)
+        if (OnTypeEnd != null)
         {
-            var cb = _OnTypeEnd; _OnTypeEnd = null;
+            var cb = OnTypeEnd; OnTypeEnd = null;
             cb.Invoke();
         }
 
@@ -299,9 +191,9 @@ public class DialogueUIManager : MonoBehaviour, IDialogueUI, IPointerClickHandle
         _LineText.maxVisibleCharacters = int.MaxValue;
 
         // 정상 종료 시 콜백 실행
-        if (_OnTypeEnd != null)
+        if (OnTypeEnd != null)
         {
-            var cb = _OnTypeEnd; _OnTypeEnd = null;
+            var cb = OnTypeEnd; OnTypeEnd = null;
             cb.Invoke();
         }
     }
@@ -310,6 +202,7 @@ public class DialogueUIManager : MonoBehaviour, IDialogueUI, IPointerClickHandle
     public void OnPointerClick(PointerEventData eventData)
     {
         var dm = DialogueManager._Inst;
+        var tm = TimelineManager._Inst;
         if (dm == null) return;
 
         if (_IsChoiceMode)
@@ -325,7 +218,34 @@ public class DialogueUIManager : MonoBehaviour, IDialogueUI, IPointerClickHandle
             return;
         }
 
-        dm.Next(); // 다음 대사
-        _OnUserAdvance?.Invoke(); // 컷신 진행 이벤트
+        if (tm.IsRunning)
+        {
+            if (tm.IsBlockDialogue) return;
+
+            CheckTimeline(tm);
+        }
+        else
+        {
+            dm.Next(); // 다음 대사
+        }           
+    }
+
+    void CheckTimeline(TimelineManager tm)
+    {
+        switch(tm.Mode)
+        {
+            case TimelineManager.ClickMode.DialogueAndTimeline:
+                OnClick?.Invoke(); // 컷신 진행 이벤트
+                DialogueManager._Inst.Next(); // 대사 진행
+                break;
+
+            case TimelineManager.ClickMode.Timeline:
+                OnClick?.Invoke(); // 컷신 진행 이벤트
+                break;
+
+            case TimelineManager.ClickMode.Dialogue:
+                DialogueManager._Inst.Next();
+                break;
+        }
     }
 }

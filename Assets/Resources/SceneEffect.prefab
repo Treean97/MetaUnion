@@ -135,7 +135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dfc15b6269aa8b489ea2eec9a1a395d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CircleFadeInOutEffect
-  _Overlay: {fileID: 9131817631828335143}
+  _Circle: {fileID: 9131817631828335143}
 --- !u!1 &9092883195535135476
 GameObject:
   m_ObjectHideFlags: 0

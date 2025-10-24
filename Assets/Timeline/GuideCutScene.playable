@@ -1,21 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-8453218520263257982
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 15c38f6fa1940124db1ab7f6fe7268d1, type: 3}
-  m_Name: Signal Emitter
-  m_EditorClassIdentifier: Unity.Timeline::UnityEngine.Timeline.SignalEmitter
-  m_Time: 3.4
-  m_Retroactive: 0
-  m_EmitOnce: 1
-  m_Asset: {fileID: 11400000, guid: e9806671570ebde40ba056c6bcdc4e34, type: 2}
 --- !u!114 &-6914272890675548508
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -38,16 +22,16 @@ MonoBehaviour:
   m_Children: []
   m_Clips:
   - m_Version: 1
-    m_Start: 0.5
+    m_Start: 2
     m_ClipIn: 0
-    m_Asset: {fileID: 6271346915758987750}
-    m_Duration: 2.5
+    m_Asset: {fileID: -646689236198438370}
+    m_Duration: 1.5
     m_TimeScale: 1
     m_ParentTrack: {fileID: -6914272890675548508}
     m_EaseInDuration: 0
     m_EaseOutDuration: 0
-    m_BlendInDuration: 1
-    m_BlendOutDuration: 1
+    m_BlendInDuration: 0.9999999999999991
+    m_BlendOutDuration: -1
     m_MixInCurve:
       serializedVersion: 2
       m_Curve: []
@@ -69,11 +53,11 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: GuideCutSceneCam_0
+    m_DisplayName: GuideCutSceneCam_2
   - m_Version: 1
     m_Start: 0
     m_ClipIn: 0
-    m_Asset: {fileID: -4583339399555771193}
+    m_Asset: {fileID: 6271346915758987750}
     m_Duration: 1.5
     m_TimeScale: 1
     m_ParentTrack: {fileID: -6914272890675548508}
@@ -102,18 +86,18 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: GuideCutSceneCam_1
+    m_DisplayName: GuideCutSceneCam_0
   - m_Version: 1
-    m_Start: 2
+    m_Start: 0.5
     m_ClipIn: 0
-    m_Asset: {fileID: -646689236198438370}
-    m_Duration: 1.5
+    m_Asset: {fileID: -4583339399555771193}
+    m_Duration: 2.499999999999999
     m_TimeScale: 1
     m_ParentTrack: {fileID: -6914272890675548508}
     m_EaseInDuration: 0
     m_EaseOutDuration: 0
     m_BlendInDuration: 1
-    m_BlendOutDuration: -1
+    m_BlendOutDuration: 0.9999999999999991
     m_MixInCurve:
       serializedVersion: 2
       m_Curve: []
@@ -135,7 +119,7 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: GuideCutSceneCam_2
+    m_DisplayName: GuideCutSceneCam_1
   m_Markers:
     m_Objects: []
   TrackPriority: 0
@@ -155,6 +139,22 @@ MonoBehaviour:
   VirtualCamera:
     exposedName: a46d53e20d42edd4cb24b7b639e0242d
     defaultValue: {fileID: 0}
+--- !u!114 &-1272984475981278361
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15c38f6fa1940124db1ab7f6fe7268d1, type: 3}
+  m_Name: Signal Emitter
+  m_EditorClassIdentifier: Unity.Timeline::UnityEngine.Timeline.SignalEmitter
+  m_Time: 3.4
+  m_Retroactive: 0
+  m_EmitOnce: 1
+  m_Asset: {fileID: 11400000, guid: 57325db76e87d3548b06086bcd263b12, type: 2}
 --- !u!114 &-646689236198438370
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -218,7 +218,7 @@ MonoBehaviour:
     m_Objects:
     - {fileID: 3025550243535027528}
     - {fileID: 2891246242731979515}
-    - {fileID: -8453218520263257982}
+    - {fileID: -1272984475981278361}
 --- !u!114 &2891246242731979515
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -16,7 +16,7 @@ public class ScreenEffectManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    /// <summary>페이드 인(열기). 내부적으로 Image.enabled = false 상태로 마무리.</summary>
+    // 페이드 인(열기)
     public Tween FadeIn()
     {
         if (_Circle == null) return DOVirtual.DelayedCall(0f, () => { });
@@ -24,7 +24,7 @@ public class ScreenEffectManager : MonoBehaviour
         return _Circle.Open();
     }
 
-    /// <summary>페이드 아웃(닫기). 화면을 덮는 검정 상태로 수렴(Image.enabled=true 유지).</summary>
+    //페이드 아웃(닫기)
     public Tween FadeOut()
     {
         if (_Circle == null) return DOVirtual.DelayedCall(0f, () => { });
@@ -32,13 +32,13 @@ public class ScreenEffectManager : MonoBehaviour
         return _Circle.Close();
     }
 
-    /// <summary>즉시 표시/숨김(애니메이션 없음). 로딩 UI 노출용 등.</summary>
+    // 즉시 표시/숨김
     public void SetOverlayVisible(bool visible)
     {
         if (_Circle != null) _Circle.SetVisible(visible);
     }
 
-    /// <summary>페이드 아웃 종료까지 대기하고, 검정 유지(다음 쪽에서 FadeIn 호출 가정).</summary>
+    //페이드 아웃 종료까지 대기하고, 검정 유지
     public IEnumerator WaitDuringFadeOut()
     {
         if (_Circle == null) yield break;
