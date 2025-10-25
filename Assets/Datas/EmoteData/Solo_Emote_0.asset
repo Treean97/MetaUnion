@@ -12,12 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b451e924dd3ca2a428e8dc5fe7cbf69e, type: 3}
   m_Name: Solo_Emote_0
   m_EditorClassIdentifier: Assembly-CSharp::EmoteSO
-  _PlayMode: 0
   _ID: Solo_Emote_Dance_0
   _StateName: Solo_Emote_Dance_0
   _InfoDataSO: {fileID: 11400000, guid: f0443fe5289530547bf015241b6d6624, type: 2}
   _Layer: 0
   _LengthSeconds: 9
   _EmoteAnchor: {fileID: 4195652156583984782, guid: c94ae16b37a489a49bfd58a6a30102a9, type: 3}
-  _SFXKey: Emote_Dance_0
+  _SFXKey: Solo_Emote_Dance_0
   _Icon: {fileID: 21300000, guid: 6f203e5fc62d23349a5c20324e8563f0, type: 3}

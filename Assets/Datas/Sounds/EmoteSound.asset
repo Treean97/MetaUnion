@@ -13,9 +13,27 @@ MonoBehaviour:
   m_Name: EmoteSound
   m_EditorClassIdentifier: Assembly-CSharp::SoundSO
   _Items:
-  - Key: Emote_Dance_0
+  - Key: Group_Emote_Dance_0
     Clips:
     - {fileID: 8300000, guid: ac81e521cc4fffd4cb560d4ddc70d306, type: 3}
+    Space: 0
+    Volume: 0.5
+    Loop: 0
+    MinDistance: 0
+    MaxDistance: 0
+    Rolloff: 0
+  - Key: Group_Emote_Dance_1
+    Clips:
+    - {fileID: 8300000, guid: 30c2b73479e2d2d4c83e8279adfd2dd7, type: 3}
+    Space: 0
+    Volume: 0.5
+    Loop: 0
+    MinDistance: 0
+    MaxDistance: 0
+    Rolloff: 0
+  - Key: Solo_Emote_Dance_0
+    Clips:
+    - {fileID: 8300000, guid: 42405a19e23461a4bab25c28c2d78332, type: 3}
     Space: 0
     Volume: 0.5
     Loop: 0

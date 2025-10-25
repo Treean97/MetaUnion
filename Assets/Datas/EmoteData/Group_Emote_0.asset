@@ -12,12 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b451e924dd3ca2a428e8dc5fe7cbf69e, type: 3}
   m_Name: Group_Emote_0
   m_EditorClassIdentifier: Assembly-CSharp::EmoteSO
-  _PlayMode: 1
   _ID: Group_Emote_Dance_0
   _StateName: Group_Emote_Dance_0
   _InfoDataSO: {fileID: 11400000, guid: 4746c611a020179458da08e157bcdad1, type: 2}
   _Layer: 0
   _LengthSeconds: 15
   _EmoteAnchor: {fileID: 4195652156583984782, guid: dc95e12f616b8a241b090e5f3947153b, type: 3}
-  _SFXKey: Emote_Dance_0
+  _SFXKey: Group_Emote_Dance_0
   _Icon: {fileID: 21300000, guid: fab0f0cb295af754c9bb7de48782c9e3, type: 3}
