@@ -28,7 +28,7 @@ public class CustomizePreivew : MonoBehaviour
         _CustomizePreviewObj = Instantiate(_CustomizePreviewPrefab);
         _CustomizePreviewObj.transform.position = _PreviewPos;
 
-        _Router = _CustomizePreviewObj.GetComponent<PlayerPreviewRouter>();
+        _Router = _CustomizePreviewObj.GetComponentInChildren<PlayerPreviewRouter>();
         _CustomizeCamera = _CustomizePreviewObj.GetComponentInChildren<CustomizeCamera>();
         _Camera = _CustomizePreviewObj.GetComponentInChildren<Camera>();
         

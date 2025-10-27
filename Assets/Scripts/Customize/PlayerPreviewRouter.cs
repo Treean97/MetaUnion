@@ -10,28 +10,31 @@ public class PlayerPreviewRouter : MonoBehaviour
         public float  fade = 0.15f;
     }
 
-    [SerializeField] Animator _animator;
-    [SerializeField] List<Entry> _entries = new();
+    [SerializeField] Animator _Animator;
+    [SerializeField] List<Entry> _Entries = new();
 
     readonly Dictionary<string, (int hash, float fade)> _map = new();
 
     void Awake()
     {
-        foreach (var e in _entries)
+        foreach (var e in _Entries)
         {
             if (string.IsNullOrEmpty(e.id) || string.IsNullOrEmpty(e.stateName)) continue;
             _map[e.id] = (Animator.StringToHash(e.stateName), Mathf.Max(0f, e.fade));
         }
+
+        // 애니메이션 이벤트 받지 않음
+        _Animator.fireEvents = false;
     }
 
     public void Play(string id, int layer = 0, float normalizedTime = 0f)
     {
-        if (!_animator) return;
+        if (!_Animator) return;
         if (!_map.TryGetValue(id, out var v))
         {
             Debug.LogWarning($"[PreviewPoseRouter] Unknown id: {id}");
             return;
         }
-        _animator.CrossFade(v.hash, v.fade, layer, normalizedTime);
+        _Animator.CrossFade(v.hash, v.fade, layer, normalizedTime);
     }
 }
