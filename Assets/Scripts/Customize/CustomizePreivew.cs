@@ -7,16 +7,12 @@ using UnityEngine.UI;
 
 public class CustomizePreivew : MonoBehaviour
 {
-    /*
-    커스터마이즈 UI 매니저가 버튼을 누르면
-    이 스크립트가 누른 버튼 받아서
-    사전 설정해 놓은 Target으로 카메라의 타겟을 변경시킴
-    */
-
     [Header("UI")]
     [SerializeField] private RawImage _RawImage;
     [SerializeField] private Button _LeftButton;
     [SerializeField] private Button _RightButton;
+    [SerializeField] private Button[] _PoseButtons;
+
 
     [Header("RT")]
     [SerializeField] private int _MinSize = 256;
@@ -29,7 +25,6 @@ public class CustomizePreivew : MonoBehaviour
 
     private GameObject _CustomizePreviewObj;
     private Camera _Camera;
-    private CinemachineCamera _CineCamera;
     private CustomizeCamera _CustomizeCamera;
     private RenderTexture _RT;
 
@@ -40,11 +35,16 @@ public class CustomizePreivew : MonoBehaviour
 
         _CustomizeCamera = _CustomizePreviewObj.GetComponentInChildren<CustomizeCamera>();
         _Camera = _CustomizePreviewObj.GetComponentInChildren<Camera>();
-        _CineCamera = _CustomizePreviewObj.GetComponentInChildren<CinemachineCamera>();
 
         EnsureRT();
         _Camera.targetTexture = _RT;
         _RawImage.texture = _RT;
+
+        foreach(var button in _PoseButtons)
+        {
+            button.GetComponent<AnimatorTriggerButton>().
+            Setup(_CustomizePreviewObj.GetComponent<Animator>());
+        }
 
         ChangeTarget(ItemType.Hair);
     }
