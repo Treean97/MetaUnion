@@ -13146,7 +13146,6 @@ GameObject:
   - component: {fileID: 345560559}
   - component: {fileID: 345560558}
   - component: {fileID: 345560557}
-  - component: {fileID: 345560560}
   m_Layer: 5
   m_Name: Idle
   m_TagString: Untagged
@@ -13217,7 +13216,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 345560558}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1259277189}
+        m_TargetAssemblyTypeName: CustomizePreivew, Assembly-CSharp
+        m_MethodName: PlayPose
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Idle
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &345560558
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13256,20 +13267,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 345560555}
   m_CullTransparentMesh: 1
---- !u!114 &345560560
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 345560555}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5326b72fa2f1396448ff2bbe8e88b0a4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AnimatorTriggerButton
-  _Key: Idle
-  _Animator: {fileID: 0}
 --- !u!1001 &346255184
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -33346,7 +33343,6 @@ GameObject:
   - component: {fileID: 873697055}
   - component: {fileID: 873697054}
   - component: {fileID: 873697053}
-  - component: {fileID: 873697056}
   m_Layer: 5
   m_Name: Move
   m_TagString: Untagged
@@ -33417,7 +33413,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 873697054}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1259277189}
+        m_TargetAssemblyTypeName: CustomizePreivew, Assembly-CSharp
+        m_MethodName: PlayPose
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Move
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &873697054
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33456,20 +33464,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 873697051}
   m_CullTransparentMesh: 1
---- !u!114 &873697056
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 873697051}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5326b72fa2f1396448ff2bbe8e88b0a4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AnimatorTriggerButton
-  _Key: Move
-  _Animator: {fileID: 0}
 --- !u!1 &877656820
 GameObject:
   m_ObjectHideFlags: 0
@@ -44102,8 +44096,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1157025514}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.14659618, y: 0.35123968, z: -0.05578036, w: 0.92305404}
-  m_LocalPosition: {x: -47.37162, y: 11.387999, z: -21.118786}
+  m_LocalRotation: {x: 0.09807964, y: -0.8744589, z: 0.19876257, w: 0.4315038}
+  m_LocalPosition: {x: 2.8034058, y: 7.5629044, z: 3.696724}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -47922,7 +47916,6 @@ MonoBehaviour:
   _RawImage: {fileID: 671870098}
   _LeftButton: {fileID: 735738570}
   _RightButton: {fileID: 710973275}
-  _PoseButtons: []
   _MinSize: 256
   _DepthBits: 16
   _Msaa: 1

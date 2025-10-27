@@ -1,8 +1,4 @@
-using System;
-using System.Collections.Generic;
-using Unity.Cinemachine;
 using UnityEngine;
-using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class CustomizePreivew : MonoBehaviour
@@ -11,8 +7,6 @@ public class CustomizePreivew : MonoBehaviour
     [SerializeField] private RawImage _RawImage;
     [SerializeField] private Button _LeftButton;
     [SerializeField] private Button _RightButton;
-    [SerializeField] private Button[] _PoseButtons;
-
 
     [Header("RT")]
     [SerializeField] private int _MinSize = 256;
@@ -27,24 +21,21 @@ public class CustomizePreivew : MonoBehaviour
     private Camera _Camera;
     private CustomizeCamera _CustomizeCamera;
     private RenderTexture _RT;
+    private PlayerPreviewRouter _Router;
 
     void Start()
     {
         _CustomizePreviewObj = Instantiate(_CustomizePreviewPrefab);
         _CustomizePreviewObj.transform.position = _PreviewPos;
 
+        _Router = _CustomizePreviewObj.GetComponent<PlayerPreviewRouter>();
         _CustomizeCamera = _CustomizePreviewObj.GetComponentInChildren<CustomizeCamera>();
         _Camera = _CustomizePreviewObj.GetComponentInChildren<Camera>();
+        
 
         EnsureRT();
         _Camera.targetTexture = _RT;
         _RawImage.texture = _RT;
-
-        foreach(var button in _PoseButtons)
-        {
-            button.GetComponent<AnimatorTriggerButton>().
-            Setup(_CustomizePreviewObj.GetComponent<Animator>());
-        }
 
         ChangeTarget(ItemType.Hair);
     }
@@ -66,6 +57,8 @@ public class CustomizePreivew : MonoBehaviour
     {
         _CustomizeCamera.OnRightUp();
     }
+
+    public void PlayPose(string id) => _Router?.Play(id);
 
     public void ChangeTarget(ItemType type)
     {
