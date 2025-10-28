@@ -19,7 +19,8 @@ public class HarvestableObject : MonoBehaviourPun, IDamageable, IDestructible, I
     private float _Hp;
     private bool _Dead;
 
-    public event Action OnDestroyed;    // RespawnManager가 구독
+    public event Action OnDestroyed; // RespawnManager가 구독
+
 
     void Start()
     {
