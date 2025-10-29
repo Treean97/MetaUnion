@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
 
@@ -62,7 +61,7 @@ public class HarvestableObject : MonoBehaviourPun, IDamageable, IDestructible, I
         if (_Hp <= 0f)
         {
             _Dead = true;
-            OnDestroyed?.Invoke();   // 여기서 RespawnManager가 파괴/리스폰 스케줄
+            photonView.RPC(nameof(RPC_BroadcastDestroyed), RpcTarget.All);
         }
     }
 
@@ -71,6 +70,12 @@ public class HarvestableObject : MonoBehaviourPun, IDamageable, IDestructible, I
     {
         if (!PhotonNetwork.IsMasterClient) return;
         ApplyDamage(dmg);
+    }
+
+    [PunRPC]
+    void RPC_BroadcastDestroyed()
+    {
+        OnDestroyed?.Invoke(); 
     }
 
     [PunRPC]

@@ -64,10 +64,4 @@ public class Respawnable : MonoBehaviourPun, IRespawnable
         _prefabPath = path;
     }
 
-
-    [PunRPC]
-    void RPC_DespawnSceneObject()
-    {
-        if (this && gameObject) Destroy(gameObject);
-    }
 }
