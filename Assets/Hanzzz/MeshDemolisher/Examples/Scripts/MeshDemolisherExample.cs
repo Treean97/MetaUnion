@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace Hanzzz.MeshDemolisher
 {
-
     public class MeshDemolisherExample : MonoBehaviour
     {
         [Header("Hint: right click on the script to call Demolish and Reset\nin the editor mode.")]
@@ -15,7 +14,7 @@ namespace Hanzzz.MeshDemolisher
 
         [SerializeField] [Range(0f,1f)] private float resultScale;
         [SerializeField] private Transform resultParent;
-        private HarvestableObject _HarvestObj;
+        private IDestructible _Destrutible;
 
 
         // [SerializeField] private TMP_Text logText;
@@ -24,17 +23,13 @@ namespace Hanzzz.MeshDemolisher
 
         void Start()
         {
-            _HarvestObj = targetGameObject.GetComponent<HarvestableObject>();
+            _Destrutible = targetGameObject.GetComponentInParent<IDestructible>();
+            _Destrutible.OnDestroyed += Demolish;
         }
 
-        private void OnEnable()
+        void OnDestroyed()
         {
-            _HarvestObj.OnDestroyed += Demolish;
-        }
-
-        void OnDisable()
-        {
-            _HarvestObj.OnDestroyed -= Demolish;
+            _Destrutible.OnDestroyed -= Demolish;
         }
 
         [ContextMenu("Verify Demolish Input")]
@@ -98,49 +93,58 @@ namespace Hanzzz.MeshDemolisher
         {
             Enumerable.Range(0, resultParent.childCount).Select(i => resultParent.GetChild(i)).ToList().ForEach(x => x.localScale = resultScale * Vector3.one);
         }
+        
         void AddSimplePhysics(List<GameObject> pieces, Vector3 center)
         {
             if (pieces == null) return;
 
-            const float mass = 0.25f;      // 가벼운 파편
-            const float fMin = 3.0f;       // 힘 최소
-            const float fMax = 6.0f;       // 힘 최대
-            const float torque = 2.0f;       // 토크 크기(랜덤)
-            const float lifeSec = 6.0f;       // 자동 정리
+            const float mass = 0.25f;
+            const float fMin = 3.0f;
+            const float fMax = 6.0f;
+            const float torque = 2.0f;
+
+            float lifeSec = Mathf.Max(0.1f, RespawnManager.GlobalBreakFxSeconds);
 
             foreach (var go in pieces)
             {
                 if (!go) continue;
 
-                // Rigidbody
-                var rb = go.GetComponent<Rigidbody>() ?? go.AddComponent<Rigidbody>();
-                rb.mass = mass;
+                // 정적이면 컴포넌트 추가가 실패할 수 있으니 해제
+                if (go.isStatic) go.isStatic = false;
 
-                // Collider (가볍게 BoxCollider 권장; 필요하면 MeshCollider(convex)로 교체)
-                var col = go.GetComponent<Collider>();
-                if (!col)
+                // Rigidbody 보장
+                if (!go.TryGetComponent<Rigidbody>(out var rb))
                 {
-                    // BoxCollider가 없으면 추가
-                    col = go.AddComponent<BoxCollider>();
-                    // MeshCollider를 쓰고 싶다면:
-                    // var mc = go.AddComponent<MeshCollider>();
-                    // mc.convex = true;
-                    // col = mc;
+                    rb = go.AddComponent<Rigidbody>();
+                    if (rb == null)
+                    {
+                        Debug.LogWarning($"[Break] Rigidbody 추가 실패: {go.name}");
+                        continue;
+                    }
                 }
 
-                // 랜덤 힘 + 토크
-                var dir = (go.transform.position - center).normalized; // 바깥 방향
-                if (dir.sqrMagnitude < 1e-4f) dir = Random.onUnitSphere; // 동일위치 보정
-                float force = Random.Range(fMin, fMax);
-                rb.AddForce(dir * force, ForceMode.Impulse);
+                rb.mass = mass;
+                rb.interpolation = RigidbodyInterpolation.Interpolate;
+                rb.collisionDetectionMode = CollisionDetectionMode.Discrete;
 
-                var randTorque = Random.insideUnitSphere * torque;
-                rb.AddTorque(randTorque, ForceMode.Impulse);
+                // Collider 보장 (없으면 가벼운 BoxCollider 추가)
+                if (!go.TryGetComponent<Collider>(out var col))
+                {
+                    col = go.AddComponent<BoxCollider>();
+                }
 
-                // 4) 자동 정리
+                // 힘+토크
+                var dir = (go.transform.position - center).normalized;
+                if (dir.sqrMagnitude < 1e-4f) dir = Random.onUnitSphere;
+
+                rb.AddForce(dir * Random.Range(fMin, fMax), ForceMode.Impulse);
+                rb.AddTorque(Random.insideUnitSphere * torque, ForceMode.Impulse);
+
+                // 수명 정리
                 if (lifeSec > 0f) Destroy(go, lifeSec);
             }
         }
+
 
     }
 

@@ -5,7 +5,9 @@ using UnityEngine;
 
 public class RespawnManager : MonoBehaviour
 {
-    public static RespawnManager _Inst{ get; private set; }
+    public static RespawnManager _Inst { get; private set; }
+    [SerializeField] private float _GlobalBreakFxSeconds = 2.0f; // 전역 파괴 연출 대기
+    public static float GlobalBreakFxSeconds => _Inst ? _Inst._GlobalBreakFxSeconds : 2.0f;
 
     // 오브젝트별 등록 정보
     private class Entry
@@ -18,8 +20,7 @@ public class RespawnManager : MonoBehaviour
 
         public PhotonView PV;
         public IRespawnable Respawnable;
-        public IDestructible Destructible;
-        
+        public IDestructible Destructible;        
         public System.Action DestroyedHandler;
     }
 
@@ -91,18 +92,28 @@ public class RespawnManager : MonoBehaviour
 
     private void HandleDestroyed(int id)
     {
-        // 먼저 구독 해제(중복 방지)
+        // 구독 해제
         if (_entries.TryGetValue(id, out var e))
         {
             if (e.Destructible != null && e.DestroyedHandler != null)
                 e.Destructible.OnDestroyed -= e.DestroyedHandler;
         }
 
-        // 마스터만 파괴/리스폰 스케줄
         if (!PhotonNetwork.IsMasterClient) return;
-        if (!_entries.TryGetValue(id, out e)) return;
+        if (!_entries.TryGetValue(id, out var entry)) return;
 
-        // 파괴
+        // 기존 즉시 파괴 → 코루틴으로 교체
+        StartCoroutine(DestroyThenRespawnRoutine(entry));
+    }
+
+
+    private IEnumerator DestroyThenRespawnRoutine(Entry e)
+    {
+        // 파괴 연출
+        if (_GlobalBreakFxSeconds > 0f)
+            yield return new WaitForSeconds(_GlobalBreakFxSeconds);
+
+        // 원본 파괴
         if (e.PV != null)
         {
             if (e.PV.InstantiationId > 0)
@@ -112,7 +123,6 @@ public class RespawnManager : MonoBehaviour
             else
             {
                 const string DespawnSceneObject = "RPC_DespawnSceneObject";
-                // 씬 배치 PV → 전 클라 동일하게 로컬 파괴
                 e.PV.RPC(DespawnSceneObject, RpcTarget.AllBuffered);
             }
         }
@@ -123,27 +133,18 @@ public class RespawnManager : MonoBehaviour
         e.Destructible = null;
         e.DestroyedHandler = null;
 
-        // 리스폰 예약
-        StartCoroutine(RespawnRoutine(id, e.PrefabName, e.Pos, e.Rot, e.Delay));
-    }
+        // 리스폰 대기
+        if (e.Delay > 0f)
+            yield return new WaitForSeconds(e.Delay);
 
-    private IEnumerator RespawnRoutine(int id, string prefabName, Vector3 pos, Quaternion rot, float delay)
-    {
-        yield return new WaitForSeconds(delay);
-
-        if (!PhotonNetwork.IsMasterClient) yield break;
-        if (string.IsNullOrEmpty(prefabName)) yield break;
-
-
-        // 새 개체가 Start에서 Register(this)를 호출해 다시 Entry에 바인딩됨.
-        // (혹시 자동 등록을 쓰지 않는다면, 여기서 직접 Register 호출해도 됨)
-        var go = PhotonNetwork.Instantiate(prefabName, pos, rot);
-        var resp = go.GetComponent<IRespawnable>();
-        if (resp != null)
+        // 리스폰
+        if (!string.IsNullOrEmpty(e.PrefabName))
         {
-            // 재등록을 즉시 보장하고 싶다면:
-            Register(resp);
+            var go = PhotonNetwork.Instantiate(e.PrefabName, e.Pos, e.Rot);
+            var resp = go.GetComponent<IRespawnable>();
+            if (resp != null) Register(resp); // 즉시 재바인딩(선택)
         }
     }
+
 
 }

@@ -6,7 +6,7 @@ public class TreeObject : MonoBehaviourPun, IDamageable, IDestructible, IDropSou
 {
     [Header("Respawn/Prefab")]
     [SerializeField] private string _PrefabName;     // Resources 프리팁 이름
-    [SerializeField] private float  _RespawnSeconds = 30f;
+    [SerializeField] private float _RespawnSeconds = 30f;
     [SerializeField] private Transform _RespawnAnchor; // 없으면 자기 Transform 사용
 
     [Header("Stats")]
@@ -19,7 +19,7 @@ public class TreeObject : MonoBehaviourPun, IDamageable, IDestructible, IDropSou
     public event Action OnDestroyed;
 
     public string PrefabName    => _PrefabName;
-    public float  RespawnDelay  => _RespawnSeconds;
+    public float RespawnDelay  => _RespawnSeconds;
     public Transform RespawnAnchor => _RespawnAnchor != null ? _RespawnAnchor : transform;
 
     void Start()

@@ -36918,8 +36918,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 949447146}
+  - component: {fileID: 949447149}
+  - component: {fileID: 949447148}
+  - component: {fileID: 949447147}
+  - component: {fileID: 949447150}
   m_Layer: 0
-  m_Name: Rock_0
+  m_Name: Rock_0_Test
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -36942,6 +36946,68 @@ Transform:
   - {fileID: 1358815769}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &949447147
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 949447145}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1848c5f8065be044b85b6aa9acd7de3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Dropper
+--- !u!114 &949447148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 949447145}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecb333cf01fb4a448be7e489ce8c10e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HarvestableObject
+  _Data: {fileID: 11400000, guid: 65affc06a6550754aad25f21967a85fe, type: 2}
+  _Hitkey: PickRock
+--- !u!114 &949447149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 949447145}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4a42b1958c51e844b449929877a5e40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Respawnable
+  _ResourcesRoot: Respawnable
+  _BreakFxSeconds: 3
+--- !u!114 &949447150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 949447145}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: PhotonUnityNetworking::Photon.Pun.PhotonView
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 5
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1001 &951166578
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -39535,6 +39601,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1037860272}
   m_CullTransparentMesh: 1
+--- !u!1 &1037877265
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1037877266}
+  m_Layer: 0
+  m_Name: Result
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1037877266
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1037877265}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1358815769}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1038246874
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -44667,8 +44764,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1157025514}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.09807964, y: -0.8744589, z: 0.19876257, w: 0.4315038}
-  m_LocalPosition: {x: 2.8034058, y: 7.5629044, z: 3.696724}
+  m_LocalRotation: {x: 0.14659618, y: 0.35123968, z: -0.05578036, w: 0.92305404}
+  m_LocalPosition: {x: -47.37162, y: 11.387999, z: -21.118786}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -51928,6 +52025,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1150146825}
+  - {fileID: 1037877266}
   m_Father: {fileID: 949447146}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1358815770
@@ -51944,10 +52042,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Hanzzz.MeshDemolisher.MeshDemolisherExample
   targetGameObject: {fileID: 1176432920658035109}
   breakPointsParent: {fileID: 1150146825}
-  interiorMaterial: {fileID: 0}
-  demolishKey: 0
-  resultScale: 0
-  resultParent: {fileID: 0}
+  interiorMaterial: {fileID: 2100000, guid: 4f9ac3095c8e05240ae127d887aa29d4, type: 2}
+  resultScale: 0.5
+  resultParent: {fileID: 1037877266}
 --- !u!1001 &1359252139
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -83565,28 +83662,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ca5581c25047dea45a270725b478b86d, type: 3}
---- !u!114 &633694514737437735
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1176432920658035109}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents: []
-  sceneViewId: 5
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
 --- !u!64 &1176432920651703911
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -83692,10 +83767,6 @@ GameObject:
   - component: {fileID: 1176432920656882217}
   - component: {fileID: 1176432920655787339}
   - component: {fileID: 1176432920651703911}
-  - component: {fileID: 1504242432044852433}
-  - component: {fileID: 5287851683267330521}
-  - component: {fileID: 5326547068484235055}
-  - component: {fileID: 633694514737437735}
   m_Layer: 0
   m_Name: Rock_0_Obj
   m_TagString: Untagged
@@ -83703,20 +83774,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1504242432044852433
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1176432920658035109}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ecb333cf01fb4a448be7e489ce8c10e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HarvestableObject
-  _Data: {fileID: 11400000, guid: 65affc06a6550754aad25f21967a85fe, type: 2}
-  _Hitkey: PickRock
 --- !u!1001 &2051618973314716077
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -84112,19 +84169,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1752f751ee6c51d4992f344ff82cb209, type: 3}
---- !u!114 &5287851683267330521
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1176432920658035109}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4a42b1958c51e844b449929877a5e40, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Respawnable
-  _ResourcesRoot: Respawnable
 --- !u!1001 &5296459057771706615
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -84182,18 +84226,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dba2992d457822c42a05492cb9dec559, type: 3}
---- !u!114 &5326547068484235055
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1176432920658035109}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1848c5f8065be044b85b6aa9acd7de3b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &6989679267263869699
 PrefabInstance:
   m_ObjectHideFlags: 0

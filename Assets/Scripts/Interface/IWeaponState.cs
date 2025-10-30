@@ -31,33 +31,36 @@ public sealed class MeleeToolState : IWeaponState
 
         h._Animator.SetTrigger(_trigger);
 
-        // 중심점 = 핸들러의 AttackPoint + SO 오프셋
         var attackPoint = h.transform.TransformPoint(_cfg.AttackOffset);
+        var hits = Physics.OverlapSphere(attackPoint, _cfg.Radius /*, _cfg.LayerMask*/);
 
-        var hits = Physics.OverlapSphere(attackPoint, _cfg.Radius);
         foreach (var col in hits)
         {
-            // 자기 자신은 스킵
+            // 내 자식은 스킵
             if (col.transform.IsChildOf(h.transform)) continue;
-            if (!col.TryGetComponent<PhotonView>(out var pv)) continue;
-            if (!col.TryGetComponent<IDamageable>(out var _)) continue;            
+
+            // 부모에서 찾기(자식 콜라이더를 맞아도 OK)
+            var pv = col.GetComponentInParent<PhotonView>();
+            var dmg = col.GetComponentInParent<IDamageable>();
+            if (pv == null || dmg == null) continue;
 
             // 데미지 계산
-            float dmg = h._Stat.GetStat(_cfg.DamageStat);
-            float virance = h._Stat.GetStat(StatType.DamageVariance);
-            dmg = Random.Range(dmg * ((100 - virance) / 100), dmg);
+            float baseDmg = h._Stat.GetStat(_cfg.DamageStat);
+            float varPct = h._Stat.GetStat(StatType.DamageVariance);
+            float finalDmg = Random.Range(baseDmg * ((100 - varPct) / 100f), baseDmg);
 
             var pos = col.bounds.center;
 
-            // 서버 검증 + 적용 (툴을 함께 보냄)
+            // 서버에 적용 요청(툴 포함)
             h.photonView.RPC(nameof(AttackHandler.RPC_TryDamage),
                              RpcTarget.MasterClient,
-                             pv.ViewID, (byte)_cfg.Tool, dmg, pos);
-
+                             pv.ViewID, (byte)_cfg.Tool, finalDmg, pos);
 
             if (_cfg.ApplyStatus)
+            {
                 h.photonView.RPC(nameof(AttackHandler.RPC_ApplyStatus),
                                  RpcTarget.All, pv.ViewID, (int)_cfg.StatusType, _cfg.StatusDuration);
+            }
             break; // 첫 타겟만
         }
     }

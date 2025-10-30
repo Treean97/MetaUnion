@@ -2,11 +2,20 @@ using System;
 using Photon.Pun;
 using UnityEngine;
 
-public class RockObject : MonoBehaviourPun, IDamageable, IDestructible, IDropSource
+public class RockObject : MonoBehaviourPun, IDamageable, IDestructible, IDropSource, IRespawnable
 {
-        [Header("Stats")]
+    [Header("Respawn/Prefab")]
+    [SerializeField] private string _PrefabName;     // Resources 프리팁 이름
+    [SerializeField] private float _RespawnSeconds = 30f;
+    [SerializeField] private Transform _RespawnAnchor; // 없으면 자기 Transform 사용
+
+    [Header("Stats")]
     [SerializeField] private HarvestableDataSO _Data;
     public DropItemTableSO DropTable => _Data.DropTable;
+
+    public string PrefabName => _PrefabName;
+    public float RespawnDelay => _RespawnSeconds;
+    public Transform RespawnAnchor => _RespawnAnchor;
 
     private float _CurHP;
     private bool _IsDead;
@@ -15,6 +24,9 @@ public class RockObject : MonoBehaviourPun, IDamageable, IDestructible, IDropSou
 
     void Start()
     {
+        // 전역 매니저에 자기 자신 등록
+        RespawnManager._Inst?.Register(this);
+        
         _IsDead = false;
         _CurHP = (_Data != null) ? _Data.Durability : 1f;
     }
