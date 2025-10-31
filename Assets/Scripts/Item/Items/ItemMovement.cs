@@ -17,7 +17,7 @@ public class ItemMovement : MonoBehaviourPun, IPunInstantiateMagicCallback
     [SerializeField] private Vector3 _Gravity = new(0f, -9.8f, 0f);
 
     [Header("Collision / Hover")]
-    [SerializeField] private LayerMask _IgnoreLayer;
+    [SerializeField] private LayerMask _CollisionMask;
     [SerializeField] private float _Radius = 0.15f;  // 아이템 반경(충돌 여유)
     [SerializeField] private float _HoverHeight = 0.5f;  // 지면에서 띄울 높이(+Y)
     [SerializeField] private float _Bounciness = 0.5f;   // 반사 감쇠(0~1)
@@ -41,9 +41,7 @@ public class ItemMovement : MonoBehaviourPun, IPunInstantiateMagicCallback
     void Awake()
     {
         _BobSeed = Random.value * 10f;
-
-        int self = 1 << gameObject.layer;
-        _CastMask = ~_IgnoreLayer.value & ~self;
+        _CastMask = _CollisionMask.value & ~(1 << gameObject.layer);
     }
 
     void Update()
@@ -101,14 +99,9 @@ public class ItemMovement : MonoBehaviourPun, IPunInstantiateMagicCallback
         float   dist  = delta.magnitude;
 
         if (dist > 1e-5f &&
-            Physics.SphereCast(
-                pos,
-                _Radius,
-                delta.normalized,
-                out RaycastHit hit,
-                dist,
-                _CastMask,
-                QueryTriggerInteraction.Ignore)) // 모든 레이어, 트리거 무시
+            Physics.SphereCast(pos, _Radius, delta.normalized,
+                               out RaycastHit hit, dist, _CastMask,
+                               QueryTriggerInteraction.Ignore))// 모든 레이어, 트리거 무시
         {
             // 충돌면 바로 밖으로 밀기(겹침 방지)
             transform.position = hit.point + hit.normal * _Radius;
@@ -143,13 +136,9 @@ public class ItemMovement : MonoBehaviourPun, IPunInstantiateMagicCallback
     private void MaintainHover()
     {
         // 지면 앵커 확인
-        if (Physics.Raycast(
-            _HoverAnchor + Vector3.up,
-            Vector3.down,
-            out RaycastHit hit,
-            2f,
-            _CastMask,
-            QueryTriggerInteraction.Ignore))
+        if (Physics.Raycast(_HoverAnchor + Vector3.up, Vector3.down,
+                            out RaycastHit hit, 2f, _CastMask,
+                            QueryTriggerInteraction.Ignore))
         {
             _HoverAnchor = hit.point;
         }

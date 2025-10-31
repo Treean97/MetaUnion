@@ -289,18 +289,27 @@ public static class GameEvents
 
     // 아이템 드롭
     public static event Func<int, int, GameObject, bool> OnRequestItemDrop;
+
     public static bool RaiseRequestItemDrop(int id, int amount, GameObject user)
     {
-        bool success = RaiseRequestItemSpend(id, amount);
+        // 먼저 차감
+        bool spent = RaiseRequestItemSpend(id, amount);
+        if (!spent) return false;
 
-        if (!success)
+        // 실제 드롭 수행
+        bool spawned = OnRequestItemDrop?.Invoke(id, amount, user) ?? false;
+
+        if (!spawned)
         {
+            // 스폰 실패 → 환불 + 경고
+            RaiseRequestItemGain(id, amount);
+            RaiseShowWarning("Drop failed");
             return false;
         }
-
-        OnRequestItemDrop?.Invoke(id, amount, user);
+        
         return true;
     }
+
 
     #endregion
 

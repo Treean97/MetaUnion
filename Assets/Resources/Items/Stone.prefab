@@ -69,9 +69,9 @@ MonoBehaviour:
   _MaxHorizSpeed: 2.5
   _UpSpeed: 4
   _Gravity: {x: 0, y: -9.8, z: 0}
-  _IgnoreLayer:
+  _CollisionMask:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 1024
   _Radius: 0.15
   _HoverHeight: 0.5
   _Bounciness: 0.5

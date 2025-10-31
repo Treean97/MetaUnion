@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 6176430889638143128}
   - component: {fileID: 3066067787232364995}
   - component: {fileID: 1054832762456863975}
+  - component: {fileID: -8544106990717048767}
   m_Layer: 7
   m_Name: JumpUpPotion
   m_TagString: Untagged
@@ -145,3 +146,30 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
+--- !u!114 &-8544106990717048767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8048735780967087240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4978f567a20f194cb6436582ab33c7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ItemMovement
+  _MinHorizSpeed: 1
+  _MaxHorizSpeed: 2.5
+  _UpSpeed: 3
+  _Gravity: {x: 0, y: -9.8, z: 0}
+  _CollisionMask:
+    serializedVersion: 2
+    m_Bits: 1024
+  _Radius: 0.15
+  _HoverHeight: 0.5
+  _Bounciness: 0.5
+  _SleepSpeed: 0.15
+  _GroundMinNormalY: 0.6
+  _RotateSpeed: 30
+  _BobAmp: 0.05
+  _BobSpeed: 2

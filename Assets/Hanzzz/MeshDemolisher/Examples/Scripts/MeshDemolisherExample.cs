@@ -14,6 +14,7 @@ namespace Hanzzz.MeshDemolisher
 
         [SerializeField] [Range(0f,1f)] private float _ResultScale;
         [SerializeField] private Transform _ResultParent;
+        [SerializeField] private string _FragmentLayer = "ObjectFragment";
 
         [Header("Break Power")]
         [SerializeField] float _Mass = 0.25f;
@@ -21,7 +22,7 @@ namespace Hanzzz.MeshDemolisher
         [SerializeField] float _EjectForceMax = 3.0f;
         [SerializeField] float _EjectTorque   = 1.5f;
         private IDestructible _Destrutible;
-        readonly List<GameObject> _Pieces = new();
+
 
         // [SerializeField] private TMP_Text logText;
 
@@ -67,7 +68,13 @@ namespace Hanzzz.MeshDemolisher
             watch.Stop();
             // logText.text = $"Demolish time: {watch.ElapsedMilliseconds}ms.";
 
-            res.ForEach(x=>x.transform.SetParent(_ResultParent, true));
+            res.ForEach(x => x.transform.SetParent(_ResultParent, true));
+
+            foreach (var piece in res)
+            {
+                if (!piece) continue;
+                SetLayer(piece, LayerMask.NameToLayer(_FragmentLayer));
+            }
             Enumerable.Range(0,_ResultParent.childCount).Select(i=>_ResultParent.GetChild(i)).ToList().ForEach(x=>x.localScale=_ResultScale*Vector3.one);
             AddSimplePhysics(res, _TargetGameObject.transform.position);
             _TargetGameObject.SetActive(false);
@@ -103,7 +110,7 @@ namespace Hanzzz.MeshDemolisher
         {
             Enumerable.Range(0, _ResultParent.childCount).Select(i => _ResultParent.GetChild(i)).ToList().ForEach(x => x.localScale = _ResultScale * Vector3.one);
         }
-        
+
         void AddSimplePhysics(List<GameObject> pieces, Vector3 center)
         {
             if (pieces == null) return;
@@ -143,6 +150,13 @@ namespace Hanzzz.MeshDemolisher
                 rb.AddForce(dir * Random.Range(_EjectForceMin, _EjectForceMax), ForceMode.Impulse);
                 rb.AddTorque(Random.insideUnitSphere * _EjectTorque, ForceMode.Impulse);
             }
+        }
+        
+        void SetLayer(GameObject go, int layer)
+        {
+            go.layer = layer;
+            for (int i = 0; i < go.transform.childCount; i++)
+                SetLayer(go.transform.GetChild(i).gameObject, layer);
         }
 
 

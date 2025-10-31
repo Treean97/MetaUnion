@@ -8,15 +8,15 @@ public class DropActionSO : ScriptableObject, IInventoryAction
     public string Label => _Label;
 
     public void Execute(InventoryItem inventoryItem, GameObject user)
-    {
-        Debug.Log(inventoryItem.ID);
-        
-        bool success =
-        ItemDropManager._Inst.TryItemDrop(inventoryItem.ID, inventoryItem.Amount, user);   
-
-        if (!success)
+    {        
+        int amountToDrop = 1; 
+        if (inventoryItem.Amount < amountToDrop)
         {
-            GameEvents.RaiseShowWarning("Can't Drop");
+            GameEvents.RaiseShowWarning("Not enough item");
+            return;
         }
+
+        bool ok = GameEvents.RaiseRequestItemDrop(inventoryItem.ID, amountToDrop, user);
+        if (!ok) GameEvents.RaiseShowWarning("Can't Drop");
     }
 }
