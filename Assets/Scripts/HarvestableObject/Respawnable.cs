@@ -5,8 +5,6 @@ public class Respawnable : MonoBehaviourPun, IRespawnable
 {
     [Header("Respawn")]
     [SerializeField] private string _ResourcesRoot = "Respawnable"; // 예: Resources/Respawnable/<이름>.prefab
-    [Header("Break FX")]
-    [SerializeField] private float _BreakFxSeconds = 3.0f;
     private Transform _RespawnAnchor;
     private HarvestableObject _harvestable;
     private string _prefabPath;  // 최종 문자열 키: "Respawnable/<Prefab.name>"
@@ -14,7 +12,6 @@ public class Respawnable : MonoBehaviourPun, IRespawnable
     public string PrefabName     => _prefabPath;
     public float RespawnDelay => _harvestable && _harvestable.Data ? _harvestable.Data.RespawnSeconds : 30f;
     public Transform RespawnAnchor => _RespawnAnchor;
-    public float BreakFxSeconds => _BreakFxSeconds;
 
     void Awake()
     {
@@ -72,5 +69,4 @@ public class Respawnable : MonoBehaviourPun, IRespawnable
     {
         Destroy(gameObject);
     }
-
 }

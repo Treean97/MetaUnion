@@ -1,8 +1,10 @@
+using Photon.Pun;
 using UnityEngine;
 
 public class PlayerInteract : MonoBehaviour
 {
     private Animator _Animator;
+    private PhotonView _PV;
 
     void Awake()
     {
@@ -23,6 +25,10 @@ public class PlayerInteract : MonoBehaviour
 
     void HandlePickUp()
     {
-        _Animator.SetTrigger("ItemPickUp");
+        if(_PV.IsMine)
+        {
+            _Animator.SetTrigger("ItemPickUp");    
+        }
+        
     }
 }

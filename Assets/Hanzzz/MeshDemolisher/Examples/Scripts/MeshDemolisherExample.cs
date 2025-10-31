@@ -21,7 +21,7 @@ namespace Hanzzz.MeshDemolisher
         [SerializeField] float _EjectForceMax = 3.0f;
         [SerializeField] float _EjectTorque   = 1.5f;
         private IDestructible _Destrutible;
-
+        readonly List<GameObject> _Pieces = new();
 
         // [SerializeField] private TMP_Text logText;
 
@@ -108,8 +108,6 @@ namespace Hanzzz.MeshDemolisher
         {
             if (pieces == null) return;
 
-            float lifeSec = Mathf.Max(0.1f, RespawnManager.GlobalBreakFxSeconds);
-
             foreach (var go in pieces)
             {
                 if (!go) continue;
@@ -128,7 +126,7 @@ namespace Hanzzz.MeshDemolisher
                     }
                 }
 
-                rb.mass = _EjectForceMin;
+                rb.mass = _Mass;
                 rb.interpolation = RigidbodyInterpolation.Interpolate;
                 rb.collisionDetectionMode = CollisionDetectionMode.Discrete;
 
@@ -144,9 +142,6 @@ namespace Hanzzz.MeshDemolisher
 
                 rb.AddForce(dir * Random.Range(_EjectForceMin, _EjectForceMax), ForceMode.Impulse);
                 rb.AddTorque(Random.insideUnitSphere * _EjectTorque, ForceMode.Impulse);
-
-                // 수명 정리
-                if (lifeSec > 0f) Destroy(go, lifeSec);
             }
         }
 

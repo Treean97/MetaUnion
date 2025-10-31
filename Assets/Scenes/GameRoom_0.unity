@@ -44764,8 +44764,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1157025514}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.14659618, y: 0.35123968, z: -0.05578036, w: 0.92305404}
-  m_LocalPosition: {x: -47.37162, y: 11.387999, z: -21.118786}
+  m_LocalRotation: {x: 0.09807964, y: -0.8744589, z: 0.19876257, w: 0.4315038}
+  m_LocalPosition: {x: 2.8034058, y: 7.5629044, z: 3.696724}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -52040,11 +52040,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82e94bfc891ff4eb5854cc7f91f4de03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Hanzzz.MeshDemolisher.MeshDemolisherExample
-  targetGameObject: {fileID: 1176432920658035109}
-  breakPointsParent: {fileID: 1150146825}
-  interiorMaterial: {fileID: 2100000, guid: 4f9ac3095c8e05240ae127d887aa29d4, type: 2}
-  resultScale: 0.5
-  resultParent: {fileID: 1037877266}
+  _TargetGameObject: {fileID: 1176432920658035109}
+  _BreakPointsParent: {fileID: 1150146825}
+  _InteriorMaterial: {fileID: 2100000, guid: 4f9ac3095c8e05240ae127d887aa29d4, type: 2}
+  _ResultScale: 0
+  _ResultParent: {fileID: 1037877266}
+  _Mass: 0.25
+  _EjectForceMin: 2
+  _EjectForceMax: 3
+  _EjectTorque: 1.5
 --- !u!1001 &1359252139
 PrefabInstance:
   m_ObjectHideFlags: 0

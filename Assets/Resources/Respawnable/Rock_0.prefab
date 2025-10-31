@@ -143,6 +143,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Respawnable
   _ResourcesRoot: Respawnable
+  _BreakFxSeconds: 3
 --- !u!114 &-2758395585881874864
 MonoBehaviour:
   m_ObjectHideFlags: 0

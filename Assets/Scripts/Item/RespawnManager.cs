@@ -6,8 +6,8 @@ using UnityEngine;
 public class RespawnManager : MonoBehaviour
 {
     public static RespawnManager _Inst { get; private set; }
-    [SerializeField] private float _GlobalBreakFxSeconds = 2.0f; // 전역 파괴 연출 대기
-    public static float GlobalBreakFxSeconds => _Inst ? _Inst._GlobalBreakFxSeconds : 2.0f;
+    [SerializeField] private float _DestroyDelay = 5.0f; // 전역 파괴 연출 대기
+    public static float DestroyDelay => _Inst._DestroyDelay;
 
     // 오브젝트별 등록 정보
     private class Entry
@@ -102,16 +102,16 @@ public class RespawnManager : MonoBehaviour
         if (!PhotonNetwork.IsMasterClient) return;
         if (!_entries.TryGetValue(id, out var entry)) return;
 
-        // 기존 즉시 파괴 → 코루틴으로 교체
-        StartCoroutine(DestroyThenRespawnRoutine(entry));
+        // 파괴 루틴
+        StartCoroutine(DestroyAndRespawnRoutine(entry));
     }
 
 
-    private IEnumerator DestroyThenRespawnRoutine(Entry e)
+    private IEnumerator DestroyAndRespawnRoutine(Entry e)
     {
         // 파괴 연출
-        if (_GlobalBreakFxSeconds > 0f)
-            yield return new WaitForSeconds(_GlobalBreakFxSeconds);
+        if (_DestroyDelay > 0f)
+            yield return new WaitForSeconds(_DestroyDelay);
 
         // 원본 파괴
         if (e.PV != null)
@@ -142,9 +142,8 @@ public class RespawnManager : MonoBehaviour
         {
             var go = PhotonNetwork.Instantiate(e.PrefabName, e.Pos, e.Rot);
             var resp = go.GetComponent<IRespawnable>();
-            if (resp != null) Register(resp); // 즉시 재바인딩(선택)
+            if (resp != null) Register(resp);
         }
     }
-
 
 }
