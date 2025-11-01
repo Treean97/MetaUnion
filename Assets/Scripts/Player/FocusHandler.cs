@@ -26,6 +26,8 @@ public class FocusHandler : MonoBehaviourPun
     void Update()
     {
         if (!photonView.IsMine) return;
+        // 물리 동기화
+        Physics.SyncTransforms(); 
 
         Vector3 boxCenter = transform.position 
                     + transform.forward * (_Distance * 0.5f) 

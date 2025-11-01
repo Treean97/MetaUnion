@@ -37,7 +37,8 @@ public class SlotMachineUIManager : MonoBehaviour, ISlotMachineUI
     private bool _IsRolling = false;
 
     [Header("Button Setting")]
-    [SerializeField] private Button _RerollBtn;
+    [SerializeField] private Button _RerollButton;
+    [SerializeField] private Button _CloseButton;
 
     [Header("Betting")]
     [SerializeField] private TMP_Dropdown _BetCurrencyDropdown;
@@ -58,7 +59,7 @@ public class SlotMachineUIManager : MonoBehaviour, ISlotMachineUI
 
     void Awake()
     {
-        _RerollBtn.onClick.AddListener(OnClickRerollBtn);
+        _RerollButton.onClick.AddListener(OnClickRerollBtn);
     }
 
     void Start()
@@ -201,6 +202,8 @@ public class SlotMachineUIManager : MonoBehaviour, ISlotMachineUI
     IEnumerator StartRoll(int laneIndex)
     {
         _IsRolling = true;
+        // UI 종료 방지
+        _CloseButton.enabled = false;
 
         var context = _LaneContext[laneIndex];
         float height = context.SlotHeight;     // 슬롯 1칸 높이
@@ -253,6 +256,7 @@ public class SlotMachineUIManager : MonoBehaviour, ISlotMachineUI
         {
             GetReward();
             _IsRolling = false;
+            _CloseButton.enabled = true;
             _CurrencyInputField.interactable = true;
             _BetCurrencyDropdown.interactable = true;
         }
@@ -314,7 +318,7 @@ public class SlotMachineUIManager : MonoBehaviour, ISlotMachineUI
             default:
                 GameEvents.RaiseRewardFail();
                 break;
-        }    
+        }
     }
 
     void OnClickRerollBtn()

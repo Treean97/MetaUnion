@@ -19,7 +19,8 @@ public class RouletteUIManager : MonoBehaviour, IRouletteUI
     float _WaitToNextSpin = 3f;
     bool _IsSpin = false;
 
-    [SerializeField] Button _SpinBtn;
+    [SerializeField] Button _SpinButton;
+    [SerializeField] Button _CloseButton;
 
     [SerializeField] private string _RouletteSpinKey = "RouletteSpin";
 
@@ -27,7 +28,7 @@ public class RouletteUIManager : MonoBehaviour, IRouletteUI
 
     void Awake()
     {
-        _SpinBtn.onClick.AddListener(OnClickSpinBtn);
+        _SpinButton.onClick.AddListener(OnClickSpinBtn);
     }
 
     void Start()
@@ -133,11 +134,13 @@ public class RouletteUIManager : MonoBehaviour, IRouletteUI
     IEnumerator RotateRoulette()
     {
         _IsSpin = true;
+        _CloseButton.enabled = false;
 
-    var spinLoopPlayer = AudioManager._Inst?.Play2DLoopLocalPlayByKey(_RouletteSpinKey);
-    if (spinLoopPlayer != null) spinLoopPlayer.SetPitch(1f); // 시작은 1 그대로
+        var spinLoopPlayer = AudioManager._Inst?.Play2DLoopLocalPlayByKey(_RouletteSpinKey);
+        if (spinLoopPlayer != null) spinLoopPlayer.SetPitch(1f); // 시작은 1 그대로
 
-    float time = 0f;
+        float time = 0f;
+        
         while (time <= _Duration)
         {
             float t = time / _Duration;                   // 0→1
@@ -168,6 +171,7 @@ public class RouletteUIManager : MonoBehaviour, IRouletteUI
 
         yield return new WaitForSeconds(_WaitToNextSpin);
         _IsSpin = false;
+        _CloseButton.enabled = true;
         DefaultSet();
     }
 

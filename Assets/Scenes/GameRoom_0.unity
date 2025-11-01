@@ -32681,7 +32681,8 @@ MonoBehaviour:
   _MaxSpeed: 500
   _NormalSpeed: 50
   _MinPitch: 0.75
-  _SpinBtn: {fileID: 2077623456}
+  _SpinButton: {fileID: 2077623456}
+  _CloseButton: {fileID: 1573497145}
   _RouletteSpinKey: RouletteSpin
 --- !u!114 &816081139
 MonoBehaviour:
@@ -46623,8 +46624,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1157025514}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.09807964, y: -0.8744589, z: 0.19876257, w: 0.4315038}
-  m_LocalPosition: {x: 2.8034058, y: 7.5629044, z: 3.696724}
+  m_LocalRotation: {x: 0.14659618, y: 0.35123968, z: -0.05578036, w: 0.92305404}
+  m_LocalPosition: {x: -47.37162, y: 11.387999, z: -21.118786}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -55620,7 +55621,8 @@ MonoBehaviour:
   _DecelMultiplier: 5
   _RollTic: 0.02
   _Destiny: 
-  _RerollBtn: {fileID: 1594047646}
+  _RerollButton: {fileID: 1594047646}
+  _CloseButton: {fileID: 737468504}
   _BetCurrencyDropdown: {fileID: 288036337}
   _CurrencyDataPoolSO: {fileID: 11400000, guid: 35aedb849e5bfee45a9e0831611fde3f, type: 2}
   _CurrencyInputField: {fileID: 1241615320}

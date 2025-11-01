@@ -435,8 +435,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "Scene\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 295
-    y: 182
+    x: 0
+    y: 24
     width: 804
     height: 503
   m_SerializedDataModeController:
@@ -1029,7 +1029,7 @@ MonoBehaviour:
   m_Rotation:
     m_Target: {x: 0.08705637, y: 0.90486157, z: -0.2243137, w: 0.35116726}
     speed: 2
-    m_Value: {x: 0.087056875, y: 0.9048669, z: -0.22431502, w: 0.35116932}
+    m_Value: {x: 0.08705637, y: 0.90486157, z: -0.2243137, w: 0.35116726}
   m_Size:
     m_Target: 1.1110915
     speed: 2
@@ -1347,8 +1347,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "Hierarchy\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 1100
-    y: 182
+    x: 806
+    y: 24
     width: 540
     height: 503
   m_SerializedDataModeController:
@@ -1365,23 +1365,23 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 00000300
-      m_LastClickedID: 196608
+      m_SelectedIDs: 
+      m_LastClickedID: 0
       m_ExpandedIDs: aed7fdff3e06feffac0bfeff3832feff0cbbfeff40fbfeffb000ffff7e30ffff1064ffff8e8bffff948dffff2cbfffff04fbffff984d01006c4e01003c520100ca6401004678010054850100f88901009ee2010042e70100764002004a4102001a4502005cfb0200
       m_RenameOverlay:
         m_UserAcceptedRename: 0
-        m_Name: 7
-        m_OriginalName: 7
+        m_Name: 
+        m_OriginalName: 
         m_EditFieldRect:
           serializedVersion: 2
           x: 0
           y: 0
           width: 0
           height: 0
-        m_UserData: -78338
+        m_UserData: 0
         m_IsWaitingForDelay: 0
         m_IsRenaming: 0
-        m_OriginalEventType: 0
+        m_OriginalEventType: 11
         m_IsRenamingFilename: 0
         m_TrimLeadingAndTrailingWhitespace: 0
         m_ClientGUIView: {fileID: 9}
@@ -1488,8 +1488,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "Game\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 295
-    y: 711
+    x: 0
+    y: 24
     width: 794
     height: 567
   m_SerializedDataModeController:
@@ -1636,8 +1636,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "Project\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 1090
-    y: 711
+    x: 796
+    y: 24
     width: 241
     height: 567
   m_SerializedDataModeController:
@@ -1680,7 +1680,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 04060000
     m_LastClickedID: 1540
-    m_ExpandedIDs: 00000000c60e0100c80e0100ca0e0100cc0e0100ce0e0100d00e0100d20e0100d40e0100d60e0100d80e0100da0e0100dc0e0100de0e0100e00e0100e20e0100e40e0100e60e0100e80e0100ea0e0100ec0e0100ee0e0100f00e0100f20e0100f40e0100f60e0100f80e0100fa0e0100fc0e0100fe0e0100000f0100020f0100040f0100060f0100080f01000a0f01000c0f01000e0f0100100f0100120f0100140f0100160f0100180f01001a0f01001c0f01001e0f0100200f0100220f0100240f0100260f0100280f01002a0f01002c0f01002e0f0100300f0100320f0100340f0100360f0100380f01003a0f01003c0f01003e0f0100400f0100
+    m_ExpandedIDs: 00000000802a0100822a0100842a0100862a0100882a01008a2a01008c2a01008e2a0100902a0100922a0100942a0100962a0100982a01009a2a01009c2a01009e2a0100a02a0100a22a0100a42a0100a62a0100a82a0100aa2a0100ac2a0100ae2a0100b02a0100b22a0100b42a0100b62a0100b82a0100ba2a0100bc2a0100be2a0100c02a0100c22a0100c42a0100c62a0100c82a0100ca2a0100cc2a0100ce2a0100d02a0100d22a0100d42a0100d62a0100d82a0100da2a0100dc2a0100de2a0100e02a0100e22a0100e42a0100e62a0100e82a0100ea2a0100ec2a0100ee2a0100f02a0100f22a0100f42a0100f62a0100f82a0100fa2a0100fc2a0100fe2a0100002b0100022b0100042b0100062b0100082b01000a2b01000c2b0100
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1709,21 +1709,21 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 4680}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: ffffffff00000000c60e0100c80e0100ca0e0100cc0e0100ce0e0100d00e0100d20e0100d40e0100d60e0100d80e0100da0e0100dc0e0100de0e0100e00e0100e20e0100e40e0100e60e0100e80e0100ea0e0100ec0e0100ee0e0100f00e0100f20e0100f40e0100f80e0100fa0e0100fc0e0100fe0e0100000f0100020f0100040f0100060f0100080f01000a0f01000c0f01000e0f0100100f0100120f0100140f0100160f0100180f01001a0f01001c0f01001e0f0100200f0100220f0100240f0100260f0100280f01002a0f01002c0f01002e0f0100300f0100320f0100340f0100360f0100380f01003a0f01003c0f01003e0f0100400f01007e100100c610010086110100d4110100d6110100e0110100ea5e0100f05e0100f25e010070a40200
+    m_ExpandedIDs: 00000000802a0100822a0100842a0100862a0100882a01008a2a01008c2a01008e2a0100902a0100922a0100942a0100962a0100982a01009a2a01009c2a01009e2a0100a02a0100a22a0100a42a0100a62a0100a82a0100aa2a0100ac2a0100ae2a0100b02a0100b22a0100b42a0100b62a0100b82a0100ba2a0100bc2a0100be2a0100c02a0100c22a0100c42a0100c62a0100c82a0100ca2a0100cc2a0100ce2a0100d02a0100d22a0100d42a0100d62a0100d82a0100da2a0100dc2a0100de2a0100e02a0100e22a0100e42a0100e62a0100e82a0100ea2a0100ec2a0100ee2a0100f02a0100f22a0100f42a0100f62a0100f82a0100fa2a0100fc2a0100fe2a0100002b0100022b0100042b0100062b0100082b01000a2b01000c2b0100
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: ItemDropAction
-      m_OriginalName: ItemDropAction
+      m_Name: 
+      m_OriginalName: 
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 63422
+      m_UserData: 0
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 0
+      m_OriginalEventType: 11
       m_IsRenamingFilename: 1
       m_TrimLeadingAndTrailingWhitespace: 0
       m_ClientGUIView: {fileID: 12}
@@ -1973,8 +1973,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "Console\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 1333
-    y: 711
+    x: 1039
+    y: 24
     width: 307
     height: 567
   m_SerializedDataModeController:
@@ -2009,8 +2009,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "Inspector\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 1642
-    y: 182
+    x: 1
+    y: 24
     width: 354
     height: 793
   m_SerializedDataModeController:
@@ -2094,8 +2094,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "Preview\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 1642
-    y: 1001
+    x: 1
+    y: 843
     width: 354
     height: 277
   m_SerializedDataModeController:
