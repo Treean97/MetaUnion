@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum QuantityMode { Buy, Sell }
+public enum QuantityMode { Buy, Sell, Drop}
 
 public class SetAmountUIManager : MonoBehaviour, ISetAmountUI
 {
@@ -32,14 +32,11 @@ public class SetAmountUIManager : MonoBehaviour, ISetAmountUI
 
         var btnText = _ConfirmBtn.GetComponentInChildren<TMP_Text>();
 
-        // 테스트
-        if (_Mode == QuantityMode.Buy)
+        switch (_Mode)
         {
-            btnText.text = "Buy";
-        }
-        else if(_Mode == QuantityMode.Sell)
-        {
-            btnText.text = "Sell";
+            case QuantityMode.Buy:  btnText.text = "Buy";  break;
+            case QuantityMode.Sell: btnText.text = "Sell"; break;
+            case QuantityMode.Drop: btnText.text = "Drop"; break;
         }
     }
 
@@ -85,6 +82,12 @@ public class SetAmountUIManager : MonoBehaviour, ISetAmountUI
                 success = GameEvents.RaiseRequestSellItem(
                     _ItemData.ID, amount, currency.ID, _ItemData.SellPrice);
                 break;
+
+            case QuantityMode.Drop:
+                success = GameEvents.RaiseRequestItemDrop(
+                    _ItemData.ID, amount, PlayerSetup._LocalPlayer);
+                break;
+
         }
 
         if (success)
