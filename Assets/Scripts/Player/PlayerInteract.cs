@@ -8,7 +8,8 @@ public class PlayerInteract : MonoBehaviour
 
     void Awake()
     {
-        _Animator = gameObject.GetComponent<Animator>();
+        _Animator = GetComponent<Animator>();
+        _PV = GetComponent<PhotonView>();
     }
 
     void OnEnable()

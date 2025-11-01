@@ -92,7 +92,7 @@ public class SetAmountUIManager : MonoBehaviour, ISetAmountUI
 
         if (success)
         {
-            Hide();
+            UIRouter._Inst.Close<ISetAmountUI>();
         }
         
     }

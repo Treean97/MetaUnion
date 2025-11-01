@@ -2,7 +2,7 @@ Shader "UI/RadialReveal"
 {
     Properties
     {
-        _Radius ("Radius (0~0.5)", Range(0, 0.5)) = 0
+        _Radius ("Radius (0~0.5)", Range(-0.1, 0.5)) = 0
         _Softness ("Edge Softness", Range(0, 0.5)) = 0.08
         _Center ("Center (UV 0~1)", Vector) = (0.5, 0.5, 0, 0)
         _Color ("Tint", Color) = (0,0,0,1)

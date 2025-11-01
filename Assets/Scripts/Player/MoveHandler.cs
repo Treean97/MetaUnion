@@ -52,6 +52,8 @@ namespace Controller
         public Vector3 Target => m_Target;
         public bool IsRun => m_IsRun;
 
+        int _PhaseLockCount;
+
 
         private void OnValidate()
         {
@@ -76,6 +78,22 @@ namespace Controller
         void OnDestroy()
         {
             PlayerStat.OnStatChanged -= HandleStatChanged;
+        }
+
+        void OnEnable()
+        {
+            PlayerEmote.OnEmoteStart += HandleLockTurn;
+            PlayerEmote.OnEmoteEnd += HandleUnlockTurn;
+            FishingSequence.OnFishingStart += HandleLockTurn;
+            FishingSequence.OnFishingEnd += HandleUnlockTurn;
+        }
+
+        void OnDisable()
+        {
+            PlayerEmote.OnEmoteStart -= HandleLockTurn;
+            PlayerEmote.OnEmoteEnd -= HandleUnlockTurn;
+            FishingSequence.OnFishingStart -= HandleLockTurn;
+            FishingSequence.OnFishingEnd -= HandleUnlockTurn;
         }
 
         void Start()
@@ -184,14 +202,20 @@ namespace Controller
             }
         }
 
-        public void LockTurn()
+        public void HandleLockTurn()
         {
-            m_Movement._IsLockTurn = true;
+            if (!_PhotonView || !_PhotonView.IsMine) return;
+            _PhaseLockCount++;
+            if (_PhaseLockCount == 1)
+                m_Movement._IsLockTurn = true;
         }
         
-        public void UnlockTurn()
+        public void HandleUnlockTurn()
         {
-            m_Movement._IsLockTurn = false;
+            if (!_PhotonView || !_PhotonView.IsMine) return;
+            _PhaseLockCount = Mathf.Max(0, _PhaseLockCount - 1);
+            if (_PhaseLockCount == 0)
+                m_Movement._IsLockTurn = false;
         }
 
         #region Handlers
@@ -206,7 +230,7 @@ namespace Controller
             private bool m_IsRotating;
             private Vector3 m_Normal;
             private Vector3 m_VerticalVelocity;
-            internal bool _IsLockTurn;
+            internal bool _IsLockTurn;            
 
             public Vector3 VerticalVelocity => m_VerticalVelocity;
 
@@ -322,14 +346,21 @@ namespace Controller
             private void UpdateRotation(float deltaTime)
             {
                 if (!m_IsRotating) return;
-                var rotDelta = m_RotateSpeed * deltaTime;
-                if (rotDelta + Mathf.PI * 2f + Mathf.Epsilon >= Mathf.Abs(m_TargetAngle))
+
+                float step = m_RotateSpeed * deltaTime;
+                float remain = Mathf.Abs(m_TargetAngle);
+
+                if (step + Mathf.Epsilon >= remain)
                 {
-                    rotDelta = m_TargetAngle;
+                    m_Transform.Rotate(Vector3.up, m_TargetAngle);
                     m_IsRotating = false;
+                    m_TargetAngle = 0f;
+                    return;
                 }
-                else rotDelta *= Math.Sign(m_TargetAngle);
-                m_Transform.Rotate(Vector3.up, rotDelta);
+
+                float signed = step * Math.Sign(m_TargetAngle);
+                m_Transform.Rotate(Vector3.up, signed);
+                m_TargetAngle -= signed; 
             }
         }
 

@@ -1,3 +1,4 @@
+using System;
 using Controller;
 using ExitGames.Client.Photon;
 using Photon.Pun;
@@ -28,8 +29,8 @@ public class PlayerEmote : MonoBehaviourPunCallbacks
     private Quaternion _ReturnRot;
 
     // ==== 로컬 오디오 전용 ====
-    private Pooled2DAudioPlayer _Sfx2D;  // 로컬에서만 렌트/반납
-    private string _BgmToken;            // 런타임 BGM 음소거 토큰
+    private Pooled2DAudioPlayer _Sfx2D; // 로컬에서만 렌트/반납
+    private string _BgmToken; // 런타임 BGM 음소거 토큰
 
     public bool InEmote => _IsInEmote;
     public int CurrentSlotIndex => _SlotIndex;
@@ -39,6 +40,8 @@ public class PlayerEmote : MonoBehaviourPunCallbacks
     Vector3 _snapPos;
     Quaternion _snapRot;
 
+    public static event Action OnEmoteStart;
+    public static event Action OnEmoteEnd;
     
 
     private void Awake()
@@ -107,19 +110,10 @@ public class PlayerEmote : MonoBehaviourPunCallbacks
             _Anchor = anchor;
             _SlotIndex = slotIndex;
 
-            // 이모트 동안 회전 고정
-            GetComponent<MoveHandler>()?.LockTurn();
-
-                // // 슬롯 포즈로 1회 스냅
-                // var slotPos = anchor.GetSlotWorldPos(slotIndex);
-                // var slotRot = anchor.GetSlotWorldRot(slotIndex);
-                // transform.SetPositionAndRotation(slotPos, slotRot);
-
             _snapPos = anchor.GetSlotWorldPos(slotIndex);
             _snapRot = anchor.GetSlotWorldRot(slotIndex);
             _pendingSnap = true;     
-        }
-    
+        }    
 
         photonView.RPC(nameof(RPC_PlayEmote), RpcTarget.All, anchor.photonView.ViewID, slotIndex, Mathf.Clamp01(normalizedTime));
     }
@@ -138,6 +132,7 @@ public class PlayerEmote : MonoBehaviourPunCallbacks
         _Anchor = anchor;
         _SlotIndex = slotIndex;
         _IsInEmote = true;
+        OnEmoteStart?.Invoke();
 
         var so = anchor.EmoteSO;
 
@@ -226,7 +221,7 @@ public class PlayerEmote : MonoBehaviourPunCallbacks
         _Anchor = null;
         _SlotIndex = -1;
         _IsInEmote = false;
-        GetComponent<MoveHandler>().UnlockTurn();
+        OnEmoteEnd?.Invoke();
     }
 
     [PunRPC]

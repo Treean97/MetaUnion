@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class FishingSequence : MonoBehaviour, IFishingUI
 {
-    
+
     [SerializeField] private FishingMinigame _MinigameUI;
+    [SerializeField] private GameObject _CatchUI;
     [SerializeField] private KeyCode _CatchKey = KeyCode.Mouse0;
 
     [SerializeField] private ItemDataPoolSO _RewardItemPool;
@@ -26,7 +27,6 @@ public class FishingSequence : MonoBehaviour, IFishingUI
     public bool IsOpen => gameObject.activeSelf;
 
     public static event Action OnFishingStart;
-    public static event Action OnWaitLoopStart;
     public static event Action OnFishingSuccess;
     public static event Action OnFishingFail;
     public static event Action OnFishingEnd;
@@ -60,13 +60,13 @@ public class FishingSequence : MonoBehaviour, IFishingUI
         yield return null;
 
         // 대기
-        _State = FishingState.WaitingBite;
+        _State = FishingState.WaitingBite;        
         float delay = UnityEngine.Random.Range(_BiteDelay[0], _BiteDelay[1]);
         yield return new WaitForSeconds(delay);
 
         // 잡기 가능
         _State = FishingState.Catchable;
-        GameEvents.RaiseShowWarning("Catch!!!", _CatchableSeconds);
+        UIFX.Show(_CatchUI);        
         float time = 0f;
         bool catched = false;
 
@@ -75,6 +75,7 @@ public class FishingSequence : MonoBehaviour, IFishingUI
             if (Input.GetKeyDown(_CatchKey))
             {
                 catched = true;
+                UIFX.Hide(_CatchUI);
                 break;
             }
 

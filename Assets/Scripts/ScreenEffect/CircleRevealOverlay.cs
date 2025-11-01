@@ -8,7 +8,8 @@ public class CircleRevealOverlay : MonoBehaviour
     [SerializeField] float _OpenDuration = 1.5f;
     [SerializeField] float _CloseDuration = 1.5f;
 
-    const float _TargetRadius = 0.5f;
+    const float _OpenRadius = 0.5f;
+    const float _CloseRadius = -0.1f;
     static readonly int _ID_Radius = Shader.PropertyToID("_Radius");
 
     Image _Image;
@@ -34,10 +35,10 @@ public class CircleRevealOverlay : MonoBehaviour
     {
         _Seq?.Kill();
         _Image.enabled = true;
-        _Mat.SetFloat(_ID_Radius, 0f);
+        _Mat.SetFloat(_ID_Radius, _CloseRadius);
 
         _Seq = DOTween.Sequence()
-            .Append(DOTween.To(GetRadius, SetRadius, _TargetRadius, Mathf.Max(0.01f, _OpenDuration)).SetEase(Ease.OutCubic))
+            .Append(DOTween.To(GetRadius, SetRadius, _OpenRadius, Mathf.Max(0.01f, _OpenDuration)).SetEase(Ease.OutCubic))
             .OnComplete(() => _Image.enabled = false);
         return _Seq;
     }
@@ -46,9 +47,10 @@ public class CircleRevealOverlay : MonoBehaviour
     {
         _Seq?.Kill();
         _Image.enabled = true;
+        _Mat.SetFloat(_ID_Radius, _OpenRadius);
 
         _Seq = DOTween.Sequence()
-            .Append(DOTween.To(GetRadius, SetRadius, 0f, Mathf.Max(0.01f, _CloseDuration)).SetEase(Ease.InCubic));
+            .Append(DOTween.To(GetRadius, SetRadius, _CloseRadius, Mathf.Max(0.01f, _CloseDuration)).SetEase(Ease.InCubic));
         return _Seq;
     }
 

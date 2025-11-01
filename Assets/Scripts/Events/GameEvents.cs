@@ -303,7 +303,7 @@ public static class GameEvents
         {
             // 스폰 실패 → 환불 + 경고
             RaiseRequestItemGain(id, amount);
-            RaiseShowWarning("Drop failed");
+            RaiseShowWarning("아이템을 버릴 수 없습니다.");
             return false;
         }
         
