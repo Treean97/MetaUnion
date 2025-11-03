@@ -8,13 +8,20 @@ using System;
 [Serializable]
 public class AdvancedOption {
     public string nameText; //Text for option
-
+    public Sprite icon;
     /// <summary>
     /// Constructor
     /// </summary>
     /// <param name="nameText">Text for option</param>
-    public AdvancedOption(string nameText) {
+    public AdvancedOption(string nameText)
+    {
         this.nameText = nameText;
+    }
+    
+    public AdvancedOption(string nameText, Sprite icon) 
+    {
+        this.nameText = nameText;
+        this.icon = icon;
     }
 }
 
@@ -152,8 +159,13 @@ public class AdvancedDropdown : MonoBehaviour{
     /// Add one option
     /// </summary>
     /// <param name="targetOption">Target option text</param>
-    public void AddOptions(string targetOption) {
+    public void AddOptions(string targetOption)
+    {
         optionsList.Add(new AdvancedOption(targetOption));
+    }
+    
+    public void AddOptions(string targetOption, Sprite icon) {
+        optionsList.Add(new AdvancedOption(targetOption, icon));
     }
 
     /// <summary>
@@ -218,7 +230,8 @@ public class AdvancedDropdown : MonoBehaviour{
         for (int i = 0; i < optionsList.Count; i++) {
             var newOption = Instantiate(firstObj, optionsContent).GetComponent<OptionScript>();
             newOption.gameObject.SetActive(true);
-            newOption.InitOption(i, optionsList[i].nameText);
+            //newOption.InitOption(i, optionsList[i].nameText);
+            newOption.InitOption(i, optionsList[i].nameText, optionsList[i].icon);
             spawnedList.Add(newOption);
         }
         optionsObject.GetChild(0).GetComponent<AutoSizeLayoutDropdown>().UpdateAllRect();

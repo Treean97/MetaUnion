@@ -16,6 +16,7 @@ public class SceneListSO : ScriptableObject
 #endif
 
         public string SceneName;
+        public Sprite SceneIcon;
     }
 
     public List<SceneEntry> _SceneList = new List<SceneEntry>();

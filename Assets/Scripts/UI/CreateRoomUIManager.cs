@@ -9,7 +9,9 @@ public class CreateRoomUIManager : MonoBehaviour
 {
     [SerializeField] private TMP_InputField _RoomNameInput;
     [SerializeField] private TMP_Dropdown _MaxPlayerDropdown;
+    [SerializeField] private AdvancedDropdown _MapDropdown;
     [SerializeField] private Button _CreateButton;
+    
 
     private const string MAP_PROP = "map";
 
@@ -18,11 +20,13 @@ public class CreateRoomUIManager : MonoBehaviour
         _CreateButton.onClick.AddListener(OnConfirmClicked);
         _RoomNameInput.onValueChanged.AddListener(CheckRoomNameInput);
 
-        InitDropdown();
+        InitMaxPlayerDropdown();
+        InitMapDropdown();
+
         ResetInput();
     }
 
-    private void InitDropdown()
+    private void InitMaxPlayerDropdown()
     {
         if (_MaxPlayerDropdown.options.Count == 0)
         {
@@ -33,6 +37,43 @@ public class CreateRoomUIManager : MonoBehaviour
             }
         }
         _MaxPlayerDropdown.value = 0;
+    }
+
+    private void InitMapDropdown()
+    {
+        if (_MapDropdown == null)
+            return;
+
+        _MapDropdown.DeleteAllOptions();
+
+        var sceneListSO = Launcher._Inst != null ? Launcher._Inst.GetGameSceneListSO : null;
+        if (sceneListSO == null || sceneListSO._SceneList == null || sceneListSO._SceneList.Count == 0)
+        {
+            // 맵 리스트가 비어 있으면 기본 텍스트만 표시
+            _MapDropdown.SetDefaultText();
+            return;
+        }
+
+        // SceneListSO에 있는 엔트리들을 드롭다운에 추가
+        for (int i = 0; i < sceneListSO._SceneList.Count; i++)
+        {
+            var entry = sceneListSO._SceneList[i];
+            if (string.IsNullOrWhiteSpace(entry.SceneName))
+                continue;
+
+            // 이름 + 아이콘 함께 추가
+            _MapDropdown.AddOptions(entry.SceneName, entry.SceneIcon);
+        }
+
+        // 첫 번째 항목을 기본 선택으로
+        if (sceneListSO.Count > 0)
+        {
+            _MapDropdown.SelectOption(0);
+        }
+        else
+        {
+            _MapDropdown.SetDefaultText();
+        }
     }
 
     private void ResetInput()
@@ -98,12 +139,26 @@ public class CreateRoomUIManager : MonoBehaviour
 
     string ResolveMapName()
     {
-        // 드롭다운 인덱스 사용
-        // if (Launcher._Inst.GetGameSceneListSO != null && Launcher._Inst.GetGameSceneListSO.TryGetNameByIndex(_MapDropdown.value, out var name))
-        //     return name;
+        var sceneListSO = Launcher._Inst.GetGameSceneListSO;
+        if (sceneListSO == null)
+            return null;
 
-        // 실패 시 랜덤/기본값
-        return Launcher._Inst.GetGameSceneListSO.GetRandomName();
+        int index = _MapDropdown.value;
+        if (index < 0 || index >= _MapDropdown.optionsList.Count)
+        {
+            Debug.LogError("맵 드롭다운 인덱스 범위 오류");
+            return sceneListSO.GetRandomName();
+        }
+
+        // ★ 드롭다운이 들고 있는 텍스트(= SceneName)를 그대로 사용
+        string sceneName = _MapDropdown.optionsList[index].nameText;
+        if (string.IsNullOrWhiteSpace(sceneName))
+        {
+            Debug.LogError("맵 이름이 비어 있습니다");
+            return sceneListSO.GetRandomName();
+        }
+
+        return sceneName;
     }
 
 }

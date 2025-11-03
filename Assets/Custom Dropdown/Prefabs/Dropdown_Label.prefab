@@ -986,7 +986,7 @@ GameObject:
   - component: {fileID: 828924717374037249}
   - component: {fileID: 828924717374037248}
   m_Layer: 5
-  m_Name: Dropdown
+  m_Name: Dropdown_Label
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1010,7 +1010,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -80, y: -152.16}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 763.308, y: 92.696}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &828924717374037248
@@ -1036,7 +1036,7 @@ MonoBehaviour:
   - nameText: Test3
   - nameText: Test4
   - nameText: Test5
-  value: -1
+  value: 0
   speedOfShrinking: 70
   speedOfFading: 4
   maximumDropdownHeight: 350

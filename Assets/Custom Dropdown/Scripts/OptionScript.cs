@@ -13,6 +13,8 @@ public class OptionScript : MonoBehaviour
 
     public int id; //Id in list
     public string text; //Text of the option
+    public Image iconImage;
+
 
     public TextMeshProUGUI targetText; //Text component
 
@@ -23,10 +25,32 @@ public class OptionScript : MonoBehaviour
     /// </summary>
     /// <param name="id">Option ID</param>
     /// <param name="text">Option Text</param>
-    public void InitOption(int id, string text) {
+    public void InitOption(int id, string text)
+    {
         this.id = id;
         this.text = text;
         targetText.text = text;
+
+        if (iconImage != null)
+        {
+            iconImage.sprite = null;
+            iconImage.enabled = false;
+        }
+
+        selector.SetActive(id == mainScript.value);
+    }
+    
+    public void InitOption(int id, string text, Sprite icon) 
+    {
+        this.id = id;
+        this.text = text;
+        targetText.text = text;
+
+        if (iconImage != null) {
+            iconImage.sprite = icon;
+            iconImage.enabled = (icon != null);
+        }
+
         selector.SetActive(id == mainScript.value);
     }
 

@@ -15,5 +15,7 @@ MonoBehaviour:
   _SceneList:
   - SceneAsset: {fileID: 102900000, guid: c7c262b217f420e42bdbaa9cee4da0b1, type: 3}
     SceneName: GameRoom_0_City
+    SceneIcon: {fileID: 0}
   - SceneAsset: {fileID: 102900000, guid: c21fe013294c55f4698e3b0ef9572c80, type: 3}
-    SceneName: GameScene_1_LoopTopBar
+    SceneName: GameScene_1_RoofTopBar
+    SceneIcon: {fileID: 0}
