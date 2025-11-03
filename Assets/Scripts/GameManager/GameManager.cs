@@ -95,11 +95,11 @@ namespace Com.MyCompany.MyGame
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            // ① Launcher에서 공개한 프로퍼티로 SceneListSO를 꺼내 오고
+            // Launcher에서 공개한 프로퍼티로 SceneListSO를 꺼내 오고
             var sceneListSO = Launcher._Inst.GetGameSceneListSO;
             var list = sceneListSO._SceneList;
 
-            // ② 로드된 씬 이름이 리스트에 있으면 게임 방. 없으면 게임 방 아님.
+            // 로드된 씬 이름이 리스트에 있으면 게임 방. 없으면 게임 방 아님.
             bool isGameRoom = list.Any(e => e.SceneName == scene.name);
             if (!isGameRoom)
             {
@@ -109,7 +109,23 @@ namespace Com.MyCompany.MyGame
             else
             {
                 Debug.Log("게임 방입니다. 플레이어를 생성합니다.");
-                PhotonNetwork.Instantiate(_PlayerPrefab.name, Vector3.zero, Quaternion.identity);
+                var spawnPoint = FindAnyObjectByType<PlayerSpawnPoint>();
+                Vector3 pos;
+                Quaternion rot;
+    
+                if (spawnPoint != null)
+                {
+                    pos = spawnPoint.transform.position;
+                    rot = spawnPoint.transform.rotation;
+                }
+                else
+                {
+                    Debug.LogWarning("PlayerSpawnPoint를 찾지 못했습니다.");
+                    pos = Vector3.zero;
+                    rot = Quaternion.identity;
+                }
+
+                PhotonNetwork.Instantiate(_PlayerPrefab.name, pos, rot);    
             }
 
         }
