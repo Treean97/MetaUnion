@@ -4,6 +4,7 @@ using TMPro;
 using Photon.Pun;
 using Photon.Realtime;
 using System.Collections;
+using System.Collections.Generic;
 
 public class CreateRoomUIManager : MonoBehaviour
 {
@@ -12,7 +13,7 @@ public class CreateRoomUIManager : MonoBehaviour
     [SerializeField] private AdvancedDropdown _MapDropdown;
     [SerializeField] private Button _CreateButton;
     
-
+    private readonly List<string> _MapSceneNames = new List<string>();
     private const string MAP_PROP = "map";
 
     private void OnEnable()
@@ -45,11 +46,11 @@ public class CreateRoomUIManager : MonoBehaviour
             return;
 
         _MapDropdown.DeleteAllOptions();
+        _MapSceneNames.Clear();
 
         var sceneListSO = Launcher._Inst != null ? Launcher._Inst.GetGameSceneListSO : null;
         if (sceneListSO == null || sceneListSO._SceneList == null || sceneListSO._SceneList.Count == 0)
         {
-            // 맵 리스트가 비어 있으면 기본 텍스트만 표시
             _MapDropdown.SetDefaultText();
             return;
         }
@@ -61,12 +62,14 @@ public class CreateRoomUIManager : MonoBehaviour
             if (string.IsNullOrWhiteSpace(entry.SceneName))
                 continue;
 
-            // 이름 + 아이콘 함께 추가
-            _MapDropdown.AddOptions(entry.SceneName, entry.SceneIcon);
+            // 드롭다운에는 표기용 이름 + 아이콘
+            _MapDropdown.AddOptions(entry.DisplayName, entry.SceneIcon);
+
+            // ★ 같은 순서로 실제 SceneName을 따로 저장
+            _MapSceneNames.Add(entry.SceneName);
         }
 
-        // 첫 번째 항목을 기본 선택으로
-        if (sceneListSO.Count > 0)
+        if (_MapSceneNames.Count > 0)
         {
             _MapDropdown.SelectOption(0);
         }
@@ -143,15 +146,18 @@ public class CreateRoomUIManager : MonoBehaviour
         if (sceneListSO == null)
             return null;
 
+        if (_MapDropdown == null || _MapSceneNames.Count == 0)
+            return sceneListSO.GetRandomName();
+
         int index = _MapDropdown.value;
-        if (index < 0 || index >= _MapDropdown.optionsList.Count)
+        if (index < 0 || index >= _MapSceneNames.Count)
         {
             Debug.LogError("맵 드롭다운 인덱스 범위 오류");
             return sceneListSO.GetRandomName();
         }
 
-        // ★ 드롭다운이 들고 있는 텍스트(= SceneName)를 그대로 사용
-        string sceneName = _MapDropdown.optionsList[index].nameText;
+        // 드롭다운 인덱스에 대응하는 실제 SceneName 사용
+        string sceneName = _MapSceneNames[index];
         if (string.IsNullOrWhiteSpace(sceneName))
         {
             Debug.LogError("맵 이름이 비어 있습니다");

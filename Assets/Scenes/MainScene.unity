@@ -21347,6 +21347,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _RoomNameInput: {fileID: 943367196}
   _MaxPlayerDropdown: {fileID: 529762020}
+  _MapDropdown: {fileID: 2355057409274416796}
   _CreateButton: {fileID: 1704507098}
 --- !u!114 &2103205362
 MonoBehaviour:
@@ -22676,6 +22677,7 @@ MonoBehaviour:
   mainScript: {fileID: 2355057409274416796}
   id: 0
   text: 
+  iconImage: {fileID: 0}
   targetText: {fileID: 2355057409453341267}
   selector: {fileID: 2355057408585953495}
 --- !u!114 &2355057408935570526
@@ -23135,10 +23137,15 @@ MonoBehaviour:
   dropdownAnimationType: 0
   optionsList:
   - nameText: Test1
+    icon: {fileID: 0}
   - nameText: Test2
+    icon: {fileID: 0}
   - nameText: Test3
+    icon: {fileID: 0}
   - nameText: Test4
+    icon: {fileID: 0}
   - nameText: Test5
+    icon: {fileID: 0}
   value: 0
   speedOfShrinking: 70
   speedOfFading: 4
