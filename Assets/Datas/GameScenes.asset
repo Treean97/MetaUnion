@@ -16,8 +16,8 @@ MonoBehaviour:
   - SceneAsset: {fileID: 102900000, guid: c7c262b217f420e42bdbaa9cee4da0b1, type: 3}
     SceneName: GameRoom_0_City
     DisplayName: "\uB3C4\uC2DC"
-    SceneIcon: {fileID: 0}
+    SceneIcon: {fileID: 21300000, guid: c303849240b218b43830dbfd0f755a72, type: 3}
   - SceneAsset: {fileID: 102900000, guid: c21fe013294c55f4698e3b0ef9572c80, type: 3}
     SceneName: GameScene_1_RoofTopBar
     DisplayName: "\uB8E8\uD504\uD0D1 \uBC14"
-    SceneIcon: {fileID: 0}
+    SceneIcon: {fileID: 21300000, guid: ef008684ca64e904f9fd61bd942a794e, type: 3}

@@ -9,7 +9,7 @@ using System.Collections.Generic;
 public class CreateRoomUIManager : MonoBehaviour
 {
     [SerializeField] private TMP_InputField _RoomNameInput;
-    [SerializeField] private TMP_Dropdown _MaxPlayerDropdown;
+    [SerializeField] private AdvancedDropdown _MaxPlayerDropdown;
     [SerializeField] private AdvancedDropdown _MapDropdown;
     [SerializeField] private Button _CreateButton;
     
@@ -29,15 +29,27 @@ public class CreateRoomUIManager : MonoBehaviour
 
     private void InitMaxPlayerDropdown()
     {
-        if (_MaxPlayerDropdown.options.Count == 0)
+        if (_MaxPlayerDropdown == null)
+            return;
+
+        // 이전 옵션 제거
+        _MaxPlayerDropdown.DeleteAllOptions();
+
+        // 1~4까지 텍스트 옵션 추가
+        for (int i = 1; i <= 4; i++)
         {
-            _MaxPlayerDropdown.ClearOptions();
-            for (int i = 1; i <= 4; i++)
-            {
-                _MaxPlayerDropdown.options.Add(new TMP_Dropdown.OptionData(i.ToString()));
-            }
+            _MaxPlayerDropdown.AddOptions(i.ToString());
         }
-        _MaxPlayerDropdown.value = 0;
+
+        // 기본 선택값: 1인
+        if (_MaxPlayerDropdown.optionsList.Count > 0)
+        {
+            _MaxPlayerDropdown.SelectOption(0); // index 0 → "1"
+        }
+        else
+        {
+            _MaxPlayerDropdown.SetDefaultText();
+        }
     }
 
     private void InitMapDropdown()

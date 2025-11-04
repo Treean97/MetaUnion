@@ -30,6 +30,7 @@ public class AdvancedOption {
 /// </summary>
 public class AdvancedDropdown : MonoBehaviour{
     [SerializeField] TextMeshProUGUI targetText; //Text component
+    [SerializeField] Image targetIcon;
 
     [SerializeField] GameObject blockerPrefab; //Blocker object
     [SerializeField] RectTransform optionsObject; //Options object
@@ -112,10 +113,19 @@ public class AdvancedDropdown : MonoBehaviour{
     /// <summary>
     /// Set default text "defaultText" to a dropdown and unselect the last selected option
     /// </summary>
-    public void SetDefaultText() {
+    public void SetDefaultText()
+    {
         value = -1;
         targetText.text = defaultText;
+
+        // ★ 아이콘도 초기화
+        if (targetIcon != null)
+        {
+            targetIcon.sprite = null;
+            targetIcon.enabled = false;
+        }
     }
+
 
     /// <summary>
     /// Update for animations
@@ -345,6 +355,12 @@ public class AdvancedDropdown : MonoBehaviour{
         }
         value = id;
         targetText.text = optionsList[id].nameText;
+        if (targetIcon != null)
+        {
+            var icon = optionsList[id].icon;
+            targetIcon.sprite = icon;
+            targetIcon.enabled = (icon != null);
+        }    
         for(int i = 0; i < spawnedList.Count; i++) {
             spawnedList[i].SetSelectState(i == value);
         }

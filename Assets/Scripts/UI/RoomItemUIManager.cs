@@ -51,10 +51,14 @@ public class RoomItemUIManager : MonoBehaviour
 
     private void ApplyMapInfo(RoomInfo info)
     {
+        if (_MapNameText == null)
+            return;
+
         // RoomInfo.CustomProperties에서 map 이름 꺼내기
         string sceneName = null;
 
-        if (info.CustomProperties != null &&
+        if (info != null &&
+            info.CustomProperties != null &&
             info.CustomProperties.TryGetValue(MAP_PROP, out var mapObj))
         {
             sceneName = mapObj as string;
@@ -63,7 +67,6 @@ public class RoomItemUIManager : MonoBehaviour
         // 맵 정보가 아예 없으면 기본 표시
         if (string.IsNullOrEmpty(sceneName))
         {
-            Debug.Log("맵 정보가 없습니다.");
             _MapNameText.text = "-";
             return;
         }
@@ -94,7 +97,6 @@ public class RoomItemUIManager : MonoBehaviour
         // 결과 적용
         if (found != null)
         {
-            // DisplayName이 비어 있으면 SceneName 사용
             var displayName = string.IsNullOrWhiteSpace(found.DisplayName)
                 ? found.SceneName
                 : found.DisplayName;
@@ -103,9 +105,9 @@ public class RoomItemUIManager : MonoBehaviour
         }
         else
         {
-            // SceneListSO에 없는 맵이면 그냥 sceneName 그대로
-            Debug.Log("SceneListSO에서 찾을 수 없습니다.");
+            // SceneListSO에 해당 맵이 없으면 sceneName 그대로
             _MapNameText.text = sceneName;
-        }    
+        }
     }
+
 }
