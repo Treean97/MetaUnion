@@ -18,20 +18,20 @@ MonoBehaviour:
         serializedData:
         - key: 0
           value:
-            rid: 5835414021666242725
+            rid: 5835414021666242772
         - key: 1
           value:
-            rid: 5835414021666242726
+            rid: 5835414021666242773
       previewSettings:
         sizeFactor: 1
   references:
     version: 2
     RefIds:
-    - rid: 5835414021666242725
+    - rid: 5835414021666242772
       type: {class: ModelSelection, ns: Unity.AI.Animate.Services.Stores.States, asm: Unity.AI.Animate}
       data:
         modelID: 
-    - rid: 5835414021666242726
+    - rid: 5835414021666242773
       type: {class: ModelSelection, ns: Unity.AI.Animate.Services.Stores.States, asm: Unity.AI.Animate}
       data:
         modelID: 
