@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e9ab42210cdec7841a7541aa807396da, type: 3}
-  m_Name: GuideNPC
+  m_Name: BartenderNPC
   m_EditorClassIdentifier: Assembly-CSharp::NPCSO
-  _NPCID: NPC_Guide
-  _DisplayName: "\uAC00\uC774\uB4DC"
-  _Icon: {fileID: 21300000, guid: 744a5c6e2d50f914eb719a7628c1781c, type: 3}
-  _Dialogues: {fileID: 11400000, guid: 60f8926e7361b99419f6d40250240642, type: 2}
+  _NPCID: NPC_Bartender
+  _DisplayName: "\uBC14\uD150\uB354"
+  _Icon: {fileID: 21300000, guid: 6adbaf65a066b6f49a27fe1a9a11769f, type: 3}
+  _Dialogues: {fileID: 11400000, guid: 6e74e37f08a62ff4ab7552c20b64d2ee, type: 2}

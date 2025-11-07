@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e99347ca11af43a48b909102a903a57c, type: 3}
+  m_Name: BartenderNPCDialogues
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueSO
+  _Dialogues: []
+  _StartId: 0
+  _nodes:
+  - rid: 5835414039795597489
+  - rid: 5835414039795597490
+  - rid: 5835414039795597491
+  references:
+    version: 2
+    RefIds:
+    - rid: 5835414039795597489
+      type: {class: DialogueSO/LineNode, ns: , asm: Assembly-CSharp}
+      data:
+        Id: 0
+        Text: "\uC548\uB155\uD558\uC138\uC694. \uC774\uACF3\uC740 \uB8E8\uD504\uD0D1
+          \uBC14 \uC785\uB2C8\uB2E4."
+        NextId: 1
+    - rid: 5835414039795597490
+      type: {class: DialogueSO/ChoiceNode, ns: , asm: Assembly-CSharp}
+      data:
+        Id: 1
+        Text: "\uC774\uC6A9\uD560 \uCEE8\uD150\uCE20\uB97C \uC120\uD0DD\uD574\uC8FC\uC138\uC694."
+        Choices:
+        - Text: "\uC2AC\uB86F \uBA38\uC2E0"
+          NextId: -1
+          Actions:
+          - {fileID: 11400000, guid: 7039c850808b75f468cb6e9c74567b0a, type: 2}
+        - Text: "\uB8F0\uB81B"
+          NextId: -1
+          Actions:
+          - {fileID: 11400000, guid: 03c5285d1e3e0aa4093f940a9f65e030, type: 2}
+        - Text: "\uB300\uD654 \uC885\uB8CC"
+          NextId: 2
+          Actions: []
+    - rid: 5835414039795597491
+      type: {class: DialogueSO/LineNode, ns: , asm: Assembly-CSharp}
+      data:
+        Id: 2
+        Text: "\uB610 \uC624\uC138\uC694."
+        NextId: -1

@@ -202,33 +202,36 @@ public class DialogueUIManager : MonoBehaviour, IDialogueUI, IPointerClickHandle
     public void OnPointerClick(PointerEventData eventData)
     {
         var dm = DialogueManager._Inst;
-        var tm = TimelineManager._Inst;
         if (dm == null) return;
 
+        // 선택지 모드일 땐 바디 클릭 무시
         if (_IsChoiceMode)
-        {
-            // 선택지 상태에서 바디 클릭은 무시 (버튼으로만 진행)
             return;
-        }
 
+        // 타자 효과 진행 중이면 스킵
         if (_IsTyping)
         {
-            // 타자효과 스킵 → 즉시 완성 + onDone 실행
             StopTypewriter();
             return;
         }
 
-        if (tm.IsRunning)
-        {
-            if (tm.IsBlockDialogue) return;
+        var tm = TimelineManager._Inst;
 
-            CheckTimeline(tm);
-        }
-        else
+        // 타임라인이 없거나, 안 돌고 있으면 → 그냥 대사만 진행
+        if (tm == null || !tm.IsRunning)
         {
-            dm.Next(); // 다음 대사
-        }           
+            dm.Next();
+            return;
+        }
+
+        // 타임라인이 대사를 막는 중이면 아무것도 안 함
+        if (tm.IsBlockDialogue)
+            return;
+
+        // 여기까지 왔으면 타임라인/대사 둘 다 모드에 따라 처리
+        CheckTimeline(tm);
     }
+
 
     void CheckTimeline(TimelineManager tm)
     {
