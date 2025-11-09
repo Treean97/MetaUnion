@@ -389,7 +389,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5484512872333987501}
-  - component: {fileID: 2687192495320062667}
+  - component: {fileID: 1053267597425772977}
   - component: {fileID: 7289396705980181120}
   - component: {fileID: 1583654559701120664}
   - component: {fileID: 6445178664590353308}
@@ -421,7 +421,7 @@ Transform:
   - {fileID: 1431738403033750156}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
---- !u!95 &2687192495320062667
+--- !u!95 &1053267597425772977
 Animator:
   serializedVersion: 7
   m_ObjectHideFlags: 0
@@ -430,8 +430,8 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1171079975656059181}
   m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: f21c9d7ca4fb9aa4a89b30e4b43b35f4, type: 3}
-  m_Controller: {fileID: 9100000, guid: 6991a303fb504644cb46b9283a725a36, type: 2}
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

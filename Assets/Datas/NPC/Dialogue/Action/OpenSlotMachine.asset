@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24408356cc1a4064b8286bc0dcb37526, type: 3}
   m_Name: OpenSlotMachine
   m_EditorClassIdentifier: Assembly-CSharp::DialogueOpenUIAction
-  _PanelID: SlotMachine
+  _TargetUI: 1

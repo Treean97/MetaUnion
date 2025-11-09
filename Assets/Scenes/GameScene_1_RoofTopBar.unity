@@ -4568,7 +4568,6 @@ GameObject:
   - component: {fileID: 60514185}
   - component: {fileID: 60514191}
   - component: {fileID: 60514190}
-  - component: {fileID: 60514192}
   - component: {fileID: 60514189}
   - component: {fileID: 60514188}
   - component: {fileID: 60514187}
@@ -4698,19 +4697,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 60514184}
   m_CullTransparentMesh: 1
---- !u!114 &60514192
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 60514184}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e19c744df6e2b5f4aa6d4743e27e9ef7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DialogueUIPanel
-  _Id: Roulette
 --- !u!1001 &60989496
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -107781,7 +107767,6 @@ GameObject:
   - component: {fileID: 1294060705}
   - component: {fileID: 1294060704}
   - component: {fileID: 1294060703}
-  - component: {fileID: 1294060706}
   - component: {fileID: 1294060702}
   - component: {fileID: 1294060701}
   - component: {fileID: 1294060700}
@@ -107953,19 +107938,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1294060697}
   m_CullTransparentMesh: 1
---- !u!114 &1294060706
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1294060697}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e19c744df6e2b5f4aa6d4743e27e9ef7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DialogueUIPanel
-  _Id: SlotMachine
 --- !u!1001 &1294162517
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -183045,6 +183017,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1053267597425772977, guid: 747c39d5e696b7249a486d5d082a184c, type: 3}
+      propertyPath: m_Avatar
+      value: 
+      objectReference: {fileID: 9000000, guid: a45b7e374556c174ba757eeffc0aa78c, type: 3}
+    - target: {fileID: 1053267597425772977, guid: 747c39d5e696b7249a486d5d082a184c, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 6991a303fb504644cb46b9283a725a36, type: 2}
     - target: {fileID: 1171079975656059181, guid: 747c39d5e696b7249a486d5d082a184c, type: 3}
       propertyPath: m_Name
       value: NPC_Bartender

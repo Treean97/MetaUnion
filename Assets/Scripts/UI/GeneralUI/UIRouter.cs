@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -118,6 +119,48 @@ public class UIRouter : MonoBehaviour
         if (s.IsOpen) s.Hide(); else s.Show();
         Debug.Log("토글 완료");
         return s.IsOpen;
+    }
+}
+#endregion
+
+#region NPC 대화 UI 연결
+
+public enum DialogueUIKey
+{
+    Shop,
+    SlotMachine,
+    VendingMachine,
+    Roulette,
+}
+
+public static class UIRouterDialogueExtensions
+{
+    public static bool Open(this UIRouter router, DialogueUIKey key)
+    {
+        if (router == null)
+        {
+            Debug.LogWarning("[UIRouter] 인스턴스 없음");
+            return false;
+        }
+
+        switch (key)
+        {
+            case DialogueUIKey.Shop:
+                return router.Open<IShopUI>();
+
+            case DialogueUIKey.SlotMachine:
+                return router.Open<ISlotMachineUI>();
+
+            case DialogueUIKey.VendingMachine:
+                return router.Open<IVendingMachineUI>();
+
+            case DialogueUIKey.Roulette:
+                return router.Open<IRouletteUI>();
+
+            default:
+                Debug.LogWarning($"[UIRouter] 매핑되지 않은 DialogueUIKey: {key}");
+                return false;
+        }
     }
 }
 #endregion
