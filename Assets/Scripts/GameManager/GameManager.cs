@@ -30,7 +30,7 @@ namespace Com.MyCompany.MyGame
             // 씬 로드 완료 콜백 등록
             SceneManager.sceneLoaded += OnSceneLoaded;
 
-            Debug.Log("✅ GameManager 초기화 완료");
+            Debug.Log("GameManager 초기화 완료");
         }
 
 

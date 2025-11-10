@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e99347ca11af43a48b909102a903a57c, type: 3}
+  m_Name: ServerNPCDialogues
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueSO
+  _Dialogues: []
+  _StartId: 0
+  _nodes:
+  - rid: 5835414108658729176
+  - rid: 5835414108658729177
+  references:
+    version: 2
+    RefIds:
+    - rid: 5835414108658729176
+      type: {class: DialogueSO/ChoiceNode, ns: , asm: Assembly-CSharp}
+      data:
+        Id: 0
+        Text: "\uBB34\uC5C7\uC744 \uB3C4\uC640\uB4DC\uB9B4\uAE4C\uC694?"
+        Choices:
+        - Text: "\uC544\uC774\uD15C \uAD6C\uB9E4"
+          NextId: -1
+          Actions:
+          - {fileID: 11400000, guid: f2df231c97d6e9648b006c9aa98094eb, type: 2}
+        - Text: "\uB300\uD654 \uC885\uB8CC"
+          NextId: 1
+          Actions: []
+    - rid: 5835414108658729177
+      type: {class: DialogueSO/LineNode, ns: , asm: Assembly-CSharp}
+      data:
+        Id: 1
+        Text: "\uB610 \uD544\uC694\uD55C\uAC8C \uC788\uC73C\uC2DC\uBA74 \uBD88\uB7EC\uC8FC\uC138\uC694."
+        NextId: -1

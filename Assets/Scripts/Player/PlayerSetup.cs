@@ -1,7 +1,6 @@
 using UnityEngine;
 using Photon.Pun;
 using Controller;
-using Unity.Cinemachine;
 
 
 public class PlayerSetup : MonoBehaviourPun

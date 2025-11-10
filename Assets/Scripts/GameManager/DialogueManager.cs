@@ -12,7 +12,7 @@ public class DialogueManager : MonoBehaviour
     public event Action OnEnd;
 
     NPCSO _NPCSO;
-    DialogueSO _dlg;
+    DialogueSO _DialogueSO;
 
     enum Mode { None, Linear, Graph }
     Mode _Mode = Mode.None;
@@ -41,7 +41,7 @@ public class DialogueManager : MonoBehaviour
         var dlg = overrideDialogue ? overrideDialogue : npc?.Dialogues;
         if (npc == null || dlg == null) { Debug.LogWarning("[Dialogue] 대사 없음"); return; }
 
-        _NPCSO = npc; _dlg = dlg;
+        _NPCSO = npc; _DialogueSO = dlg;
 
         if (dlg.HasGraph)
         {
@@ -72,21 +72,21 @@ public class DialogueManager : MonoBehaviour
     // --- Linear ---
     void EmitLinear()
     {
-        string line = _dlg.Dialogues[_Idx];
-        OnShowLine?.Invoke(_NPCSO?.DisplayName, _NPCSO?.Icon, line, _Idx, _dlg.Dialogues.Length);
+        string line = _DialogueSO.Dialogues[_Idx];
+        OnShowLine?.Invoke(_NPCSO?.DisplayName, _NPCSO?.Icon, line, _Idx, _DialogueSO.Dialogues.Length);
     }
 
     void NextLinear()
     {
         _Idx++;
-        if (_Idx >= _dlg.Dialogues.Length) { Stop(); return; }
+        if (_Idx >= _DialogueSO.Dialogues.Length) { Stop(); return; }
         EmitLinear();
     }
 
     // --- Graph ---
     void StepGraph()
     {
-        var n = _dlg.Get(_NodeId);
+        var n = _DialogueSO.Get(_NodeId);
         if (n == null) { Stop(); return; }
 
         if (n is DialogueSO.LineNode ln)
@@ -103,7 +103,7 @@ public class DialogueManager : MonoBehaviour
 
     void NextGraph()
     {
-        var ln = _dlg.Get(_NodeId) as DialogueSO.LineNode;
+        var ln = _DialogueSO.Get(_NodeId) as DialogueSO.LineNode;
         if (ln == null) return;                   // Choice 상태에서는 Next 무시
         if (ln.NextId < 0) { Stop(); return; }
         _NodeId = ln.NextId; StepGraph();
@@ -111,7 +111,7 @@ public class DialogueManager : MonoBehaviour
 
     void ChooseGraph(int index)
     {
-        var cn = _dlg.Get(_NodeId) as DialogueSO.ChoiceNode;
+        var cn = _DialogueSO.Get(_NodeId) as DialogueSO.ChoiceNode;
         if (cn == null || index < 0 || index >= cn.Choices.Count) return;
 
         var c = cn.Choices[index];
@@ -122,12 +122,12 @@ public class DialogueManager : MonoBehaviour
     void Stop()
     {
         var id = _NPCSO?.NPCID;
-        _NPCSO = null; _dlg = null; _Mode = Mode.None;
+        _NPCSO = null; _DialogueSO = null; _Mode = Mode.None;
         _Idx = 0; _NodeId = 0;
         OnEnd?.Invoke();
     }
 
-    public DialogueSO.Node CurrentNode => _dlg?.Get(_NodeId);
+    public DialogueSO.Node CurrentNode => _DialogueSO?.Get(_NodeId);
     public DialogueSO.Choice GetCurrentChoice(int index)
     {
         var cn = CurrentNode as DialogueSO.ChoiceNode;

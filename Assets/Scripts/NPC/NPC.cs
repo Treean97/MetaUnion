@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class NPC : MonoBehaviour, IInteractable
+public class NPC : MonoBehaviour, IInteractable, IInteractionReceiver
 {
     [SerializeField] NPCSO _NPCSO;
     public NPCSO NPCSO => _NPCSO;
@@ -8,14 +8,16 @@ public class NPC : MonoBehaviour, IInteractable
 
     InfoDataSO _TempFocusInfo;
 
+    NPCBTController _Ai;
+
     void Awake()
     {
+        _Ai = GetComponent<NPCBTController>();
         _DialogueSO = _NPCSO.Dialogues;
     }
 
     public InfoDataSO GetObjectInfo()
     {
-        // 기존 인터페이스를 반드시 지켜야 한다면 임시 SO 반환
         if (_TempFocusInfo == null)
         {
             _TempFocusInfo = ScriptableObject.CreateInstance<InfoDataSO>();
@@ -24,7 +26,6 @@ public class NPC : MonoBehaviour, IInteractable
         }
         return _TempFocusInfo;
     }
-   
 
     public void OnDefocus()
     {
@@ -37,6 +38,7 @@ public class NPC : MonoBehaviour, IInteractable
         GameEvents.RaiseFocus(info);
     }
 
+    // === IInteractable ===
     public void OnInteract()
     {
         if (DialogueManager._Inst == null || _NPCSO == null)
@@ -50,9 +52,20 @@ public class NPC : MonoBehaviour, IInteractable
 
         UIRouter._Inst?.Open<IDialogueUI>();
         DialogueManager._Inst.Play(_NPCSO, _DialogueSO);
-        // 대화 애니메이션 트리거
+
         GetComponent<Animator>().SetTrigger("TalkTrigger");
         OnDefocus();
     }
 
+    // === IInteractionReceiver ===
+    public void BeginInteraction(Transform interactor)
+    {
+        // 행동트리에 대화 시작 알림
+        _Ai?.BeginInteraction(interactor);
+    }
+
+    public void EndInteraction()
+    {
+        _Ai?.EndInteraction();
+    }
 }
