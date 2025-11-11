@@ -8,11 +8,13 @@ public class NPC : MonoBehaviour, IInteractable, IInteractionReceiver
 
     InfoDataSO _TempFocusInfo;
 
-    NPCBTController _Ai;
+    INPCBrain _Ai;
+    NPCAnimationController _AnimController;
 
     void Awake()
     {
-        _Ai = GetComponent<NPCBTController>();
+        _Ai = GetComponent<INPCBrain>();
+        _AnimController = GetComponent<NPCAnimationController>();
         _DialogueSO = _NPCSO.Dialogues;
     }
 
@@ -52,8 +54,8 @@ public class NPC : MonoBehaviour, IInteractable, IInteractionReceiver
 
         UIRouter._Inst?.Open<IDialogueUI>();
         DialogueManager._Inst.Play(_NPCSO, _DialogueSO);
-
-        GetComponent<Animator>().SetTrigger("TalkTrigger");
+        _AnimController?.PlayInteract();
+        
         OnDefocus();
     }
 

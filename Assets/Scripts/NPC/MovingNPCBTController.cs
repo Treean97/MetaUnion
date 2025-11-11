@@ -6,7 +6,7 @@ using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(PlayerTracker))]
-public class NPCBTController : MonoBehaviour
+public class MovingNPCBTController : MonoBehaviour, INPCBrain, INPCAnimSource
 {
     public enum NpcState
     {
@@ -17,9 +17,9 @@ public class NPCBTController : MonoBehaviour
     }
 
     [Header("네비메시 / 이동")]
-    [SerializeField] string _NavAreaName = "NPCWalkArea";
-    [SerializeField] float _MaxTravelTime = 10f;     // 한 목적지에 최대 이동 시도 시간(초)
-    [SerializeField] float _RoamRadius    = 10f;     // 배회 반경
+    [SerializeField] string _NavAreaName   = "NPCWalkArea";
+    [SerializeField] float  _MaxTravelTime = 10f;
+    [SerializeField] float  _RoamRadius    = 10f;
 
     [Header("정지(대기 시간)")]
     [SerializeField] float _MinWaitTime = 3f;
@@ -44,6 +44,10 @@ public class NPCBTController : MonoBehaviour
     public NpcState State => _State;
     public event Action<NpcState> OnStateChanged;
 
+    // === INPCAnimSource ===
+    public NPCAnimState CurrentAnimState { get; private set; } = NPCAnimState.Idle;
+    public event Action<NPCAnimState> OnAnimStateChanged;
+
     void Awake()
     {
         _Agent   = GetComponent<NavMeshAgent>();
@@ -52,7 +56,7 @@ public class NPCBTController : MonoBehaviour
         int areaIndex = NavMesh.GetAreaFromName(_NavAreaName);
         if (areaIndex < 0)
         {
-            Debug.LogWarning($"[NPCBTController] NavMesh Area '{_NavAreaName}' 를 찾지 못했습니다. 전체 영역 사용");
+            Debug.LogWarning($"[MovingNPCBTController] NavMesh Area '{_NavAreaName}' 를 찾지 못했습니다. 전체 영역 사용");
             _RoamAreaMask = NavMesh.AllAreas;
         }
         else
@@ -62,6 +66,7 @@ public class NPCBTController : MonoBehaviour
         }
 
         BuildTree();
+        UpdateAnimState();
     }
 
     void Update()
@@ -74,6 +79,38 @@ public class NPCBTController : MonoBehaviour
         if (_State == newState) return;
         _State = newState;
         OnStateChanged?.Invoke(_State);
+        UpdateAnimState();
+    }
+
+    void UpdateAnimState()
+    {
+        NPCAnimState next;
+
+        if (_IsInteracting)
+        {
+            next = NPCAnimState.Interact;
+        }
+        else
+        {
+            switch (_State)
+            {
+                case NpcState.Wander:
+                    next = NPCAnimState.Walk;
+                    break;
+
+                case NpcState.Idle:
+                case NpcState.Watch:
+                case NpcState.None:
+                default:
+                    next = NPCAnimState.Idle;
+                    break;
+            }
+        }
+
+        if (next == CurrentAnimState) return;
+
+        CurrentAnimState = next;
+        OnAnimStateChanged?.Invoke(CurrentAnimState);
     }
 
     void BuildTree()
@@ -94,8 +131,8 @@ public class NPCBTController : MonoBehaviour
             watchAction
         });
 
-        var noTargetNode  = new ConditionNode(() => _Tracker.CurrentTarget == null && !_IsInteracting);
-        var wanderAction  = new ActionNode(DoWander);
+        var noTargetNode = new ConditionNode(() => _Tracker.CurrentTarget == null && !_IsInteracting);
+        var wanderAction = new ActionNode(DoWander);
         var wanderSequence = new SequenceNode(new List<BTNode>
         {
             noTargetNode,
@@ -152,7 +189,6 @@ public class NPCBTController : MonoBehaviour
     // 배회(Wander + Idle)
     NodeState DoWander()
     {
-        // Wander/Idle 모드 진입
         if (_State != NpcState.Wander && _State != NpcState.Idle)
         {
             SetState(NpcState.Wander);
@@ -228,21 +264,26 @@ public class NPCBTController : MonoBehaviour
         SetState(NpcState.Idle);
     }
 
+    // === INPCBrain ===
     public void BeginInteraction(Transform player)
     {
         _IsInteracting = true;
-        _Interactor = player;
+        _Interactor    = player;
 
-        _Agent.isStopped = true;
+        _Agent.isStopped      = true;
         _Agent.updateRotation = false;
+
+        UpdateAnimState();
     }
 
     public void EndInteraction()
     {
         _IsInteracting = false;
-        _Interactor = null;
+        _Interactor    = null;
 
         _Agent.updateRotation = true;
+
+        UpdateAnimState();
     }
 
 #if UNITY_EDITOR

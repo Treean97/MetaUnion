@@ -59,7 +59,7 @@ public class LookAtTarget : MonoBehaviour
         // 기준 머리 위치
         Vector3 headPos = _Head ? _Head.position : transform.position + Vector3.up * _NeutralHeight;
 
-        // ✅ 수평만 보도록 Y 고정
+        // 수평만 보도록 Y 고정
         float fixedY = headPos.y;
         desiredPos.y = fixedY;
         _AimPos.y    = fixedY;

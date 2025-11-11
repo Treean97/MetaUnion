@@ -185179,8 +185179,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3973721326213327005}
   - component: {fileID: 7045128084607677159}
-  - component: {fileID: 7045128084607677167}
   - component: {fileID: 7045128084607677164}
+  - component: {fileID: 7045128084607677167}
+  - component: {fileID: 7045128084607677168}
   - component: {fileID: 7045128084607677163}
   - component: {fileID: 7045128084607677162}
   - component: {fileID: 7045128084607677161}
@@ -186525,7 +186526,7 @@ Animator:
   m_GameObject: {fileID: 4354610109094474279}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 55824f20175bc6b44a630b3644c8f43f, type: 3}
-  m_Controller: {fileID: 9100000, guid: 6991a303fb504644cb46b9283a725a36, type: 2}
+  m_Controller: {fileID: 9100000, guid: 29fba814ca7ef9841b2c351a2264a089, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
@@ -186679,9 +186680,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NPCBTController
   _NavAreaName: NPCWalkArea
+  _MaxTravelTime: 10
+  _RoamRadius: 10
   _MinWaitTime: 3
   _MaxWaitTime: 5
   _TurnSpeedDegPerSec: 360
+--- !u!114 &7045128084607677168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4354610109094474279}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9281dad444c16343adec339cb586b01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NPCAnimationController
+  _IdleBoolName: IsIdle
+  _WalkBoolName: IsWalk
+  _InteractTriggerName: InteractTrigger
 --- !u!1 &7119429905736341781
 GameObject:
   m_ObjectHideFlags: 0

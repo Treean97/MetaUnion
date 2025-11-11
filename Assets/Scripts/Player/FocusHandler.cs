@@ -76,7 +76,7 @@ public class FocusHandler : MonoBehaviourPun
 
         if (_CurrentFocus is IInteractable interactable)
         {
-            // 🔹 상호작용 대상이 IInteractionReceiver도 구현했다면
+            // 상호작용 대상이 IInteractionReceiver도 구현했다면
             _CurrentInteractionReceiver = _CurrentFocus as IInteractionReceiver;
             if (_CurrentInteractionReceiver != null)
             {
@@ -87,7 +87,7 @@ public class FocusHandler : MonoBehaviourPun
             // 원래 하던 상호작용 실행 (대화 시작 등)
             interactable.OnInteract();
 
-            // 🔹 대화 끝났을 때 EndInteraction 호출하도록 훅 등록
+            // 대화 끝났을 때 EndInteraction 호출하도록 훅 등록
             if (DialogueManager._Inst != null)
             {
                 DialogueManager._Inst.OnEnd -= HandleDialogueEnd; // 중복 등록 방지
