@@ -136,23 +136,11 @@ public class StandingNPCBTController : MonoBehaviour, INPCBrain, INPCAnimSource
     // 전방 플레이어 주시
     NodeState DoWatch()
     {
-        if (_Tracker == null || _Tracker.CurrentTarget == null)
-            return NodeState.Failure;
+    if (_Tracker == null || _Tracker.CurrentTarget == null)
+        return NodeState.Failure;
 
+        // 애니메이션용 상태 값만 갱신 (Idle 대신 Watch로 표시)
         SetState(NpcState.Watch);
-
-        Vector3 toTarget = _Tracker.CurrentTarget.position - transform.position;
-        toTarget.y = 0f;
-
-        if (toTarget.sqrMagnitude > 0.0001f)
-        {
-            Quaternion targetRot = Quaternion.LookRotation(toTarget.normalized, Vector3.up);
-            transform.rotation = Quaternion.RotateTowards(
-                transform.rotation,
-                targetRot,
-                _TurnSpeedDegPerSec * Time.deltaTime
-            );
-        }
 
         return NodeState.Running;
     }

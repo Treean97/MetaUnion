@@ -1020,6 +1020,8 @@ GameObject:
   - component: {fileID: 7200643587045591935}
   - component: {fileID: 960548720432360740}
   - component: {fileID: 6569230768483415933}
+  - component: {fileID: 8869753891458896118}
+  - component: {fileID: 5444184941130691237}
   - component: {fileID: 727126453806068547}
   - component: {fileID: 5622653782697690545}
   - component: {fileID: 8374991658843372325}
@@ -1107,6 +1109,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NPCInteract
   _NPCSO: {fileID: 11400000, guid: 90063b5b41b40504aa634f0e0c51df06, type: 2}
+--- !u!114 &8869753891458896118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8370416810279679725}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85317d03b1b68b24fba0bd3187cc7495, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StandingNPCBTController
+  _TurnSpeedDegPerSec: 360
+--- !u!114 &5444184941130691237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8370416810279679725}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9281dad444c16343adec339cb586b01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NPCAnimationController
+  _IdleBoolName: IsIdle
+  _WalkBoolName: IsWalk
+  _InteractTriggerName: InteractTrigger
 --- !u!114 &727126453806068547
 MonoBehaviour:
   m_ObjectHideFlags: 0
