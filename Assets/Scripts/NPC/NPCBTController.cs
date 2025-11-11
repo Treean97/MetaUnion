@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(PlayerTracker))]
@@ -9,21 +11,23 @@ public class NPCBTController : MonoBehaviour
     public enum NpcState
     {
         None,
+        Idle,
         Wander,
         Watch
     }
 
-    [Header("이동 범위")]
-    [SerializeField] Transform _AreaCenter;  // null이면 시작 위치 기준
-    [SerializeField] float _AreaRadius = 5f;
+    [Header("네비메시 / 이동")]
+    [SerializeField] string _NavAreaName = "NPCWalkArea";
+    [SerializeField] float _MaxTravelTime = 10f;     // 한 목적지에 최대 이동 시도 시간(초)
+    [SerializeField] float _RoamRadius    = 10f;     // 배회 반경
 
-    [Header("Wander 설정")]
+    [Header("정지(대기 시간)")]
     [SerializeField] float _MinWaitTime = 3f;
     [SerializeField] float _MaxWaitTime = 5f;
 
-
     [Header("상호작용")]
     [SerializeField] float _TurnSpeedDegPerSec = 360f;
+
     bool _IsInteracting;
     Transform _Interactor;
 
@@ -33,16 +37,29 @@ public class NPCBTController : MonoBehaviour
 
     NpcState _State = NpcState.None;
     float _WaitTimer;
-    Vector3 _StartPos;
+    float _TravelTimer;
+
+    int _RoamAreaMask = NavMesh.AllAreas;
+
+    public NpcState State => _State;
+    public event Action<NpcState> OnStateChanged;
 
     void Awake()
     {
-        _Agent = GetComponent<NavMeshAgent>();
+        _Agent   = GetComponent<NavMeshAgent>();
         _Tracker = GetComponent<PlayerTracker>();
-        _StartPos = transform.position;
 
-        if (_AreaCenter == null)
-            _AreaCenter = transform;
+        int areaIndex = NavMesh.GetAreaFromName(_NavAreaName);
+        if (areaIndex < 0)
+        {
+            Debug.LogWarning($"[NPCBTController] NavMesh Area '{_NavAreaName}' 를 찾지 못했습니다. 전체 영역 사용");
+            _RoamAreaMask = NavMesh.AllAreas;
+        }
+        else
+        {
+            _RoamAreaMask   = 1 << areaIndex;
+            _Agent.areaMask = _RoamAreaMask;
+        }
 
         BuildTree();
     }
@@ -52,26 +69,33 @@ public class NPCBTController : MonoBehaviour
         _Root?.Evaluate();
     }
 
+    void SetState(NpcState newState)
+    {
+        if (_State == newState) return;
+        _State = newState;
+        OnStateChanged?.Invoke(_State);
+    }
+
     void BuildTree()
     {
         var isInteractingNode = new ConditionNode(() => _IsInteracting);
-        var interactAction = new ActionNode(DoInteract);
-        var interactSequence = new SequenceNode(new List<BTNode>
+        var interactAction    = new ActionNode(DoInteract);
+        var interactSequence  = new SequenceNode(new List<BTNode>
         {
             isInteractingNode,
             interactAction
         });
 
         var hasTargetNode = new ConditionNode(() => _Tracker.CurrentTarget != null);
-        var watchAction = new ActionNode(DoWatch);
+        var watchAction   = new ActionNode(DoWatch);
         var watchSequence = new SequenceNode(new List<BTNode>
         {
             hasTargetNode,
             watchAction
         });
 
-        var noTargetNode = new ConditionNode(() => _Tracker.CurrentTarget == null && !_IsInteracting);
-        var wanderAction = new ActionNode(DoWander);
+        var noTargetNode  = new ConditionNode(() => _Tracker.CurrentTarget == null && !_IsInteracting);
+        var wanderAction  = new ActionNode(DoWander);
         var wanderSequence = new SequenceNode(new List<BTNode>
         {
             noTargetNode,
@@ -80,20 +104,20 @@ public class NPCBTController : MonoBehaviour
 
         _Root = new SelectorNode(new List<BTNode>
         {
-            interactSequence, // 1순위: 상호작용 중
-            watchSequence,    // 2순위: 전방에 타겟
-            wanderSequence    // 3순위: 그 외엔 돌아다니기
+            interactSequence,
+            watchSequence,
+            wanderSequence
         });
     }
 
-    // 상호작용
+    // 상호작용 상태
     NodeState DoInteract()
     {
         if (!_IsInteracting || _Interactor == null)
             return NodeState.Failure;
 
         _Agent.isStopped = true;
-        _Agent.velocity = Vector3.zero;
+        _Agent.velocity  = Vector3.zero;
 
         Vector3 toPlayer = _Interactor.position - transform.position;
         toPlayer.y = 0f;
@@ -107,7 +131,6 @@ public class NPCBTController : MonoBehaviour
             );
         }
 
-        // 상호작용이 끝났다는 신호는 외부에서 EndInteraction()으로 줄 것.
         return NodeState.Running;
     }
 
@@ -116,45 +139,66 @@ public class NPCBTController : MonoBehaviour
     {
         if (_State != NpcState.Watch)
         {
-            _State = NpcState.Watch;
+            SetState(NpcState.Watch);
             _Agent.isStopped = true;
-            _Agent.ResetPath();
         }
 
-        // 플레이어가 계속 시야 안에 있으면 Running 유지
         if (_Tracker.CurrentTarget != null)
-        {
-            // 머리 회전은 LookAtTarget이 자동으로 처리 중
             return NodeState.Running;
-        }
 
-        // 타겟이 사라지면 실패 → Selector가 Wander로 넘어간다
         return NodeState.Failure;
     }
 
-    // 이동
+    // 배회(Wander + Idle)
     NodeState DoWander()
     {
-        if (_State != NpcState.Wander)
+        // Wander/Idle 모드 진입
+        if (_State != NpcState.Wander && _State != NpcState.Idle)
         {
-            _State = NpcState.Wander;
+            SetState(NpcState.Wander);
             _Agent.isStopped = false;
-            PickNewDestination();
+
+            if (!_Agent.hasPath || _Agent.remainingDistance <= _Agent.stoppingDistance)
+            {
+                PickNewDestination();
+            }
         }
 
-        // 중간에 플레이어 발견하면 즉시 실패 → Watch로
         if (_Tracker.CurrentTarget != null)
             return NodeState.Failure;
 
         if (_Agent.pathPending)
             return NodeState.Running;
 
-        // 목적지 도착
+        // 이동 중
+        if (_Agent.hasPath && _Agent.remainingDistance > _Agent.stoppingDistance)
+        {
+            SetState(NpcState.Wander);
+
+            _TravelTimer += Time.deltaTime;
+
+            if (_Agent.pathStatus == NavMeshPathStatus.PathInvalid ||
+                _TravelTimer > _MaxTravelTime)
+            {
+                _Agent.ResetPath();
+                PickNewDestination();
+                return NodeState.Running;
+            }
+
+            return NodeState.Running;
+        }
+
+        // 목적지 도착 → Idle 상태로 전환 후 대기
         if (_Agent.remainingDistance <= _Agent.stoppingDistance)
         {
+            SetState(NpcState.Idle);
+
             _WaitTimer -= Time.deltaTime;
             if (_WaitTimer <= 0f)
+            {
                 PickNewDestination();
+                SetState(NpcState.Wander);
+            }
         }
 
         return NodeState.Running;
@@ -162,24 +206,26 @@ public class NPCBTController : MonoBehaviour
 
     void PickNewDestination()
     {
-        _WaitTimer = Random.Range(_MinWaitTime, _MaxWaitTime);
+        _WaitTimer   = Random.Range(_MinWaitTime, _MaxWaitTime);
+        _TravelTimer = 0f;
 
-        Vector3 basePos = _AreaCenter ? _AreaCenter.position : _StartPos;
+        Vector3 basePos = transform.position;
 
         for (int i = 0; i < 10; i++)
         {
-            Vector2 rnd = Random.insideUnitCircle * _AreaRadius;
+            Vector2 rnd = Random.insideUnitCircle * _RoamRadius;
             Vector3 candidate = basePos + new Vector3(rnd.x, 0f, rnd.y);
 
-            if (NavMesh.SamplePosition(candidate, out NavMeshHit hit, 2f, NavMesh.AllAreas))
+            if (NavMesh.SamplePosition(candidate, out NavMeshHit hit, 2f, _RoamAreaMask))
             {
+                _Agent.isStopped = false;
                 _Agent.SetDestination(hit.position);
                 return;
             }
         }
 
-        // 적당한 위치를 못 찾으면 잠시 서있기
         _Agent.ResetPath();
+        SetState(NpcState.Idle);
     }
 
     public void BeginInteraction(Transform player)
@@ -188,8 +234,7 @@ public class NPCBTController : MonoBehaviour
         _Interactor = player;
 
         _Agent.isStopped = true;
-        _Agent.ResetPath();
-        _Agent.updateRotation = false; // 회전은 우리가 직접 처리
+        _Agent.updateRotation = false;
     }
 
     public void EndInteraction()
@@ -197,6 +242,26 @@ public class NPCBTController : MonoBehaviour
         _IsInteracting = false;
         _Interactor = null;
 
-        _Agent.updateRotation = true; // 다시 에이전트에 회전 위임
+        _Agent.updateRotation = true;
     }
+
+#if UNITY_EDITOR
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = new Color(0.2f, 0.7f, 1f, 0.4f);
+
+        Vector3 center = transform.position;
+
+        const int segments = 32;
+        float angleStep = Mathf.PI * 2f / segments;
+        Vector3 prev = center + new Vector3(_RoamRadius, 0f, 0f);
+        for (int i = 1; i <= segments; i++)
+        {
+            float a = i * angleStep;
+            Vector3 next = center + new Vector3(Mathf.Cos(a) * _RoamRadius, 0f, Mathf.Sin(a) * _RoamRadius);
+            Gizmos.DrawLine(prev, next);
+            prev = next;
+        }
+    }
+#endif
 }

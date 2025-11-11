@@ -11,6 +11,7 @@ public class FocusHandler : MonoBehaviourPun
 
     private PlayerInput _PlayerInput;
     private IFocusable _CurrentFocus;
+    private IInteractionReceiver _CurrentInteractionReceiver;
 
     void Awake()
     {
@@ -71,9 +72,43 @@ public class FocusHandler : MonoBehaviourPun
 
     private void HandleInteract()
     {
+        if (!photonView.IsMine) return;
+
         if (_CurrentFocus is IInteractable interactable)
         {
+            // 🔹 상호작용 대상이 IInteractionReceiver도 구현했다면
+            _CurrentInteractionReceiver = _CurrentFocus as IInteractionReceiver;
+            if (_CurrentInteractionReceiver != null)
+            {
+                // 플레이어 Transform 전달 → NPC가 이 방향으로 회전
+                _CurrentInteractionReceiver.BeginInteraction(transform);
+            }
+
+            // 원래 하던 상호작용 실행 (대화 시작 등)
             interactable.OnInteract();
+
+            // 🔹 대화 끝났을 때 EndInteraction 호출하도록 훅 등록
+            if (DialogueManager._Inst != null)
+            {
+                DialogueManager._Inst.OnEnd -= HandleDialogueEnd; // 중복 등록 방지
+                DialogueManager._Inst.OnEnd += HandleDialogueEnd;
+            }
+        }
+    }
+    
+    private void HandleDialogueEnd()
+    {
+        // 상호작용 대상이 있었다면 EndInteraction 호출
+        if (_CurrentInteractionReceiver != null)
+        {
+            _CurrentInteractionReceiver.EndInteraction();
+            _CurrentInteractionReceiver = null;
+        }
+
+        // 다 썼으면 이벤트 해제
+        if (DialogueManager._Inst != null)
+        {
+            DialogueManager._Inst.OnEnd -= HandleDialogueEnd;
         }
     }
 
