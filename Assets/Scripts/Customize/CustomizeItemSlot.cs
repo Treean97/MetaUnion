@@ -7,7 +7,8 @@ public class CustomizeItemSlot : MonoBehaviour, IItemDataProvider
 {
     [SerializeField] TMP_Text _Name;
     [SerializeField] Image _Icon;
-    [SerializeField] Button _Button;
+    [SerializeField] Button _EquipButton;
+    [SerializeField] Button _ColorButton;
     private TMP_Text _ButtonText;
     private CustomizeItemSO _ItemSO;
 
@@ -19,10 +20,13 @@ public class CustomizeItemSlot : MonoBehaviour, IItemDataProvider
     void Awake()
     {
         // 버튼 리스너 초기화 (중복 등록 방지)
-        _Button.onClick.RemoveAllListeners();
-        _Button.onClick.AddListener(OnClickButton);
+        _EquipButton.onClick.RemoveAllListeners();
+        _EquipButton.onClick.AddListener(OnClickButton);
 
-        _ButtonText = _Button.GetComponentInChildren<TMP_Text>();
+        _ColorButton.onClick.RemoveAllListeners();
+        _ColorButton.onClick.AddListener(OnClickColorButton);
+
+        _ButtonText = _EquipButton.GetComponentInChildren<TMP_Text>();
     }
 
     public void Setup(CustomizeItemSO itemSO)
@@ -35,6 +39,11 @@ public class CustomizeItemSlot : MonoBehaviour, IItemDataProvider
     private void OnClickButton()
     {
         GameEvents.RaiseRequestEquipItem(_ItemSO);
+    }
+
+    void OnClickColorButton()
+    {
+        UIRouter._Inst.Open<IColorUI>();
     }
 
     public void SetState(bool equipped)

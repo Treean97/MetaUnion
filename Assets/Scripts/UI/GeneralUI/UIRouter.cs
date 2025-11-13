@@ -21,6 +21,10 @@ public interface ISetAmountUI : IUI
 }
 public interface IDialogueUI : IUI { }
 public interface IEmoteUI : IUI { }
+public interface IColorUI : IUI
+{
+    void SetUI(ItemDataSO item);
+}
 #endregion
 
 
