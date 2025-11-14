@@ -51164,6 +51164,10 @@ PrefabInstance:
       propertyPath: sceneViewId
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2033024462082675746, guid: a6e548392cb4a2b40984750f567a8561, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2597148043572533084, guid: a6e548392cb4a2b40984750f567a8561, type: 3}
       propertyPath: m_Name
       value: UICanvas
@@ -51190,6 +51194,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4285602383534672565, guid: a6e548392cb4a2b40984750f567a8561, type: 3}
       propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4837415794466840680, guid: a6e548392cb4a2b40984750f567a8561, type: 3}
+      propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5617760329141998314, guid: a6e548392cb4a2b40984750f567a8561, type: 3}

@@ -43,7 +43,7 @@ public class CustomizeItemSlot : MonoBehaviour, IItemDataProvider
 
     void OnClickColorButton()
     {
-        UIRouter._Inst.Open<IColorUI>();
+        UIRouter._Inst.Open<IColorUI>(ui => ui.SetUI(_ItemSO));
     }
 
     public void SetState(bool equipped)
