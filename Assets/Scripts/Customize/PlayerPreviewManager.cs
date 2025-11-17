@@ -24,6 +24,9 @@ public class PlayerPreviewManager : MonoBehaviourPunCallbacks
     private const string PropKeyPrefix = "Customize_";
     private const string UnEquipToken  = "0";
 
+    [Header("Color Settings")]
+    [SerializeField] string _ColorProperty = "_BaseColor";
+
     void Awake()
     {
         // 슬롯 매핑 빌드
@@ -33,6 +36,18 @@ public class PlayerPreviewManager : MonoBehaviourPunCallbacks
             if (binding.MeshRenderer && !_RendererSlots.ContainsKey(binding.Type))
                 _RendererSlots.Add(binding.Type, binding.MeshRenderer);
         }
+    }
+
+    public override void OnEnable()
+    {
+        base.OnEnable();
+        GameEvents.OnRequestPreviewItemColor += HandlePreviewItemColor;
+    }
+
+    public override void OnDisable()
+    {
+        GameEvents.OnRequestPreviewItemColor -= HandlePreviewItemColor;
+        base.OnDisable();
     }
 
     void Start()
@@ -107,5 +122,27 @@ public class PlayerPreviewManager : MonoBehaviourPunCallbacks
 
         // Mesh 교체
         renderer.sharedMesh = itemSO.ItemMesh;
+    }
+
+    private void HandlePreviewItemColor(CustomizeItemSO item, Color color)
+    {
+        var type = item.Type;
+
+        // 해당 타입의 프리뷰 렌더러 찾기
+        if (!_RendererSlots.TryGetValue(type, out var renderer) || renderer == null)
+            return;
+
+        var mats = renderer.materials; // 프리뷰는 인스턴스 머티리얼 써도 됨
+
+        for (int i = 0; i < mats.Length; i++)
+        {
+            var mat = mats[i];
+            if (mat != null && mat.HasProperty(_ColorProperty))
+            {
+                mat.SetColor(_ColorProperty, color);
+            }
+        }
+
+        renderer.materials = mats;
     }
 }

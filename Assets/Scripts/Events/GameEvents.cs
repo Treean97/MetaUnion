@@ -262,6 +262,15 @@ public static class GameEvents
         return success;
     }
 
+    // 아이템 색 적용 요청
+    public static event Action<CustomizeItemSO, Color> OnRequestApplyItemColor;
+    public static void RaiseRequestApplyItemColor(CustomizeItemSO item, Color color)
+        => OnRequestApplyItemColor?.Invoke(item, color);
+
+    public static event Action<CustomizeItemSO, Color> OnRequestPreviewItemColor;
+    public static void RaiseRequestPreviewItemColor(CustomizeItemSO item, Color color)
+        => OnRequestPreviewItemColor?.Invoke(item, color);
+
     // 인벤토리 업데이트 요청
     public static event Action OnRequestUpdateInventory;
     public static void RaiseRequestUpdateInventory()

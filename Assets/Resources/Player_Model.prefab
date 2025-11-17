@@ -2470,6 +2470,7 @@ MonoBehaviour:
   - Type: 8
     MeshRenderer: {fileID: 2694659718577078140}
     BaseMesh: {fileID: -278085929633702562, guid: 23fd9c9d3c817704a986c6fb8a5cc120, type: 3}
+  _ColorProperty: _BaseColor
 --- !u!114 &5259958542842481731
 MonoBehaviour:
   m_ObjectHideFlags: 0

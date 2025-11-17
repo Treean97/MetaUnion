@@ -29,11 +29,22 @@ public class PlayerCustomization : MonoBehaviourPunCallbacks, IPunInstantiateMag
     public string Key => "customize";
     private Dictionary<ItemType, string> _Equipped = new();
 
+    [Header("Color Settings")]
+    [SerializeField] string _ColorProperty = "_BaseColor";
+    private readonly Dictionary<ItemType, Color> _Colors = new();
+
+
     // 저장용 DTO
     public class CustomizeSettingsDTO
     {
         [Serializable]
-        public class Entry { public int Type; public string Id; }
+        public class Entry 
+        { 
+            public int Type; 
+            public string Id; 
+            public Color Color;
+        }
+
         public List<Entry> Items = new();
     }
 
@@ -52,6 +63,18 @@ public class PlayerCustomization : MonoBehaviourPunCallbacks, IPunInstantiateMag
             if (binding.MeshRenderer)
                 binding.BaseMesh = binding.MeshRenderer.sharedMesh;
         }
+    }
+
+    public override void OnEnable()
+    {
+        base.OnEnable();  // Photon 콜백 등록 유지
+        GameEvents.OnRequestApplyItemColor += HandleApplyItemColor;
+    }
+
+    public override void OnDisable()
+    {
+        GameEvents.OnRequestApplyItemColor -= HandleApplyItemColor;
+        base.OnDisable(); // Photon 콜백 등록 해제
     }
 
     void Start()
@@ -195,31 +218,81 @@ public class PlayerCustomization : MonoBehaviourPunCallbacks, IPunInstantiateMag
         _Equipped[type] = itemId;
     }
 
+    private void ApplyColor(ItemType type, Color color)
+    {
+        if (!_RendererSlots.TryGetValue(type, out var renderer) || renderer == null)
+            return;
+
+        // 필요하면 특정 머티리얼 인덱스만 변경하도록 바꿀 수 있음
+        var mats = renderer.materials; // 인스턴스 머티리얼
+
+        for (int i = 0; i < mats.Length; i++)
+        {
+            var mat = mats[i];
+            if (mat != null && mat.HasProperty(_ColorProperty))
+            {
+                mat.SetColor(_ColorProperty, color);
+            }
+        }
+
+        renderer.materials = mats;
+    }
+
+    private void HandleApplyItemColor(CustomizeItemSO item, Color color)
+    {
+        if (!photonView.IsMine) return;
+
+        var type = item.Type;
+
+        _Colors[type] = color;
+        ApplyColor(type, color);
+        SaveLoadManager._Inst?.SaveCloudSection(Key);
+    }
+
     public string CaptureJson()
     {
         var dto = new CustomizeSettingsDTO();
+
         foreach (var b in _SlotBindings)
         {
+            var type = b.Type;
+
+            // 장착 ID 결정
             var id = UnEquipToken;
-            if (_Equipped.TryGetValue(b.Type, out var cur)) id = string.IsNullOrEmpty(cur) ? UnEquipToken : cur;
+            if (_Equipped.TryGetValue(type, out var cur))
+            {
+                id = string.IsNullOrEmpty(cur) ? UnEquipToken : cur;
+            }
             else
             {
                 if (PhotonNetwork.LocalPlayer != null)
                 {
-                    var key = PropKeyPrefix + (int)b.Type;
+                    var key = PropKeyPrefix + (int)type;
                     if (PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue(key, out var v) && v != null)
                         id = v.ToString();
                 }
             }
-            dto.Items.Add(new CustomizeSettingsDTO.Entry { Type = (int)b.Type, Id = id });
+
+            // 색 결정
+            Color color = Color.white;
+            if (_Colors.TryGetValue(type, out var savedColor))
+                color = savedColor;
+
+            dto.Items.Add(new CustomizeSettingsDTO.Entry
+            {
+                Type  = (int)type,
+                Id    = id,
+                Color = color
+            });
         }
+
         return JsonUtility.ToJson(dto);
-        
     }
+
 
     public void ApplyJson(string s)
     {
-       if (!photonView.IsMine) return;
+        if (!photonView.IsMine) return;
         if (string.IsNullOrEmpty(s)) return;
 
         CustomizeSettingsDTO dto = null;
@@ -228,16 +301,44 @@ public class PlayerCustomization : MonoBehaviourPunCallbacks, IPunInstantiateMag
 
         foreach (var e in dto.Items)
         {
-            var type = (ItemType)e.Type;
-            var id   = string.IsNullOrEmpty(e.Id) ? UnEquipToken : e.Id;
+            var type  = (ItemType)e.Type;
+            var id    = string.IsNullOrEmpty(e.Id) ? UnEquipToken : e.Id;
+            var color = e.Color;
 
-            if (id == UnEquipToken || id == "-1") UnEquipItem(type);
+            if (id == UnEquipToken || id == "-1")
+            {
+                UnEquipItem(type);
+                _Colors.Remove(type);
+                continue;
+            }
+
+            var so = ItemManager._Inst.GetCustomizeItem(id);
+            if (so == null)
+            {
+                UnEquipItem(type);
+                _Colors.Remove(type);
+                continue;
+            }
+
+            // 1) 메쉬 장착
+            EquipItem(so);
+
+            // 2) 색 복원 (구버전 데이터 방어)
+            //    Color 기본값(0,0,0,0)은 "색 정보 없음"으로 간주
+            bool hasColorData =
+                color.r != 0f || color.g != 0f || color.b != 0f || color.a != 0f;
+
+            if (hasColorData)
+            {
+                _Colors[type] = color;
+                ApplyColor(type, color);
+            }
             else
             {
-                var so = ItemManager._Inst.GetCustomizeItem(id);
-                if (so != null) EquipItem(so);
-                else UnEquipItem(type);
+                // 색 정보가 없으면 머티리얼 원래 색 유지
+                _Colors.Remove(type);
             }
         }
     }
+
 }
