@@ -24,6 +24,7 @@ public class PlayerCustomization : MonoBehaviourPunCallbacks, IPunInstantiateMag
 
     // 프로퍼티 키 접두사
     private const string PropKeyPrefix = "Customize_";
+    private const string ColorPropKeyPrefix = "CustomizeColor_";
     private const string UnEquipToken  = "0";
 
     public string Key => "customize";
@@ -32,6 +33,8 @@ public class PlayerCustomization : MonoBehaviourPunCallbacks, IPunInstantiateMag
     [Header("Color Settings")]
     [SerializeField] string _ColorProperty = "_BaseColor";
     private readonly Dictionary<ItemType, Color> _Colors = new();
+
+
 
 
     // 저장용 DTO
@@ -158,23 +161,51 @@ public class PlayerCustomization : MonoBehaviourPunCallbacks, IPunInstantiateMag
     }
 
     /// <summary>
-    /// 전달된 Hashtable에서 "Customize_" 키를 찾아 
-    /// 각 슬롯에 해당하는 메시 호출
+    /// 전달된 Hashtable에서 프로퍼티 키를 찾아 적용
     /// </summary>
     private void ApplyAllProperties(Hashtable props)
     {
         foreach (System.Collections.DictionaryEntry entry in props)
         {
             var key = entry.Key as string;
-            if (string.IsNullOrEmpty(key) || !key.StartsWith(PropKeyPrefix))
+            if (string.IsNullOrEmpty(key)) 
                 continue;
 
-            if (int.TryParse(key.Substring(PropKeyPrefix.Length), out int typeInt))
+            // 장착 상태
+            if (key.StartsWith(PropKeyPrefix))
             {
-                var type   = (ItemType)typeInt;
-                var itemId = entry.Value?.ToString();
+                if (int.TryParse(key.Substring(PropKeyPrefix.Length), out int typeInt))
+                {
+                    var type   = (ItemType)typeInt;
+                    var itemId = entry.Value?.ToString();
 
-                ApplyMesh(type, itemId);
+                    ApplyMesh(type, itemId);
+                }
+
+                continue;
+            }
+
+            // 색상 상태
+            if (key.StartsWith(ColorPropKeyPrefix))
+            {
+                if (int.TryParse(key.Substring(ColorPropKeyPrefix.Length), out int typeInt))
+                {
+                    var type = (ItemType)typeInt;
+
+                    // 값은 "RRGGBBAA" 문자열 or null
+                    var hex = entry.Value as string;
+                    if (!string.IsNullOrEmpty(hex))
+                    {
+                        // ColorUtility는 "#RRGGBBAA" 형태를 기대하므로 # 붙여줌
+                        if (ColorUtility.TryParseHtmlString("#" + hex, out var color))
+                        {
+                            _Colors[type] = color;
+                            ApplyColor(type, color);
+                        }
+                    }
+                }
+
+                continue;
             }
         }
     }
@@ -244,8 +275,21 @@ public class PlayerCustomization : MonoBehaviourPunCallbacks, IPunInstantiateMag
 
         var type = item.Type;
 
+        // 로컬 상태/머티리얼 적용
         _Colors[type] = color;
         ApplyColor(type, color);
+
+        // 멀티 전파: Photon Player CustomProperties에 색상을 기록
+        // "#RRGGBBAA" 형태의 문자열로 저장
+        string hex = ColorUtility.ToHtmlStringRGBA(color);
+
+        var props = new Hashtable
+        {
+            { ColorPropKeyPrefix + (int)type, hex }
+        };
+        PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+
+        // 클라우드 저장
         SaveLoadManager._Inst?.SaveCloudSection(Key);
     }
 
