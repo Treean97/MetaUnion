@@ -54,7 +54,7 @@ public class ColorUIManager : MonoBehaviour, IColorUI
     {
         if (_CurrentItem == null) return;
 
-        // ▶ 프리뷰 모델만 변경 요청
+        // 프리뷰 모델만 변경 요청
         GameEvents.RaiseRequestPreviewItemColor(_CurrentItem, color);
     }
 
@@ -67,5 +67,7 @@ public class ColorUIManager : MonoBehaviour, IColorUI
 
         // 실제 플레이어에 적용 + 저장/전파
         GameEvents.RaiseRequestApplyItemColor(_CurrentItem, color);
+        // UI 닫기
+        UIRouter._Inst.Close<IColorUI>();
     }
 }

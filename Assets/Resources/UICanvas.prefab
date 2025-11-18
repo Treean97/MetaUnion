@@ -18952,8 +18952,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f52c5c0266b69c741b407692be3e783d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ColorUI
-  _ColorPicker: {fileID: 0}
-  _ApplyButton: {fileID: 0}
+  _ColorPicker: {fileID: 7297931993020590827}
+  _ApplyButton: {fileID: 8368870125920179064}
 --- !u!222 &6865925121341469326
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -33845,3 +33845,14 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2130943084915617137, guid: 4214b57e615806c448ba9d993d629531, type: 3}
   m_PrefabInstance: {fileID: 8707101889487636379}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7297931993020590827 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2130943084915617136, guid: 4214b57e615806c448ba9d993d629531, type: 3}
+  m_PrefabInstance: {fileID: 8707101889487636379}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31629c56f6f83234a90f6296f902f9c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
