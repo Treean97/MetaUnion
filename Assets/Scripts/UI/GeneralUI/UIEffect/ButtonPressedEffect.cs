@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Button))]
-public class ButtonPressedEffect : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler
+public class ButtonPressedEffect : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     Button _Button;
     RectTransform _ButtonRect;
@@ -63,7 +63,6 @@ public class ButtonPressedEffect : MonoBehaviour, IPointerDownHandler, IPointerU
     }
 
     public void OnPointerUp(PointerEventData eventData)  => ResetPositions();
-    public void OnPointerExit(PointerEventData eventData) => ResetPositions();
 
     void ResetPositions()
     {

@@ -79,22 +79,32 @@ public class LoadingManager : MonoBehaviour
         var op = SceneManager.LoadSceneAsync(sceneName);
         op.allowSceneActivation = false;
 
+        // 0~90% 구간
         while (op.progress < 0.9f)
         {
-            float target = Mathf.Clamp01(op.progress / 0.9f); // 0~1
+            float target = Mathf.Clamp01(op.progress / 0.9f);
             UpdateBar(target);
             yield return null;
         }
 
-        // 마지막 구간 채우기
+        // 마지막 구간 슬쩍 채우기
         yield return SmoothFillTo(1f, 1.5f);
 
-        // 씬 활성화
+        // 실제 씬 활성화
         op.allowSceneActivation = true;
-        yield return null; // 활성화 프레임 보장
+
+        // 씬이 완전히 끝날 때까지 대기
+        while (!op.isDone)
+            yield return null;
+
+        // 새 씬이 올라온 뒤에 포톤 큐 재개
+        if (_PausedPhotonQueue && PhotonNetwork.IsConnected)
+        {
+            PhotonNetwork.IsMessageQueueRunning = true;
+            _PausedPhotonQueue = false;
+        }
 
         AudioManager._Inst?.SFXUnBlock();
-
         Hide();
     }
 
@@ -110,20 +120,15 @@ public class LoadingManager : MonoBehaviour
     IEnumerator SmoothFillTo(float target, float speed)
     {
         if (!_LoadingBar) yield break;
+
         while (_LoadingBar.value < target - 0.001f)
         {
             _LoadingBar.value = Mathf.Lerp(
                 _LoadingBar.value,
                 target,
                 Time.unscaledDeltaTime * speed
-                );
+            );
             yield return null;
-        }
-
-        if (_PausedPhotonQueue)
-        {
-            PhotonNetwork.IsMessageQueueRunning = true;
-            _PausedPhotonQueue = false;
         }
 
         _LoadingBar.value = target;

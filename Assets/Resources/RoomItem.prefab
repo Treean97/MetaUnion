@@ -34,7 +34,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 100, y: 0}
+  m_AnchoredPosition: {x: 40, y: 0}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3697614820247521505
@@ -274,7 +274,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _RommItemBtn: {fileID: 8857795705829129013}
   _RoomNameText: {fileID: 5027652885449892220}
-  _MapNameText: {fileID: 0}
+  _MapNameText: {fileID: 5842299792099765040}
   _PlayerCountText: {fileID: 3895370966228412440}
   _JoinableColor: {r: 0.34509805, g: 0.34509805, b: 1, a: 1}
   _UnjoinableColor: {r: 1, g: 0.33333334, b: 0.33333334, a: 1}
@@ -448,7 +448,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 40, y: 0}
+  m_AnchoredPosition: {x: 368, y: 0}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4951788420438085942
