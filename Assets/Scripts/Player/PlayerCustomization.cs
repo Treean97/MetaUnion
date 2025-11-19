@@ -364,11 +364,11 @@ public class PlayerCustomization : MonoBehaviourPunCallbacks, IPunInstantiateMag
                 continue;
             }
 
-            // 1) 메쉬 장착
+            // 메쉬 장착
             EquipItem(so);
 
-            // 2) 색 복원 (구버전 데이터 방어)
-            //    Color 기본값(0,0,0,0)은 "색 정보 없음"으로 간주
+            // 색 복원 (구버전 데이터 방어)
+            // Color 기본값(0,0,0,0)은 "색 정보 없음"으로 간주
             bool hasColorData =
                 color.r != 0f || color.g != 0f || color.b != 0f || color.a != 0f;
 
@@ -376,6 +376,16 @@ public class PlayerCustomization : MonoBehaviourPunCallbacks, IPunInstantiateMag
             {
                 _Colors[type] = color;
                 ApplyColor(type, color);
+
+                if (PhotonNetwork.LocalPlayer != null)
+                {
+                    string hex = ColorUtility.ToHtmlStringRGBA(color);
+                    var props = new Hashtable
+                    {
+                        { ColorPropKeyPrefix + (int)type, hex }
+                    };
+                    PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+                }
             }
             else
             {
