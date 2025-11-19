@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 9142260687774361954}
   - component: {fileID: 5975987370098879913}
   - component: {fileID: 4702850365507886596}
+  - component: {fileID: 2635370814747104058}
   m_Layer: 5
   m_Name: Background
   m_TagString: Untagged
@@ -75,6 +76,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2635370814747104058
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2139184452921996063}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95a05db1c34bfe543b587f910d5837cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FocusableUI
 --- !u!1 &3094172737590299851
 GameObject:
   m_ObjectHideFlags: 0
@@ -624,7 +637,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8169363750866656213}
   - component: {fileID: 1995747050624957747}
-  - component: {fileID: -5718514065755435012}
   - component: {fileID: 5503403311977060328}
   m_Layer: 5
   m_Name: ShopBuyItem_Slot
@@ -664,18 +676,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8365039451784562699}
   m_CullTransparentMesh: 1
---- !u!114 &-5718514065755435012
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8365039451784562699}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95a05db1c34bfe543b587f910d5837cc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::FocusableUI
 --- !u!114 &5503403311977060328
 MonoBehaviour:
   m_ObjectHideFlags: 0
