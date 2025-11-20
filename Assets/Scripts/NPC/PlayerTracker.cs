@@ -43,7 +43,7 @@ public class PlayerTracker : MonoBehaviour
 
     void Update()
     {
-        // 1) 전방 박스 볼륨으로 후보 수집
+        // 전방 박스 볼륨으로 후보 수집
         Vector3 center =
             _Self.position
             + Vector3.up * _HeightOffset
@@ -55,7 +55,7 @@ public class PlayerTracker : MonoBehaviour
         int count = Physics.OverlapBoxNonAlloc(
             center, halfExtents, _Hits, orientation, _TargetMask, QueryTriggerInteraction.Ignore);
 
-        // 2) 박스 ∩ (옵션)수평 FOV 를 만족하는 가장 가까운 대상 선택
+        // 가장 가까운 대상 선택
         Transform picked = PickNearestInBox(_Hits, count);
 
         if (picked != _CurrentTarget)
@@ -83,17 +83,17 @@ public class PlayerTracker : MonoBehaviour
             // 자기 자신/같은 루트 제외
             if (_ExcludeSelf && (t == _Self || t.IsChildOf(_Root))) continue;
 
-            // 기준점: 콜라이더 중심
+            // 콜라이더 중심
             Vector3 p = col.bounds.center;
 
-            // (옵션) 수평 FOV 필터: 로컬 XZ 평면에서 전방(+Z) 기준
+            // 수평 FOV 필터: 로컬 XZ 평면에서 전방(+Z) 기준
             if (!PassYawFov(p)) continue;
 
-            // 전방 거리(로컬 z 기준)
+            // 전방 거리
             Vector3 local = _Self.InverseTransformPoint(p);
             float forwardZ = Mathf.Max(0f, local.z - _Near);
 
-            // 전체 거리(보조)
+            // 전체 거리
             float dist = Vector3.Distance(_Self.position, p);
 
             if (forwardZ < bestForwardZ || (Mathf.Approximately(forwardZ, bestForwardZ) && dist < bestDist))

@@ -77,7 +77,7 @@ public class LookAtTarget : MonoBehaviour
         float destYaw   = Mathf.Atan2(destLocal.x, destLocal.z) * Mathf.Rad2Deg;
 
         float currPitch = Mathf.Asin(Mathf.Clamp(currLocal.y, -1f, 1f)) * Mathf.Rad2Deg;
-        float destPitch = 0f; // ✅ 피치 고정
+        float destPitch = 0f; // 피치 고정
 
         float yawStep   = _MaxYawDegPerSec   * Time.deltaTime;
         float pitchStep = _MaxPitchDegPerSec * Time.deltaTime;

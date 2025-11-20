@@ -4828,7 +4828,7 @@ GameObject:
   - component: {fileID: 5682555279133229721}
   - component: {fileID: 3284493287020380406}
   - component: {fileID: 3827871907403336712}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: NPC_Server
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4897,7 +4897,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c20c07cf1f1d304f9a1c5b4f8972fa0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NPCInteract
-  _NPCSO: {fileID: 11400000, guid: 8f62b93c1c6fac244857ef456037713d, type: 2}
+  _NPCSO: {fileID: 11400000, guid: 29dd6e8fd65236c489a5b58dae8f991c, type: 2}
 --- !u!114 &7270105578317536306
 MonoBehaviour:
   m_ObjectHideFlags: 0

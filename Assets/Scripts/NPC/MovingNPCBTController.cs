@@ -227,17 +227,27 @@ public class MovingNPCBTController : MonoBehaviour, INPCBrain, INPCAnimSource
         // 목적지 도착 → Idle 상태로 전환 후 대기
         if (_Agent.remainingDistance <= _Agent.stoppingDistance)
         {
+            // 멈추고 경로 초기화
+            if (!_Agent.isStopped)
+            {
+                _Agent.isStopped = true;
+                _Agent.velocity  = Vector3.zero;
+                _Agent.ResetPath();
+            }
+
             SetState(NpcState.Idle);
 
             _WaitTimer -= Time.deltaTime;
             if (_WaitTimer <= 0f)
             {
+                // 다음 목적지로 다시 출발
                 PickNewDestination();
                 SetState(NpcState.Wander);
             }
         }
 
         return NodeState.Running;
+
     }
 
     void PickNewDestination()
