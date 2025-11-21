@@ -6170,8 +6170,8 @@ GameObject:
   - component: {fileID: 777119189}
   - component: {fileID: 777119188}
   - component: {fileID: 777119187}
+  - component: {fileID: 777119198}
   - component: {fileID: 777119197}
-  - component: {fileID: 777119196}
   - component: {fileID: 777119192}
   - component: {fileID: 777119194}
   - component: {fileID: 777119193}
@@ -6344,20 +6344,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1df095b9eab98e548a93b28c2e9e70a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSequence
---- !u!114 &777119196
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 777119185}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cdfd07d62658ad949b2f2d18996fd0c3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::OpenUIAction
-  _Targets:
-  - {fileID: 1992649075}
 --- !u!114 &777119197
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6370,6 +6356,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c53191a580c7a9a4d93175f66ba0e739, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonActionRunner
+--- !u!114 &777119198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 777119185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e33a74cc22b26894199e0003bf02fa24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StartButton
+  _LoginManager: {fileID: 1245276632}
+  _LoginUI: {fileID: 1992649075}
 --- !u!1 &778471144
 GameObject:
   m_ObjectHideFlags: 0

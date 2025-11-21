@@ -39,6 +39,25 @@ public class PlayfabLoginManager : MonoBehaviour
         if (_LoginBtn)  _LoginBtn.onClick.RemoveListener(ClickLogin);
     }
 
+    #region 외부호출
+    public void ShowLoginUI()
+    {
+        if (_LoginUI)  UIFX.Show(_LoginUI);
+    }
+
+    public void SkipLoginAndEnterLobby()
+    {
+        if (!PlayFabClientAPI.IsClientLoggedIn())
+        {
+            SetStatus("PlayFab 세션이 없습니다. 다시 로그인해주세요.");
+            ShowLoginUI();
+            return;
+        }
+
+        HandleLoginCompleted();
+    }
+    #endregion
+
     #region 회원가입
     void ClickSignUp()
     {
@@ -129,20 +148,24 @@ public class PlayfabLoginManager : MonoBehaviour
     {
         _LoginBtn.interactable = true;
         SetStatus($"로그인 성공.");
+
+        HandleLoginCompleted();
+    }
+
+    public void HandleLoginCompleted()
+    {
         UIFX.Hide(_SignUpUI);
         UIFX.Hide(_LoginUI);
-        UIFX.Show(_LobbyUI.gameObject);
+        if (_LobbyUI) UIFX.Show(_LobbyUI.gameObject);
         Launcher._Inst.Connect();
-        OnLoginSuccess?.Invoke();        
-
-        // TODO: 성공 후 로비 이동 등 후속 처리
+        OnLoginSuccess?.Invoke();
     }
 
     void LoginError(PlayFabError err)
     {
         _LoginBtn.interactable = true;
 
-        // 대표적인 로그인 실패: 잘못된 아이디/비번
+        // 잘못된 아이디,비밀번호
         if (err.Error == PlayFabErrorCode.InvalidParams || err.Error == PlayFabErrorCode.InvalidUsernameOrPassword || err.Error == PlayFabErrorCode.AccountNotFound)
         {
             SetStatus("아이디 또는 비밀번호가 올바르지 않습니다.");
@@ -152,7 +175,7 @@ public class PlayfabLoginManager : MonoBehaviour
         SetStatus($"로그인 실패: {err.Error} / {err.ErrorMessage}");
     }
     #endregion
-    // ---------------- 공통 ----------------
+    // 공통
     void SetStatus(string msg)
     {
         if (_StatusText) _StatusText.text = msg;
