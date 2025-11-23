@@ -1,13 +1,21 @@
 using PlayFab;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class StartButton : MonoBehaviour
 {
     [Header("설정")]
     [SerializeField] PlayfabLoginManager _LoginManager;
 
+    void Awake()
+    {
+        var button = GetComponent<Button>();
+        button.onClick.AddListener(OnClick);
+        
+    }
+
     // Start 버튼에서 호출할 함수
-    public void OnClickStart()
+    public void OnClick()
     {
         if (_LoginManager == null)
         {
