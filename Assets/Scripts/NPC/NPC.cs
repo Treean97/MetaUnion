@@ -40,7 +40,7 @@ public class NPC : MonoBehaviour, IInteractable, IInteractionReceiver
         GameEvents.RaiseFocus(info);
     }
 
-    // === IInteractable ===
+    // IInteractable
     public void OnInteract()
     {
         if (DialogueManager._Inst == null || _NPCSO == null)

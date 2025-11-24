@@ -93,7 +93,6 @@ public class PlayfabLoginManager : MonoBehaviour
     {
         _SignUpBtn.interactable = true;
         SetStatus($"회원가입 성공.");
-        // 필요 시: 회원가입 후 자동 로그인 상태(세션) 이미 부여됨
     }
 
     void SignUpError(PlayFabError err)
@@ -148,6 +147,11 @@ public class PlayfabLoginManager : MonoBehaviour
     {
         _LoginBtn.interactable = true;
         SetStatus($"로그인 성공.");
+
+        string id = _LoginIdInput ? _LoginIdInput.text.Trim() : "";
+
+        // PlayFab DisplayName 로드/초기화
+        NicknameManager._Inst.InitializeNickname(id);
 
         HandleLoginCompleted();
     }

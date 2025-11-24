@@ -25,6 +25,10 @@ public interface IColorUI : IUI
 {
     void SetUI(CustomizeItemSO item);
 }
+public interface IChangeNameUI : IUI
+{
+    void SetUI(string lastNickName, InventoryItem inventoryItem, GameObject user);
+}
 #endregion
 
 

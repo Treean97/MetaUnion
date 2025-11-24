@@ -5,7 +5,10 @@ using UnityEngine;
 public class PlayerNameplate : MonoBehaviour, INameplate, INameplateVisibility
 {
     private PhotonView _PV;
-    void Awake() => _PV = GetComponent<PhotonView>();
+    void Awake()
+    {
+        _PV = GetComponent<PhotonView>();
+    } 
 
     public string GetDisplayName()
     {

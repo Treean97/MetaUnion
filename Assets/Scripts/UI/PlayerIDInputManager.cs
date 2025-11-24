@@ -5,43 +5,38 @@ using Photon.Pun;
 
 public class PlayerIDInputManager : MonoBehaviour
 {
-    private TMP_InputField _IDInputField;
-    private const string _PlayerNamePrefKey = "PlayerName";
+    [SerializeField] TMP_InputField _LoginIdInput;
 
     void Start()
     {
-        _IDInputField = GetComponent<TMP_InputField>();
+        if (!_LoginIdInput)
+            _LoginIdInput = GetComponent<TMP_InputField>();
 
-        // 저장된 닉네임 로드
-        string saved = PlayerPrefs.GetString(_PlayerNamePrefKey, string.Empty);
-        if (_IDInputField) _IDInputField.text = saved;
+        var saved = PlayerPrefs.GetString(PlayerPrefKeys.LoginIdKey, "");
+        if (_LoginIdInput) _LoginIdInput.text = saved;
 
-        // 초기값 적용
-        ApplyNickname(saved);
-
-        // 변경 시 즉시 저장/적용
-        if (_IDInputField) _IDInputField.onValueChanged.AddListener(OnNickChanged);
+        if (_LoginIdInput)
+        {
+            _LoginIdInput.onValueChanged.AddListener(OnIdChanged);
+        }
     }
 
     void OnDestroy()
     {
-        if (_IDInputField) _IDInputField.onValueChanged.RemoveListener(OnNickChanged);
+        if (_LoginIdInput)
+        {
+            _LoginIdInput.onValueChanged.RemoveListener(OnIdChanged);
+        }
     }
 
-    // 입력값 변경 시 호출
-    void OnNickChanged(string value)
+    void OnIdChanged(string value)
     {
-        ApplyNickname(value);
-    }
-
-    // 닉네임 적용 + 저장
-    void ApplyNickname(string value)
-    {
-        string trimmed = (value ?? "").Trim();
-        if (string.IsNullOrWhiteSpace(trimmed)) return;
-
-        PhotonNetwork.NickName = trimmed;
-        PlayerPrefs.SetString(_PlayerNamePrefKey, trimmed);
+        PlayerPrefs.SetString(PlayerPrefKeys.LoginIdKey, value ?? "");
         PlayerPrefs.Save();
+    }
+
+    public string GetLoginID()
+    {
+        return _LoginIdInput ? _LoginIdInput.text.Trim() : "";
     }
 }

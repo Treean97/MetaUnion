@@ -28,7 +28,6 @@ public class StartButton : MonoBehaviour
         {
             // 로그인/회원가입 UI 보여주기
             _LoginManager.ShowLoginUI();
-            return;
         }
         else
         {

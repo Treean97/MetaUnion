@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8571317249142214057}
   - component: {fileID: 6718996863731973077}
+  - component: {fileID: 7991377898744203472}
   - component: {fileID: 1452965095438198344}
   - component: {fileID: 4325577648786806735}
   - component: {fileID: 4142811719395402855}
@@ -54,6 +55,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _PlayerPrefab: {fileID: 5832607453936394915, guid: e14d41c3efe0d1f4899bebbdbb4b5772, type: 3}
+--- !u!114 &7991377898744203472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1078885290729373513}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 036e07bad0e42054da6ef5914d8184a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NicknameManager
 --- !u!114 &1452965095438198344
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -185,4 +198,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffdecbe8f0737384bb1dbc754e852dc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneLoadManager
-  _Fade: {fileID: 0}
