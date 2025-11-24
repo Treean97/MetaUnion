@@ -21186,6 +21186,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: ScreenEffect
       objectReference: {fileID: 0}
+    - target: {fileID: 2954433144028744000, guid: 8375e891dbd3f7b4bb8f1e65e252b4a2, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6192211363574319274, guid: 8375e891dbd3f7b4bb8f1e65e252b4a2, type: 3}
+      propertyPath: m_MatchWidthOrHeight
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7513029088193411815, guid: 8375e891dbd3f7b4bb8f1e65e252b4a2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

@@ -10049,6 +10049,10 @@ GameObject:
   - component: {fileID: 6282327953062811709}
   - component: {fileID: 4034787479292403601}
   - component: {fileID: 7104209811510924400}
+  - component: {fileID: 159110734525070405}
+  - component: {fileID: 4768552047392629308}
+  - component: {fileID: 6188821569115058624}
+  - component: {fileID: 5585424935587081388}
   m_Layer: 5
   m_Name: ChangeNamePanel
   m_TagString: Untagged
@@ -10101,6 +10105,66 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ChangeNameUIManager
   _NameInputField: {fileID: 9085182140755624482}
   _ConfirmButton: {fileID: 3338301501438578851}
+--- !u!114 &159110734525070405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2538933051204779135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e2cd77363efb0344a358d4e1d55dd3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIPopEffect
+  _ShowFromScale: 0.85
+  _ShowDuration: 0.15
+  _ShowEase: 6
+  _PopScale: 1.05
+  _HideToScale: 0.8
+  _HideDuration: 0.12
+  _HideEase: 5
+--- !u!114 &4768552047392629308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2538933051204779135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UISound
+  _ClickSound: 0
+  _HoverSound: 0
+  _OpenSound: 1
+  _CloseSound: 1
+  _IsToggle: 0
+--- !u!114 &6188821569115058624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2538933051204779135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2165e5d2fb8e1444ba2fa7de9f52300, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CursorGuard
+--- !u!114 &5585424935587081388
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2538933051204779135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b61b2d90cff24674dbf44c5b954ea1ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InputBlockGuard
 --- !u!1 &2583039991022051972
 GameObject:
   m_ObjectHideFlags: 0
@@ -20154,6 +20218,10 @@ GameObject:
   - component: {fileID: 7609781736500354780}
   - component: {fileID: 6844156904871036202}
   - component: {fileID: 6865925121341469326}
+  - component: {fileID: 1732621546922937901}
+  - component: {fileID: 3206909718102577621}
+  - component: {fileID: 765604698772203762}
+  - component: {fileID: 7624796552893321927}
   m_Layer: 5
   m_Name: ColorUIPanel
   m_TagString: Untagged
@@ -20205,6 +20273,66 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5398208795467567718}
   m_CullTransparentMesh: 1
+--- !u!114 &1732621546922937901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5398208795467567718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e2cd77363efb0344a358d4e1d55dd3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIPopEffect
+  _ShowFromScale: 0.85
+  _ShowDuration: 0.15
+  _ShowEase: 6
+  _PopScale: 1.05
+  _HideToScale: 0.8
+  _HideDuration: 0.12
+  _HideEase: 5
+--- !u!114 &3206909718102577621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5398208795467567718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 840a0b9246927f64e970ba79df5defbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UISound
+  _ClickSound: 0
+  _HoverSound: 0
+  _OpenSound: 1
+  _CloseSound: 1
+  _IsToggle: 0
+--- !u!114 &765604698772203762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5398208795467567718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2165e5d2fb8e1444ba2fa7de9f52300, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CursorGuard
+--- !u!114 &7624796552893321927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5398208795467567718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b61b2d90cff24674dbf44c5b954ea1ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InputBlockGuard
 --- !u!1 &5408538786048729654
 GameObject:
   m_ObjectHideFlags: 0

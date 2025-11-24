@@ -8,7 +8,7 @@ public class CircleRevealOverlay : MonoBehaviour
     [SerializeField] float _OpenDuration = 1.5f;
     [SerializeField] float _CloseDuration = 1.5f;
 
-    const float _OpenRadius = 0.5f;
+    const float _OpenRadius = 1.2f;
     const float _CloseRadius = -0.1f;
     static readonly int _ID_Radius = Shader.PropertyToID("_Radius");
 
