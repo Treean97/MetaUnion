@@ -27056,8 +27056,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1157025514}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.09807964, y: -0.8744589, z: 0.19876257, w: 0.4315038}
-  m_LocalPosition: {x: 2.8034058, y: 7.5629044, z: 3.696724}
+  m_LocalRotation: {x: 0.14659618, y: 0.35123968, z: -0.05578036, w: 0.92305404}
+  m_LocalPosition: {x: -47.37162, y: 11.387999, z: -21.118786}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -51162,6 +51162,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: UICanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 2597148043572533084, guid: a6e548392cb4a2b40984750f567a8561, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3306784043092189918, guid: a6e548392cb4a2b40984750f567a8561, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -51188,6 +51192,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3507359120732905297, guid: a6e548392cb4a2b40984750f567a8561, type: 3}
       propertyPath: m_Value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3759115894648703633, guid: a6e548392cb4a2b40984750f567a8561, type: 3}
+      propertyPath: m_MatchWidthOrHeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4021413964114642862, guid: a6e548392cb4a2b40984750f567a8561, type: 3}

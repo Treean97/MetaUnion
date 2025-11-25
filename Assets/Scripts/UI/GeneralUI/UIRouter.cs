@@ -121,7 +121,7 @@ public class UIRouter : MonoBehaviour
     }
 
 
-    public bool Toggle<T>() where T : class, IUI
+    public bool MoveSlide<T>() where T : class, IUI
     {
         if (!_UIs.TryGetValue(typeof(T), out var s))
         {
@@ -129,10 +129,11 @@ public class UIRouter : MonoBehaviour
             return false;
         }
 
+        // 내부에서 UISlider의 메소드만 호출
         if (s.IsOpen)
-            Close<T>();
+            s.Hide();
         else
-            TryOpen(s);
+            s.Show();
 
         return s.IsOpen;
     }

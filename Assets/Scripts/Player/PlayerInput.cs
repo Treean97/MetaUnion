@@ -180,8 +180,8 @@ namespace Controller
             if (Input.GetKeyDown(_Axekey)) OnSlot_1KeyPressed?.Invoke();
             if (Input.GetKeyDown(_Pickaxekey)) OnSlot_2KeyPressed?.Invoke();
 
-            if (Input.GetKeyDown(_InventoryKey)) UIRouter._Inst.Toggle<IInventoryUI>();
-            if (Input.GetKeyDown(_ChatKey)) UIRouter._Inst.Toggle<IChatUI>();
+            if (Input.GetKeyDown(_InventoryKey)) UIRouter._Inst.MoveSlide<IInventoryUI>();
+            if (Input.GetKeyDown(_ChatKey)) UIRouter._Inst.MoveSlide<IChatUI>();
 
             if (Input.GetKeyDown(_PlayerListKey)) UIRouter._Inst.Open<IPlayerListUI>();
             if (Input.GetKeyUp(_PlayerListKey)) UIRouter._Inst.Close<IPlayerListUI>();

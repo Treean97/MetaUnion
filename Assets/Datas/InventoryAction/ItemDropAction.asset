@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d911842e16692ab49ace45e696e01d8d, type: 3}
   m_Name: ItemDropAction
   m_EditorClassIdentifier: 
-  _Label: Drop
+  _Label: "\uBC84\uB9AC\uAE30"

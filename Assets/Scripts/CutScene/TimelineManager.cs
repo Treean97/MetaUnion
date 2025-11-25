@@ -66,7 +66,7 @@ public class TimelineManager : MonoBehaviour
     }
 
     // 시그널 : 클릭 -> 대사 진행
-        public void Signal_WaitClick_DialogueOnly()
+    public void Signal_WaitClick_DialogueOnly()
     {
         _Mode = ClickMode.Dialogue;
         PauseTL();

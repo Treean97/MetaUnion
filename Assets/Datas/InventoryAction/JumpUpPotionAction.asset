@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c696ce7bc047fcd469ddab998da6a7d1, type: 3}
   m_Name: JumpUpPotionAction
   m_EditorClassIdentifier: 
-  _Label: Use
+  _Label: "\uC0AC\uC6A9"
   _BuffData: {fileID: 11400000, guid: 1a58a4acf2916444abbdad994f40fd99, type: 2}
