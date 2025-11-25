@@ -23,7 +23,12 @@ public static class UIFX
     public static void Show(GameObject go)
     {
         if (!go) return;
-        if (!go.activeSelf) go.SetActive(true);
+
+        if (go.activeSelf)
+            return;
+
+        go.SetActive(true);
+
         if (go.TryGetComponent<UIPopEffect>(out var fx))
             fx.PlayShow();
     }

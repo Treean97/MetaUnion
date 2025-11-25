@@ -22,8 +22,6 @@ IBeginDragHandler, IEndDragHandler, IDropHandler, IDragHandler, IPointerClickHan
     public static event Action OnEndDragSlot;
     public static event Action<Dictionary<string, Action>, Vector2> OnRightClickInventorySlot;
 
-
-
     public void Init(int index)
     {
         _SlotIndex = index;

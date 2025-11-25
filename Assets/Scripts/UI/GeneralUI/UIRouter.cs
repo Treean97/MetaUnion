@@ -65,16 +65,30 @@ public class UIRouter : MonoBehaviour
             _UIs.Remove(key);
     }
 
+    bool TryOpen(IUI ui)
+    {
+        if (ui == null) return false;
+
+        // 이미 열려 있으면 무시
+        if (ui.IsOpen) return true;
+
+        if (ui is MonoBehaviour mb)
+        {
+            UIFX.Show(mb.gameObject);
+        }
+
+        ui.Show();
+        return true;
+    }
+
 
     public bool Open<T>() where T : class, IUI
     {
         if (_UIs.TryGetValue(typeof(T), out var s))
         {
-            var mb = s as MonoBehaviour;
-            if (mb) UIFX.Show(mb.gameObject); // 연출 + 활성
-            s.Show(); // 데이터 바인딩/초기화 등 내부 로직
-            return true;
+            return TryOpen(s);
         }
+
         Debug.LogWarning($"[UIRouter] {typeof(T).Name} 미등록");
         return false;
     }
@@ -83,17 +97,14 @@ public class UIRouter : MonoBehaviour
     {
         if (_UIs.TryGetValue(typeof(T), out var s))
         {
-            // 데이터 주입
-            init?.Invoke((T)s);
+            var ui = (T)s;
 
-            // 시각적 오픈
-            var mb = s as MonoBehaviour;
-            if (mb) UIFX.Show(mb.gameObject);
+            // 데이터 주입은 항상 허용 (같은 UI라도 다른 데이터로 띄울 수 있으니까)
+            init?.Invoke(ui);
 
-            // UI 로직상 Show
-            s.Show();
-            return true;
+            return TryOpen(ui);
         }
+
         Debug.LogWarning($"[UIRouter] {typeof(T).Name} 화면이 등록되지 않았습니다.");
         return false;
     }
@@ -110,7 +121,7 @@ public class UIRouter : MonoBehaviour
     }
 
 
-    public bool Toggle<T>(bool? force = null) where T : class, IUI
+    public bool Toggle<T>() where T : class, IUI
     {
         if (!_UIs.TryGetValue(typeof(T), out var s))
         {
@@ -118,14 +129,11 @@ public class UIRouter : MonoBehaviour
             return false;
         }
 
-        if (force.HasValue)
-        {
-            if (force.Value) s.Show(); else s.Hide();
-            return s.IsOpen;
-        }
+        if (s.IsOpen)
+            Close<T>();
+        else
+            TryOpen(s);
 
-        if (s.IsOpen) s.Hide(); else s.Show();
-        Debug.Log("토글 완료");
         return s.IsOpen;
     }
 }

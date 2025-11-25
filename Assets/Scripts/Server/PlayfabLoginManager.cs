@@ -42,7 +42,7 @@ public class PlayfabLoginManager : MonoBehaviour
     #region 외부호출
     public void ShowLoginUI()
     {
-        if (_LoginUI)  UIFX.Show(_LoginUI);
+        if (_LoginUI) UIFX.Show(_LoginUI);
     }
 
     public void SkipLoginAndEnterLobby()

@@ -19,5 +19,5 @@ MonoBehaviour:
   _ActionSOs:
   - {fileID: 11400000, guid: aeacbc0f9abbd8a458fc27eb0f4ab0bb, type: 2}
   _CurrencyType: {fileID: 11400000, guid: 65929ba6509dde04096a1180119b5dda, type: 2}
-  _BuyPrice: 10000
+  _BuyPrice: 100
   _SellPrice: 0
