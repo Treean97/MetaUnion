@@ -17,7 +17,7 @@ jobs:
         with:
           lfs: true
 
-      # Cache (캐시파일을 생성하여 다음 빌드시 더 빠르게 빌드를 할 수 있도록 해줍니다.)
+      # Cache
       - uses: actions/cache@v4
         with:
           path: Library
@@ -40,3 +40,30 @@ jobs:
         with:
           name: Windows Build
           path: build
+
+      # Release 업로드
+
+      - name: Zip build
+        run: |
+          powershell Compress-Archive -Path build\* -DestinationPath build.zip
+
+      - name: Create GitHub Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref_name }}      # 푸시된 태그명 (예: v1.0.0)
+          release_name: ${{ github.ref_name }}  # 릴리즈 이름도 태그와 동일하게
+          draft: false
+          prerelease: false
+
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: build.zip
+          asset_name: build-${{ github.ref_name }}-windows.zip
+          asset_content_type: application/zip
