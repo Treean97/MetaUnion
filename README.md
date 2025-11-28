@@ -10,4 +10,4 @@ Unity 엔진을 기반으로한 메타버스 게임입니다.
 
 ## Download
 
-- [Latest Windows build](../../releases/latest)
+- [프로젝트 빌드 파일](../../releases/latest)
