@@ -35,8 +35,6 @@ public class PlayerCustomization : MonoBehaviourPunCallbacks, IPunInstantiateMag
     private readonly Dictionary<ItemType, Color> _Colors = new();
 
 
-
-
     // 저장용 DTO
     public class CustomizeSettingsDTO
     {
@@ -87,6 +85,14 @@ public class PlayerCustomization : MonoBehaviourPunCallbacks, IPunInstantiateMag
             SaveLoadManager._Inst?.RegisterCloud(this);
         }
         
+    }
+
+    void OnDestroy()
+    {
+        if (photonView.IsMine)
+        {
+            SaveLoadManager._Inst?.UnregisterCloud(this);
+        }
     }
 
     // Photon이 이 프리팹을 인스턴스화할 때 호출 (Instantiate 시점)
@@ -336,6 +342,8 @@ public class PlayerCustomization : MonoBehaviourPunCallbacks, IPunInstantiateMag
 
     public void ApplyJson(string s)
     {
+        // Unity fake-null 체크 : 이미 Destroy된 컴포넌트면 리턴
+        if (!this) return;
         if (!photonView.IsMine) return;
         if (string.IsNullOrEmpty(s)) return;
 

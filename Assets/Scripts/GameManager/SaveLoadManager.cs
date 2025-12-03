@@ -92,7 +92,7 @@ public class SaveLoadManager : MonoBehaviour
             if (sec == null) continue;
 
             var snap = kv.Value.CaptureJson();
-            if (!string.IsNullOrEmpty(snap))  // ✅ null/빈 문자열은 저장 스킵
+            if (!string.IsNullOrEmpty(snap))  // null/빈 문자열은 저장 스킵
             {
                 dict[kv.Key] = snap;
                 _LocalLoaded[kv.Key] = snap;
@@ -193,7 +193,7 @@ public class SaveLoadManager : MonoBehaviour
         if (!CloudReady) { Debug.LogWarning("[Cloud] Not logged in"); return; }
 
         var keys = new List<string>(_CloudSections.Keys);
-        var req = new GetUserDataRequest { Keys = (keys.Count > 0 ? keys : null) }; // ✅
+        var req = new GetUserDataRequest { Keys = (keys.Count > 0 ? keys : null) };
 
         PlayFabClientAPI.GetUserData(req, r =>
         {
@@ -236,7 +236,7 @@ public class SaveLoadManager : MonoBehaviour
 
         if (string.IsNullOrEmpty(json))
         {
-            var delReq = new UpdateUserDataRequest { KeysToRemove = new List<string> { key } }; // ✅ 삭제
+            var delReq = new UpdateUserDataRequest { KeysToRemove = new List<string> { key } };
             PlayFabClientAPI.UpdateUserData(delReq, _ => { _CloudLoaded.Remove(key); ok?.Invoke(); },
                 e => { Debug.LogError(e.GenerateErrorReport()); err?.Invoke(e.GenerateErrorReport()); });
             return;

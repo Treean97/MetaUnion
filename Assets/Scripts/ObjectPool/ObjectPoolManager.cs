@@ -65,6 +65,8 @@ public static ObjectPoolManager _Inst { get; private set; }
     // 컴포넌트 타입으로 빌려오기
     public T Rent<T>(T prefab, Transform parent = null) where T : Component
     {
+        if (!prefab) return null;
+
         var go = Rent(prefab.gameObject, parent);
         return go ? go.GetComponent<T>() : null;
     }
@@ -87,17 +89,51 @@ public static ObjectPoolManager _Inst { get; private set; }
             r.SetParent(transform, false);
             _Roots[key] = r;
         }
+            
+        // 큐 안에서 Destroy된 애들 걸러내기
+        GameObject inst = null;
+        int removedBroken = 0;
 
-        GameObject inst = queue.Count > 0 ? queue.Dequeue() : Instantiate(prefab);
+        while (queue.Count > 0 && !inst)
+        {
+            var candidate = queue.Dequeue();
+            if (candidate)           // 아직 살아 있는 오브젝트
+            {
+                inst = candidate;
+            }
+            else                     // Destroy된 오브젝트
+            {
+                removedBroken++;
+            }
+        }
+
+        if (removedBroken > 0)
+        {
+            Debug.LogWarning(
+                $"[ObjectPool] {prefab.name} 풀에서 Destroy된 인스턴스 {removedBroken}개를 제거했습니다. " +
+                "어디선가 Destroy()를 직접 호출하고 있을 수 있습니다."
+            );
+        }
+
+        // 큐에 쓸만한 게 하나도 없으면 새로 생성
+        if (!inst)
+        {
+            inst = Instantiate(prefab);
+            if (!inst)
+            {
+                Debug.LogError($"[ObjectPool] {prefab.name} Instantiate 실패");
+                return null;
+            }
+        }    
+        
         if (!inst.TryGetComponent<PooledObject>(out var po))
             AttachPooled(inst, prefab);
         else
         {
             po._Owner = this;
-            po._Prefab = prefab; // 최신 프리팹 키 갱신
+            po._Prefab = prefab;
         }
 
-        // 부모 설정 및 활성화
         inst.transform.SetParent(parent, false);
         inst.SetActive(true);
         return inst;
