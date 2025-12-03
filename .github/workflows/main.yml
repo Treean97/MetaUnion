@@ -7,7 +7,7 @@ on:
     
 jobs:
   buildWindows:
-    name: 💻 Windows-64 Bit
+    name: Windows-64 Bit
     runs-on: windows-latest # 윈도우를 사용합니다.
     
     steps:
