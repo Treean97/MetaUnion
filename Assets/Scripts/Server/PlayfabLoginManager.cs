@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using PlayFab;
 using PlayFab.ClientModels;
 using TMPro;
@@ -25,18 +26,24 @@ public class PlayfabLoginManager : MonoBehaviour
     [Header("Lobby UI")]
     [SerializeField] LobbyUIManager _LobbyUI;
 
+    [Header("LogOut UI")]
+    [SerializeField] Button _LogoutBtn;
+
     public static event Action OnLoginSuccess;
+    Coroutine _StatusRoutine;
 
     void OnEnable()
     {
         if (_SignUpBtn) _SignUpBtn.onClick.AddListener(ClickSignUp);
         if (_LoginBtn)  _LoginBtn.onClick.AddListener(ClickLogin);
+        if (_LogoutBtn) _LogoutBtn.onClick.AddListener(Logout);
     }
 
     void OnDisable()
     {
         if (_SignUpBtn) _SignUpBtn.onClick.RemoveListener(ClickSignUp);
         if (_LoginBtn)  _LoginBtn.onClick.RemoveListener(ClickLogin);
+        if (_LogoutBtn) _LogoutBtn.onClick.RemoveListener(Logout);
     }
 
     #region 외부호출
@@ -160,6 +167,7 @@ public class PlayfabLoginManager : MonoBehaviour
     {
         UIFX.Hide(_SignUpUI);
         UIFX.Hide(_LoginUI);
+        UIFX.Show(_LogoutBtn.gameObject);
         if (_LobbyUI) UIFX.Show(_LobbyUI.gameObject);
         Launcher._Inst.Connect();
         OnLoginSuccess?.Invoke();
@@ -178,11 +186,59 @@ public class PlayfabLoginManager : MonoBehaviour
 
         SetStatus($"로그인 실패: {err.Error} / {err.ErrorMessage}");
     }
+
+    public void Logout()
+    {
+        // PlayFab 세션 삭제
+        PlayFabClientAPI.ForgetAllCredentials();
+
+        // Photon 끊기
+        if (Launcher._Inst != null)
+            Launcher._Inst.Disconnect(); // 내부에서 PhotonNetwork.Disconnect()
+
+        // UI 전환
+        UIFX.Hide(_LobbyUI.gameObject);
+        UIFX.Show(_LoginUI);
+        UIFX.Hide(_SignUpUI);
+        UIFX.Show(_LogoutBtn.gameObject);
+
+        SetStatus("로그아웃되었습니다. 다시 로그인해주세요.");
+    }
+
     #endregion
     // 공통
-    void SetStatus(string msg)
+    void SetStatus(string msg, float duration = 3f)
     {
-        if (_StatusText) _StatusText.text = msg;
         Debug.Log(msg);
+
+        if (_StatusText == null)
+            return;
+
+        // 이전에 돌던 코루틴이 있으면 정지
+        if (_StatusRoutine != null)
+        {
+            StopCoroutine(_StatusRoutine);
+            _StatusRoutine = null;
+        }
+
+        // 텍스트 표시
+        _StatusText.gameObject.SetActive(true);
+        _StatusText.text = msg;
+
+        // duration이 0 이하이면 계속 표시 (자동 숨김 없음)
+        if (duration > 0f)
+        {
+            _StatusRoutine = StartCoroutine(HideStatusAfter(duration));
+        }
+    }
+
+    IEnumerator HideStatusAfter(float t)
+    {
+        yield return new WaitForSeconds(t);
+
+        if (_StatusText != null)
+            _StatusText.gameObject.SetActive(false);
+
+        _StatusRoutine = null;
     }
 }

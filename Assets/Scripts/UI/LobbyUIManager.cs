@@ -12,18 +12,12 @@ public class LobbyUIManager : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject _RoomItemPrefab;
     [SerializeField] private Button _JoinRoomButton;
 
-    [SerializeField] private Button _StartBtn;
-    [SerializeField] private TMP_Text _StatusText;
-
     private RoomInfo _SelectedRoomInfo;
 
     // OnEnable 오버라이드
     public override void OnEnable()
     {
         base.OnEnable();  // ← Photon 콜백 등록
-
-        // 로비 화면 출력 시 로그인 상태 텍스트 Off
-        _StatusText.gameObject.SetActive(false);
 
         GameEvents.OnSelectRoom += HandleSelectRoom;
         GameEvents.OnRoomListUpdated += HandleUpdateRoomList;
@@ -100,16 +94,5 @@ public class LobbyUIManager : MonoBehaviourPunCallbacks
         }
     }
 
-    // private void OnRefreshButtonClicked()
-    // {
-    //     foreach (Transform child in _RoomListContent)
-    //         Destroy(child.gameObject);
-
-    //     CachedRoomList.SetRoomList(new List<RoomInfo>());
-    //     _SelectedRoomInfo = null;
-    //     _JoinRoomBtn.interactable = false;
-
-    //     PhotonNetwork.LeaveLobby();
-    // }
 
 }
