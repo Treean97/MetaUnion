@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Photon.Pun;
 using PlayFab;
 using PlayFab.ClientModels;
 using TMPro;
@@ -192,15 +193,25 @@ public class PlayfabLoginManager : MonoBehaviour
         // PlayFab 세션 삭제
         PlayFabClientAPI.ForgetAllCredentials();
 
-        // Photon 끊기
-        if (Launcher._Inst != null)
-            Launcher._Inst.Disconnect(); // 내부에서 PhotonNetwork.Disconnect()
+        // 2Photon 쪽은 연결은 유지하고, 방/로비만 정리
+        if (PhotonNetwork.InRoom)
+        {
+            PhotonNetwork.LeaveRoom();
+        }
+
+        if (PhotonNetwork.InLobby)
+        {
+            PhotonNetwork.LeaveLobby();
+        }
+
+        // 비밀번호 입력 창 초기화
+        if (_LoginIdInput) _LoginIdInput.text = string.Empty;
 
         // UI 전환
-        UIFX.Hide(_LobbyUI.gameObject);
-        UIFX.Show(_LoginUI);
-        UIFX.Hide(_SignUpUI);
-        UIFX.Show(_LogoutBtn.gameObject);
+        if (_LobbyUI) UIFX.Hide(_LobbyUI.gameObject);
+        if (_LoginUI) UIFX.Show(_LoginUI);
+        if (_SignUpUI) UIFX.Hide(_SignUpUI);
+        if (_LogoutBtn) UIFX.Hide(_LogoutBtn.gameObject);
 
         SetStatus("로그아웃되었습니다. 다시 로그인해주세요.");
     }

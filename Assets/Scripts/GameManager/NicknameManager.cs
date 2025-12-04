@@ -20,7 +20,7 @@ public class NicknameManager : MonoBehaviour
 
     /// <summary>
     /// PlayFab 로그인 성공 후 호출.
-    /// loginId: 이번에 로그인에 사용한 ID (최초 로그인 시 기본 닉네임 후보)
+    /// loginId: 이번에 로그인에 사용한 ID
     /// </summary>
     public void InitializeNickname(string loginId)
     {
@@ -33,12 +33,12 @@ public class NicknameManager : MonoBehaviour
 
                 if (string.IsNullOrEmpty(displayName))
                 {
-                    // ✅ 최초 로그인: DisplayName 없음 → loginId로 등록
+                    // 최초 로그인: DisplayName 없음 → loginId로 등록
                     SetFirstTimeNickname(loginId);
                 }
                 else
                 {
-                    // ✅ 이미 닉네임 있음 → 그대로 적용
+                    // 이미 닉네임 있음
                     ApplyNickname(displayName);
                 }
             },

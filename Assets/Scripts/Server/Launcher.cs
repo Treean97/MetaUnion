@@ -55,24 +55,6 @@ public class Launcher : MonoBehaviourPunCallbacks
         }
     }
 
-    public void Disconnect()
-    {
-        if (!PhotonNetwork.IsConnected)
-        {
-            return;
-        }
-
-        // 혹시 큐가 돌아가고 있으면 끄고
-        if (PhotonNetwork.IsMessageQueueRunning)
-        {
-            PhotonNetwork.IsMessageQueueRunning = false;
-            Debug.Log("연결 해제 전 메시지 큐 정지");
-        }
-
-        // 실제 Photon 연결 종료
-        PhotonNetwork.Disconnect();
-    }
-
     public override void OnConnectedToMaster()
     {
         Debug.Log("Connected to Master");
