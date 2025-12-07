@@ -490,6 +490,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4185779892069880065}
   - component: {fileID: 3195929150560732725}
+  - component: {fileID: 8031247335131707761}
   m_Layer: 5
   m_Name: UITitleBar
   m_TagString: Untagged
@@ -528,3 +529,16 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8040820149628828301}
   m_CullTransparentMesh: 0
+--- !u!114 &8031247335131707761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8040820149628828301}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 479421254b938164dbfad4aab93342f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIDragTitle
+  _Target: {fileID: 0}

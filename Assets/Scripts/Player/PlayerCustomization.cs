@@ -70,12 +70,18 @@ public class PlayerCustomization : MonoBehaviourPunCallbacks, IPunInstantiateMag
     {
         base.OnEnable();  // Photon 콜백 등록 유지
         GameEvents.OnRequestApplyItemColor += HandleApplyItemColor;
+
+        if (photonView.IsMine)
+        GameEvents.OnRequestItemColor += HandleRequestItemColor;
     }
 
     public override void OnDisable()
     {
+        if (photonView.IsMine)
+        GameEvents.OnRequestItemColor -= HandleRequestItemColor;
+
         GameEvents.OnRequestApplyItemColor -= HandleApplyItemColor;
-        base.OnDisable(); // Photon 콜백 등록 해제
+        base.OnDisable();
     }
 
     void Start()
@@ -100,6 +106,32 @@ public class PlayerCustomization : MonoBehaviourPunCallbacks, IPunInstantiateMag
     {
         if (photonView.Owner != null)
             ApplyAllProperties(photonView.Owner.CustomProperties);
+    }
+
+    Color? HandleRequestItemColor(CustomizeItemSO item)
+    {
+        if (item == null) return null;
+
+        var type = item.Type;
+
+        // 1) 저장된 색이 있으면 그걸 사용
+        if (_Colors.TryGetValue(type, out var savedColor))
+            return savedColor;
+
+        // 2) 없으면 렌더러 머티리얼에서 읽기
+        if (_RendererSlots.TryGetValue(type, out var renderer) && renderer != null)
+        {
+            var mats = renderer.sharedMaterials;
+            for (int i = 0; i < mats.Length; i++)
+            {
+                var mat = mats[i];
+                if (mat != null && mat.HasProperty(_ColorProperty))
+                    return mat.GetColor(_ColorProperty);
+            }
+        }
+
+        // 3) 진짜 없으면 null (UI에서 기본값 처리)
+        return null;
     }
 
     /// <summary>

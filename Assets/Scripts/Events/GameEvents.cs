@@ -271,6 +271,32 @@ public static class GameEvents
     public static void RaiseRequestPreviewItemColor(CustomizeItemSO item, Color color)
         => OnRequestPreviewItemColor?.Invoke(item, color);
 
+    // 아이템 색 조회 요청 (현재 적용된 색을 알고 싶을 때)
+    public static event Func<CustomizeItemSO, Color?> OnRequestItemColor;
+
+    public static bool RaiseRequestItemColor(CustomizeItemSO item, out Color color)
+    {
+        color = default;
+
+        if (OnRequestItemColor == null)
+            return false;
+
+        foreach (var del in OnRequestItemColor.GetInvocationList())
+        {
+            if (del is Func<CustomizeItemSO, Color?> func)
+            {
+                var result = func(item);
+                if (result.HasValue)
+                {
+                    color = result.Value;
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     // 인벤토리 업데이트 요청
     public static event Action OnRequestUpdateInventory;
     public static void RaiseRequestUpdateInventory()

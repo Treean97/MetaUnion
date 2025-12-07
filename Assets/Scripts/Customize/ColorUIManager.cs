@@ -31,7 +31,6 @@ public class ColorUIManager : MonoBehaviour, IColorUI
             _ApplyButton.onClick.RemoveListener(OnClickApply);
     }
 
-    // IUI 구현 --------------------------------------
     public void Show() { }
 
     public void Hide()
@@ -39,14 +38,23 @@ public class ColorUIManager : MonoBehaviour, IColorUI
         _CurrentItem = null;
     }
 
-    // IColorUI 구현 ----------------------------------
     public void SetUI(CustomizeItemSO item)
     {
         _CurrentItem = item;
 
-        // ※ 아직 저장된 색 불러오는 구조는 없으니 기본값
         if (_ColorPicker != null)
-            _ColorPicker.color = Color.white;
+        {
+            Color loaded;
+
+            if (GameEvents.RaiseRequestItemColor(item, out loaded))
+            {
+                _ColorPicker.color = loaded;
+            }
+            else
+            {
+                _ColorPicker.color = Color.white;
+            }
+        }
     }
 
     // FlexibleColorPicker에서 색이 바뀔 때마다 호출 (프리뷰용)
