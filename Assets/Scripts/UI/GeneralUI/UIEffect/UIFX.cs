@@ -27,6 +27,9 @@ public static class UIFX
         if (go.activeSelf)
             return;
 
+        if (go.TryGetComponent<UISound>(out var sound))
+        sound.PlayOpenSFX();
+
         go.SetActive(true);
 
         if (go.TryGetComponent<UIPopEffect>(out var fx))
@@ -37,12 +40,18 @@ public static class UIFX
     public static void Hide(GameObject go)
     {
         if (!go) return;
+
         Host.Inst.StartCoroutine(CoHide(go));
     }
 
     static IEnumerator CoHide(GameObject go)
     {
         if (!go.activeSelf) yield break;
+
+        if (go.TryGetComponent<UISound>(out var sound))
+        sound.PlayCloseSFX();
+
+
         if (go.TryGetComponent<UIPopEffect>(out var fx))
             yield return fx.PlayHide();
         else

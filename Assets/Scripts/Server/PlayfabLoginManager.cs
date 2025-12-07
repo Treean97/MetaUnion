@@ -205,7 +205,7 @@ public class PlayfabLoginManager : MonoBehaviour
         }
 
         // 비밀번호 입력 창 초기화
-        if (_LoginIdInput) _LoginIdInput.text = string.Empty;
+        if (_LoginPwInput) _LoginPwInput.text = string.Empty;
 
         // UI 전환
         if (_LobbyUI) UIFX.Hide(_LobbyUI.gameObject);

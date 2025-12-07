@@ -22,8 +22,8 @@ public class UISound : MonoBehaviour, IPointerEnterHandler
 
     void Awake()
     {
-        _Button = GetComponent<Button>(); // 버튼이 없을 수도 있음(패널, 이미지 등)
-        _Toggle = GetComponent<Toggle>(); //
+        _Button = GetComponent<Button>(); 
+        _Toggle = GetComponent<Toggle>();
         if (_Button) _Button.onClick.AddListener(OnClick);    
         if (_Toggle) _Toggle.onValueChanged.AddListener(OnToggled);
     }
@@ -34,22 +34,17 @@ public class UISound : MonoBehaviour, IPointerEnterHandler
         if (_Toggle) _Toggle.onValueChanged.RemoveListener(OnToggled);
     }
 
-    void OnEnable()
+    public void PlayOpenSFX()
     {
         if (!_OpenSound) return;
-
         PlayOpen();
-
     }
 
-    void OnDisable()
+    public void PlayCloseSFX()
     {
         if (!_CloseSound) return;
-
         PlayClose();
     }
-
-    
 
     public void OnClick()
     {
