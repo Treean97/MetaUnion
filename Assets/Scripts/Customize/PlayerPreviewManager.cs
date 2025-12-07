@@ -22,6 +22,7 @@ public class PlayerPreviewManager : MonoBehaviourPunCallbacks
     private Dictionary<ItemType, SkinnedMeshRenderer> _RendererSlots;
 
     private const string PropKeyPrefix = "Customize_";
+    private const string ColorPropKeyPrefix = "CustomizeColor_";
     private const string UnEquipToken  = "0";
 
     [Header("Color Settings")]
@@ -77,15 +78,42 @@ public class PlayerPreviewManager : MonoBehaviourPunCallbacks
         foreach (System.Collections.DictionaryEntry entry in props)
         {
             var key = entry.Key as string;
-            if (string.IsNullOrEmpty(key) || !key.StartsWith(PropKeyPrefix))
+            if (string.IsNullOrEmpty(key))
                 continue;
 
-            if (!int.TryParse(key.Substring(PropKeyPrefix.Length), out int typeInt))
-                continue;
+            // --- 메쉬 장착 상태 ---
+            if (key.StartsWith(PropKeyPrefix))
+            {
+                if (!int.TryParse(key.Substring(PropKeyPrefix.Length), out int typeInt))
+                    continue;
 
-            var type = (ItemType)typeInt;
-            var itemId = entry.Value as string;
-            ApplyMesh(type, itemId);
+                var type   = (ItemType)typeInt;
+                var itemId = entry.Value as string;
+                ApplyMesh(type, itemId);
+                continue;
+            }
+
+            // --- 색상 상태 ---
+            if (key.StartsWith(ColorPropKeyPrefix))
+            {
+                if (!int.TryParse(key.Substring(ColorPropKeyPrefix.Length), out int typeInt))
+                    continue;
+
+                var type = (ItemType)typeInt;
+
+                // 값은 "RRGGBBAA" 문자열 or null
+                var hex = entry.Value as string;
+                if (string.IsNullOrEmpty(hex))
+                    continue;
+
+                // ColorUtility는 "#RRGGBBAA" 형태를 기대하므로 # 붙여줌
+                if (ColorUtility.TryParseHtmlString("#" + hex, out var color))
+                {
+                    ApplyColor(type, color);
+                }
+
+                continue;
+            }
         }
     }
 
@@ -117,6 +145,7 @@ public class PlayerPreviewManager : MonoBehaviourPunCallbacks
         if (itemSO == null)
         {
             Debug.LogWarning($"ID '{itemId}' 아이템을 찾을 수 없습니다.");
+            renderer.sharedMesh = binding.BaseMesh;
             return;
         }
 
@@ -124,11 +153,8 @@ public class PlayerPreviewManager : MonoBehaviourPunCallbacks
         renderer.sharedMesh = itemSO.ItemMesh;
     }
 
-    private void HandlePreviewItemColor(CustomizeItemSO item, Color color)
+    private void ApplyColor(ItemType type, Color color)
     {
-        var type = item.Type;
-
-        // 해당 타입의 프리뷰 렌더러 찾기
         if (!_RendererSlots.TryGetValue(type, out var renderer) || renderer == null)
             return;
 
@@ -144,5 +170,12 @@ public class PlayerPreviewManager : MonoBehaviourPunCallbacks
         }
 
         renderer.materials = mats;
+    }
+
+
+    private void HandlePreviewItemColor(CustomizeItemSO item, Color color)
+    {
+        var type = item.Type;
+        ApplyColor(type, color); // ★ 공통 함수 사용
     }
 }
