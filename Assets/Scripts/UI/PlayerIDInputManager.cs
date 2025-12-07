@@ -1,7 +1,5 @@
 using UnityEngine;
 using TMPro;
-using Photon.Pun;
-
 
 public class PlayerIDInputManager : MonoBehaviour
 {
