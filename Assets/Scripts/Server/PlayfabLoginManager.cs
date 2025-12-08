@@ -91,7 +91,6 @@ public class PlayfabLoginManager : MonoBehaviour
         {
             Username = id,
             Password = pw,
-            RequireBothUsernameAndEmail = false // Username만으로 가입 허용
         };
 
         PlayFabClientAPI.RegisterPlayFabUser(req, SignUpSuccess, SignUpError);

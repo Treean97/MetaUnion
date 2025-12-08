@@ -17,8 +17,8 @@ public class SaveLoadManager : MonoBehaviour
     // 로드된 섹션별 JSON 캐시(늦게 등록된 섹션에 즉시 적용)
     readonly Dictionary<string, string> _LocalLoaded = new();
 
-    [System.Serializable] class Entry { public string key; public string Json; }
-    [System.Serializable] class Blob { public List<Entry> Sections = new(); }
+    [Serializable] class Entry { public string key; public string Json; }
+    [Serializable] class Blob { public List<Entry> Sections = new(); }
 
     // 클라우드 저장 (PlayFab UserData)
     readonly Dictionary<string, ICloudSaveSection> _CloudSections = new();
@@ -58,14 +58,6 @@ public class SaveLoadManager : MonoBehaviour
             s.ApplyJson(json); // 늦게 등록돼도 즉시 반영
     }
 
-    public void RegisterCloud(ICloudSaveSection s)
-    {
-        _CloudSections[s.Key] = s;
-        // 이미 클라우드가 로드돼 있다면 즉시 반영
-        if (_CloudLoaded.TryGetValue(s.Key, out var json) && !string.IsNullOrEmpty(json))
-            s.ApplyJson(json);
-    }
-
     public void UnregisterLocal(ILocalSaveSection s)
     {
         if (s == null) return;
@@ -73,22 +65,14 @@ public class SaveLoadManager : MonoBehaviour
             _LocalSections.Remove(s.Key);
     }
 
-    public void UnregisterCloud(ICloudSaveSection s)
-    {
-        if (s == null) return;
-        if (_CloudSections.TryGetValue(s.Key, out var cur) && ReferenceEquals(cur, s))
-            _CloudSections.Remove(s.Key);
-    }
-
-
     public void SaveAllLocal()
     {
-        // 기존 파일을 읽지 않고, "현재 등록된 섹션"만으로 새 딕셔너리 구성
         var dict = new Dictionary<string, string>();
 
         foreach (var kv in _LocalSections)
         {
-            var sec = kv.Value as Object; // Unity fake-null
+            // Object 캐스팅을 통해 인터페이스 객체의 Null 감지
+            var sec = kv.Value as Object;
             if (sec == null) continue;
 
             var snap = kv.Value.CaptureJson();
@@ -99,7 +83,7 @@ public class SaveLoadManager : MonoBehaviour
             }
             else
             {
-                // null이면 _Loaded에서도 제거해주면 더 깔끔
+                // null이면 _Loaded에서 제거
                 _LocalLoaded.Remove(kv.Key);
             }
         }
@@ -188,9 +172,24 @@ public class SaveLoadManager : MonoBehaviour
         LoadAllCloud();
     }
 
+    public void RegisterCloud(ICloudSaveSection s)
+    {
+        _CloudSections[s.Key] = s;
+        // 이미 클라우드가 로드돼 있다면 즉시 반영
+        if (_CloudLoaded.TryGetValue(s.Key, out var json) && !string.IsNullOrEmpty(json))
+            s.ApplyJson(json);
+    }
+
+    public void UnregisterCloud(ICloudSaveSection s)
+    {
+        if (s == null) return;
+        if (_CloudSections.TryGetValue(s.Key, out var cur) && ReferenceEquals(cur, s))
+            _CloudSections.Remove(s.Key);
+    }
+
     public void LoadAllCloud()
     {
-        if (!CloudReady) { Debug.LogWarning("[Cloud] Not logged in"); return; }
+        if (!CloudReady) { Debug.LogWarning("Not logged in"); return; }
 
         var keys = new List<string>(_CloudSections.Keys);
         var req = new GetUserDataRequest { Keys = (keys.Count > 0 ? keys : null) };
@@ -199,15 +198,24 @@ public class SaveLoadManager : MonoBehaviour
         {
             _CloudLoaded.Clear();
             if (r.Data != null)
+            {             
                 foreach (var kv in r.Data)
-                    _CloudLoaded[kv.Key] = kv.Value?.Value;
+                {
+                    _CloudLoaded[kv.Key] = kv.Value?.Value;   
+                }                    
+            }
 
             foreach (var kv in _CloudSections)
-                if (_CloudLoaded.TryGetValue(kv.Key, out var json) && !string.IsNullOrEmpty(json))
+            {
+                if (_CloudLoaded.TryGetValue(
+                    kv.Key, out var json) && !string.IsNullOrEmpty(json))
+                {
                     kv.Value.ApplyJson(json);
-
-            Debug.Log("[Cloud] LoadAll OK");
-        }, e => Debug.LogError($"[Cloud] LoadAll fail: {e.GenerateErrorReport()}"));
+                }
+            }              
+                    
+            Debug.Log("LoadAllCloud Success");
+        }, e => Debug.LogError($"LoadAllCloud fail: {e.GenerateErrorReport()}"));
     }
 
 
@@ -219,11 +227,17 @@ public class SaveLoadManager : MonoBehaviour
         PlayFabClientAPI.GetUserData(req, r =>
         {
             string v = null;
-            if (r.Data != null && r.Data.TryGetValue(key, out var data)) v = data.Value;
+            if (r.Data != null && r.Data.TryGetValue(key, out var data))
+            {
+                v = data.Value;  
+            } 
             _CloudLoaded[key] = v;
+
             // 등록된 섹션에 즉시 적용
             if (_CloudSections.TryGetValue(key, out var sec) && !string.IsNullOrEmpty(v))
+            {
                 sec.ApplyJson(v);
+            }                
             ok?.Invoke(v);
         },
         e => { Debug.LogError(e.GenerateErrorReport()); err?.Invoke(e.GenerateErrorReport()); });

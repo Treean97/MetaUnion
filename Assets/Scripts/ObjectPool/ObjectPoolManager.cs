@@ -20,16 +20,16 @@ public static ObjectPoolManager _Inst { get; private set; }
 
     void Awake()
     {
-        // 씬 내에서 유일한 인스턴스인지 확인
+        // 싱글톤
         if (_Inst != null && _Inst != this)
         {
-            Destroy(gameObject);
+            Destroy(this);
             return;
         }
         
         _Inst = this;
 
-        // 미리 채우기
+        // 객체 채우기
         foreach (var entry in _Entries)
         {
             if (!entry.Prefab) continue;

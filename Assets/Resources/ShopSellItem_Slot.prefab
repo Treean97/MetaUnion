@@ -533,7 +533,6 @@ GameObject:
   - component: {fileID: 434812967871562012}
   - component: {fileID: 2639789657463825538}
   - component: {fileID: 5659319620421904089}
-  - component: {fileID: 2619671118270894849}
   m_Layer: 5
   m_Name: Background
   m_TagString: Untagged
@@ -598,18 +597,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &2619671118270894849
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5172906086385165056}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95a05db1c34bfe543b587f910d5837cc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::FocusableUI
 --- !u!1 &6188456425808128950
 GameObject:
   m_ObjectHideFlags: 0
@@ -774,6 +761,7 @@ GameObject:
   - component: {fileID: 7539694520322441307}
   - component: {fileID: 6783263269798953345}
   - component: {fileID: 6127789218613362865}
+  - component: {fileID: 4674473521067609031}
   m_Layer: 5
   m_Name: Icon
   m_TagString: Untagged
@@ -839,6 +827,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &4674473521067609031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7666613221094270048}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95a05db1c34bfe543b587f910d5837cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FocusableUI
 --- !u!1 &8365039451784562699
 GameObject:
   m_ObjectHideFlags: 0
