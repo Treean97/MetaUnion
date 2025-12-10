@@ -158,11 +158,14 @@ namespace Controller
                 _IsRun = false;
                 _IsJump = false;
 
-                // 이모트 중에도 상호작용은 허용 (예: 앵커 다시 눌러 나가기 등)
+                // 이모트 중 상호작용키 = 현재 이모트 탈출
                 if (Input.GetKeyDown(_InteractKey))
-                    OnInteract?.Invoke();
+                {
+                    if (_PlayerEmote != null)
+                        _PlayerEmote.RequestExitByInput();
+                }
 
-                // 나머지 행동 입력(공격/무기전환/UI/커서 토글/새 이모트 UI 등)은 처리하지 않음
+                // 나머지 행동 입력은 처리하지 않음
                 return;
             }
 

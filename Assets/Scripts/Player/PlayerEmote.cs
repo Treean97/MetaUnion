@@ -96,6 +96,26 @@ public class PlayerEmote : MonoBehaviourPunCallbacks
             photonView.RPC(nameof(RPC_ForceLeaveAndReturn), RpcTarget.Others);
     }
 
+    public void RequestExitByInput()
+    {
+        if (!_Anchor) return;
+
+        bool iAmOwnerOfAnchor = _Anchor.photonView && _Anchor.photonView.IsMine;
+
+        if (iAmOwnerOfAnchor)
+        {
+            // 앵커 생성자라면 이모트 전체 종료
+            EmoteManager._Inst?.RequestStopEmote(_Anchor);
+            // 혹시 RequestStopEmote가 없다면:
+            // EmoteManager._Inst?.StopEmote(_Anchor);
+        }
+        else
+        {
+            // 참여자는 자기 클라만 탈출
+            RequestLeave();
+        }
+    }
+
     // ===== 내부 합류/재생 =====
 
     /// <summary>
