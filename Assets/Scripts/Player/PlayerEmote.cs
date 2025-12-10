@@ -36,12 +36,12 @@ public class PlayerEmote : MonoBehaviourPunCallbacks
     public int CurrentSlotIndex => _SlotIndex;
     public EmoteAnchor GetCurrentAnchor() => _Anchor;
 
-    bool _pendingSnap;
+    bool _PendingSnap;
     Vector3 _snapPos;
     Quaternion _snapRot;
 
-    public static event Action OnEmoteStart;
-    public static event Action OnEmoteEnd;
+    public event Action OnEmoteStart;
+    public event Action OnEmoteEnd;
     
 
     private void Awake()
@@ -88,8 +88,12 @@ public class PlayerEmote : MonoBehaviourPunCallbacks
         // 슬롯 해제
         EmoteManager._Inst.LeaveEmote(_Anchor, this);
 
-        // 모든 클라에 나의 복귀를 통지 (다른 클라 Animator도 Idle로 전환)
-        photonView.RPC(nameof(RPC_ForceLeaveAndReturn), RpcTarget.All);
+        // 로컬 상태 정리
+        DoLeaveAndReturn();
+
+        // RPC로 동기화
+        if (photonView != null)
+            photonView.RPC(nameof(RPC_ForceLeaveAndReturn), RpcTarget.Others);
     }
 
     // ===== 내부 합류/재생 =====
@@ -112,7 +116,7 @@ public class PlayerEmote : MonoBehaviourPunCallbacks
 
             _snapPos = anchor.GetSlotWorldPos(slotIndex);
             _snapRot = anchor.GetSlotWorldRot(slotIndex);
-            _pendingSnap = true;     
+            _PendingSnap = true;     
         }    
 
         photonView.RPC(nameof(RPC_PlayEmote), RpcTarget.All, anchor.photonView.ViewID, slotIndex, Mathf.Clamp01(normalizedTime));
@@ -266,30 +270,31 @@ public class PlayerEmote : MonoBehaviourPunCallbacks
 
     private void LateUpdate()
     {
-        if (_pendingSnap)
+        // 1프레임 스냅 (초기 위치 복귀용으로 유지)
+        if (_PendingSnap)
         {
             transform.SetPositionAndRotation(_snapPos, _snapRot);
-            _pendingSnap = false;
+            _PendingSnap = false;
         }
-        
+
         if (!_IsInEmote) return;
 
-        // 앵커 파괴/분실 감지
+        // 이모트 중에는 오너가 슬롯 위치/방향에 계속 붙어 있게 고정
+        if (photonView.IsMine && _Anchor != null && _SlotIndex >= 0)
+        {
+            transform.SetPositionAndRotation(
+                _Anchor.GetSlotWorldPos(_SlotIndex),
+                _Anchor.GetSlotWorldRot(_SlotIndex)
+            );
+        }
+
+        // 앵커 파괴 감시
         if (_Anchor == null || _Anchor.photonView == null || PhotonView.Find(_Anchor.photonView.ViewID) == null)
         {
             SafeLeaveIfBroken();
             return;
         }
-
-        // // 소유자는 슬롯에 스냅 유지(원격은 PTV 보간)
-        // if (photonView.IsMine)
-        // {
-        //     transform.SetPositionAndRotation(
-        //         _Anchor.GetSlotWorldPos(_SlotIndex),
-        //         _Anchor.GetSlotWorldRot(_SlotIndex)
-        //     );
-        // }
-    }
+    }   
 
     private void SafeLeaveIfBroken()
     {

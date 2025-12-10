@@ -11,66 +11,67 @@ namespace Controller
     public class MoveHandler : MonoBehaviour
     {
         [Header("Movement")]
-        [SerializeField] private float m_WalkSpeed;
-        [SerializeField] private float m_RunSpeed;
-        [SerializeField, Range(0f, 360f)] private float m_RotateSpeed = 90f;
-        [SerializeField] private Space m_Space = Space.Self;
-        [SerializeField] private float m_JumpHeight;
+        [SerializeField] private float _WalkSpeed;
+        [SerializeField] private float _RunSpeed;
+        [SerializeField, Range(0f, 360f)] private float _RotateSpeed = 90f;
+        [SerializeField] private Space _Space = Space.Self;
+        [SerializeField] private float _JumpHeight;
         [SerializeField] private PlayerStat _PlayerStat;
 
         [Header("Animator")]
-        [SerializeField] private string m_HorizontalID = "Hor";
-        [SerializeField] private string m_VerticalID = "Vert";
-        [SerializeField] private string m_StateID = "State";
-        [SerializeField] private string m_JumpTriggerID = "JumpTrigger";
-        [SerializeField] private string m_IsGroundedID = "IsGrounded";
-        [SerializeField] private LookWeight m_LookWeight = new LookWeight(1f, 0.3f, 0.7f, 1f);
+        [SerializeField] private string _HorizontalID = "Hor";
+        [SerializeField] private string _VerticalID = "Vert";
+        [SerializeField] private string _StateID = "State";
+        [SerializeField] private string _JumpTriggerID = "JumpTrigger";
+        [SerializeField] private string _IsGroundedID = "IsGrounded";
+        [SerializeField] private LookWeight _LookWeight = new LookWeight(1f, 0.3f, 0.7f, 1f);
 
         // Raycast를 위한 변수
         [Header("Ground Check")]
-        [SerializeField] private Transform m_FootTransform;
-        [SerializeField] private float m_LandingCheckDistance = 0.5f;
+        [SerializeField] private Transform _FootTransform;
+        [SerializeField] private float _LandingCheckDistance = 0.5f;
 
-        private Transform m_Transform;
-        private CharacterController m_Controller;
-        private Animator m_Animator;
+        private Transform _Transform;
+        private CharacterController _Controller;
+        private Animator _Animator;
         private PhotonView _PhotonView;
+        private PlayerEmote _PlayerEmote;
+        private MovementHandler _Movement;
+        private AnimationHandler _Animation;
 
-        private MovementHandler m_Movement;
-        private AnimationHandler m_Animation;
+        private Vector2 _Axis;
+        private Vector3 _Target;
+        private bool _IsRun;
+        private bool _IsJump;
+        private bool _IsMoving;
 
-        private Vector2 m_Axis;
-        private Vector3 m_Target;
-        private bool m_IsRun;
-        private bool m_IsJump;
-        private bool m_IsMoving;
+        private bool _IsFalling;
+        private bool _LandingTriggered = false;
 
-        private bool m_IsFalling;
-        private bool m_LandingTriggered = false;
-
-        public Vector2 Axis => m_Axis;
-        public Vector3 Target => m_Target;
-        public bool IsRun => m_IsRun;
+        public Vector2 Axis => _Axis;
+        public Vector3 Target => _Target;
+        public bool IsRun => _IsRun;
 
         int _PhaseLockCount;
 
 
         private void OnValidate()
         {
-            m_WalkSpeed = Mathf.Max(m_WalkSpeed, 0f);
-            m_RunSpeed = Mathf.Max(m_RunSpeed, m_WalkSpeed);
-            m_Movement?.SetStats(m_WalkSpeed, m_RunSpeed, m_RotateSpeed, m_JumpHeight, m_Space);
+            _WalkSpeed = Mathf.Max(_WalkSpeed, 0f);
+            _RunSpeed = Mathf.Max(_RunSpeed, _WalkSpeed);
+            _Movement?.SetStats(_WalkSpeed, _RunSpeed, _RotateSpeed, _JumpHeight, _Space);
         }
 
         private void Awake()
         {
-            m_Transform = transform;
-            m_Controller = GetComponent<CharacterController>();
-            m_Animator = GetComponent<Animator>();
+            _Transform = transform;
+            _Controller = GetComponent<CharacterController>();
+            _Animator = GetComponent<Animator>();
             _PhotonView = GetComponent<PhotonView>();
+            _PlayerEmote = GetComponent<PlayerEmote>();
 
-            m_Movement = new MovementHandler(m_Controller, m_Transform, m_WalkSpeed, m_RunSpeed, m_RotateSpeed, m_JumpHeight, m_Space);
-            m_Animation = new AnimationHandler(m_Animator, m_HorizontalID, m_VerticalID, m_StateID, m_JumpTriggerID, m_IsGroundedID);
+            _Movement = new MovementHandler(_Controller, _Transform, _WalkSpeed, _RunSpeed, _RotateSpeed, _JumpHeight, _Space);
+            _Animation = new AnimationHandler(_Animator, _HorizontalID, _VerticalID, _StateID, _JumpTriggerID, _IsGroundedID);
 
             PlayerStat.OnStatChanged += HandleStatChanged;
         }
@@ -82,16 +83,16 @@ namespace Controller
 
         void OnEnable()
         {
-            PlayerEmote.OnEmoteStart += HandleLockTurn;
-            PlayerEmote.OnEmoteEnd += HandleUnlockTurn;
+            _PlayerEmote.OnEmoteStart += HandleLockTurn;
+            _PlayerEmote.OnEmoteEnd += HandleUnlockTurn;
             FishingSequence.OnFishingStart += HandleLockTurn;
             FishingSequence.OnFishingEnd += HandleUnlockTurn;
         }
 
         void OnDisable()
         {
-            PlayerEmote.OnEmoteStart -= HandleLockTurn;
-            PlayerEmote.OnEmoteEnd -= HandleUnlockTurn;
+            _PlayerEmote.OnEmoteStart -= HandleLockTurn;
+            _PlayerEmote.OnEmoteEnd -= HandleUnlockTurn;
             FishingSequence.OnFishingStart -= HandleLockTurn;
             FishingSequence.OnFishingEnd -= HandleUnlockTurn;
         }
@@ -113,80 +114,80 @@ namespace Controller
             float run = _PlayerStat.GetStat(StatType.RunSpeed);
             float jump = _PlayerStat.GetStat(StatType.JumpPower);
 
-            m_Movement.SetStats(walk, run, m_RotateSpeed, jump, m_Space);
+            _Movement.SetStats(walk, run, _RotateSpeed, jump, _Space);
         }
 
         private void Update()
         {
             if (!_PhotonView.IsMine) return;
 
-            bool jumpInput = m_IsJump;
-            m_IsJump = false;
+            bool jumpInput = _IsJump;
+            _IsJump = false;
 
             // IsGrounded 상태와 애니메이션 컨트롤은 계속해서 동기화
-            m_Animation.Animate(in m_Axis, m_IsRun ? 1f : 0f, Time.deltaTime, m_Controller.isGrounded);
+            _Animation.Animate(in _Axis, _IsRun ? 1f : 0f, Time.deltaTime, _Controller.isGrounded);
 
             // 수정: 점프 로직은 CharacterController.isGrounded에 의존
-            if (m_Controller.isGrounded)
+            if (_Controller.isGrounded)
             {
-                m_IsFalling = false;
-                m_LandingTriggered = false; // 착지 후 트리거 상태 초기화
-                m_Animation.SetJumpEnd(false);
+                _IsFalling = false;
+                _LandingTriggered = false; // 착지 후 트리거 상태 초기화
+                _Animation.SetJumpEnd(false);
 
                 if (jumpInput)
                 {
-                    m_Animation.SetJumpTrigger();
+                    _Animation.SetJumpTrigger();
                 }
             }
             else // 공중에 있을 때
             {
                 // Y축 속도가 음수일 때 낙하 시작으로 판단
-                if (m_Movement.VerticalVelocity.y < 0)
+                if (_Movement.VerticalVelocity.y < 0)
                 {
-                    m_IsFalling = true;
+                    _IsFalling = true;
                 }
 
                 // 낙하 중이며, 착지 애니메이션이 아직 발동되지 않았을 때
-                if (m_IsFalling && !m_LandingTriggered)
+                if (_IsFalling && !_LandingTriggered)
                 {
                     RaycastHit hit;
 
                     // 수정: 레이어 마스크를 제거한 Raycast
-                    if (Physics.Raycast(m_FootTransform.position, Vector3.down, out hit, m_LandingCheckDistance))
+                    if (Physics.Raycast(_FootTransform.position, Vector3.down, out hit, _LandingCheckDistance))
                     {
                         Debug.Log("착지 애니메이션 시작 IsJumpEnd: true");
-                        m_Animation.SetJumpEnd(true);
-                        m_LandingTriggered = true;
+                        _Animation.SetJumpEnd(true);
+                        _LandingTriggered = true;
                     }
                 }
             }
 
-            m_Movement.Move(Time.deltaTime, in m_Axis, in m_Target, m_IsRun, jumpInput, m_IsMoving, m_Controller.isGrounded, out var animAxis);
+            _Movement.Move(Time.deltaTime, in _Axis, in _Target, _IsRun, jumpInput, _IsMoving, _Controller.isGrounded, out var animAxis);
         }
 
 
         private void OnAnimatorIK()
         {
-            m_Animation.AnimateIK(in m_Target, m_LookWeight);
+            _Animation.AnimateIK(in _Target, _LookWeight);
         }
 
         public void SetInput(in Vector2 axis, in Vector3 target, in bool isRun, in bool isJump)
         {
-            m_Axis = axis;
-            m_Target = target;
-            m_IsRun = isRun;
-            m_IsMoving = m_Axis.sqrMagnitude >= Mathf.Epsilon;
-            if (!m_IsMoving) m_Axis = Vector2.zero;
-            else m_Axis = Vector2.ClampMagnitude(m_Axis, 1f);
+            _Axis = axis;
+            _Target = target;
+            _IsRun = isRun;
+            _IsMoving = _Axis.sqrMagnitude >= Mathf.Epsilon;
+            if (!_IsMoving) _Axis = Vector2.zero;
+            else _Axis = Vector2.ClampMagnitude(_Axis, 1f);
             
             if (isJump)
-                m_IsJump = true;
+                _IsJump = true;
         }
 
         private void OnControllerColliderHit(ControllerColliderHit hit)
         {
-            if (hit.normal.y > m_Controller.stepOffset)
-                m_Movement.SetSurface(hit.normal);
+            if (hit.normal.y > _Controller.stepOffset)
+                _Movement.SetSurface(hit.normal);
         }
 
         [Serializable]
@@ -207,7 +208,7 @@ namespace Controller
             if (!_PhotonView || !_PhotonView.IsMine) return;
             _PhaseLockCount++;
             if (_PhaseLockCount == 1)
-                m_Movement._IsLockTurn = true;
+                _Movement._IsLockTurn = true;
         }
         
         public void HandleUnlockTurn()
@@ -215,7 +216,7 @@ namespace Controller
             if (!_PhotonView || !_PhotonView.IsMine) return;
             _PhaseLockCount = Mathf.Max(0, _PhaseLockCount - 1);
             if (_PhaseLockCount == 0)
-                m_Movement._IsLockTurn = false;
+                _Movement._IsLockTurn = false;
         }
 
         #region Handlers

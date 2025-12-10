@@ -2285,24 +2285,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f75db5b538eef814b9775d744f05e3b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_WalkSpeed: 1
-  m_RunSpeed: 4
-  m_RotateSpeed: 360
-  m_Space: 1
-  m_JumpHeight: 3
+  _WalkSpeed: 0
+  _RunSpeed: 0
+  _RotateSpeed: 90
+  _Space: 1
+  _JumpHeight: 0
   _PlayerStat: {fileID: 1229482598479855776}
-  m_HorizontalID: Hor
-  m_VerticalID: Vert
-  m_StateID: State
-  m_JumpTriggerID: JumpTrigger
-  m_IsGroundedID: IsGrounded
-  m_LookWeight:
+  _HorizontalID: Hor
+  _VerticalID: Vert
+  _StateID: State
+  _JumpTriggerID: JumpTrigger
+  _IsGroundedID: IsGrounded
+  _LookWeight:
     weight: 1
     body: 0.3
     head: 0.7
     eyes: 1
-  m_FootTransform: {fileID: 5386546022030283373}
-  m_LandingCheckDistance: 0.5
+  _FootTransform: {fileID: 6887647136085234501}
+  _LandingCheckDistance: 0.5
 --- !u!114 &5568501472016897232
 MonoBehaviour:
   m_ObjectHideFlags: 0
