@@ -38,7 +38,7 @@ jobs:
       # Output
       - uses: actions/upload-artifact@v4
         with:
-          name: Windows Build
+          name: MetaUnion
           path: build
 
       # Release 업로드
