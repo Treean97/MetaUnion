@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Slot_1
   m_EditorClassIdentifier: Assembly-CSharp::SlotDataSO
   _ID: 1
-  _Icon: {fileID: 128220991, guid: 7bb12e1a1363c514bb9ee72a9acafce2, type: 3}
+  _Icon: {fileID: 21300000, guid: 77e9c0f47a550554cb35f96bc42e0c01, type: 3}
