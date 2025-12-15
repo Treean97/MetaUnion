@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Rock
   m_EditorClassIdentifier: 
   _AvailableTool: 4
-  _Durability: 500
+  _Durability: 250
   _DropTable: {fileID: 11400000, guid: 511c4496147036a4fb9163b87a5b0a42, type: 2}
   Prefabs:
   - {fileID: 143578, guid: bb3c6fcb21a1e4b4faa80734a481448b, type: 3}
   - {fileID: 181268, guid: a31d75f154921304794bf1d122281cac, type: 3}
-  RespawnSeconds: 30
+  RespawnSeconds: 10

@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Tree
   m_EditorClassIdentifier: 
   _AvailableTool: 2
-  _Durability: 300
+  _Durability: 250
   _DropTable: {fileID: 11400000, guid: 3622b2c1147f51f4984fcb56177da613, type: 2}
   Prefabs:
   - {fileID: 136274, guid: bfdde53371ba3b349b61d5bafef700d7, type: 3}
   - {fileID: 122292, guid: c0f33eb139fcff34c8de2acd690a23fe, type: 3}
-  RespawnSeconds: 30
+  RespawnSeconds: 10

@@ -2287,7 +2287,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _WalkSpeed: 0
   _RunSpeed: 0
-  _RotateSpeed: 90
+  _RotateSpeed: 360
   _Space: 1
   _JumpHeight: 0
   _PlayerStat: {fileID: 1229482598479855776}

@@ -125,15 +125,7 @@ public class CustomizeUIManager : MonoBehaviour, ICustomizeUI
             bool equipped = willEquip && slot.ID == item.ID;
             slot.SetState(equipped);
         }
-    
-        // // 현재 상태를 로컬 커스텀 프로퍼티로 판단해서 토글
-        // if (IsEquippedByProps(item.Type, item.ID))
-        //     player.UnEquipItem(item.Type);   // 같은 거면 해제
-        // else
-        //     player.EquipItem(item);          // 아니면 착용
 
-        // // 슬롯 UI 갱신
-        // RefreshStatesOfCurrentCategory();
     }
 
     private void RefreshStatesOfCurrentCategory()

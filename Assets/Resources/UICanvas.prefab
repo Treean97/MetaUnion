@@ -26214,7 +26214,7 @@ MonoBehaviour:
   _NormalSpeed: 50
   _MinPitch: 0.75
   _SpinButton: {fileID: 618188732225937418}
-  _CloseButton: {fileID: 5712553634695437286}
+  _CloseButton: {fileID: 4396777701253079726}
   _RouletteSpinKey: RouletteSpin
 --- !u!114 &9160545704338138018
 MonoBehaviour:
@@ -36293,6 +36293,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 05f383f5b3dec4f4ea6d0d7b11a17011, type: 3}
+--- !u!114 &4396777701253079726 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5550614313457306602, guid: 05f383f5b3dec4f4ea6d0d7b11a17011, type: 3}
+  m_PrefabInstance: {fileID: 8071506378710985028}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &5338209127536687173 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4185779892069880065, guid: 05f383f5b3dec4f4ea6d0d7b11a17011, type: 3}

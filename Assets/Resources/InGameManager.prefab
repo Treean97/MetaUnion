@@ -72,6 +72,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 209619bce7ff28f4585ad21c138deb15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RespawnManager
+  _DestroyDelay: 3
 --- !u!114 &-3629971524510396999
 MonoBehaviour:
   m_ObjectHideFlags: 0

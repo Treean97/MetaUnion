@@ -14,7 +14,7 @@ public class RealTimeClock : MonoBehaviour
 
     void OnEnable()
     {
-        _Culture = CultureInfo.CurrentCulture;   // ▶ 로컬 문화권 고정 (true)
+        _Culture = CultureInfo.CurrentCulture;   // 로컬 문화권 고정
         StartCoroutine(CoClock());
     }
 

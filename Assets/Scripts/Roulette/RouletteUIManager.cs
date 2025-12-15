@@ -133,6 +133,11 @@ public class RouletteUIManager : MonoBehaviour, IRouletteUI
 
     IEnumerator RotateRoulette()
     {
+        if (_Spinner == null) { Debug.LogError("[Roulette] _Spinner 미할당"); yield break; }
+        if (_CloseButton == null) { Debug.LogError("[Roulette] _CloseButton 미할당"); yield break; }
+        if (_RoulettePointer == null) { Debug.LogError("[Roulette] _RoulettePointer 미할당"); yield break; }
+        if (_Slots == null || _Slots.Count == 0) { Debug.LogError("[Roulette] _Slots 비었음"); yield break; }
+
         _IsSpin = true;
         _CloseButton.enabled = false;
 

@@ -6,7 +6,7 @@ public class RockObject : MonoBehaviourPun, IDamageable, IDestructible, IDropSou
 {
     [Header("Respawn/Prefab")]
     [SerializeField] private string _PrefabName;     // Resources 프리팁 이름
-    [SerializeField] private float _RespawnSeconds = 30f;
+    [SerializeField] private float _RespawnSeconds = 10f;
     [SerializeField] private Transform _RespawnAnchor; // 없으면 자기 Transform 사용
 
     [Header("Stats")]

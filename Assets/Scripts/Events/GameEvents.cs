@@ -227,13 +227,15 @@ public static class GameEvents
         {
             case RewardType.Item:
             {
-                bool success = OnRequestItemGain?.Invoke(id, amount) ?? false;
+                // 획득 및 갱신
+                bool success = RaiseRequestItemGain(id, amount);
                 if (!success) { OnRewardFail?.Invoke(); return false; }
                 break;
             }
             case RewardType.Currency:
             {
-                OnRequestCurrencyGain?.Invoke(id, amount);
+                // 획득 및 갱신
+                RaiseRequestCurrencyGain(id, amount);                
                 break;
             }
         }

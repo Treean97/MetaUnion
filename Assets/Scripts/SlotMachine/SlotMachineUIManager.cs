@@ -83,7 +83,6 @@ public class SlotMachineUIManager : MonoBehaviour, ISlotMachineUI
         _MaxValue = _SlotDataSOs.Length;
         _Destiny = new int[_LaneContents.Length];
 
-
         // 라인 상태 클래스 생성
         _LaneContext = new LaneContext[_LaneContents.Length];
 
