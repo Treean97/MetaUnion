@@ -101,7 +101,7 @@ public class PlayerCustomization : MonoBehaviourPunCallbacks, IPunInstantiateMag
         }
     }
 
-    // Photon이 이 프리팹을 인스턴스화할 때 호출 (Instantiate 시점)
+    // Photon이 이 프리팹을 인스턴스화할 때 호출
     public void OnPhotonInstantiate(PhotonMessageInfo info)
     {
         if (photonView.Owner != null)
@@ -114,11 +114,11 @@ public class PlayerCustomization : MonoBehaviourPunCallbacks, IPunInstantiateMag
 
         var type = item.Type;
 
-        // 1) 저장된 색이 있으면 그걸 사용
+        // 저장된 색이 있으면 그걸 사용
         if (_Colors.TryGetValue(type, out var savedColor))
             return savedColor;
 
-        // 2) 없으면 렌더러 머티리얼에서 읽기
+        // 없으면 렌더러 머티리얼에서 읽기
         if (_RendererSlots.TryGetValue(type, out var renderer) && renderer != null)
         {
             var mats = renderer.sharedMaterials;
@@ -130,7 +130,6 @@ public class PlayerCustomization : MonoBehaviourPunCallbacks, IPunInstantiateMag
             }
         }
 
-        // 3) 진짜 없으면 null (UI에서 기본값 처리)
         return null;
     }
 
@@ -292,8 +291,8 @@ public class PlayerCustomization : MonoBehaviourPunCallbacks, IPunInstantiateMag
         if (!_RendererSlots.TryGetValue(type, out var renderer) || renderer == null)
             return;
 
-        // 필요하면 특정 머티리얼 인덱스만 변경하도록 바꿀 수 있음
-        var mats = renderer.materials; // 인스턴스 머티리얼
+        // 인스턴스 머티리얼
+        var mats = renderer.materials; 
 
         for (int i = 0; i < mats.Length; i++)
         {

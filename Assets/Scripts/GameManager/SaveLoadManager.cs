@@ -24,6 +24,8 @@ public class SaveLoadManager : MonoBehaviour
     readonly Dictionary<string, ICloudSaveSection> _CloudSections = new();
     readonly Dictionary<string, string> _CloudLoaded = new(); // 서버에서 읽은 원본 캐시
     public bool CloudReady => PlayFabClientAPI.IsClientLoggedIn();
+    // 종료 시 중복 저장 방지
+    bool _DidSaveOnQuit;
 
     void Awake()
     {
@@ -38,17 +40,35 @@ public class SaveLoadManager : MonoBehaviour
         LoadAllLocal();
 
         PlayfabLoginManager.OnLoginSuccess += OnLoginSuccessCloud;
+        Application.wantsToQuit += OnWantsToQuit;
         if (CloudReady) OnLoginSuccessCloud();
     }
 
     void OnDestroy()
     {
         PlayfabLoginManager.OnLoginSuccess -= OnLoginSuccessCloud;
+        Application.wantsToQuit -= OnWantsToQuit;
     }
 
     #region 로컬 저장
     // 종료 시 자동 저장
-    void OnApplicationQuit() => SaveAllLocal();
+
+    bool OnWantsToQuit()
+    {
+        if (_DidSaveOnQuit) return true;
+        _DidSaveOnQuit = true;
+
+        SaveAllLocal();
+        return true;
+    }
+
+    void OnApplicationQuit()
+    {
+        if (_DidSaveOnQuit) return;
+        _DidSaveOnQuit = true;
+
+        SaveAllLocal();
+    }
 
     // 등록
     public void RegisterLocal(ILocalSaveSection s)
@@ -67,29 +87,34 @@ public class SaveLoadManager : MonoBehaviour
 
     public void SaveAllLocal()
     {
-        var dict = new Dictionary<string, string>();
+        // 기존 파일을 기반으로 갱신
+        var dict = ReadFileToDict();
 
         foreach (var kv in _LocalSections)
         {
-            // Object 캐스팅을 통해 인터페이스 객체의 Null 감지
-            var sec = kv.Value as Object;
-            if (sec == null) continue;
+            var secObj = kv.Value as Object;
+
+            // 종료 도중 Destroy돼서 null이면 기존 dict 값만 유지
+            if (secObj == null) 
+                continue;
 
             var snap = kv.Value.CaptureJson();
-            if (!string.IsNullOrEmpty(snap))  // null/빈 문자열은 저장 스킵
+
+            if (string.IsNullOrEmpty(snap))
+            {
+                dict.Remove(kv.Key);
+                _LocalLoaded.Remove(kv.Key);
+            }
+            else
             {
                 dict[kv.Key] = snap;
                 _LocalLoaded[kv.Key] = snap;
             }
-            else
-            {
-                // null이면 _Loaded에서 제거
-                _LocalLoaded.Remove(kv.Key);
-            }
         }
 
-        WriteDictToFile(dict);  // 등록된 섹션만 포함된 새 파일로 덮어씀
+        WriteDictToFile(dict);
     }
+
 
     public void SaveLocalSection(string key)
     {

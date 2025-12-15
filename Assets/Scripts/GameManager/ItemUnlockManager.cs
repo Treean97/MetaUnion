@@ -90,6 +90,7 @@ public class ItemUnlockManager : MonoBehaviourPunCallbacks, ICloudSaveSection
         if (!GameEvents.RaiseRequestCurrencySpend(item.CurrencyType.ID, item.BuyPrice))
         {
             Debug.LogWarning("재화가 부족합니다.");
+            GameEvents.RaiseShowWarning("재화가 부족합니다.");
             return;
         }
 

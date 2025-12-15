@@ -26110,6 +26110,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CloseUIAction
   _Targets:
   - {fileID: 2033024462082675746}
+  - {fileID: 5398208795467567718}
 --- !u!114 &3082936173008186428
 MonoBehaviour:
   m_ObjectHideFlags: 0
