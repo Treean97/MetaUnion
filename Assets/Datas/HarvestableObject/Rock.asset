@@ -16,6 +16,6 @@ MonoBehaviour:
   _Durability: 250
   _DropTable: {fileID: 11400000, guid: 511c4496147036a4fb9163b87a5b0a42, type: 2}
   Prefabs:
-  - {fileID: 143578, guid: bb3c6fcb21a1e4b4faa80734a481448b, type: 3}
-  - {fileID: 181268, guid: a31d75f154921304794bf1d122281cac, type: 3}
+  - {fileID: 1486436511963349722, guid: aee36a878cad5134697cb503c4f76e50, type: 3}
+  - {fileID: 3166585310494624978, guid: a599ef323dc3e0d42ab664bbb1c14195, type: 3}
   RespawnSeconds: 10
