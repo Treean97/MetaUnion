@@ -18,8 +18,6 @@ public class RouletteMachineObject : MonoBehaviour, IInteractable
     public void OnInteract()
     {
         UIRouter._Inst.Open<IRouletteUI>();
-        OnDefocus();
-        Debug.Log("Interact");
     }
 
     public InfoDataSO GetObjectInfo()

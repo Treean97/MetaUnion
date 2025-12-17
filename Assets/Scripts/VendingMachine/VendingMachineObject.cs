@@ -18,8 +18,6 @@ public class VendingMachineObject : MonoBehaviour, IInteractable
     public void OnInteract()
     {
         UIRouter._Inst.Open<IVendingMachineUI>();
-        OnDefocus();
-        Debug.Log("Interact");
     }
 
     public InfoDataSO GetObjectInfo()

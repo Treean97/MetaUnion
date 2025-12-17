@@ -19,8 +19,6 @@ public class SlotMatchineObject : MonoBehaviour, IInteractable
     public void OnInteract()
     {
         UIRouter._Inst.Open<ISlotMachineUI>();
-        OnDefocus();
-        Debug.Log("Interact");
     }
 
     public InfoDataSO GetObjectInfo()

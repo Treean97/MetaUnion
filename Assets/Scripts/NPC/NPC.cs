@@ -55,8 +55,6 @@ public class NPC : MonoBehaviour, IInteractable, IInteractionReceiver
         UIRouter._Inst?.Open<IDialogueUI>();
         DialogueManager._Inst.Play(_NPCSO, _DialogueSO);
         _AnimController?.PlayInteract();
-        
-        OnDefocus();
     }
 
     // === IInteractionReceiver ===

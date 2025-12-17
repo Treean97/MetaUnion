@@ -80,7 +80,6 @@ public class EmoteAnchor : MonoBehaviourPun, IPunInstantiateMagicCallback, IInte
 
         // 이모트 중이 아니면 참여 시도
         local.RequestJoinSequential(this);
-        OnDefocus();
     }
 
     // ==== 포톤 인스턴스 데이터로 SO 복구 ====

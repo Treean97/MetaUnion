@@ -5341,6 +5341,9 @@ GameObject:
   - component: {fileID: 3077144874673704957}
   - component: {fileID: 5551142892520431154}
   - component: {fileID: 2672277914389318946}
+  - component: {fileID: 3631219827824223179}
+  - component: {fileID: 4789166992740980077}
+  - component: {fileID: 8955553626905072015}
   - component: {fileID: 6141811857869254915}
   m_Layer: 5
   m_Name: SettingUIPanel
@@ -5418,6 +5421,42 @@ MonoBehaviour:
   _OpenSound: 1
   _CloseSound: 1
   _IsToggle: 0
+--- !u!114 &3631219827824223179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1207689312960655152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2165e5d2fb8e1444ba2fa7de9f52300, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CursorGuard
+--- !u!114 &4789166992740980077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1207689312960655152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f51a4447ebfbb6845a32e44848a0525d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FocusUIBlockGuard
+--- !u!114 &8955553626905072015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1207689312960655152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b61b2d90cff24674dbf44c5b954ea1ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InputBlockGuard
 --- !u!114 &6141811857869254915
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8433,6 +8472,7 @@ GameObject:
   - component: {fileID: 8606443623157110203}
   - component: {fileID: 294134639081428410}
   - component: {fileID: 2362000232157528668}
+  - component: {fileID: 8512684187001651242}
   - component: {fileID: 9141115152169841256}
   - component: {fileID: 308744824779633215}
   m_Layer: 5
@@ -8522,6 +8562,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2165e5d2fb8e1444ba2fa7de9f52300, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CursorGuard
+--- !u!114 &8512684187001651242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2033024462082675746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f51a4447ebfbb6845a32e44848a0525d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FocusUIBlockGuard
 --- !u!114 &9141115152169841256
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10074,6 +10126,7 @@ GameObject:
   - component: {fileID: 8041729583404379313}
   - component: {fileID: 7499801837988047941}
   - component: {fileID: 1698744034187682837}
+  - component: {fileID: 9206147837628612956}
   m_Layer: 5
   m_Name: FishingUIPanel
   m_TagString: Untagged
@@ -10137,6 +10190,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b61b2d90cff24674dbf44c5b954ea1ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InputBlockGuard
+--- !u!114 &9206147837628612956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2532895101281914331}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f51a4447ebfbb6845a32e44848a0525d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FocusUIBlockGuard
 --- !u!1 &2538933051204779135
 GameObject:
   m_ObjectHideFlags: 0
@@ -10152,6 +10217,7 @@ GameObject:
   - component: {fileID: 4768552047392629308}
   - component: {fileID: 6188821569115058624}
   - component: {fileID: 5585424935587081388}
+  - component: {fileID: 2632088596680177298}
   m_Layer: 5
   m_Name: ChangeNamePanel
   m_TagString: Untagged
@@ -10265,6 +10331,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b61b2d90cff24674dbf44c5b954ea1ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InputBlockGuard
+--- !u!114 &2632088596680177298
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2538933051204779135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f51a4447ebfbb6845a32e44848a0525d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FocusUIBlockGuard
 --- !u!1 &2583039991022051972
 GameObject:
   m_ObjectHideFlags: 0
@@ -12572,6 +12650,7 @@ GameObject:
   - component: {fileID: 1151545830289281416}
   - component: {fileID: 2139678484901595217}
   - component: {fileID: 959744435299813257}
+  - component: {fileID: 3745759520321070396}
   - component: {fileID: 992109457483720226}
   m_Layer: 5
   m_Name: DialogueUIPanel
@@ -12645,6 +12724,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b61b2d90cff24674dbf44c5b954ea1ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InputBlockGuard
+--- !u!114 &3745759520321070396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3023420033888599406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f51a4447ebfbb6845a32e44848a0525d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FocusUIBlockGuard
 --- !u!114 &992109457483720226
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20322,6 +20413,7 @@ GameObject:
   - component: {fileID: 3206909718102577621}
   - component: {fileID: 765604698772203762}
   - component: {fileID: 7624796552893321927}
+  - component: {fileID: 2676726687590985383}
   m_Layer: 5
   m_Name: ColorUIPanel
   m_TagString: Untagged
@@ -20434,6 +20526,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b61b2d90cff24674dbf44c5b954ea1ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InputBlockGuard
+--- !u!114 &2676726687590985383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5398208795467567718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f51a4447ebfbb6845a32e44848a0525d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FocusUIBlockGuard
 --- !u!1 &5408538786048729654
 GameObject:
   m_ObjectHideFlags: 0
@@ -20741,6 +20845,7 @@ GameObject:
   - component: {fileID: 8214558283752914067}
   - component: {fileID: 6932095292933201033}
   - component: {fileID: 7082172247164446684}
+  - component: {fileID: 2279471312935822815}
   - component: {fileID: 4317840268101557176}
   - component: {fileID: 8398868360615734284}
   m_Layer: 5
@@ -20820,6 +20925,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2165e5d2fb8e1444ba2fa7de9f52300, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CursorGuard
+--- !u!114 &2279471312935822815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5518255545792993168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f51a4447ebfbb6845a32e44848a0525d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FocusUIBlockGuard
 --- !u!114 &4317840268101557176
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23918,6 +24035,7 @@ GameObject:
   - component: {fileID: 1155938060246495155}
   - component: {fileID: 5378868487091225099}
   - component: {fileID: 4606843998690728268}
+  - component: {fileID: 4808540099991482221}
   - component: {fileID: 826795432060524718}
   - component: {fileID: 6063217578725347378}
   m_Layer: 5
@@ -24040,6 +24158,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2165e5d2fb8e1444ba2fa7de9f52300, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CursorGuard
+--- !u!114 &4808540099991482221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6391870794060568818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f51a4447ebfbb6845a32e44848a0525d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FocusUIBlockGuard
 --- !u!114 &826795432060524718
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26148,6 +26278,7 @@ GameObject:
   - component: {fileID: 6367597625088658846}
   - component: {fileID: 9160545704338138018}
   - component: {fileID: 2681970812616512570}
+  - component: {fileID: 8628003286290414873}
   - component: {fileID: 8538526404144471768}
   - component: {fileID: 8051785610083574099}
   m_Layer: 5
@@ -26240,6 +26371,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2165e5d2fb8e1444ba2fa7de9f52300, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CursorGuard
+--- !u!114 &8628003286290414873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6956828403503029661}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b61b2d90cff24674dbf44c5b954ea1ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InputBlockGuard
 --- !u!114 &8538526404144471768
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31235,6 +31378,7 @@ GameObject:
   - component: {fileID: 9032024933992862629}
   - component: {fileID: 901430135099828609}
   - component: {fileID: 3208630014954862961}
+  - component: {fileID: 1520912812634025651}
   - component: {fileID: 4125074379937622732}
   - component: {fileID: 1626289415563419593}
   m_Layer: 5
@@ -31369,6 +31513,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2165e5d2fb8e1444ba2fa7de9f52300, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CursorGuard
+--- !u!114 &1520912812634025651
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8232331751461809122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f51a4447ebfbb6845a32e44848a0525d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FocusUIBlockGuard
 --- !u!114 &4125074379937622732
 MonoBehaviour:
   m_ObjectHideFlags: 0

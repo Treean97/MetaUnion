@@ -18,8 +18,6 @@ public class FishingSpot : MonoBehaviour, IInteractable
     public void OnInteract()
     {
         UIRouter._Inst.Open<IFishingUI>();
-        OnDefocus();
-        Debug.Log("Interact");
     }
 
     public InfoDataSO GetObjectInfo()
