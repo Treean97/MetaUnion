@@ -13,7 +13,7 @@ MetaUnion은 Unity 기반의 온라인 멀티 플레이 메타버스 게임으�
 4. ScriptableObject, Object Pool, 행동트리, UI 의존성 감소를 통한 최적화 및 확장성 확보
 
 - [게임 플레이 영상](https://youtu.be/vJctBK-cNyg)
-- [프로젝트 기술서]
+- [프로젝트 기술서](https://drive.google.com/file/d/1MdHHt_k1iT8x7-LCVb98ae70RfqCGMtV/view?usp=drive_link)
 
 ---
 
