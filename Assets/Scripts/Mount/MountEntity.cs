@@ -4,27 +4,33 @@ using UnityEngine;
 [RequireComponent(typeof(PhotonView))]
 public class MountEntity : MonoBehaviourPun
 {
-    [Header("Seat")]
-    [SerializeField] private Transform _DriverSeat;   // 운전석 위치(Transform)
+    [System.Serializable]
+    public class SeatSlot
+    {
+        public Transform Anchor;          // 탑승자 붙을 위치
+        public Transform DismountPoint;   // (선택) 하차 위치
+        [HideInInspector] public int RiderViewId = -1;
+    }
+
+    [Header("Seats (0번이 운전석)")]
+    [SerializeField] private SeatSlot[] _Seats;
 
     private IMountMovement _Movement;
     private MountInput _DriverInput;
-
-    // 탑승자(운전자) PhotonViewId
-    private int _DriverViewId = -1;
 
     void Awake()
     {
         _Movement = GetComponent<IMountMovement>();
         if (_Movement == null)
-        {
-            Debug.LogError($"[{name}] IMountMovement 구현체가 없습니다. (예: CarMovement)");
-        }
+            Debug.LogError($"[{name}] IMountMovement 구현체가 없습니다. (예: CarMovement)", this);
+
+        if (_Seats == null || _Seats.Length == 0 || _Seats[0].Anchor == null)
+            Debug.LogError($"[{name}] Seats[0] (운전석) Anchor가 필요합니다.", this);
     }
 
-    public bool HasDriver => _DriverViewId != -1;
+    public bool HasDriver => _Seats != null && _Seats.Length > 0 && _Seats[0].RiderViewId != -1;
 
-    // RiderController가 매 프레임 호출(운전자 로컬에서만 호출되게 구성)
+    // 운전자 로컬에서만 호출되게 구성
     public void SetDriverInput(in MountInput input)
     {
         _DriverInput = input;
@@ -41,68 +47,120 @@ public class MountEntity : MonoBehaviourPun
         _Movement.FixedTick();
     }
 
-    // ===== 탑승/하차 =====
+    // ===== 탑승 =====
 
+    /// <summary>
+    /// 차량에 탑승 시도: 빈 좌석 자동 배치 (0번이 운전석)
+    /// - 운전석이 비어있으면 0번
+    /// - 아니면 1번~ 순서대로 빈 좌석
+    /// </summary>
     public bool TryMount(GameObject riderGo)
     {
-        if (HasDriver) return false;
+        if (_Seats == null || _Seats.Length == 0) return false;
 
         PhotonView riderPv = riderGo.GetComponent<PhotonView>();
         if (riderPv == null) return false;
 
-        // 운전자만 소유권을 가져가도록 요청
-        if (!photonView.IsMine)
+        int seatIndex = FindFirstFreeSeatIndex();
+        if (seatIndex < 0) return false;
+
+        // 운전석을 타는 경우엔 소유권 필요(물리 적용이 owner에서만 되니까)
+        if (seatIndex == 0 && !photonView.IsMine)
         {
             photonView.RequestOwnership();
         }
 
-        int riderViewId = riderPv.ViewID;
-
-        // 모든 클라에 탑승 브로드캐스트
-        photonView.RPC(nameof(RPC_Mount), RpcTarget.All, riderViewId);
+        photonView.RPC(nameof(RPC_EnterSeat), RpcTarget.All, seatIndex, riderPv.ViewID);
         return true;
     }
 
-    public bool TryDismount(GameObject riderGo, Vector3 dismountWorldPos)
+    int FindFirstFreeSeatIndex()
     {
-        if (!HasDriver) return false;
+        // 0번(운전석) 우선
+        if (_Seats[0].RiderViewId == -1) return 0;
 
+        // 나머지 좌석
+        for (int i = 1; i < _Seats.Length; i++)
+        {
+            if (_Seats[i].RiderViewId == -1) return i;
+        }
+        return -1;
+    }
+
+    // ===== 하차 =====
+
+    public bool TryDismount(GameObject riderGo)
+    {
         PhotonView riderPv = riderGo.GetComponent<PhotonView>();
         if (riderPv == null) return false;
-        if (riderPv.ViewID != _DriverViewId) return false;
 
-        photonView.RPC(nameof(RPC_Dismount), RpcTarget.All, _DriverViewId, dismountWorldPos);
+        int seatIndex = FindSeatIndexByRider(riderPv.ViewID);
+        if (seatIndex < 0) return false;
+
+        Vector3 dismountPos = GetDismountPos(seatIndex, riderGo.transform.position);
+        photonView.RPC(nameof(RPC_ExitSeat), RpcTarget.All, seatIndex, riderPv.ViewID, dismountPos);
         return true;
     }
 
-    [PunRPC]
-    void RPC_Mount(int riderViewId)
+    int FindSeatIndexByRider(int riderViewId)
     {
+        if (_Seats == null) return -1;
+        for (int i = 0; i < _Seats.Length; i++)
+        {
+            if (_Seats[i].RiderViewId == riderViewId) return i;
+        }
+        return -1;
+    }
+
+    Vector3 GetDismountPos(int seatIndex, Vector3 fallbackPos)
+    {
+        if (_Seats == null || seatIndex < 0 || seatIndex >= _Seats.Length) return fallbackPos;
+        Transform p = _Seats[seatIndex].DismountPoint;
+        return p ? p.position : fallbackPos;
+    }
+
+    // ===== RPC =====
+
+    [PunRPC]
+    void RPC_EnterSeat(int seatIndex, int riderViewId)
+    {
+        if (_Seats == null || seatIndex < 0 || seatIndex >= _Seats.Length) return;
+
         PhotonView riderPv = PhotonView.Find(riderViewId);
         if (riderPv == null) return;
 
-        GameObject riderGo = riderPv.gameObject;
+        SeatSlot seat = _Seats[seatIndex];
+        if (seat.Anchor == null) return;
 
-        _DriverViewId = riderViewId;
+        // 이미 누가 타있으면 무시(동시 요청 방어)
+        if (seat.RiderViewId != -1) return;
+
+        GameObject riderGo = riderPv.gameObject;
+        seat.RiderViewId = riderViewId;
 
         // 플레이어를 좌석에 부착
-        riderGo.transform.SetParent(_DriverSeat, worldPositionStays: false);
+        riderGo.transform.SetParent(seat.Anchor, worldPositionStays: false);
         riderGo.transform.localPosition = Vector3.zero;
         riderGo.transform.localRotation = Quaternion.identity;
 
         // 플레이어 이동/동기화 끄기
         SetPlayerMountedState(riderGo, mounted: true);
 
-        // 운전자에게 현재 Mount 지정
+        // 운전자만 "운전" 상태로 지정
         PlayerMountController rider = riderGo.GetComponent<PlayerMountController>();
-        if (rider != null) rider.SetMount(this);
+        if (rider != null) rider.SetMount(this, isDriver: seatIndex == 0);
     }
 
     [PunRPC]
-    void RPC_Dismount(int riderViewId, Vector3 dismountWorldPos)
+    void RPC_ExitSeat(int seatIndex, int riderViewId, Vector3 dismountWorldPos)
     {
+        if (_Seats == null || seatIndex < 0 || seatIndex >= _Seats.Length) return;
+
         PhotonView riderPv = PhotonView.Find(riderViewId);
         if (riderPv == null) return;
+
+        SeatSlot seat = _Seats[seatIndex];
+        if (seat.RiderViewId != riderViewId) return;
 
         GameObject riderGo = riderPv.gameObject;
 
@@ -113,17 +171,19 @@ public class MountEntity : MonoBehaviourPun
         // 플레이어 이동/동기화 복구
         SetPlayerMountedState(riderGo, mounted: false);
 
-        // 운전자 Mount 해제
+        // 마운트/운전자 상태 해제
         PlayerMountController rider = riderGo.GetComponent<PlayerMountController>();
-        if (rider != null) rider.SetMount(null);
+        if (rider != null) rider.SetMount(null, isDriver: false);
 
-        _DriverViewId = -1;
-        _DriverInput = default;
+        seat.RiderViewId = -1;
+
+        // 운전석이 비워졌으면 입력 초기화
+        if (seatIndex == 0)
+            _DriverInput = default;
     }
 
     private static void SetPlayerMountedState(GameObject riderGo, bool mounted)
     {
-        // 프로젝트마다 컨트롤러가 다르니 "가장 흔한 것들"만 최소로 처리
         CharacterController cc = riderGo.GetComponent<CharacterController>();
         if (cc != null) cc.enabled = !mounted;
 
@@ -132,11 +192,9 @@ public class MountEntity : MonoBehaviourPun
         {
             rb.linearVelocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
-            rb.isKinematic = mounted; // 탑승 중엔 물리 끔(선호에 따라 조정)
+            rb.isKinematic = mounted;
         }
 
-        // 플레이어가 PhotonTransformView로 자기 위치를 동기화하고 있으면
-        // 탑승 중엔 꺼야 "부모 이동 + 네트워크 이동" 이중 적용이 덜 남.
         MonoBehaviour ptv = riderGo.GetComponent("PhotonTransformView") as MonoBehaviour;
         if (ptv != null) ptv.enabled = !mounted;
     }

@@ -7,7 +7,7 @@ public class FishingSpot : MonoBehaviour, IInteractable
 
     public void OnFocus()
     {
-        GameEvents.RaiseFocus(_ObjInfo); // 자신이 이벤트 발신
+        GameEvents.RaiseFocus(_ObjInfo);
     }
 
     public void OnDefocus()

@@ -67,6 +67,8 @@ MonoBehaviour:
   - RPC_ForceLeaveIfInThisAnchor
   - RPC_RequestMasterDestroy
   - RPC_BroadcastDestroyed
+  - RPC_Dismount
+  - RPC_Mount
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

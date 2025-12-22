@@ -4,12 +4,15 @@ using UnityEngine;
 public class PlayerMountController : MonoBehaviourPun
 {
     public MountEntity CurrentMount { get; private set; }
-    public bool IsDriving => CurrentMount != null;
+    public bool IsDriver { get; private set; }
+
+    public bool IsDriving => CurrentMount != null && IsDriver;
 
     // MountEntity가 탑승/하차 때 호출
-    public void SetMount(MountEntity mount)
+    public void SetMount(MountEntity mount, bool isDriver)
     {
         CurrentMount = mount;
+        IsDriver = isDriver;
     }
 
     void Update()
