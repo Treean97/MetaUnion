@@ -8,9 +8,12 @@ public class MountEntity : MonoBehaviourPun
     public class SeatSlot
     {
         public Transform Anchor;          // 탑승자 붙을 위치
-        public Transform DismountPoint;   // (선택) 하차 위치
+        public Transform DismountPoint;   // 하차 위치
         [HideInInspector] public int RiderViewId = -1;
     }
+    [Header("탑승물 정보")]
+    [SerializeField] private MountDataSO _Data;
+    public MountDataSO Data => _Data;
 
     [Header("Seats (0번이 운전석)")]
     [SerializeField] private SeatSlot[] _Seats;
@@ -23,6 +26,9 @@ public class MountEntity : MonoBehaviourPun
         _Movement = GetComponent<IMountMovement>();
         if (_Movement == null)
             Debug.LogError($"[{name}] IMountMovement 구현체가 없습니다. (예: CarMovement)", this);
+
+        if (_Movement is IMountMovementConfigurable cfg)
+            cfg.ApplyData(_Data);
 
         if (_Seats == null || _Seats.Length == 0 || _Seats[0].Anchor == null)
             Debug.LogError($"[{name}] Seats[0] (운전석) Anchor가 필요합니다.", this);
@@ -182,12 +188,18 @@ public class MountEntity : MonoBehaviourPun
             _DriverInput = default;
     }
 
-    private static void SetPlayerMountedState(GameObject riderGo, bool mounted)
+    private void SetPlayerMountedState(GameObject riderGo, bool mounted)
     {
-        CharacterController cc = riderGo.GetComponent<CharacterController>();
+        // 플레이어 이동 로직 차단
+        var mover = riderGo.GetComponent<Controller.MoveHandler>();
+        if (mover != null) mover.enabled = !mounted;
+
+        // CharacterController도 같이 끄면 충돌/밀림 같은 부작용 줄어듦
+        var cc = riderGo.GetComponent<CharacterController>();
         if (cc != null) cc.enabled = !mounted;
 
-        Rigidbody rb = riderGo.GetComponent<Rigidbody>();
+        // Rigidbody가 있다면 물리 끄기
+        var rb = riderGo.GetComponent<Rigidbody>();
         if (rb != null)
         {
             rb.linearVelocity = Vector3.zero;
@@ -195,6 +207,7 @@ public class MountEntity : MonoBehaviourPun
             rb.isKinematic = mounted;
         }
 
+        // PhotonTransformView가 있으면 탑승 중엔 꺼서 이중 이동 방지
         MonoBehaviour ptv = riderGo.GetComponent("PhotonTransformView") as MonoBehaviour;
         if (ptv != null) ptv.enabled = !mounted;
     }

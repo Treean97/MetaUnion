@@ -69,6 +69,8 @@ MonoBehaviour:
   - RPC_BroadcastDestroyed
   - RPC_Dismount
   - RPC_Mount
+  - RPC_EnterSeat
+  - RPC_ExitSeat
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0
