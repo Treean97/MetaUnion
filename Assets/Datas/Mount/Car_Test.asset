@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30ba56800ba69c64d853374c5ef04c1e, type: 3}
   m_Name: Car_Test
   m_EditorClassIdentifier: Assembly-CSharp::VehicleConfigSO
-  Accel: 25
-  TurnDegPerSec: 120
-  BrakeDrag: 3
+  _InfoData: {fileID: 11400000, guid: 90af335bed708ec4b800561a7364438d, type: 2}
+  _Accel: 25
+  _TurnDegPerSec: 120
+  _BrakeDrag: 3

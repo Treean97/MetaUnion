@@ -11418,7 +11418,9 @@ GameObject:
   - component: {fileID: 508922333}
   - component: {fileID: 508922340}
   - component: {fileID: 508922339}
+  - component: {fileID: 508922342}
   - component: {fileID: 508922338}
+  - component: {fileID: 508922341}
   m_Layer: 7
   m_Name: Car_Test
   m_TagString: Untagged
@@ -11563,9 +11565,10 @@ MonoBehaviour:
   Group: 0
   prefixField: -1
   Synchronization: 3
-  OwnershipTransfer: 0
+  OwnershipTransfer: 2
   observableSearch: 2
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 508922341}
   sceneViewId: 3
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -11581,7 +11584,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7018504623e80944cbe6b6db791e972f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MountEntity
-  _Data: {fileID: 0}
+  _Data: {fileID: 11400000, guid: 556b65b8c30b1604db0343b01437b352, type: 2}
   _Seats:
   - Anchor: {fileID: 1533799711}
     DismountPoint: {fileID: 481986963}
@@ -11598,6 +11601,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8126d23499e25546af355824fa72ee3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CarMovement
+--- !u!114 &508922341
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 508922332}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: PhotonUnityNetworking::Photon.Pun.PhotonTransformView
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
+--- !u!114 &508922342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 508922332}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12b66df3a5d7ed34d9d30f2637a7d217, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MountInteractable
 --- !u!1001 &513949856
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -27286,8 +27317,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1157025514}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.21612497, y: -0.3797852, z: 0.09173555, w: 0.8947837}
-  m_LocalPosition: {x: 126.48216, y: 14.034171, z: -54.882603}
+  m_LocalRotation: {x: 0.09807964, y: -0.8744589, z: 0.19876257, w: 0.4315038}
+  m_LocalPosition: {x: 2.8034058, y: 7.5629044, z: 3.696724}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

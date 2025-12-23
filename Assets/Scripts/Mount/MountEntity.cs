@@ -32,6 +32,8 @@ public class MountEntity : MonoBehaviourPun
 
         if (_Seats == null || _Seats.Length == 0 || _Seats[0].Anchor == null)
             Debug.LogError($"[{name}] Seats[0] (운전석) Anchor가 필요합니다.", this);
+
+        ResetSeat();
     }
 
     public bool HasDriver => _Seats != null && _Seats.Length > 0 && _Seats[0].RiderViewId != -1;
@@ -45,12 +47,36 @@ public class MountEntity : MonoBehaviourPun
     void FixedUpdate()
     {
         // 오직 소유자(운전자 클라)만 실제 물리 이동 적용
-        if (!photonView.IsMine) return;
-        if (!HasDriver) return;
-        if (_Movement == null) return;
+        if (!photonView.IsMine) 
+        {
+            Debug.Log("Mount is not mine");
+            return;
+        }
+        if (!HasDriver)
+        {
+            Debug.Log("im not not driver");
+            return;
+        }
+        if (_Movement == null)
+        {
+            Debug.Log("movement is null");
+            return;
+        }
+
+        Debug.Log("Mount is running");
+        Debug.Log($"DriverInput T={_DriverInput.Throttle}, S={_DriverInput.Steer}, B={_DriverInput.Brake}");
 
         _Movement.SetInput(_DriverInput);
         _Movement.FixedTick();
+    }
+
+    void ResetSeat()
+    {
+        if (_Seats == null) return;
+        for (int i = 0; i < _Seats.Length; i++)
+        {
+            _Seats[i].RiderViewId = -1;
+        }
     }
 
     // ===== 탑승 =====
@@ -62,13 +88,27 @@ public class MountEntity : MonoBehaviourPun
     /// </summary>
     public bool TryMount(GameObject riderGo)
     {
-        if (_Seats == null || _Seats.Length == 0) return false;
+        Debug.Log("TryMount");
+        if (_Seats == null || _Seats.Length == 0)
+        {
+            Debug.Log("Seat is null");
+            return false;    
+        }
+        
 
         PhotonView riderPv = riderGo.GetComponent<PhotonView>();
-        if (riderPv == null) return false;
+        if (riderPv == null) 
+        {
+            Debug.Log("riderPv is null");
+            return false;    
+        }
 
         int seatIndex = FindFirstFreeSeatIndex();
-        if (seatIndex < 0) return false;
+        if (seatIndex < 0) 
+        {
+            Debug.Log("seatIndex is null");
+            return false;    
+        }
 
         // 운전석을 타는 경우엔 소유권 필요(물리 적용이 owner에서만 되니까)
         if (seatIndex == 0 && !photonView.IsMine)
@@ -130,16 +170,33 @@ public class MountEntity : MonoBehaviourPun
     [PunRPC]
     void RPC_EnterSeat(int seatIndex, int riderViewId)
     {
-        if (_Seats == null || seatIndex < 0 || seatIndex >= _Seats.Length) return;
+        Debug.Log($"RPC_EnterSeat called seatIndex={seatIndex}, riderViewId={riderViewId}", this);
+
+        if (_Seats == null || seatIndex < 0 || seatIndex >= _Seats.Length)
+        {
+            Debug.LogWarning("RPC_EnterSeat: seats invalid", this);
+            return;
+        }
 
         PhotonView riderPv = PhotonView.Find(riderViewId);
-        if (riderPv == null) return;
+        if (riderPv == null)
+        {
+            Debug.LogWarning("RPC_EnterSeat: riderPv not found", this);
+            return;
+        }
 
         SeatSlot seat = _Seats[seatIndex];
-        if (seat.Anchor == null) return;
+        if (seat.Anchor == null)
+        {
+            Debug.LogWarning("RPC_EnterSeat: seat.Anchor null", this);
+            return;
+        }
 
-        // 이미 누가 타있으면 무시(동시 요청 방어)
-        if (seat.RiderViewId != -1) return;
+        if (seat.RiderViewId != -1)
+        {
+            Debug.LogWarning($"RPC_EnterSeat: seat already occupied {seat.RiderViewId}", this);
+            return;
+        }
 
         GameObject riderGo = riderPv.gameObject;
         seat.RiderViewId = riderViewId;
