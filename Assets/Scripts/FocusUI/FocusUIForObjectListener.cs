@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class FocusUIListener : MonoBehaviour
+public class FocusUIForObjectListener : MonoBehaviour
 {
-    [SerializeField] FocusUIManager _FocusUIPanel;
+    [SerializeField] FocusUIForObjectManager _FocusUIPanel;
 
     InfoDataSO _LastInfo;   // 마지막으로 포커스된 정보 캐시
     bool _IsShowing;

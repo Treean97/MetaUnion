@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-public class FocusUI : MonoBehaviour
+public class FocusUIForUI : MonoBehaviour
 {
     [SerializeField] private RectTransform _FocusUI;
     [SerializeField] private TMP_Text _Name;

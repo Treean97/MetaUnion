@@ -1,8 +1,7 @@
-using Photon.Pun;
 using TMPro;
 using UnityEngine;
 
-public class FocusUIManager : MonoBehaviour
+public class FocusUIForObjectManager : MonoBehaviour
 {
     [SerializeField]
     private TMP_Text _Name;

@@ -35763,13 +35763,40 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8182663822790980153, guid: 419ceccd48d494c458ddb7ff927518c7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1904838102838098841}
   m_SourcePrefab: {fileID: 100100000, guid: 419ceccd48d494c458ddb7ff927518c7, type: 3}
 --- !u!224 &2689187476009143888 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7012266410177148426, guid: 419ceccd48d494c458ddb7ff927518c7, type: 3}
   m_PrefabInstance: {fileID: 4900333002933368922}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &3859535967842077283 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8182663822790980153, guid: 419ceccd48d494c458ddb7ff927518c7, type: 3}
+  m_PrefabInstance: {fileID: 4900333002933368922}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1904838102838098841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3859535967842077283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e2cd77363efb0344a358d4e1d55dd3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIPopEffect
+  _ShowFromScale: 0.85
+  _ShowDuration: 0.15
+  _ShowEase: 6
+  _PopScale: 1.05
+  _HideToScale: 0.8
+  _HideDuration: 0.12
+  _HideEase: 5
 --- !u!1001 &5642720753108265886
 PrefabInstance:
   m_ObjectHideFlags: 0
