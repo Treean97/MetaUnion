@@ -27124,8 +27124,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1157025514}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.14659618, y: 0.35123968, z: -0.05578036, w: 0.92305404}
-  m_LocalPosition: {x: -47.37162, y: 11.387999, z: -21.118786}
+  m_LocalRotation: {x: 0.09807964, y: -0.8744589, z: 0.19876257, w: 0.4315038}
+  m_LocalPosition: {x: 2.8034058, y: 7.5629044, z: 3.696724}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -52555,7 +52555,7 @@ GameObject:
   - component: {fileID: 6735750903150306902}
   - component: {fileID: 6735750903150306901}
   - component: {fileID: 6735750903150306900}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Free Racing Car
   m_TagString: Untagged
   m_Icon: {fileID: 0}

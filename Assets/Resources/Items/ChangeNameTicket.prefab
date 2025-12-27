@@ -192,7 +192,7 @@ GameObject:
   - component: {fileID: 7412987719625616763}
   - component: {fileID: 4096670072568992955}
   - component: {fileID: 3620242443994249627}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ChangeNameTicket
   m_TagString: Untagged
   m_Icon: {fileID: 0}

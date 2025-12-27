@@ -44,7 +44,7 @@ public class FocusHandler : MonoBehaviourPun
 
         foreach (var collider in hits)
         {
-            var focusable = collider.GetComponent<IFocusable>();
+            var focusable = FindHelper.FindInterfaceInParent<IFocusable>(collider.transform, includeSelf: true);
             if (focusable != null)
             {
                 float dist = Vector3.Distance(transform.position, collider.ClosestPoint(transform.position));

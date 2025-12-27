@@ -10,11 +10,7 @@ public class FocusableUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     void Awake()
     {
-        // Self + Parent
-        _ItemDataProvider = GetComponentInParent<IItemDataProvider>();
-
-        if (_ItemDataProvider == null)
-            Debug.LogWarning($"{name}: IItemDataProvider를 찾지 못했습니다.");
+        _ItemDataProvider = FindHelper.FindInterfaceInParent<IItemDataProvider>(transform, includeSelf: true);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -32,7 +28,7 @@ public class FocusableUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         var data = _ItemDataProvider?.GetItemData();
         OnPointerEnterFocusUI?.Invoke(data);
     }
-
+    
     public void Defocus()
     {
         OnPointerExitFocusUI?.Invoke();
