@@ -2404,6 +2404,7 @@ MonoBehaviour:
   _LayerMask:
     serializedVersion: 2
     m_Bits: 192
+  _MaxHits: 16
 --- !u!114 &1448556797334339772
 MonoBehaviour:
   m_ObjectHideFlags: 0
