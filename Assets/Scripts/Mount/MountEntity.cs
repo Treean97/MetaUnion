@@ -3,7 +3,7 @@ using Photon.Realtime;
 using UnityEngine;
 
 [RequireComponent(typeof(PhotonView))]
-public class MountEntity : MonoBehaviourPunCallbacks
+public class MountEntity : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks
 {
     [System.Serializable]
     public class SeatSlot
@@ -263,5 +263,13 @@ public class MountEntity : MonoBehaviourPunCallbacks
 
         MonoBehaviour ptv = riderGo.GetComponent("PhotonTransformView") as MonoBehaviour;
         if (ptv != null) ptv.enabled = !mounted;
+    }
+
+    public void OnOwnershipTransferFailed(PhotonView targetView, Player senderOfFailedRequest)
+    {
+        if (targetView != photonView) return;
+
+        _HasPendingDriverEnter = false;
+        _PendingDriverRiderViewId = -1;
     }
 }
