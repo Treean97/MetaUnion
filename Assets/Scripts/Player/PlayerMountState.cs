@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerMountedState : MonoBehaviour, IMountStateApplier
 {
     [Header("캐시 (비워두면 자동 탐색)")]
-    [SerializeField] private MonoBehaviour _MoveHandler;
+    [SerializeField] private MoveHandler _MoveHandler;
     [SerializeField] private CharacterController _CC;
     [SerializeField] private Rigidbody _RB;
     [SerializeField] private PhotonTransformView _PhotonTransformView;
