@@ -1077,7 +1077,7 @@ Transform:
   m_GameObject: {fileID: 2360368908105200564}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2083,6 +2083,7 @@ GameObject:
   - component: {fileID: 632782033558867164}
   - component: {fileID: 5259958542842481731}
   - component: {fileID: -1149030726893349756}
+  - component: {fileID: -1400330211816784485}
   - component: {fileID: 7795573317481127736}
   - component: {fileID: 6937507811026299424}
   - component: {fileID: 7603667364300961081}
@@ -2119,8 +2120,8 @@ Transform:
   - {fileID: 3100039405515507043}
   - {fileID: 328305486954387915}
   - {fileID: 1973118069937473303}
-  - {fileID: 3261659452169968630}
   - {fileID: 3077514235382180204}
+  - {fileID: 3261659452169968630}
   - {fileID: 5386546022030283373}
   - {fileID: 7074244965923215746}
   - {fileID: 5348592490771198984}
@@ -2520,6 +2521,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e56e0c58c1bc6147b50e2a14cf7d7f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMountController
+--- !u!114 &-1400330211816784485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5832607453936394915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b3f6fe8edc264c46a300d5849e72f13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerVisibility
+  _Renderers:
+  - {fileID: 6593190355336508328}
+  - {fileID: 1530659579630627919}
+  - {fileID: 861259613992621737}
+  - {fileID: 1737066208648899347}
+  - {fileID: 7480471464705634603}
+  - {fileID: 1846957280739144662}
+  - {fileID: 1481551644689648220}
+  - {fileID: 8563859967002161243}
+  - {fileID: 4339510110713153438}
+  - {fileID: 3421539245923706381}
+  - {fileID: 5681909699259854762}
+  - {fileID: 2694659718577078140}
+  - {fileID: 1384642662855404407}
 --- !u!114 &7795573317481127736
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -23,7 +23,7 @@ public class MountEntity : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks
     private IMountMovement _Movement;
     private MountInput _DriverInput;
 
-    // ===== 추가: 운전석 탑승 pending(소유권 이전 완료 후 처리) =====
+    // 운전석 탑승 pending
     private bool _HasPendingDriverEnter;
     private int _PendingDriverRiderViewId;
 
@@ -246,23 +246,8 @@ public class MountEntity : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks
 
     private void SetPlayerMountedState(GameObject riderGo, bool mounted)
     {
-        var mover = riderGo.GetComponent<Controller.MoveHandler>();
-        if (mover != null) mover.enabled = !mounted;
-
-        var cc = riderGo.GetComponent<CharacterController>();
-        if (cc != null) cc.enabled = !mounted;
-
-        var rb = riderGo.GetComponent<Rigidbody>();
-        if (rb != null)
-        {
-            // Unity 기본 Rigidbody 기준: velocity 사용
-            rb.linearVelocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
-            rb.isKinematic = mounted;
-        }
-
-        MonoBehaviour ptv = riderGo.GetComponent("PhotonTransformView") as MonoBehaviour;
-        if (ptv != null) ptv.enabled = !mounted;
+        var applier = riderGo.GetComponent<IMountStateApplier>();
+        applier?.ApplyMounted(mounted);
     }
 
     public void OnOwnershipTransferFailed(PhotonView targetView, Player senderOfFailedRequest)

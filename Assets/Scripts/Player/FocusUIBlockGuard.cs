@@ -1,21 +1,20 @@
+using System;
 using UnityEngine;
 
 public class FocusUIBlockGuard : MonoBehaviour
 {
-    bool _Armed;
+    private IDisposable _Token;
 
     void OnEnable()
     {
-        if (_Armed) return;
-        FocusUIBlockManager.BlockFocusUI();
-        _Armed = true;
+        if (_Token != null) return;
+        _Token = FocusUIBlockManager.AcquireBlockToken(gameObject.name);
     }
 
     void OnDisable()
     {
-        if (!_Armed) return;
-        FocusUIBlockManager.UnblockFocusUI();
-        _Armed = false;
+        _Token?.Dispose();
+        _Token = null;
     }
 
     void OnDestroy() => OnDisable(); // 누수 방지
