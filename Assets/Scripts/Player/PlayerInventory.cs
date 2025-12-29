@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class InventoryItem
 {
     public int ID;
@@ -11,7 +12,7 @@ public class InventoryItem
 public class PlayerInventory : MonoBehaviour, ICloudSaveSection
 {
     // id, count
-    private InventoryItem[] _Inventory;
+    [SerializeField] private InventoryItem[] _Inventory;
     [SerializeField] private int _MaxInventorySlot;
 
     public string Key => "inventory";
@@ -22,7 +23,7 @@ public class PlayerInventory : MonoBehaviour, ICloudSaveSection
         [System.Serializable]
         public class Entry { public int id; public int amount; }
 
-        public int slotCount;          // 저장 당시 슬롯 수(참고용)
+        public int slotCount; // 저장 당시 슬롯 수
         public List<Entry> items = new();
     }
 
@@ -218,5 +219,6 @@ public class PlayerInventory : MonoBehaviour, ICloudSaveSection
         // UI 갱신
         GameEvents.RaiseRequestUpdateInventory();
     }
+
 
 }

@@ -13,6 +13,14 @@ MonoBehaviour:
   m_Name: Car_Test
   m_EditorClassIdentifier: Assembly-CSharp::VehicleConfigSO
   _InfoData: {fileID: 11400000, guid: 90af335bed708ec4b800561a7364438d, type: 2}
-  _Accel: 25
-  _TurnDegPerSec: 120
-  _BrakeDrag: 3
+  NoDriverDecel: 8
+  NoDriverStopSpeed: 0.1
+  MaxSpeed: 150
+  MaxReverseSpeed: 45
+  AccelerationMultiplier: 8
+  MaxSteeringAngle: 27
+  SteeringSpeed: 0.5
+  BrakeForce: 350
+  DecelerationMultiplier: 2
+  HandbrakeDriftMultiplier: 5
+  BodyMassCenter: {x: 0, y: 0.5, z: 0}
