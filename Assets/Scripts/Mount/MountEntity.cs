@@ -18,7 +18,7 @@ public class MountEntity : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks
     public MountDataSO Data => _Data;
 
     // 데이터 캐싱
-    float _NoDriverLin, _NoDriverAng, _StopSpd, _StopAng;
+    float _NoDriverDecel, _NoDriverStopSpeed;
 
     [Header("Seats (0번이 운전석)")]
     [SerializeField] private SeatSlot[] _Seats;
@@ -49,10 +49,8 @@ public class MountEntity : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks
 
         if (_Data != null)
         {
-            _NoDriverLin = _Data.NoDriverLinearDamp;
-            _NoDriverAng = _Data.NoDriverAngularDamp;
-            _StopSpd = _Data.StopSpeed;
-            _StopAng = _Data.StopAngular;
+            _NoDriverDecel = _Data.NoDriverDecel;
+            _NoDriverStopSpeed = _Data.NoDriverStopSpeed;
         }    
 
         ResetSeat();
@@ -72,17 +70,19 @@ public class MountEntity : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks
 
         if (!HasDriver)
         {
-            if (_RB == null || _Data == null) return;
+            if (_RB == null) return;
 
+            float decelDelta = _NoDriverDecel * Time.fixedDeltaTime;
+
+            // 선형 속도
             Vector3 v = _RB.linearVelocity;
-            v = Vector3.Lerp(v, Vector3.zero, _NoDriverLin * Time.fixedDeltaTime);
-            if (v.sqrMagnitude < _StopSpd * _StopSpd) v = Vector3.zero;
+            v = Vector3.MoveTowards(v, Vector3.zero, decelDelta);
+            if (v.sqrMagnitude < _NoDriverStopSpeed * _NoDriverStopSpeed) v = Vector3.zero;
             _RB.linearVelocity = v;
 
-            Vector3 av = _RB.angularVelocity;
-            av = Vector3.Lerp(av, Vector3.zero, _NoDriverAng * Time.fixedDeltaTime);
-            if (av.sqrMagnitude < _StopAng * _StopAng) av = Vector3.zero;
-            _RB.angularVelocity = av;
+
+            if (_RB.linearVelocity == Vector3.zero)
+            _RB.Sleep();
 
             return;
         }

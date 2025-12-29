@@ -31,7 +31,7 @@ IBeginDragHandler, IEndDragHandler, IDropHandler, IDragHandler, IPointerClickHan
     {
         if (!ItemManager._Inst.ItemDataPoolSO.TryGetItem(inventory.ID, out _ItemDataSO))
         {
-            Debug.Log($"{inventory.ID}Data is not exist");
+            Debug.LogError($"{inventory.ID}Data is not exist");
             ClearSlot();
             return;
         }

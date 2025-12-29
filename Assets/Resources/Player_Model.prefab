@@ -2551,6 +2551,7 @@ MonoBehaviour:
   _CC: {fileID: 559015421560556864}
   _PhotonTransformView: {fileID: 6937507811026299424}
   _Visibility: {fileID: -1400330211816784485}
+  _Animator: {fileID: 0}
 --- !u!114 &-1400330211816784485
 MonoBehaviour:
   m_ObjectHideFlags: 0
