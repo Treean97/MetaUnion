@@ -17,9 +17,13 @@ public class MountEntity : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks
     [SerializeField] private MountDataSO _Data;
     public MountDataSO Data => _Data;
 
+    // 데이터 캐싱
+    float _NoDriverLin, _NoDriverAng, _StopSpd, _StopAng;
+
     [Header("Seats (0번이 운전석)")]
     [SerializeField] private SeatSlot[] _Seats;
-
+    
+    private Rigidbody _RB;
     private IMountMovement _Movement;
     private MountInput _DriverInput;
 
@@ -31,13 +35,25 @@ public class MountEntity : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks
     {
         _Movement = GetComponent<IMountMovement>();
         if (_Movement == null)
-            Debug.LogError($"[{name}] IMountMovement 구현체가 없습니다. (예: CarMovement)", this);
+            Debug.LogError($"[{name}] IMountMovement 구현체가 없습니다.", this);
 
         if (_Movement is IMountMovementConfigurable cfg)
             cfg.ApplyData(_Data);
 
         if (_Seats == null || _Seats.Length == 0 || _Seats[0].Anchor == null)
             Debug.LogError($"[{name}] Seats[0] (운전석) Anchor가 필요합니다.", this);
+        
+        _RB = GetComponent<Rigidbody>();
+        if(_RB == null)
+            Debug.LogError("Rigidbody가 없습니다.", this);
+
+        if (_Data != null)
+        {
+            _NoDriverLin = _Data.NoDriverLinearDamp;
+            _NoDriverAng = _Data.NoDriverAngularDamp;
+            _StopSpd = _Data.StopSpeed;
+            _StopAng = _Data.StopAngular;
+        }    
 
         ResetSeat();
     }
@@ -52,19 +68,30 @@ public class MountEntity : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks
 
     void FixedUpdate()
     {
-        // 오직 소유자(운전자 클라)만 실제 물리 이동 적용
-        if (!photonView.IsMine)
-            return;
+        if (!photonView.IsMine) return;
 
         if (!HasDriver)
-            return;
+        {
+            if (_RB == null || _Data == null) return;
 
-        if (_Movement == null)
-            return;
+            Vector3 v = _RB.linearVelocity;
+            v = Vector3.Lerp(v, Vector3.zero, _NoDriverLin * Time.fixedDeltaTime);
+            if (v.sqrMagnitude < _StopSpd * _StopSpd) v = Vector3.zero;
+            _RB.linearVelocity = v;
 
+            Vector3 av = _RB.angularVelocity;
+            av = Vector3.Lerp(av, Vector3.zero, _NoDriverAng * Time.fixedDeltaTime);
+            if (av.sqrMagnitude < _StopAng * _StopAng) av = Vector3.zero;
+            _RB.angularVelocity = av;
+
+            return;
+        }
+
+        if (_Movement == null) return;
         _Movement.SetInput(_DriverInput);
         _Movement.FixedTick();
     }
+
 
     void ResetSeat()
     {
@@ -73,7 +100,7 @@ public class MountEntity : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks
             _Seats[i].RiderViewId = -1;
     }
 
-    // ===== 탑승 =====
+    // 탑승
     public bool TryMount(GameObject riderGo)
     {
         if (_Seats == null || _Seats.Length == 0)
@@ -87,10 +114,10 @@ public class MountEntity : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks
         if (seatIndex < 0)
             return false;
 
-        // ===== 변경: 운전석이면 소유권 확보 후 Enter RPC =====
+        // 운전석이면 소유권 확보 후 Enter RPC
         if (seatIndex == 0 && !photonView.IsMine)
         {
-            // 이미 다른 pending이 있으면 중복 방지(필요 최소)
+            // 이미 다른 pending이 있으면 중복 방지
             if (_HasPendingDriverEnter)
                 return false;
 
@@ -117,7 +144,7 @@ public class MountEntity : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks
         return -1;
     }
 
-    // ===== 하차 =====
+    // 하차
     public bool TryDismount(GameObject riderGo)
     {
         PhotonView riderPv = riderGo.GetComponent<PhotonView>();
@@ -148,14 +175,13 @@ public class MountEntity : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks
         return p ? p.position : fallbackPos;
     }
 
-    // ===== 소유권 콜백(핵심) =====
-
+    // 소유권 콜백
     // 현재 소유자가 "요청받았을 때" 넘겨줄지 결정
     public void OnOwnershipRequest(PhotonView targetView, Player requestingPlayer)
     {
         if (targetView != photonView) return;
 
-        // 운전석이 비어있을 때만 넘겨줌(최소 안전장치)
+        // 운전석이 비어있을 때만 넘겨줌
         if (_Seats != null && _Seats.Length > 0 && _Seats[0].RiderViewId == -1)
         {
             targetView.TransferOwnership(requestingPlayer);
@@ -173,14 +199,14 @@ public class MountEntity : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks
         if (!photonView.IsMine)
             return;
 
-        // 소유권 확보 완료 -> 운전석 탑승 RPC
+        // 소유권 확보, 운전석 탑승 RPC
         photonView.RPC(nameof(RPC_EnterSeat), RpcTarget.All, 0, _PendingDriverRiderViewId);
 
         _HasPendingDriverEnter = false;
         _PendingDriverRiderViewId = -1;
     }
 
-    // ===== RPC =====
+    // RPC
     [PunRPC]
     void RPC_EnterSeat(int seatIndex, int riderViewId)
     {
@@ -238,9 +264,15 @@ public class MountEntity : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks
         {
             _DriverInput = default;
 
-            // 운전자가 내리면 pending도 초기화(안전)
+            // 운전자가 내리면 pending도 초기화
             _HasPendingDriverEnter = false;
             _PendingDriverRiderViewId = -1;
+
+            // 하차 시 소유권을 마스터 클라이언트로 반환
+            if (photonView.IsMine && PhotonNetwork.IsMasterClient == false)
+            {
+                photonView.TransferOwnership(PhotonNetwork.MasterClient);
+            }
         }
     }
 

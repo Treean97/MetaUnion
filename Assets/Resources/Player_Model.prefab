@@ -2082,7 +2082,9 @@ GameObject:
   - component: {fileID: 16416478344735379}
   - component: {fileID: 632782033558867164}
   - component: {fileID: 5259958542842481731}
+  - component: {fileID: 8933735627595549245}
   - component: {fileID: -1149030726893349756}
+  - component: {fileID: 2196493750219326055}
   - component: {fileID: -1400330211816784485}
   - component: {fileID: 7795573317481127736}
   - component: {fileID: 6937507811026299424}
@@ -2509,6 +2511,18 @@ MonoBehaviour:
   _AxeName: Axe
   _PickAxeName: Pickaxe
   _FishingRodName: FishingRod
+--- !u!114 &8933735627595549245
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5832607453936394915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1851cc18311a7343a748b107b273915, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FocusUIBlockByMount
 --- !u!114 &-1149030726893349756
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2521,6 +2535,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e56e0c58c1bc6147b50e2a14cf7d7f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMountController
+--- !u!114 &2196493750219326055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5832607453936394915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96474409171449a4d81e211f0992c888, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerMountedState
+  _MoveHandler: {fileID: 2457597801121862179}
+  _CC: {fileID: 559015421560556864}
+  _PhotonTransformView: {fileID: 6937507811026299424}
+  _Visibility: {fileID: -1400330211816784485}
 --- !u!114 &-1400330211816784485
 MonoBehaviour:
   m_ObjectHideFlags: 0

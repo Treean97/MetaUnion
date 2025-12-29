@@ -3,6 +3,13 @@ using UnityEngine;
 
 public class MountInteractable : MonoBehaviour, IInteractable
 {
+    private MountEntity _Mount;
+
+    void Awake()
+    {
+        _Mount = GetComponent<MountEntity>();
+    }
+
     public InfoDataSO GetObjectInfo()
     {
         var mount = GetComponent<MountEntity>();
@@ -44,6 +51,17 @@ public class MountInteractable : MonoBehaviour, IInteractable
             Debug.Log("riderPv is null"); 
             return;
         }
+
+        var riderCtrl = riderGO.GetComponent<PlayerMountController>();
+
+        if (riderCtrl.CurrentMount == _Mount)
+        {
+            _Mount.TryDismount(riderGO);
+            return;
+        }
+            
+        if (riderCtrl.CurrentMount != null)
+        return;
 
         mount.TryMount(riderGO); // 앞 인덱스부터 빈 좌석 배치
     }
