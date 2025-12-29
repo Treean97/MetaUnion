@@ -14,6 +14,7 @@ MetaUnion은 Unity 기반의 온라인 멀티 플레이 메타버스 게임으�
 
 - [게임 플레이 영상](https://youtu.be/vJctBK-cNyg)
 - [프로젝트 기술서](https://drive.google.com/file/d/1MdHHt_k1iT8x7-LCVb98ae70RfqCGMtV/view?usp=drive_link)
+- [빌드 다운로드](https://github.com/Treean97/MetaUnion/releases/latest)
 
 ---
 
