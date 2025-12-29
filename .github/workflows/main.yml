@@ -44,10 +44,11 @@ jobs:
           path: build
 
       - name: Zip build
+        shell: pwsh
         run: |
-          powershell Compress-Archive -Path build\* -DestinationPath build-${{ github.ref_name }}-windows.zip
-
+          Compress-Archive -Path build\* -DestinationPath MetaUnion.zip -Force
+      
       - name: Create GitHub Release & Upload Asset
         uses: softprops/action-gh-release@v2
         with:
-          files: build-${{ github.ref_name }}-windows.zip
+          files: MetaUnion.zip
