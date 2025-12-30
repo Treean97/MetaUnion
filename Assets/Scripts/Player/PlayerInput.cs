@@ -3,6 +3,17 @@ using Photon.Pun;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+[Flags]
+public enum InputLock
+{
+    None     = 0,
+    Move     = 1 << 0,
+    Look     = 1 << 1,
+    Attack   = 1 << 2,
+    Interact = 1 << 3,
+    UIHotkey = 1 << 4,
+}
+
 namespace Controller
 {
     [RequireComponent(typeof(MoveHandler))]
@@ -24,7 +35,7 @@ namespace Controller
 
         [Header("Input")]
         [SerializeField] private KeyCode _InteractKey = KeyCode.E;
-        [SerializeField] private KeyCode _AttackKey = KeyCode.Mouse0;
+        [SerializeField] private KeyCode _LeftClickKey = KeyCode.Mouse0; // 좌클릭
         [SerializeField] private KeyCode _Handkey = KeyCode.Alpha1;
         [SerializeField] private KeyCode _Axekey = KeyCode.Alpha2;
         [SerializeField] private KeyCode _Pickaxekey = KeyCode.Alpha3;
@@ -45,12 +56,10 @@ namespace Controller
         private Vector2 _MouseDelta;
         private float _Scroll;
 
-        private bool _IsMovementBlocked;
         private bool _IsStunnedBlocked;
         private StatusEffectManager _StatusEffectManager;
 
         public event Action OnInteract;
-        public event Action OnAttack;
 
         public event Action OnSlot_0KeyPressed;
         public event Action OnSlot_1KeyPressed;
@@ -63,8 +72,6 @@ namespace Controller
             _Mover = GetComponent<MoveHandler>();
             _PlayerEmote = GetComponent<PlayerEmote>();
 
-            InputBlockManager.OnInputBlockStatus += HandleUIRunningStateChanged;
-
             _StatusEffectManager = GetComponent<StatusEffectManager>();
             if (_StatusEffectManager != null)
             {
@@ -75,28 +82,10 @@ namespace Controller
 
         private void OnDestroy()
         {
-            InputBlockManager.OnInputBlockStatus -= HandleUIRunningStateChanged;
-
             if (_StatusEffectManager != null)
             {
                 _StatusEffectManager.OnEffectApplied -= HandleEffectApplied;
                 _StatusEffectManager.OnEffectRemoved -= HandleEffectRemoved;
-            }
-        }
-
-        private void HandleUIRunningStateChanged(bool isBlocked)
-        {
-            _IsMovementBlocked = isBlocked;
-
-            if (!photonView.IsMine) return;
-
-            if (isBlocked)
-            {
-                _Axis = Vector2.zero;
-                _IsRun = false;
-                _IsJump = false;
-                _MouseDelta = Vector2.zero;
-                SetInput();
             }
         }
 
@@ -112,7 +101,7 @@ namespace Controller
                 _IsStunnedBlocked = false;
         }
 
-        bool IsInEmote()
+        private bool IsInEmote()
         {
             if (!_PlayerEmote) _PlayerEmote = GetComponent<PlayerEmote>();
             return _PlayerEmote && _PlayerEmote.InEmote;
@@ -120,10 +109,12 @@ namespace Controller
 
         private void Update()
         {
-            if (_IsMovementBlocked || _IsStunnedBlocked)
+            if (!photonView.IsMine)
                 return;
 
-            if (!photonView.IsMine)
+            // 기존 동작 유지: 스턴이면 입력 전체 무시
+            // (원하면 여기서 "Move/Attack/Interact만 차단"으로 바꿀 수도 있음)
+            if (_IsStunnedBlocked)
                 return;
 
             GatherInput();
@@ -136,76 +127,110 @@ namespace Controller
             _Camera.SetPlayer(transform);
         }
 
+        private static bool IsPointerOverUI()
+        {
+            // EventSystem이 없는 씬이면 UI 판정 불가 -> UI 위가 아니라고 처리
+            if (EventSystem.current == null) return false;
+            return EventSystem.current.IsPointerOverGameObject();
+        }
+
         public void GatherInput()
         {
-            // 기본 수집
+            // ===== 기본 수집 =====
             _Axis = new Vector2(Input.GetAxis(_HorizontalAxis), Input.GetAxis(_VerticalAxis));
             _IsRun = Input.GetKey(_RunKey);
             _IsJump = Input.GetButton(_JumpButton);
+
             _Target = (_Camera == null) ? Vector3.zero : _Camera.Target;
+
             _MouseDelta = new Vector2(Input.GetAxis(_MouseX), Input.GetAxis(_MouseY));
             _Scroll = Input.GetAxis(_MouseScroll);
 
-            // 커서 노출 시엔 카메라 회전 막기(요건 기존 유지)
+            // 커서 노출 시엔 카메라 회전 막기(기존 유지)
             if (CursorManager._IsShown)
                 _MouseDelta = Vector2.zero;
 
-            // === 이모트 중 처리 ===
+            // ===== 락 적용 (Move/Look은 값 자체를 0 처리) =====
+            if (InputBlockManager.IsLocked(InputLock.Move))
+            {
+                _Axis = Vector2.zero;
+                _IsRun = false;
+                _IsJump = false;
+            }
+
+            if (InputBlockManager.IsLocked(InputLock.Look))
+            {
+                _MouseDelta = Vector2.zero;
+                _Scroll = 0f;
+            }
+
+            // ===== 이모트 중 처리 =====
             if (IsInEmote())
             {
-                // 이동/달리기/점프만 차단
+                // 이동/달리기/점프 차단
                 _Axis = Vector2.zero;
                 _IsRun = false;
                 _IsJump = false;
 
-                // 이모트 중 상호작용키 = 현재 이모트 탈출
+                // 이모트 중 상호작용키 = 현재 이모트 탈출 (락과 무관하게 허용: 기존 정책 유지)
                 if (Input.GetKeyDown(_InteractKey))
-                {
-                    if (_PlayerEmote != null)
-                        _PlayerEmote.RequestExitByInput();
-                }
+                    _PlayerEmote?.RequestExitByInput();
 
                 // 나머지 행동 입력은 처리하지 않음
                 return;
             }
 
-            // === 평상시 입력 처리 ===
-            if (Input.GetKeyDown(_InteractKey))
-                OnInteract?.Invoke();
+            // ===== 평상시 입력 이벤트 =====
 
-            if (Input.GetKeyDown(_AttackKey))
+            // Interact
+            if (!InputBlockManager.IsLocked(InputLock.Interact))
             {
-                if (!EventSystem.current.IsPointerOverGameObject())
-                    OnAttack?.Invoke();
+                if (Input.GetKeyDown(_InteractKey))
+                    OnInteract?.Invoke();
             }
 
+            // LeftClick (중복키): UI 위 클릭이면 UI가 소비 -> 디스패처 호출 안 함
+            // Attack 락이면 디스패처 호출 안 함
+            if (Input.GetKeyDown(_LeftClickKey))
+            {
+                if (!IsPointerOverUI() && !InputBlockManager.IsLocked(InputLock.Attack))
+                {
+                    LeftClickDispatcher._Inst?.Dispatch();
+                }
+            }
+
+            // 슬롯키(정책에 따라 락 채널 추가 가능. 지금은 기존 유지)
             if (Input.GetKeyDown(_Handkey)) OnSlot_0KeyPressed?.Invoke();
             if (Input.GetKeyDown(_Axekey)) OnSlot_1KeyPressed?.Invoke();
             if (Input.GetKeyDown(_Pickaxekey)) OnSlot_2KeyPressed?.Invoke();
 
-            if (Input.GetKeyDown(_InventoryKey)) UIRouter._Inst.MoveSlide<IInventoryUI>();
-            if (Input.GetKeyDown(_ChatKey)) UIRouter._Inst.MoveSlide<IChatUI>();
+            // UI 단축키
+            if (!InputBlockManager.IsLocked(InputLock.UIHotkey))
+            {
+                if (Input.GetKeyDown(_InventoryKey)) UIRouter._Inst.MoveSlide<IInventoryUI>();
+                if (Input.GetKeyDown(_ChatKey)) UIRouter._Inst.MoveSlide<IChatUI>();
 
-            if (Input.GetKeyDown(_PlayerListKey)) UIRouter._Inst.Open<IPlayerListUI>();
-            if (Input.GetKeyUp(_PlayerListKey)) UIRouter._Inst.Close<IPlayerListUI>();
+                if (Input.GetKeyDown(_PlayerListKey)) UIRouter._Inst.Open<IPlayerListUI>();
+                if (Input.GetKeyUp(_PlayerListKey)) UIRouter._Inst.Close<IPlayerListUI>();
 
+                if (Input.GetKeyDown(_EmoteKey)) UIRouter._Inst.Open<IEmoteUI>();
+                if (Input.GetKeyUp(_EmoteKey)) UIRouter._Inst.Close<IEmoteUI>();
+            }
+
+            // 커서 토글은 UIHotkey로 막을지 정책 선택 가능. 지금은 기존처럼 항상 동작.
             if (Input.GetKeyDown(_CursorToggle)) CursorManager.Toggle();
-
-            if (Input.GetKeyDown(_EmoteKey)) UIRouter._Inst.Open<IEmoteUI>();
-            if (Input.GetKeyUp(_EmoteKey)) UIRouter._Inst.Close<IEmoteUI>();
-        }   
-
-
+        }
 
         public void SetInput()
         {
             Vector2 axis = _Axis;
-            bool isRun   = _IsRun;
-            bool isJump  = _IsJump;
+            bool isRun = _IsRun;
+            bool isJump = _IsJump;
 
+            // 이모트 중(안전망)
             if (IsInEmote())
             {
-                axis  = Vector2.zero;
+                axis = Vector2.zero;
                 isRun = false;
                 isJump = false;
             }

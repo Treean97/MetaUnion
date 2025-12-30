@@ -3,38 +3,33 @@ using UnityEngine;
 
 public static class InputBlockManager
 {
-    // 열려있는 Input을 막는 객체의 갯수
-    private static int _BlockCount = 0;
+    static int _Move, _Look, _Attack, _Interact, _UIHotkey;
 
-    public static event Action<bool> OnInputBlockStatus;
-
-    // 팝업 열 때 호출
-    public static void BlockInput()
+    public static bool IsLocked(InputLock t) => t switch
     {
-        Debug.Log("BlockInput");
-        if (_BlockCount == 0)
-        {
-            OnInputBlockStatus?.Invoke(true);
-        }            
+        InputLock.Move     => _Move > 0,
+        InputLock.Look     => _Look > 0,
+        InputLock.Attack   => _Attack > 0,
+        InputLock.Interact => _Interact > 0,
+        InputLock.UIHotkey => _UIHotkey > 0,
+        _ => false
+    };
 
-        _BlockCount++;
-    }
+    public static void Lock(InputLock locks)   => Apply(locks, +1);
+    public static void Unlock(InputLock locks) => Apply(locks, -1);
 
-    // 팝업 닫을 때 호출
-    public static void UnblockInput()
+    static void Apply(InputLock locks, int delta)
     {
-        Debug.Log("UnBlockInput");
-        if (_BlockCount <= 0) return;
+        if ((locks & InputLock.Move) != 0)     _Move += delta;
+        if ((locks & InputLock.Look) != 0)     _Look += delta;
+        if ((locks & InputLock.Attack) != 0)   _Attack += delta;
+        if ((locks & InputLock.Interact) != 0) _Interact += delta;
+        if ((locks & InputLock.UIHotkey) != 0) _UIHotkey += delta;
 
-        _BlockCount--;
-
-        if (_BlockCount == 0)
-        {
-            OnInputBlockStatus?.Invoke(false);
-        }
-            
+        _Move     = Math.Max(0, _Move);
+        _Look     = Math.Max(0, _Look);
+        _Attack   = Math.Max(0, _Attack);
+        _Interact = Math.Max(0, _Interact);
+        _UIHotkey = Math.Max(0, _UIHotkey);
     }
-
-    // 외부에서 차단 여부 조회할 때
-    public static bool IsInputBlocked => _BlockCount > 0;
 }

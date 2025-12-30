@@ -2,12 +2,10 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class FishingSequence : MonoBehaviour, IFishingUI
+public class FishingSequence : MonoBehaviour, IFishingUI, ILeftClickConsumer
 {
-
     [SerializeField] private FishingMinigame _MinigameUI;
     [SerializeField] private GameObject _CatchUI;
-    [SerializeField] private KeyCode _CatchKey = KeyCode.Mouse0;
 
     [SerializeField] private ItemDataPoolSO _RewardItemPool;
     [SerializeField] private int _MaxRewardAmount = 9;
@@ -24,6 +22,12 @@ public class FishingSequence : MonoBehaviour, IFishingUI
     private Coroutine _Routine;
     private bool? _MinigameResult;
 
+    // 좌클릭 소비 등록 토큰
+    IDisposable _LeftClickToken;
+
+    // Catchable에서 클릭이 들어왔는지
+    bool _CatchClicked;
+
     public bool IsOpen => gameObject.activeSelf;
 
     public static event Action OnFishingStart;
@@ -35,14 +39,35 @@ public class FishingSequence : MonoBehaviour, IFishingUI
     {
         FishingMinigame.OnFishingSuccess += HandleMinigameSuccess;
         FishingMinigame.OnFishingFail += HandleMinigameFail;
-        
+
+        // 낚시 UI(시퀀스)가 켜졌다는 건 "낚시 흐름 진행 중"이므로
+        // 좌클릭을 여기서 우선 소비하도록 등록 (공격 방지)
+        _LeftClickToken = LeftClickDispatcher._Inst?.Push(this);
+        _CatchClicked = false;
     }
 
     void OnDisable()
     {
         FishingMinigame.OnFishingSuccess -= HandleMinigameSuccess;
         FishingMinigame.OnFishingFail -= HandleMinigameFail;
-        
+
+        _LeftClickToken?.Dispose();
+        _LeftClickToken = null;
+        _CatchClicked = false;
+    }
+
+    // === 좌클릭 소비 ===
+    public bool ConsumeLeftClick()
+    {
+        // Catchable일 때만 "잡기"로 처리하고,
+        // 그 외 상태에서는 공격으로 안 넘어가게 그냥 소비만 한다.
+        if (_State == FishingState.Catchable)
+        {
+            _CatchClicked = true;
+        }
+
+        // 낚시 UI가 켜져 있고, Idle이 아니면 항상 소비해서 공격을 막는다.
+        return _State != FishingState.Idle;
     }
 
     public bool StartFishing()
@@ -60,21 +85,21 @@ public class FishingSequence : MonoBehaviour, IFishingUI
         yield return null;
 
         // 대기
-        _State = FishingState.WaitingBite;        
+        _State = FishingState.WaitingBite;
         float delay = UnityEngine.Random.Range(_BiteDelay[0], _BiteDelay[1]);
         yield return new WaitForSeconds(delay);
 
         // 잡기 가능
         _State = FishingState.Catchable;
-        UIFX.Show(_CatchUI);        
+        _CatchClicked = false;
+        UIFX.Show(_CatchUI);
+
         float time = 0f;
-        bool catched = false;
 
         while (time < _CatchableSeconds)
         {
-            if (Input.GetKeyDown(_CatchKey))
+            if (_CatchClicked)
             {
-                catched = true;
                 UIFX.Hide(_CatchUI);
                 break;
             }
@@ -83,8 +108,13 @@ public class FishingSequence : MonoBehaviour, IFishingUI
             yield return null;
         }
 
+        bool catched = _CatchClicked;
+        _CatchClicked = false;
+
         if (!catched)
         {
+            // 시간 초과 실패
+            UIFX.Hide(_CatchUI);
             _State = FishingState.Resolve;
             OnFishingFail?.Invoke();
             yield return new WaitForSeconds(_Cooldown);
@@ -111,14 +141,13 @@ public class FishingSequence : MonoBehaviour, IFishingUI
 
         if (_MinigameResult == true)
         {
-            OnFishingSuccess?.Invoke();            
+            OnFishingSuccess?.Invoke();
         }
         else
         {
-            OnFishingFail?.Invoke();            
+            OnFishingFail?.Invoke();
         }
 
-        // 낚시 종료 전파
         OnFishingEnd?.Invoke();
         yield return new WaitForSeconds(_Cooldown);
         ResetFlow();
@@ -137,19 +166,18 @@ public class FishingSequence : MonoBehaviour, IFishingUI
     void HandleMinigameFail()
     {
         _MinigameResult = false;
-
         GameEvents.RaiseRewardFail();
     }
 
     void ResetFlow()
-    {        
+    {
         if (_Routine != null) StopCoroutine(_Routine);
         _Routine = null;
-        _State = FishingState.Idle;        
+        _State = FishingState.Idle;
         gameObject.SetActive(false);
     }
 
-    public void Show() 
+    public void Show()
     {
         StartFishing();
     }
