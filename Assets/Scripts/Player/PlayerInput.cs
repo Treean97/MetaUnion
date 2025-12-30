@@ -66,6 +66,7 @@ namespace Controller
         public event Action OnSlot_2KeyPressed;
 
         public event Action<IWeaponState> OnWeaponChange;
+        public event Action<MountInput> OnMountInput;
 
         private void Awake()
         {
@@ -112,8 +113,7 @@ namespace Controller
             if (!photonView.IsMine)
                 return;
 
-            // 기존 동작 유지: 스턴이면 입력 전체 무시
-            // (원하면 여기서 "Move/Attack/Interact만 차단"으로 바꿀 수도 있음)
+            // 스턴이면 입력 전체 무시
             if (_IsStunnedBlocked)
                 return;
 
@@ -136,7 +136,7 @@ namespace Controller
 
         public void GatherInput()
         {
-            // ===== 기본 수집 =====
+            // 기본 수집
             _Axis = new Vector2(Input.GetAxis(_HorizontalAxis), Input.GetAxis(_VerticalAxis));
             _IsRun = Input.GetKey(_RunKey);
             _IsJump = Input.GetButton(_JumpButton);
@@ -146,11 +146,11 @@ namespace Controller
             _MouseDelta = new Vector2(Input.GetAxis(_MouseX), Input.GetAxis(_MouseY));
             _Scroll = Input.GetAxis(_MouseScroll);
 
-            // 커서 노출 시엔 카메라 회전 막기(기존 유지)
+            // 커서 노출 시엔 카메라 회전 막기
             if (CursorManager._IsShown)
                 _MouseDelta = Vector2.zero;
 
-            // ===== 락 적용 (Move/Look은 값 자체를 0 처리) =====
+            // 락 적용
             if (InputBlockManager.IsLocked(InputLock.Move))
             {
                 _Axis = Vector2.zero;
@@ -164,7 +164,7 @@ namespace Controller
                 _Scroll = 0f;
             }
 
-            // ===== 이모트 중 처리 =====
+            // 이모트 중 입력 처리
             if (IsInEmote())
             {
                 // 이동/달리기/점프 차단
@@ -180,8 +180,7 @@ namespace Controller
                 return;
             }
 
-            // ===== 평상시 입력 이벤트 =====
-
+            // 평상시 입력 처리
             // Interact
             if (!InputBlockManager.IsLocked(InputLock.Interact))
             {
@@ -189,7 +188,7 @@ namespace Controller
                     OnInteract?.Invoke();
             }
 
-            // LeftClick (중복키): UI 위 클릭이면 UI가 소비 -> 디스패처 호출 안 함
+            // LeftClick : UI 위 클릭이면 UI가 소비 -> 디스패처 호출 안 함
             // Attack 락이면 디스패처 호출 안 함
             if (Input.GetKeyDown(_LeftClickKey))
             {
@@ -199,7 +198,7 @@ namespace Controller
                 }
             }
 
-            // 슬롯키(정책에 따라 락 채널 추가 가능. 지금은 기존 유지)
+            // 슬롯키
             if (Input.GetKeyDown(_Handkey)) OnSlot_0KeyPressed?.Invoke();
             if (Input.GetKeyDown(_Axekey)) OnSlot_1KeyPressed?.Invoke();
             if (Input.GetKeyDown(_Pickaxekey)) OnSlot_2KeyPressed?.Invoke();
@@ -217,8 +216,18 @@ namespace Controller
                 if (Input.GetKeyUp(_EmoteKey)) UIRouter._Inst.Close<IEmoteUI>();
             }
 
-            // 커서 토글은 UIHotkey로 막을지 정책 선택 가능. 지금은 기존처럼 항상 동작.
+            // 커서 토글
             if (Input.GetKeyDown(_CursorToggle)) CursorManager.Toggle();
+
+            // 차량 이동 인풋
+            MountInput mountInput = new MountInput
+            {
+                Throttle = InputBlockManager.IsLocked(InputLock.Move) ? 0f : Input.GetAxisRaw("Vertical"),
+                Steer    = InputBlockManager.IsLocked(InputLock.Move) ? 0f : Input.GetAxisRaw("Horizontal"),
+                Brake    = !InputBlockManager.IsLocked(InputLock.Move) && Input.GetKey(KeyCode.Space),
+            };
+
+            OnMountInput?.Invoke(mountInput);
         }
 
         public void SetInput()
@@ -227,7 +236,7 @@ namespace Controller
             bool isRun = _IsRun;
             bool isJump = _IsJump;
 
-            // 이모트 중(안전망)
+            // 이모트 중
             if (IsInEmote())
             {
                 axis = Vector2.zero;

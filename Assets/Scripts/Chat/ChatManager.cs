@@ -17,13 +17,28 @@ public class ChatManager : MonoBehaviourPun, IChatUI
 
     public bool IsOpen => _UISlider != null && _UISlider.IsOpen;
 
+    [Header("채팅 중 막을 인풋")]
+    [SerializeField] private InputLock _TypingLocks =
+        InputLock.Attack | InputLock.Interact | InputLock.UIHotkey | InputLock.Move;
+
+    private bool _TypingArmed;
+
     private void Start()
     {
         // 인풋 필드 포커스/디포커스 이벤트
-        _ChatInputField.onSelect.AddListener((_) => InputBlockManager.BlockInput());
-        _ChatInputField.onDeselect.AddListener((_) => InputBlockManager.UnblockInput());
+        _ChatInputField.onSelect.AddListener((_) =>
+        {
+            if (_TypingArmed) return;
+            InputBlockManager.Lock(_TypingLocks);
+            _TypingArmed = true;
+        });
 
-        
+        _ChatInputField.onDeselect.AddListener((_) =>
+        {
+            if (!_TypingArmed) return;
+            InputBlockManager.Unlock(_TypingLocks);
+            _TypingArmed = false;
+        });
     }
 
     private void Update()
