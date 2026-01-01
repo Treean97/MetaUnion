@@ -41,7 +41,7 @@ public class FishingSequence : MonoBehaviour, IFishingUI, ILeftClickConsumer
         FishingMinigame.OnFishingFail += HandleMinigameFail;
 
         // 낚시 UI(시퀀스)가 켜졌다는 건 "낚시 흐름 진행 중"이므로
-        // 좌클릭을 여기서 우선 소비하도록 등록 (공격 방지)
+        // 좌클릭을 여기서 우선 소비하도록 등록
         _LeftClickToken = LeftClickDispatcher._Inst?.Push(this);
         _CatchClicked = false;
     }

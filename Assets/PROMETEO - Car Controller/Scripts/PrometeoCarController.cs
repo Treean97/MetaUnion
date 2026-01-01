@@ -116,10 +116,9 @@ public class PrometeoCarController : MonoBehaviour, IMountMovement, IMountMoveme
     WheelFrictionCurve RRwheelFriction;
     float RRWextremumSlip;
 
-    // ===== Mount integration =====
+    // Mount integration
     MountInput _Input;
 
-    // ===== External control (MountEntity에서 제어) =====
     [Header("External Control")]
     public bool UseExternalControl = false;
 
@@ -130,16 +129,15 @@ public class PrometeoCarController : MonoBehaviour, IMountMovement, IMountMoveme
 
     void Awake()
     {
-        // (중요) ExternalFixedTick이 Start 전에 호출될 수 있어서 Awake에서 잡음
         carRigidbody = gameObject.GetComponent<Rigidbody>();
         if (carRigidbody != null)
             carRigidbody.centerOfMass = bodyMassCenter;
 
-        // 네 시스템에서 마운트 입력으로만 굴릴 목적이면 true 유지
+        // 외부 조종
         UseExternalControl = true;
     }
 
-    // ===== IMountMovement =====
+    // IMountMovement
     public void SetInput(in MountInput input)
     {
         _Input = input;
@@ -151,7 +149,7 @@ public class PrometeoCarController : MonoBehaviour, IMountMovement, IMountMoveme
         ExternalFixedTick(Time.fixedDeltaTime);
     }
 
-    // ===== IMountMovementConfigurable =====
+    // IMountMovementConfigurable
     public void ApplyData(MountDataSO data)
     {
         if (data is PrometeoVehicleDataSO v)

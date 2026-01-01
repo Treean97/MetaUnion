@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6179812278485594384}
   - component: {fileID: 4249038461955126430}
   - component: {fileID: -3629971524510396999}
+  - component: {fileID: -8730090685191098130}
   m_Layer: 0
   m_Name: InGameManager
   m_TagString: Untagged
@@ -89,3 +90,15 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2d04a8cc46cad17498bbb6052e4c373c, type: 2}
   - {fileID: 11400000, guid: 63fa8c520f226684ea4d320354aea395, type: 2}
   - {fileID: 11400000, guid: adc95d52301da4d43a823156e92ea9d3, type: 2}
+--- !u!114 &-8730090685191098130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6726341137462676591}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e01db432c38e884ca240a5991c81aca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LeftClickDispatcher

@@ -2329,7 +2329,7 @@ MonoBehaviour:
   _MouseY: Mouse Y
   _MouseScroll: Mouse ScrollWheel
   _InteractKey: 101
-  _AttackKey: 323
+  _LeftClickKey: 323
   _Handkey: 49
   _Axekey: 50
   _Pickaxekey: 51

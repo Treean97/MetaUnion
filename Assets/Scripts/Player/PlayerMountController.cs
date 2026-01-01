@@ -1,4 +1,5 @@
 using System;
+using Controller;
 using Photon.Pun;
 using UnityEngine;
 
@@ -10,6 +11,27 @@ public class PlayerMountController : MonoBehaviourPun
 
     public event Action OnMountStateChanged;
 
+    PlayerInput _Input;
+
+    void Awake()
+    {
+        _Input = GetComponent<PlayerInput>();
+        if (_Input == null)
+            Debug.LogError($"[{name}] PlayerMountController에 PlayerInput이 없습니다.", this);
+    }
+
+    void OnEnable()
+    {
+        if (!photonView.IsMine) return;
+        if (_Input != null) _Input.OnMountInput += HandleMountInput;
+    }
+
+    void OnDisable()
+    {
+        if (!photonView.IsMine) return;
+        if (_Input != null) _Input.OnMountInput -= HandleMountInput;
+    }
+
     public void SetMount(MountEntity mount, bool isDriver)
     {
         CurrentMount = mount;
@@ -17,20 +39,17 @@ public class PlayerMountController : MonoBehaviourPun
 
         if (!photonView.IsMine) return;
 
+        // 운전 상태 변경 시, 마운트에 남아있는 입력을 초기화(안전)
+        if (!IsDriving && CurrentMount != null)
+            CurrentMount.SetDriverInput(default);
+
         OnMountStateChanged?.Invoke();
     }
 
-    void Update()
+    void HandleMountInput(MountInput input)
     {
-        if (!photonView.IsMine) return;
         if (!IsDriving) return;
-
-        MountInput input = new MountInput
-        {
-            Throttle = Input.GetAxisRaw("Vertical"),
-            Steer = Input.GetAxisRaw("Horizontal"),
-            Brake = Input.GetKey(KeyCode.Space),
-        };
+        if (CurrentMount == null) return;
 
         CurrentMount.SetDriverInput(input);
     }

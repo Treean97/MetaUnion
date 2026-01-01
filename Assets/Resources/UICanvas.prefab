@@ -5266,6 +5266,7 @@ MonoBehaviour:
   _ScrollRect: {fileID: 1425209469607287479}
   _NoticeUI: {fileID: 3373328100837593970}
   _NoticeKey: ChatNotice
+  _TypingLocks: 29
 --- !u!114 &6030567493894800401
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5457,6 +5458,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b61b2d90cff24674dbf44c5b954ea1ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InputBlockGuard
+  _Locks: -1
 --- !u!114 &6141811857869254915
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8550,6 +8552,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b61b2d90cff24674dbf44c5b954ea1ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InputBlockGuard
+  _Locks: -1
 --- !u!114 &2362000232157528668
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10169,7 +10172,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _MinigameUI: {fileID: 6776631106872599329}
   _CatchUI: {fileID: 7830977217962478829}
-  _CatchKey: 323
   _RewardItemPool: {fileID: 11400000, guid: e07bbb00f7947544dbc0ff8bc4aa84c7, type: 2}
   _MaxRewardAmount: 9
   _BiteDelay:
@@ -10190,6 +10192,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b61b2d90cff24674dbf44c5b954ea1ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InputBlockGuard
+  _Locks: 29
 --- !u!114 &9206147837628612956
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10331,6 +10334,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b61b2d90cff24674dbf44c5b954ea1ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InputBlockGuard
+  _Locks: -1
 --- !u!114 &2632088596680177298
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12724,6 +12728,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b61b2d90cff24674dbf44c5b954ea1ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InputBlockGuard
+  _Locks: 0
 --- !u!114 &3745759520321070396
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20526,6 +20531,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b61b2d90cff24674dbf44c5b954ea1ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InputBlockGuard
+  _Locks: 0
 --- !u!114 &2676726687590985383
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20913,6 +20919,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b61b2d90cff24674dbf44c5b954ea1ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InputBlockGuard
+  _Locks: -1
 --- !u!114 &7082172247164446684
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24146,6 +24153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b61b2d90cff24674dbf44c5b954ea1ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InputBlockGuard
+  _Locks: -1
 --- !u!114 &4606843998690728268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26359,6 +26367,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b61b2d90cff24674dbf44c5b954ea1ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InputBlockGuard
+  _Locks: -1
 --- !u!114 &2681970812616512570
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26383,6 +26392,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b61b2d90cff24674dbf44c5b954ea1ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InputBlockGuard
+  _Locks: 0
 --- !u!114 &8538526404144471768
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31501,6 +31511,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b61b2d90cff24674dbf44c5b954ea1ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InputBlockGuard
+  _Locks: -1
 --- !u!114 &3208630014954862961
 MonoBehaviour:
   m_ObjectHideFlags: 0

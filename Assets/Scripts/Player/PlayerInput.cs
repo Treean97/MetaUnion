@@ -192,7 +192,7 @@ namespace Controller
             // Attack 락이면 디스패처 호출 안 함
             if (Input.GetKeyDown(_LeftClickKey))
             {
-                if (!IsPointerOverUI() && !InputBlockManager.IsLocked(InputLock.Attack))
+                if (!IsPointerOverUI())
                 {
                     LeftClickDispatcher._Inst?.Dispatch();
                 }
