@@ -53,8 +53,6 @@ public class AudioManager : MonoBehaviour, ILocalSaveSection
 
     float _MasterValue = 1f, _BGMValue = 1f, _SFXValue = 1f;
 
-    readonly Dictionary<int, SoundSO> _Map = new();
-
     // DB로 변환
     static float ToDB(float v) => v <= 0.0001f ? -80f : Mathf.Log10(v) * 20f;
 
@@ -272,6 +270,52 @@ public class AudioManager : MonoBehaviour, ILocalSaveSection
             p3d.ConfigureMixer(_SFXGroup);
             p3d.PlayAt(worldPos, clip, e.Volume, e.MinDistance, e.MaxDistance, e.Rolloff, e.Loop);
         }
+    }
+
+    public Pooled3DAudioPlayer Play3DAttachedLoopByKey(
+    string key,
+    Transform target,
+    float initialVolume01,
+    out float baseVolume01)
+    {
+        baseVolume01 = 0f;
+
+        if (_SFXBlock || string.IsNullOrEmpty(key) || !target) return null;
+        if (!TryResolve(key, out var e) || e == null)
+        {
+            Debug.LogWarning($"[Audio] key not found: {key}");
+            return null;
+        }
+
+        // 3D 루프용만 허용 (엔진은 3D가 정상)
+        if (e.Space == SoundSpace.S2D)
+        {
+            Debug.LogWarning($"[Audio] '{key}' is S2D. Engine loop should be 3D.");
+            return null;
+        }
+
+        var clip = e.PickClip();
+        if (!clip) return null;
+
+        var p3d = ObjectPoolManager._Inst?.Rent(_SFX3DPlayerPrefab);
+        if (!p3d) return null;
+
+        p3d.ConfigureMixer(_SFXGroup);
+
+        baseVolume01 = Mathf.Clamp01(e.Volume);
+
+        // 엔진 레이어는 루프가 필요하므로 loop=true 강제
+        p3d.PlayAttached(
+            target,
+            clip,
+            Mathf.Clamp01(initialVolume01),
+            e.MinDistance,
+            e.MaxDistance,
+            e.Rolloff,
+            loop: true
+        );
+
+        return p3d;
     }
 
 

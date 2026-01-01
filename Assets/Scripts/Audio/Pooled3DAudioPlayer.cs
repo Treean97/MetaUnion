@@ -13,7 +13,6 @@ public class Pooled3DAudioPlayer : MonoBehaviour
         _AudioSource.playOnAwake = false;
         _AudioSource.loop = false;
         _AudioSource.spatialBlend = 1f;
-        _AudioSource.spatialBlend = 0f;
         _AudioSource.dopplerLevel = 0f;
         _AudioSource.rolloffMode = AudioRolloffMode.Linear;
         _AudioSource.minDistance = 1.5f;
@@ -82,5 +81,15 @@ public class Pooled3DAudioPlayer : MonoBehaviour
         float end = Time.unscaledTime + t;
         while (Time.unscaledTime < end) yield return null;
         ObjectPoolManager._Inst.Return(gameObject);
+    }
+
+    public void SetVolume(float v)
+    {
+        if (_AudioSource) _AudioSource.volume = Mathf.Clamp01(v);
+    }
+
+    public void SetPitch(float p)
+    {
+        if (_AudioSource) _AudioSource.pitch = Mathf.Clamp(p, 0.1f, 3f);
     }
 }

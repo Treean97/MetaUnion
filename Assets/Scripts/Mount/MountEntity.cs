@@ -22,6 +22,8 @@ public class MountEntity : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks
 
     [Header("Seats (0번이 운전석)")]
     [SerializeField] private SeatSlot[] _Seats;
+
+    private VehicleSound _VehicleSound;
     
     private Rigidbody _RB;
     private IMountMovement _Movement;
@@ -52,6 +54,8 @@ public class MountEntity : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks
             _NoDriverDecel = _Data.NoDriverDecel;
             _NoDriverStopSpeed = _Data.NoDriverStopSpeed;
         }    
+
+        _VehicleSound = GetComponent<VehicleSound>();
 
         ResetSeat();
     }
@@ -224,6 +228,11 @@ public class MountEntity : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks
         if (seat.RiderViewId != -1)
             return;
 
+        if (seatIndex == 0)
+        {
+            _VehicleSound?.SetRunning(true);
+        }
+
         GameObject riderGo = riderPv.gameObject;
         seat.RiderViewId = riderViewId;
 
@@ -267,6 +276,7 @@ public class MountEntity : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks
             // 운전자가 내리면 pending도 초기화
             _HasPendingDriverEnter = false;
             _PendingDriverRiderViewId = -1;
+            _VehicleSound?.SetRunning(false);
 
             // 하차 시 소유권을 마스터 클라이언트로 반환
             if (photonView.IsMine && PhotonNetwork.IsMasterClient == false)

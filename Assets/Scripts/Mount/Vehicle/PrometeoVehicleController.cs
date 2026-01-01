@@ -14,7 +14,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PrometeoCarController : MonoBehaviour, IMountMovement, IMountMovementConfigurable
+public class PrometeoVehicleController : MonoBehaviour, IMountMovement, IMountMovementConfigurable
 {
     //CAR SETUP
     [Space(20)]
