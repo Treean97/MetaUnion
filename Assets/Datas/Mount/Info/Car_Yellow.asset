@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 093c64649d6c28848acfcd6d395f0b6b, type: 3}
-  m_Name: Car_Info
+  m_Name: Car_Yellow
   m_EditorClassIdentifier: Assembly-CSharp::InfoDataSO
-  DisplayName: "\uC790\uB3D9\uCC28 \uD14C\uC2A4\uD2B8"
+  DisplayName: "\uB178\uB780 \uC790\uB3D9\uCC28"
   Description: "E\uB97C \uB20C\uB7EC \uD0D1\uC2B9\uD558\uC138\uC694."

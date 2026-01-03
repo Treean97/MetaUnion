@@ -52557,7 +52557,7 @@ GameObject:
   - component: {fileID: 6735750903150306901}
   - component: {fileID: 6735750903150306900}
   m_Layer: 7
-  m_Name: Free Racing Car
+  m_Name: Car_Yellow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -52692,16 +52692,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aed1b67a2028589438e8dec1dd8c213a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VehicleSound
-  _CarIdleKey: CarIdle
-  _CarAccelKey: CarAccel
-  _CarDecelKey: CarDecel
+  _AccelKey: CarAccel
   _IdlePct: 35
-  _AccelPct: 65
-  _DecelPct: 55
-  _AccelDeadzone: 1
-  _AccelFull: 12
-  _DecelDeadzone: 1
-  _DecelFull: 12
+  _RunPct: 65
+  _IdleEnterPct: 0.05
+  _IdleExitPct: 0.07
+  _IdlePitch: 0.9
+  _RunPitchMin: 0.95
+  _RunPitchMax: 1.35
   _FadeSpeed: 8
 --- !u!1001 &6989679267263869699
 PrefabInstance:
