@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using System.Collections;
 
 public class Launcher : MonoBehaviourPunCallbacks
 {
@@ -15,6 +16,15 @@ public class Launcher : MonoBehaviourPunCallbacks
     public SceneListSO GetGameSceneListSO => _GameSceneListSO;
     public object GameSceneListSO { get; internal set; }
     private const string MAP_PROP = "map";
+
+    [Header("CCU 초과 재시도")]
+    [SerializeField] private bool _RetryOnMaxCcu = true;
+    [SerializeField] private float _RetryDelayMin = 5f;
+    [SerializeField] private float _RetryDelayMax = 60f;
+    [SerializeField] private float _RetryJitterMax = 1.5f;
+
+    private Coroutine _RetryCcuCo;
+    private float _RetryDelay;
 
     // private Dictionary<string, RoomInfo> _CachedRoomList = new Dictionary<string, RoomInfo>();
 
@@ -57,6 +67,7 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     public override void OnConnectedToMaster()
     {
+        StopRetryMaxCcu();
         Debug.Log("Connected to Master");
         PhotonNetwork.JoinLobby();
     }
@@ -70,6 +81,69 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         Debug.LogWarning($"Disconnected: {cause}");
 
+        // CCU 초과일 때만 대기 후 재시도
+        if (_RetryOnMaxCcu && cause == DisconnectCause.MaxCcuReached)
+        {
+            StartRetryMaxCcu();
+            return;
+        }
+
+    }
+    private void StartRetryMaxCcu()
+    {
+        if (_RetryCcuCo != null) return;
+
+        // 지수 백오프 시작값
+        if (_RetryDelay <= 0f) _RetryDelay = _RetryDelayMin;
+
+        _RetryCcuCo = StartCoroutine(CoRetryMaxCcu());
+    }
+
+    private void StopRetryMaxCcu()
+    {
+        if (_RetryCcuCo != null)
+        {
+            StopCoroutine(_RetryCcuCo);
+            _RetryCcuCo = null;
+        }
+        _RetryDelay = 0f;
+    }
+
+    private IEnumerator CoRetryMaxCcu()
+    {
+        while (true)
+        {
+            float jitter = Random.Range(0f, _RetryJitterMax);
+            float wait = Mathf.Min(_RetryDelay + jitter, _RetryDelayMax);
+
+            // 만석 안내 UI (원하면 메시지 바꾸기)
+            GameEvents.RaiseShowWarning($"서버가 만석입니다. {wait:0}초 후 재시도합니다.", 2f);
+
+            yield return new WaitForSeconds(wait);
+
+            // 재시도 전에 완전 끊긴 상태인지 체크
+            if (PhotonNetwork.IsConnected)
+            {
+                // 연결이 살아나 있으면 로비로
+                PhotonNetwork.JoinLobby();
+                break;
+            }
+
+            PhotonNetwork.GameVersion = _GameVersion;
+            PhotonNetwork.ConnectUsingSettings();
+
+            // 다음 대기시간(지수 증가)
+            _RetryDelay = Mathf.Min(_RetryDelay * 2f, _RetryDelayMax);
+
+            // 여기서 바로 성공 여부를 알 수 없으니,
+            // 성공하면 OnConnectedToMaster/OnJoinedLobby로 흐름 진행
+            // 실패하면 OnDisconnected가 다시 호출되어 루프 유지
+            // 다만 코루틴 중복 방지 위해, 여기서는 잠깐 대기 후 다음 루프
+            yield return new WaitForSeconds(1f);
+        }
+
+        _RetryCcuCo = null;
+        _RetryDelay = 0f;
     }
 
     #endregion
