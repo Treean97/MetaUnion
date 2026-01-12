@@ -24,13 +24,13 @@ public class PlayerEmote : MonoBehaviourPunCallbacks
     private int _SlotIndex = -1;
     private bool _IsInEmote;
 
-    // 복귀 지점(소유자만 사용)
+    // 복귀 지점
     private Vector3 _ReturnPos;
     private Quaternion _ReturnRot;
 
-    // ==== 로컬 오디오 전용 ====
-    private Pooled2DAudioPlayer _Sfx2D; // 로컬에서만 렌트/반납
-    private string _BgmToken; // 런타임 BGM 음소거 토큰
+    // 로컬 오디오 전용
+    private Pooled2DAudioPlayer _Sfx2D;
+    private string _BgmToken;
 
     public bool InEmote => _IsInEmote;
     public int CurrentSlotIndex => _SlotIndex;
@@ -49,7 +49,7 @@ public class PlayerEmote : MonoBehaviourPunCallbacks
         _Anim = GetComponentInChildren<Animator>();
     }
 
-    // ===== 외부(UI/상호작용) 진입 포인트 =====
+    // 외부(UI/상호작용) 진입
 
     /// <summary>
     /// 참여 시도(슬롯 예약 → 진행률 계산 → 재생 RPC)
@@ -71,7 +71,7 @@ public class PlayerEmote : MonoBehaviourPunCallbacks
         if (room != null && room.CustomProperties.TryGetValue(EmoteManager.KEY_START(vid), out var startObj))
             start = (double)startObj;
 
-        // 진행도는 '이모트 자체 길이(SO.Length)'로 계산
+        // 진행도는 이모트 길이로 계산
         float emoteLen = Mathf.Max(0.01f, anchor.EmoteSO.Length);
         float t = (float)(((PhotonNetwork.Time - start) % emoteLen) / emoteLen);
 
@@ -116,7 +116,7 @@ public class PlayerEmote : MonoBehaviourPunCallbacks
         }
     }
 
-    // ===== 내부 합류/재생 =====
+    // 내부 합류/재생
 
     /// <summary>
     /// 사전 계산된 진행률로 합류 시작
@@ -160,7 +160,7 @@ public class PlayerEmote : MonoBehaviourPunCallbacks
 
         var so = anchor.EmoteSO;
 
-        // === 애니메이션 동기 ===
+        // 애니메이션 동기화
         if (_Anim)
         {
             _Anim.Play(so.StateName, so.Layer, Mathf.Clamp01(normalizedTime));
@@ -185,15 +185,15 @@ public class PlayerEmote : MonoBehaviourPunCallbacks
         var am = AudioManager._Inst;
         if (am == null) return;
 
-        // 고유 토큰 생성(로컬에서만 의미 있음)
+        // 토큰 생성
         _BgmToken = $"EMOTE_BGM_{photonView.ViewID}_{anchorViewId}";
         am.BeginBGMMuteRuntime(_BgmToken, 0.08f);
 
-        // SFXKey 없으면 SFX 생략(요구사항: BGM은 이모트 중 항상 끔)
+        // SFXKey 없으면 SFX 생략
         string key = so.SFXKey;
         if (string.IsNullOrEmpty(key)) return;
 
-        // 진행 지점 → 초 단위 오프셋 계산
+        // 진행 지점 : 초 단위 오프셋 계산
         float offsetSec;
         if (am.TryGetAudioLengthByKey(key, out var sfxLen) && sfxLen > 0.0001f)
         {
@@ -206,7 +206,7 @@ public class PlayerEmote : MonoBehaviourPunCallbacks
             offsetSec = Mathf.Repeat(normalizedTime * so.Length, Mathf.Max(0.01f, so.Length));
         }
 
-        // 2D 루프 + 오프셋 재생 (로컬)
+        // 2D 루프 + 오프셋 재생
         _Sfx2D = am.Play2DLoopFromOffsetByKey(key, offsetSec);
     }
 
@@ -263,7 +263,7 @@ public class PlayerEmote : MonoBehaviourPunCallbacks
         return pv ? pv.ViewID : -1;
     }
 
-    // ===== 안전장치/전파 수신 =====
+    // 전파 수신
 
     /// <summary>
     /// 룸 프로퍼티 변경 수신: 내 앵커의 ACTIVE=false 전파 시 즉시 복귀

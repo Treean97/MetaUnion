@@ -118,7 +118,7 @@ public class MountEntity : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks
         if (seatIndex < 0)
             return false;
 
-        // 운전석이면 소유권 확보 후 Enter RPC
+        // 운전석이면 소유권 확보 후 RPC 동기화
         if (seatIndex == 0 && !photonView.IsMine)
         {
             // 이미 다른 pending이 있으면 중복 방지

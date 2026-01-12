@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "HarvestableObject/HarvestableObject Data")]
@@ -18,7 +17,7 @@ public class HarvestableDataSO : ScriptableObject
 
 
     [Header("Respawn")]
-    public GameObject[] Prefabs;     // 재생성용
+    public GameObject[] Prefabs; // 재생성용
     public float RespawnSeconds = 30f;
 
     public GameObject PickRandomRespawnPrefab()

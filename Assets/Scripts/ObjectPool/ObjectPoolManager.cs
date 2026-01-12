@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ObjectPoolManager : MonoBehaviour
 {
-public static ObjectPoolManager _Inst { get; private set; }
+    public static ObjectPoolManager _Inst { get; private set; }
 
     [System.Serializable]
     public class Entry
@@ -110,18 +110,17 @@ public static ObjectPoolManager _Inst { get; private set; }
         if (removedBroken > 0)
         {
             Debug.LogWarning(
-                $"[ObjectPool] {prefab.name} 풀에서 Destroy된 인스턴스 {removedBroken}개를 제거했습니다. " +
-                "어디선가 Destroy()를 직접 호출하고 있을 수 있습니다."
+                $"[Pool] {prefab.name} 풀에서 Destroy된 인스턴스 {removedBroken}개를 제거했습니다."
             );
         }
 
-        // 큐에 쓸만한 게 하나도 없으면 새로 생성
+        // 큐에 없으면 새로 생성
         if (!inst)
         {
             inst = Instantiate(prefab);
             if (!inst)
             {
-                Debug.LogError($"[ObjectPool] {prefab.name} Instantiate 실패");
+                Debug.LogError($"[Pool] {prefab.name} Instantiate 실패");
                 return null;
             }
         }    

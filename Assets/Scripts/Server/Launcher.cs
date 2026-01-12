@@ -89,6 +89,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         }
 
     }
+
     private void StartRetryMaxCcu()
     {
         if (_RetryCcuCo != null) return;
@@ -116,7 +117,7 @@ public class Launcher : MonoBehaviourPunCallbacks
             float jitter = Random.Range(0f, _RetryJitterMax);
             float wait = Mathf.Min(_RetryDelay + jitter, _RetryDelayMax);
 
-            // 만석 안내 UI (원하면 메시지 바꾸기)
+            // 만석 안내 UI
             GameEvents.RaiseShowWarning($"서버가 만석입니다. {wait:0}초 후 재시도합니다.", 2f);
 
             yield return new WaitForSeconds(wait);
@@ -132,13 +133,10 @@ public class Launcher : MonoBehaviourPunCallbacks
             PhotonNetwork.GameVersion = _GameVersion;
             PhotonNetwork.ConnectUsingSettings();
 
-            // 다음 대기시간(지수 증가)
+            // 다음 대기시간
             _RetryDelay = Mathf.Min(_RetryDelay * 2f, _RetryDelayMax);
 
-            // 여기서 바로 성공 여부를 알 수 없으니,
-            // 성공하면 OnConnectedToMaster/OnJoinedLobby로 흐름 진행
-            // 실패하면 OnDisconnected가 다시 호출되어 루프 유지
-            // 다만 코루틴 중복 방지 위해, 여기서는 잠깐 대기 후 다음 루프
+            // 코루틴 중복 방지 위해 잠깐 대기
             yield return new WaitForSeconds(1f);
         }
 
@@ -169,22 +167,21 @@ public class Launcher : MonoBehaviourPunCallbacks
     // 입장 성공 호출
     public override void OnJoinedRoom()
     {
-        // 제일 먼저 포톤 메시지 큐를 멈춘다
+        // 포톤 메시지 큐 중지
         if (PhotonNetwork.IsConnected && PhotonNetwork.IsMessageQueueRunning)
         {
             PhotonNetwork.IsMessageQueueRunning = false;
             Debug.Log("[Launcher] Pause Photon Message Queue on JoinedRoom");
         }
 
-        // 그 다음 게임 씬 로딩 시작
+        // 게임 씬 로딩 시작
         if (PhotonNetwork.CurrentRoom.CustomProperties != null &&
             PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue(MAP_PROP, out object obj))
         {
             string mapName = (string)obj;
 
-            // 너가 쓰는 씬 로더 호출
+            // 씬 로더 호출
             SceneLoadManager._Inst.SceneLoad(mapName);
-            // 또는 LoadingManager._Inst?.LoadScene(mapName);
 
             Debug.Log($"Load Scene: {mapName}");
         }

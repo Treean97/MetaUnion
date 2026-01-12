@@ -32,9 +32,8 @@ public class HarvestableObject : MonoBehaviourPun, IDamageable, IDestructible, I
     {
         if (_Dead || !_Data) return;
 
-        // 도구 체크: 허용되지 않으면 무시
+        // 도구 체크
         if ((_Data.AvailableTool & info.tool) == 0) return;
-
 
         // 사운드 효과
         AudioManager._Inst.PlayLocalByKey(_Hitkey);
@@ -54,7 +53,7 @@ public class HarvestableObject : MonoBehaviourPun, IDamageable, IDestructible, I
     {
         if (_Dead) return;
 
-        // (선택) 데미지 팝업 등 클라 연출
+        // 데미지 팝업
         photonView.RPC(nameof(RPC_ShowPopup), RpcTarget.All, transform.position, (int)dmg);
 
         _Hp -= dmg;

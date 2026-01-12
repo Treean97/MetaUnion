@@ -290,7 +290,7 @@ public class SaveLoadManager : MonoBehaviour
             e => { Debug.LogError(e.GenerateErrorReport()); err?.Invoke(e.GenerateErrorReport()); });
     }
 
-    // 등록된 섹션을 이용한 저장(섹션이 스스로 CaptureJson 호출)
+    // 등록된 섹션을 이용한 저장
     public void SaveCloudSection(string key, Action ok = null, Action<string> err = null)
     {
         if (!_CloudSections.TryGetValue(key, out var sec))
