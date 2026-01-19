@@ -12,7 +12,7 @@ MetaUnion은 Unity 기반의 온라인 멀티 플레이 메타버스 게임으�
 3. JSON 로컬 저장과 PlayFab 클라우드 기반 데이터 관리
 4. ScriptableObject, Object Pool, 행동트리, UI 의존성 감소를 통한 최적화 및 확장성 확보
 
-- [게임 플레이 영상](https://youtu.be/vJctBK-cNyg)
+- [게임 플레이 영상](https://youtu.be/qCCYjJgk1AE)
 - [프로젝트 기술서](https://drive.google.com/file/d/1MdHHt_k1iT8x7-LCVb98ae70RfqCGMtV/view?usp=drive_link)
 - [빌드 파일 바로 다운로드](https://github.com/Treean97/MetaUnion/releases/latest/download/MetaUnion.zip)
 
