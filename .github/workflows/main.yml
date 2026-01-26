@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   buildWindows:
-    name: Windows-64 Bit
+    name: MetaUnion
     runs-on: windows-latest
 
     steps:
